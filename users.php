@@ -13,7 +13,9 @@
 
     ?>
     <div class="container">
-        <h2>Início</h2>
+        <h2>
+            <a class="btn btn-primary" href="userRegistration.php">Novo</a>
+        </h2>
     </div>
 </body>
 </html>
