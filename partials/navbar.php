@@ -39,10 +39,10 @@
       <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <?= "Usuário"; ?>
+            <?= isset($_POST['name'])?$_POST['name']:"Usuário"; ?>
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Conta</a></li>
+            <!-- <li><a class="dropdown-item" href="#">Conta</a></li> -->
             <li><a class="dropdown-item" href="#">Trocar Senha</a></li>
           </ul>
         </li>
