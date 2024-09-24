@@ -15,43 +15,111 @@
         <br>
         <form action="" method="post">
             <div class="row mb-3">
-                <label for="name" class="col-sm-1 col-form-label">Nome</label>
+                <label for="formName" class="col-sm-1 col-form-label">Nome</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control" id="formName" name="formName">
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="email" class="col-sm-1 col-form-label">Email</label>
+                <label for="formEemail" class="col-sm-1 col-form-label">Email</label>
                 <div class="col-sm-4">
-                    <input type="email" class="form-control" id="email" name="email" required>
+                    <input type="email" class="form-control" id="formEmail" name="formEmail" required>
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="pass" class="col-sm-1 col-form-label">Senha</label>
+                <label for="formPass" class="col-sm-1 col-form-label">Senha</label>
                 <div class="col-sm-4">
-                    <input type="password" class="form-control" id="pass" name="pass" required>
+                    <input type="password" class="form-control" id="formPass" name="formPass" required>
                 </div>
             </div>
-            <br>
             <button type="submit" class="btn btn-primary">Cadastrar</button>
-            <br>
-            <br>
+            <br><br>
         </form>
 
         <?php
-            $name = isset($_POST['name'])?$_POST['name']:"";
-            $email = isset($_POST['email'])?$_POST['email']:"";
-            $pass = isset($_POST['pass'])?$_POST['pass']:"";
+            $formName = isset($_POST['formName'])?$_POST['formName']:"";
+            $formEmail = isset($_POST['formEmail'])?$_POST['formEmail']:"";
+            $formPass = isset($_POST['formPass'])?$_POST['formPass']:"";
             
-            if($name !== "" && $email !== "" && $pass !== ""){
-                echo "<p>Nome: $name</p><p>Email: $email</p><p>Senha: $pass</p>";
-                usersList();                
-            } else {
-                echo "Falta preencher algum dado";
+            if($formName !== "" && $formEmail !== "" && $formPass !== ""){
+                require('config/connection.php');
+
+                $sql = "SELECT * FROM `users` WHERE email = \"$formEmail\"";
+                $result = mysqli_query($conn, $sql);
+                
+                if($result -> num_rows > 0) {
+                    echo '<div class="alert alert-danger">Este email já está sendo utilizado. Por favor, escolha outro email</div>';
+                } else {
+                    userInsert();
+                    echo '<div class="alert alert-success">Usuário cadastrado com sucesso</div>';
+                    
+                }
+                
+                $conn -> close();
             }
 
-            function usersList() {
-                // Aqui começa a brincadeira...
+            usersListing();                
+            
+            function userInsert() {
+                global $formName;
+                global $formEmail;
+                global $formPass;
+                $formStatus = 1;
+
+                require('config/connection.php');
+                $sql = "INSERT INTO `users`(`email`, `name`, `password`, `status`) VALUES ('$formEmail','$formName','$formPass','$formStatus')";
+
+                //Executando o insert
+                $conn->query($sql);
+                
+                $conn -> close();
+            }
+
+            function usersListing() {
+                require('config/connection.php');
+
+                // Consulta SQL
+                $sql = "SELECT * FROM `users` WHERE 1";
+                $result = mysqli_query($conn, $sql);
+                if($result-> num_rows > 0) {
+
+        ?>
+                <div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                foreach($result as $row) {
+                                    $userId = $row['id'];
+                                    $userName = $row['name'];
+                                    $userEmail = $row['email'];
+                                    $userStatus = $row['status'];
+                                    
+                                    echo "<tr>";
+                                    echo "<td>$userId</td>";
+                                    echo "<td>$userName</td>";
+                                    echo "<td>$userEmail</td>";
+                                    echo "<td>$userStatus</td>";
+                                    echo "<td><a href=\"userEdit.php?id=$userId\">Editar</a></td>";
+                                    echo "</tr>";
+                                }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+        <?php
+                } else {
+                    echo "Nenhum usuário cadastrado";
+                }
+            $conn -> close();
             }
         ?>
     </div>

@@ -18,9 +18,14 @@
             <li><a class="dropdown-item" href="#">Histórico</a></li>
           </ul>
         </li> -->
-        <li class="nav-item">
-          <a class="nav-link" href="users.php">Usuários</a>
-        </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Usuários
+            </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="userRegistration.php">Novo</a></li>
+            <li><a class="dropdown-item" href="usersList.php">Listar</a></li>
+          </ul>
         <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Pedidos
