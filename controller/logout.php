@@ -1,5 +1,6 @@
 <?php
+    echo "<p>Saindo...</p>";
     session_start();
     session_destroy();
-    header('index.php')
+    header('location: ../index.php')
 ?>

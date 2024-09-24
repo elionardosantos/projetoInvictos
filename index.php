@@ -13,7 +13,10 @@
 
     ?>
     <div class="container">
-        <h2>Início</h2>
+        <p>
+            <h2>Início</h2>
+        </p>
+
     </div>
 </body>
 </html>

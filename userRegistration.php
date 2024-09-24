@@ -11,7 +11,10 @@
 
     ?>
     <div class="container">
-        <h2>Cadastrar usuário</h2>
+        <p>
+            <h2>Cadastrar usuário</h2>
+        </p>
+
         <br>
         <form action="" method="post">
             <div class="row mb-3">

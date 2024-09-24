@@ -13,7 +13,7 @@
     <div class="container">
         <p>
             <h2>
-                <a class="btn btn-primary" href="userRegistration.php">Novo</a>
+                <a class="btn btn-primary" href="userRegistration.php">Cadastrar novo usuário</a>
             </h2>
         </p>
         
