@@ -39,7 +39,10 @@
         <?php
             $formName = isset($_POST['formName'])?$_POST['formName']:"";
             $formEmail = isset($_POST['formEmail'])?$_POST['formEmail']:"";
-            $formPass = isset($_POST['formPass'])?$_POST['formPass']:"";
+            $formPassNoHash = isset($_POST['formPass'])?$_POST['formPass']:"";
+            $formPass = password_hash($formPassNoHash, PASSWORD_DEFAULT);
+
+            // password_verify(senha_login, senha_hash)
             
             if($formName !== "" && $formEmail !== "" && $formPass !== ""){
                 require('config/connection.php');
@@ -48,7 +51,7 @@
                 $result = mysqli_query($conn, $sql);
                 
                 if($result -> num_rows > 0) {
-                    echo '<div class="alert alert-danger">Este email já está sendo utilizado. Por favor, escolha outro email</div>';
+                    echo '<div class="alert alert-danger">O email ' . $formEmail . ' já está sendo utilizado. Por favor, escolha outro email</div>';
                 } else {
                     userInsert();
                     echo '<div class="alert alert-success">Usuário cadastrado com sucesso</div>';
@@ -56,9 +59,7 @@
                 }
                 
                 $conn -> close();
-            }
-
-            usersListing();                
+            }        
             
             function userInsert() {
                 global $formName;
@@ -73,53 +74,6 @@
                 $conn->query($sql);
                 
                 $conn -> close();
-            }
-
-            function usersListing() {
-                require('config/connection.php');
-
-                // Consulta SQL
-                $sql = "SELECT * FROM `users` WHERE 1";
-                $result = mysqli_query($conn, $sql);
-                if($result-> num_rows > 0) {
-
-        ?>
-                <div>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Nome</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                                foreach($result as $row) {
-                                    $userId = $row['id'];
-                                    $userName = $row['name'];
-                                    $userEmail = $row['email'];
-                                    $userStatus = $row['status'];
-                                    
-                                    echo "<tr>";
-                                    echo "<td>$userId</td>";
-                                    echo "<td>$userName</td>";
-                                    echo "<td>$userEmail</td>";
-                                    echo "<td>$userStatus</td>";
-                                    echo "<td><a href=\"userEdit.php?id=$userId\">Editar</a></td>";
-                                    echo "</tr>";
-                                }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-        <?php
-                } else {
-                    echo "Nenhum usuário cadastrado";
-                }
-            $conn -> close();
             }
         ?>
     </div>

@@ -39,6 +39,7 @@
                                 <th scope="col">Nome</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Status</th>
+                                <!-- <th scope="col">Senha</th> -->
                                 <th scope="col">Ação</th>
                             </tr>
                         </thead>
@@ -50,13 +51,15 @@
                                         $userName = $row['name'];
                                         $userEmail = $row['email'];
                                         $userStatus = $row['status'];
+                                        // $userPass = $row['password'];
                                         
                                         echo "<tr>";
                                         echo "<td>$userId</td>";
                                         echo "<td>$userName</td>";
                                         echo "<td>$userEmail</td>";
                                         echo "<td>$userStatus</td>";
-                                        echo "<td><a href=\"userEdit.php?id=$userId\">Editar</a></td>";
+                                        // echo "<td>$userPass</td>";
+                                        echo "<td><a href=\"userEdit.php?id=$userId\" class=\"btn btn-primary btn-sm\">Editar</a></td>";
                                         echo "</tr>";
                                     }
                                 ?>
