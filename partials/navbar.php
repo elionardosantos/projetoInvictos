@@ -18,14 +18,6 @@
             <li><a class="dropdown-item" href="#">Histórico</a></li>
           </ul>
         </li> -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Usuários
-            </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="userRegistration.php">Cadastrar novo</a></li>
-            <li><a class="dropdown-item" href="usersList.php">Listar usuários</a></li>
-          </ul>
         <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Pedidos
@@ -35,6 +27,19 @@
             <li><a class="dropdown-item" href="#">Histórico</a></li>
           </ul>
         </li> -->
+        <?php 
+          if($_SESSION['loggedUserLevel'] < 2){
+        ?>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Administração
+            </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="usersList.php">Usuários</a></li>
+          </ul>
+        <?php 
+          }
+        ?>
       </ul>
       <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
         <li class="nav-item dropdown">
@@ -42,7 +47,6 @@
             <?= isset($_SESSION['loggedUserName'])?$_SESSION['loggedUserName']:"Usuário"; ?>
           </a>
           <ul class="dropdown-menu">
-            <!-- <li><a class="dropdown-item" href="#">Conta</a></li> -->
             <li><a class="dropdown-item" href="#">Trocar Senha</a></li>
           </ul>
         </li>

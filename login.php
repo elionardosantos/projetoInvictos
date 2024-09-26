@@ -27,7 +27,7 @@
                 $sql = "UPDATE `users` SET `password`='$newPasswordHash' WHERE `id` = $newPasswordId";
                 $conn->query($sql);
                 
-                $screenMessage = "<p><br><span class=\"alert alert-success text-success\">Sua senha foi redefinida. Efetue o login</span><br><br></p>";
+                $screenMessage = "<p><br><span class=\"alert alert-success text-success\">Sua nova senha foi definida. Efetue o login</span><br><br></p>";
 
                 $conn->close();
             } else {

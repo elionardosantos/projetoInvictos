@@ -24,16 +24,12 @@
                 <input type="email" class="form-control" placeholder="Digite o email" name="formEmail">
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text col-sm-1 col-3">Senha</span>
-                <input type="password" class="form-control" placeholder="Digite a senha" name="formPassword">
-            </div>
-            <div class="input-group mb-3">
                 <span class="input-group-text">Nível de Usuário</span>
                 <div class="">
                     <select class="form-select form-control" name="formLevel">
                         <option value="0">0 - Inativo</option>
-                        <option value="1">1 - Administrador</option>
-                        <option value="2">2 - Usuário</option>
+                        <option value="1">1 - Usuário</option>
+                        <option value="2">2 - Administrador</option>
                     </select>
                 </div>
             </div>
