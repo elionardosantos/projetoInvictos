@@ -9,8 +9,6 @@
         require('controller/loginChecker.php');
         require('partials/navbar.php');
 
-
-
     ?>
     <div class="container">
         <p>

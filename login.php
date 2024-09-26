@@ -9,14 +9,8 @@
         session_start();
 
         if(isset($_SESSION['loginStatus']) && $_SESSION['loginStatus'] == 'logged'){
-
-            $loggedUserId = $_SESSION['loggedUserId'];
-            $loggedUserName = $_SESSION['loggedUserName'];
-            $loggedUserEmail = $_SESSION['loggedUserEmail'];
-            $loggedUserLevel = $_SESSION['loggedUserLevel'];
-
-            // echo "Logado como $dbName pela SESSION | <a href=\"controller/logout.php\">Sair</a>";
             header('location: index.php');
+            // echo "Logado pela SESSION | <a href=\"controller/logout.php\">Sair</a>";
 
         } else if((isset($_POST['email']) && $_POST['email'] !== "")){            
             $formEmail = $_POST['email'];
@@ -25,14 +19,25 @@
 
             if($dbReturn == 'email not found'){
                 $screenMessage = "Email ou senha incorretos";
+            } else if($dbReturn['dbPassword'] === 'unset'){
+                $newPasswordId = $dbReturn['dbId'];
+                $newPasswordHash = password_hash($formPassword, PASSWORD_DEFAULT);
+
+                require('config/connection.php');
+                $sql = "UPDATE `users` SET `password`='$newPasswordHash' WHERE `id` = $newPasswordId";
+                $conn->query($sql);
+                
+                $screenMessage = "<p><br><span class=\"alert alert-success text-success\">Sua senha foi redefinida. Efetue o login</span><br><br></p>";
+
+                $conn->close();
             } else {
-                $dbId = $dbReturn['dbId'];
-                $dbName = $dbReturn['dbName'];
-                $dbEmail = $dbReturn['dbEmail'];
-                $dbPassword = $dbReturn['dbPassword'];
-                $dbStatus = $dbReturn['dbStatus'];
+                $dbId = isset($dbReturn['dbId'])?$dbReturn['dbId']:'';
+                $dbName = isset($dbReturn['dbName'])?$dbReturn['dbName']:'';
+                $dbEmail = isset($dbReturn['dbEmail'])?$dbReturn['dbEmail']:'';
+                $dbPassword = isset($dbReturn['dbPassword'])?$dbReturn['dbPassword']:'';
+                $dbLevel = isset($dbReturn['dbLevel'])?$dbReturn['dbLevel']:'';
     
-                // echo "$dbId, $dbName, $dbEmail, $dbPassword, $dbStatus - ";
+                // echo "$dbId, $dbName, $dbEmail, $dbPassword, $dbLevel - ";
 
                 if(password_verify($formPassword, $dbPassword)){
                     $_SESSION['loginStatus'] = 'logged';
@@ -43,7 +48,7 @@
 
                     header('location: index.php');
                 } else {
-                    $screenMessage = "Email ou senha incorretos";
+                    $screenMessage = "<span class=\"text-danger\">Email ou senha incorretos</span>";
                     $_SESSION['loginStatus'] = 'unlogged';
                 }
             }
@@ -68,14 +73,14 @@
                     $dbName = $row['name'];
                     $dbEmail = $row['email'];
                     $dbPassword = $row['password'];
-                    $dbStatus = $row['status'];
+                    $dbLevel = $row['level'];
 
                     return array(
                         'dbId' => $dbId,
                         'dbName' => $dbName,
                         'dbEmail' => $dbEmail,
                         'dbPassword' => $dbPassword,
-                        'dbStatus' => $dbStatus
+                        'dbLevel' => $dbLevel
                     );
                 }
             } else {
@@ -100,7 +105,9 @@
                         <label for="senha">Senha</label>
                         <input required type="password" class="form-control" name="password" id="password" placeholder="Digite sua senha">
                     </div>
-                    <span class="text-danger"><?= isset($screenMessage)?"$screenMessage":"" ?></span><br><br>
+                    <p>
+                        <?= isset($screenMessage)?"$screenMessage":"" ?>
+                    </p>
                     <button type="submit" class="btn btn-primary btn-block">Entrar</button>
                 </form>
             </div>

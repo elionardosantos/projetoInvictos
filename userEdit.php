@@ -8,6 +8,7 @@
     <?php
         require('controller/loginChecker.php');
         require('partials/navbar.php');
+        require('controller/onlyLevel2.php');
 
     ?>
     <div class="container">

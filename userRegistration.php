@@ -8,10 +8,11 @@
     <?php
         require('controller/loginChecker.php');
         require('partials/navbar.php');
-
+        require('controller/onlyLevel2.php');
     ?>
     <div class="container">
         <p><h2>Cadastrar usuário</h2></p>
+        <p>A senha que o usuário digitar no primeiro login, será atribuida ao seu usuário.</p>
         <br>
         <form action="" method="post">
             <div class="input-group mb-3">
@@ -22,17 +23,17 @@
                 <span class="input-group-text col-sm-1 col-3">Email</span>
                 <input type="email" class="form-control" placeholder="Digite o email" name="formEmail">
             </div>
-            <div class="input-group mb-3">
+            <!-- <div class="input-group mb-3">
                 <span class="input-group-text col-sm-1 col-3">Senha</span>
                 <input type="password" class="form-control" placeholder="Digite a senha" name="formPassword">
-            </div>
+            </div> -->
             <div class="input-group mb-3">
                 <span class="input-group-text">Nível de Usuário</span>
                 <div class="">
                     <select class="form-select form-control" name="formLevel">
                         <option value="0">0 - Inativo</option>
-                        <option value="1">1 - Administrador</option>
-                        <option value="2">2 - Usuário</option>
+                        <option value="1" selected>1 - Usuário</option>
+                        <option value="2">2 - Administrador</option>
                     </select>
                 </div>
             </div>
@@ -44,12 +45,13 @@
         <?php
             $formName = isset($_POST['formName'])?$_POST['formName']:"";
             $formEmail = isset($_POST['formEmail'])?$_POST['formEmail']:"";
-            $formPassNoHash = isset($_POST['formPassword'])?$_POST['formPassword']:"";
-            $formPass = password_hash($formPassNoHash, PASSWORD_DEFAULT);
+            // $formPassNoHash = isset($_POST['formPassword'])?$_POST['formPassword']:"";
+            $formLevel = isset($_POST['formLevel'])?$_POST['formLevel']:"";
+            $formPassword = 'unset';
 
             // password_verify(senha_login, senha_hash)
             
-            if($formName !== "" && $formEmail !== "" && $formPass !== ""){
+            if($formName !== "" && $formEmail !== "" && $formPassword !== ""){
                 require('config/connection.php');
 
                 $sql = "SELECT * FROM `users` WHERE email = \"$formEmail\"";
@@ -69,16 +71,16 @@
             function userInsert() {
                 global $formName;
                 global $formEmail;
-                global $formPass;
-                $formStatus = 1;
+                global $formPassword;
+                global $formLevel;
 
                 require('config/connection.php');
-                $sql = "INSERT INTO `users`(`email`, `name`, `password`, `level`) VALUES ('$formEmail','$formName','$formPass','$formStatus')";
+                $sql = "INSERT INTO `users`(`email`, `name`, `password`, `level`) VALUES ('$formEmail','$formName','$formPassword','$formLevel')";
 
                 //Executando o insert
                 $conn->query($sql);
                 
-                $conn -> close();
+                $conn->close();
             }
         ?>
     </div>
