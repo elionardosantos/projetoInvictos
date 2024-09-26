@@ -12,9 +12,9 @@
     ?>
     <div class="container">
         <p>
-            <h2>
+            <div class="container">
                 <a class="btn btn-primary" href="userRegistration.php">Cadastrar novo usuário</a>
-            </h2>
+            </div>
         </p>
         
         <?php 
@@ -32,13 +32,13 @@
 
         ?>
                 <div>
-                    <table class="table">
+                    <table class="table table-sm">
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Status</th>
+                                <th scope="col">Nível</th>
                                 <!-- <th scope="col">Senha</th> -->
                                 <th scope="col">Ação</th>
                             </tr>
@@ -50,7 +50,7 @@
                                         $userId = $row['id'];
                                         $userName = $row['name'];
                                         $userEmail = $row['email'];
-                                        $userStatus = $row['status'];
+                                        $userStatus = $row['level'];
                                         // $userPass = $row['password'];
                                         
                                         echo "<tr>";

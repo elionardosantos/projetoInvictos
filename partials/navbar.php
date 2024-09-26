@@ -39,7 +39,7 @@
       <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <?= isset($_POST['name'])?$_POST['name']:"Usuário"; ?>
+            <?= isset($_SESSION['loggedUserName'])?$_SESSION['loggedUserName']:"Usuário"; ?>
           </a>
           <ul class="dropdown-menu">
             <!-- <li><a class="dropdown-item" href="#">Conta</a></li> -->

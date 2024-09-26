@@ -8,39 +8,50 @@
     <?php
         session_start();
 
-        // if(isset($_SESSION['email']) && $_SESSION['email'] !== ""){
-        //     global $dbName;
-        //     $formEmail = $_SESSION['email'];
-        //     $formPassword = isset($_SESSION['password'])?$_SESSION['password']:"";
-        //     echo "Logado como $dbName pela SESSION | <a href=\"controller/logout.php\">Sair</a>";
-        //     dbCredentialsRequest();
-        //     // header('location: index.php');
-            
-        // } else 
-        if((isset($_POST['email']) && $_POST['email'] !== "")){            
+        if(isset($_SESSION['loginStatus']) && $_SESSION['loginStatus'] == 'logged'){
+
+            $loggedUserId = $_SESSION['loggedUserId'];
+            $loggedUserName = $_SESSION['loggedUserName'];
+            $loggedUserEmail = $_SESSION['loggedUserEmail'];
+            $loggedUserLevel = $_SESSION['loggedUserLevel'];
+
+            // echo "Logado como $dbName pela SESSION | <a href=\"controller/logout.php\">Sair</a>";
+            header('location: index.php');
+
+        } else if((isset($_POST['email']) && $_POST['email'] !== "")){            
             $formEmail = $_POST['email'];
             $formPassword = isset($_POST['password'])?$_POST['password']:"";
-            
             $dbReturn = dbCredentialsQuery($formEmail, $formPassword);
-            $dbPassword = $dbReturn['dbPassword'];
 
-            $dbName = $dbReturn['dbName'];
-            $dbEmail = $dbReturn['dbEmail'];
-            $dbPassword = $dbReturn['dbPassword'];
-            $dbStatus = $dbReturn['dbStatus'];
+            if($dbReturn == 'email not found'){
+                $screenMessage = "Email ou senha incorretos";
+            } else {
+                $dbId = $dbReturn['dbId'];
+                $dbName = $dbReturn['dbName'];
+                $dbEmail = $dbReturn['dbEmail'];
+                $dbPassword = $dbReturn['dbPassword'];
+                $dbStatus = $dbReturn['dbStatus'];
+    
+                // echo "$dbId, $dbName, $dbEmail, $dbPassword, $dbStatus - ";
 
-            echo "$dbName, $dbEmail, $dbPassword, $dbStatus";
+                if(password_verify($formPassword, $dbPassword)){
+                    $_SESSION['loginStatus'] = 'logged';
+                    $_SESSION['loggedUserId'] = $dbId;
+                    $_SESSION['loggedUserName'] = $dbName;
+                    $_SESSION['loggedUserEmail'] = $dbEmail;
+                    $_SESSION['loggedUserLevel'] = $dbLevel;
 
+                    header('location: index.php');
+                } else {
+                    $screenMessage = "Email ou senha incorretos";
+                    $_SESSION['loginStatus'] = 'unlogged';
+                }
+            }
 
-            // echo password_verify($formPassword, $dbPassword);
-
-            // $user = $dbReturn['dbName'];
-            
-            echo "Logado pelo POST | <a href=\"controller/logout.php\">Sair</a>";
-            // header('location: index.php');
+            // echo "Logado pelo POST | <a href=\"controller/logout.php\">Sair</a>";
                 
         } else {
-            echo "Ninguém logado";
+            // echo "Ninguém logado";
         }
 
         function dbCredentialsQuery($formEmail, $formPassword){
@@ -53,12 +64,14 @@
             if($result-> num_rows > 0) {
                 foreach ($result as $row) {
                                        
+                    $dbId = $row['id'];
                     $dbName = $row['name'];
                     $dbEmail = $row['email'];
                     $dbPassword = $row['password'];
                     $dbStatus = $row['status'];
 
                     return array(
+                        'dbId' => $dbId,
                         'dbName' => $dbName,
                         'dbEmail' => $dbEmail,
                         'dbPassword' => $dbPassword,
@@ -66,12 +79,7 @@
                     );
                 }
             } else {
-                return array(
-                    'dbName' => "",
-                    'dbEmail' => "",
-                    'dbPassword' => "",
-                    'dbStatus' => ""
-                );
+                return "email not found";
             }
         }
 
@@ -92,7 +100,7 @@
                         <label for="senha">Senha</label>
                         <input required type="password" class="form-control" name="password" id="password" placeholder="Digite sua senha">
                     </div>
-                    <span class="text-danger"><?= isset($message)?"$message":"" ?></span><br><br>
+                    <span class="text-danger"><?= isset($screenMessage)?"$screenMessage":"" ?></span><br><br>
                     <button type="submit" class="btn btn-primary btn-block">Entrar</button>
                 </form>
             </div>

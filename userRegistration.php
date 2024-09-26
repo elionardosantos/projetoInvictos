@@ -6,43 +6,45 @@
 </head>
 <body>
     <?php
-        // require('controller/loginChecker.php');
+        require('controller/loginChecker.php');
         require('partials/navbar.php');
 
     ?>
     <div class="container">
-        <p>
-            <h2>Cadastrar usuário</h2>
-        </p>
-
+        <p><h2>Cadastrar usuário</h2></p>
         <br>
         <form action="" method="post">
-            <div class="row mb-3">
-                <label for="formName" class="col-sm-1 col-form-label">Nome</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" id="formName" name="formName">
+            <div class="input-group mb-3">
+                <span class="input-group-text col-sm-1 col-3">Nome</span>
+                <input type="text" class="form-control" placeholder="Digite o nome" name="formName">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text col-sm-1 col-3">Email</span>
+                <input type="email" class="form-control" placeholder="Digite o email" name="formEmail">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text col-sm-1 col-3">Senha</span>
+                <input type="password" class="form-control" placeholder="Digite a senha" name="formPassword">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Nível de Usuário</span>
+                <div class="">
+                    <select class="form-select form-control" name="formLevel">
+                        <option value="0">0 - Inativo</option>
+                        <option value="1">1 - Administrador</option>
+                        <option value="2">2 - Usuário</option>
+                    </select>
                 </div>
             </div>
-            <div class="row mb-3">
-                <label for="formEemail" class="col-sm-1 col-form-label">Email</label>
-                <div class="col-sm-4">
-                    <input type="email" class="form-control" id="formEmail" name="formEmail" required>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label for="formPass" class="col-sm-1 col-form-label">Senha</label>
-                <div class="col-sm-4">
-                    <input type="password" class="form-control" id="formPass" name="formPass" required>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
-            <br><br>
+            <p>
+                <button type="submit" class="btn btn-primary">Cadastrar usuário</button>
+            </p>
         </form>
 
         <?php
             $formName = isset($_POST['formName'])?$_POST['formName']:"";
             $formEmail = isset($_POST['formEmail'])?$_POST['formEmail']:"";
-            $formPassNoHash = isset($_POST['formPass'])?$_POST['formPass']:"";
+            $formPassNoHash = isset($_POST['formPassword'])?$_POST['formPassword']:"";
             $formPass = password_hash($formPassNoHash, PASSWORD_DEFAULT);
 
             // password_verify(senha_login, senha_hash)
@@ -71,7 +73,7 @@
                 $formStatus = 1;
 
                 require('config/connection.php');
-                $sql = "INSERT INTO `users`(`email`, `name`, `password`, `status`) VALUES ('$formEmail','$formName','$formPass','$formStatus')";
+                $sql = "INSERT INTO `users`(`email`, `name`, `password`, `level`) VALUES ('$formEmail','$formName','$formPass','$formStatus')";
 
                 //Executando o insert
                 $conn->query($sql);

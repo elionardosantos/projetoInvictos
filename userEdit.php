@@ -6,7 +6,7 @@
 </head>
 <body>
     <?php
-        // require('controller/loginChecker.php');
+        require('controller/loginChecker.php');
         require('partials/navbar.php');
 
     ?>
@@ -14,38 +14,31 @@
         <p><h2>Editar usuário</h2></p>
         <br>
         <form action="" method="post">
-            <div class="row mb-3">
-                <label for="formName" class="col-sm-1 col-form-label">Nome</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" id="formName" name="formName">
-                </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text col-sm-1 col-3">Nome</span>
+                <input type="text" class="form-control" placeholder="Digite o nome" name="formName">
             </div>
-            <div class="row mb-3">
-                <label for="formEemail" class="col-sm-1 col-form-label">Email</label>
-                <div class="col-sm-4">
-                    <input type="email" class="form-control" id="formEmail" name="formEmail" required>
-                </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text col-sm-1 col-3">Email</span>
+                <input type="email" class="form-control" placeholder="Digite o email" name="formEmail">
             </div>
-            <div class="row mb-3">
-                <label for="formPass" class="col-sm-1 col-form-label">Senha</label>
-                <div class="col-sm-4">
-                    <input type="password" class="form-control" id="formPass" name="formPass" required>
+            <div class="input-group mb-3">
+                <span class="input-group-text col-sm-1 col-3">Senha</span>
+                <input type="password" class="form-control" placeholder="Digite a senha" name="formPassword">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Nível de Usuário</span>
+                <div class="">
+                    <select class="form-select form-control" name="formLevel">
+                        <option value="0">0 - Inativo</option>
+                        <option value="1">1 - Administrador</option>
+                        <option value="2">2 - Usuário</option>
+                    </select>
                 </div>
             </div>
             <p>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Usuário ativo</label>
-                </div>
+                <button type="submit" class="btn btn-primary">Atualizar</button>
             </p>
-            <p>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Usuário administrador</label>
-                </div>
-            </p>
-            <button type="submit" class="btn btn-primary">Atualizar</button>
-            <br><br>
         </form>
 
         <?php
