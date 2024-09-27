@@ -28,7 +28,7 @@
           </ul>
         </li> -->
         <?php 
-          if($_SESSION['loggedUserLevel'] < 2){
+          if($_SESSION['loggedUserLevel'] > 1){
         ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

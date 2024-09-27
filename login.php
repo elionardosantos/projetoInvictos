@@ -18,7 +18,7 @@
             $dbReturn = dbCredentialsQuery($formEmail, $formPassword);
 
             if($dbReturn == 'email not found'){
-                $screenMessage = "Email ou senha incorretos";
+                $screenMessage = "<p><span class=\"text-danger\">Email ou senha incorretos</span><br></p>";
             } else if($dbReturn['dbPassword'] === 'unset'){
                 $newPasswordId = $dbReturn['dbId'];
                 $newPasswordHash = password_hash($formPassword, PASSWORD_DEFAULT);
@@ -27,9 +27,12 @@
                 $sql = "UPDATE `users` SET `password`='$newPasswordHash' WHERE `id` = $newPasswordId";
                 $conn->query($sql);
                 
-                $screenMessage = "<p><br><span class=\"alert alert-success text-success\">Sua nova senha foi definida. Efetue o login</span><br><br></p>";
+                $screenMessage = "<p><span class=\"text-success\">Nova senha definida. Efetue o login</span><br></p>";
 
                 $conn->close();
+                $_SESSION['loginStatus'] = 'unlogged';
+                $_SESSION['loggedUserEmail'] = 'unset';
+                $_SESSION['loggedUserStatus'] = 'unset';
             } else {
                 $dbId = isset($dbReturn['dbId'])?$dbReturn['dbId']:'';
                 $dbName = isset($dbReturn['dbName'])?$dbReturn['dbName']:'';
@@ -107,6 +110,7 @@
                     </div>
                     <p>
                         <?= isset($screenMessage)?"$screenMessage":"" ?>
+                        <!-- <span class="text-danger">Texto de teste</span> -->
                     </p>
                     <button type="submit" class="btn btn-primary btn-block">Entrar</button>
                 </form>
