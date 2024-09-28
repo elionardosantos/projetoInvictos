@@ -18,7 +18,8 @@
             $dbReturn = dbCredentialsQuery($formEmail, $formPassword);
 
             if($dbReturn == 'email not found'){
-                $screenMessage = "<p><span class=\"text-danger\">Email ou senha incorretos</span><br></p>";
+                $screenMessage = "<div class=\"alert alert-danger\">Email ou senha incorretos</div>";
+                $errorFormStyle = "is-invalid";
             } else if($dbReturn['dbPassword'] === 'unset'){
                 $newPasswordId = $dbReturn['dbId'];
                 $newPasswordHash = password_hash($formPassword, PASSWORD_DEFAULT);
@@ -27,7 +28,7 @@
                 $sql = "UPDATE `users` SET `password`='$newPasswordHash' WHERE `id` = $newPasswordId";
                 $conn->query($sql);
                 
-                $screenMessage = "<p><span class=\"text-success\">Nova senha definida. Efetue o login</span><br></p>";
+                $screenMessage = "<div class=\"alert alert-success\">Nova senha definida. Efetue o login</div>";
 
                 $conn->close();
                 $_SESSION['loginStatus'] = 'unlogged';
@@ -51,7 +52,8 @@
 
                     header('location: index.php');
                 } else {
-                    $screenMessage = "<span class=\"text-danger\">Email ou senha incorretos</span>";
+                    $screenMessage = "<div class=\"alert alert-danger\">Email ou senha incorretos</div>";
+                    $errorFormStyle = "is-invalid";
                     $_SESSION['loginStatus'] = 'unlogged';
                 }
             }
@@ -102,11 +104,11 @@
                 <form action="" method="post">
                     <div class="form-group">
                         <label for="email">E-mail</label>
-                        <input required type="email" class="form-control" name="email" id="email" placeholder="Digite seu e-mail">
+                        <input required type="email" class="form-control <?= $errorFormStyle ?>" name="email" id="email" placeholder="Digite seu e-mail">
                     </div>
                     <div class="form-group">
                         <label for="senha">Senha</label>
-                        <input required type="password" class="form-control" name="password" id="password" placeholder="Digite sua senha">
+                        <input required type="password" class="form-control <?= $errorFormStyle ?>" name="password" id="password" placeholder="Digite sua senha">
                     </div>
                     <p>
                         <?= isset($screenMessage)?"$screenMessage":"" ?>

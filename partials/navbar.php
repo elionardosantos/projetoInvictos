@@ -27,19 +27,30 @@
             <li><a class="dropdown-item" href="#">Histórico</a></li>
           </ul>
         </li> -->
+
+
+
         <?php 
+          // Esta área será exibida somente para os administradores do sistema
           if($_SESSION['loggedUserLevel'] > 1){
         ?>
+
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Administração
+              Admin
             </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="usersList.php">Usuários</a></li>
           </ul>
+
+
         <?php 
           }
         ?>
+
+
+
       </ul>
       <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
         <li class="nav-item dropdown">
@@ -47,7 +58,7 @@
             <?= isset($_SESSION['loggedUserName'])?$_SESSION['loggedUserName']:"Usuário"; ?>
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Trocar Senha</a></li>
+            <li><a class="dropdown-item" href="changePassword.php">Trocar Senha</a></li>
           </ul>
         </li>
         <li class="nav-item">

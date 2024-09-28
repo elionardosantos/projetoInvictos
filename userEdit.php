@@ -14,6 +14,10 @@
     <div class="container">
         <p><h2>Editar usuário</h2></p>
         <br>
+        <?php 
+            $screenMessage = "<div class=\"alert alert-danger\">Esta tela ainda não está funcionando</div>";
+        ?>
+        <?= $screenMessage; ?>
         <form action="" method="post">
             <div class="input-group mb-3">
                 <span class="input-group-text col-sm-1 col-3">Nome</span>
@@ -33,10 +37,42 @@
                     </select>
                 </div>
             </div>
-            <p>
-                <button type="submit" class="btn btn-primary">Atualizar</button>
-            </p>
+            <div>
+                <p>
+                    <button type="submit" class="btn btn-primary">Atualizar</button>
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserQuest">
+                        Apagar Usuário
+                    </button>
+                </p>
+
+            </div>
         </form>
+        <div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="deleteUserQuest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Tem certeza que deseja apagar este usuário?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <a href="">
+                                <button type="button" class="btn btn-danger">Apagar usuário</button>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <?php
             $formName = isset($_POST['formName'])?$_POST['formName']:"";
