@@ -10,47 +10,82 @@
         require('partials/navbar.php');
         require('controller/onlyLevel2.php');
 
+        $userId = isset($_GET['id'])?$_GET['id']:"";
+
+        if(isset($_POST['formName']) && isset($_POST['formEmail']) && isset($_POST['formLevel'])){
+            require('config/connection.php');
+            
+            $formName = $_POST['formName'];
+            $formEmail = $_POST['formEmail'];
+            $formLevel = $_POST['formLevel'];
+            
+            $sql = "UPDATE `users` SET `name` = \"$formName\", `email` = \"$formEmail\", `level` = \"$formLevel\" WHERE `id` = \"$userId\"";
+            
+            if($conn->query($sql) === TRUE) {
+                $screenMessage = "<div class=\"alert alert-success\">Usuário atualizado</div>";                
+            } else {
+                $screenMessage = "<div class=\"alert alert-danger\">Erro na atualização</div>";
+            }
+            $conn->close();
+        } else {
+            // $screenMessage = "<div class=\"alert alert-danger\">Favor preencher todos os campos</div>";
+        }
+        
+        if($userId !== ""){
+            require('config/connection.php');
+
+            $sql = "SELECT * FROM `users` WHERE `id` = \"$userId\"";
+            $result = mysqli_query($conn, $sql);
+
+            foreach($result as $row){
+                $dbUserName = isset($row['name'])?$row['name']:"";
+                $dbUserEmail = isset($row['email'])?$row['email']:"";
+                $dbUserLevel = isset($row['level'])?$row['level']:"";
+            }
+
+            $conn->close();
+        }
+        
     ?>
     <div class="container">
         <p><h2>Editar usuário</h2></p>
         <br>
-        <?php 
-            $screenMessage = "<div class=\"alert alert-danger\">Esta tela ainda não está funcionando</div>";
-        ?>
-        <?= $screenMessage; ?>
+        <?= isset($screenMessage)?$screenMessage:""; ?>
         <form action="" method="post">
             <div class="input-group mb-3">
-                <span class="input-group-text col-sm-1 col-3">Nome</span>
-                <input type="text" class="form-control" placeholder="Digite o nome" name="formName">
+                <span class="input-group-text col-sm-2 col-3">Nome</span>
+                <input type="text" class="form-control" placeholder="Digite o nome" value="<?= $dbUserName; ?>" name="formName">
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text col-sm-1 col-3">Email</span>
-                <input type="email" class="form-control" placeholder="Digite o email" name="formEmail">
+                <span class="input-group-text col-sm-2 col-3">Email</span>
+                <input type="email" class="form-control" placeholder="Digite o email" value="<?= $dbUserEmail; ?>" name="formEmail">
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text">Nível de Usuário</span>
+                <span class="input-group-text col-sm-2 col-3">Nível</span>
                 <div class="">
                     <select class="form-select form-control" name="formLevel">
-                        <option value="0">0 - Inativo</option>
-                        <option value="1">1 - Usuário</option>
-                        <option value="2">2 - Administrador</option>
+                        <option <?= $dbUserLevel == 0?"selected":"" ?> value="0">0 - Inativo</option>
+                        <option <?= $dbUserLevel == 1?"selected":"" ?> value="1">1 - Usuário</option>
+                        <option <?= $dbUserLevel >= 2?"selected":"" ?> value="2">2 - Administrador</option>
                     </select>
                 </div>
             </div>
             <div>
                 <p>
                     <button type="submit" class="btn btn-primary">Atualizar</button>
-
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserQuest">
-                        Apagar Usuário
-                    </button>
                 </p>
-
             </div>
         </form>
+        <div class="mt-5">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserQuest">
+                Apagar Usuário
+            </button>
+            <a href="usersList.php">
+                <button type="submit" class="btn btn-primary">Voltar</button>
+            </a>
+        </div>
         <div>
-
             <!-- Modal -->
             <div class="modal fade" id="deleteUserQuest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -64,8 +99,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <a href="">
-                                <button type="button" class="btn btn-danger">Apagar usuário</button>
+                            <a href="deleteUser.php?id=<?= $userId; ?>">
+                                <button type="button" class="btn btn-danger">Sim</button>
 
                             </a>
                         </div>
@@ -75,44 +110,7 @@
         </div>
 
         <?php
-            $formName = isset($_POST['formName'])?$_POST['formName']:"";
-            $formEmail = isset($_POST['formEmail'])?$_POST['formEmail']:"";
-            $formPassNoHash = isset($_POST['formPass'])?$_POST['formPass']:"";
-            $formPass = password_hash($formPassNoHash, PASSWORD_DEFAULT);
-
-            // password_verify(senha_login, senha_hash)
-            
-            if($formName !== "" && $formEmail !== "" && $formPass !== ""){
-                require('config/connection.php');
-
-                $sql = "SELECT * FROM `users` WHERE email = \"$formEmail\"";
-                $result = mysqli_query($conn, $sql);
-                
-                if($result -> num_rows > 0) {
-                    echo '<div class="alert alert-danger">O email ' . $formEmail . ' já está sendo utilizado. Por favor, escolha outro email</div>';
-                } else {
-                    userInsert();
-                    echo '<div class="alert alert-success">Usuário cadastrado com sucesso</div>';
-                    
-                }
-                
-                $conn -> close();
-            }        
-            
-            function userInsert() {
-                global $formName;
-                global $formEmail;
-                global $formPass;
-                $formStatus = 1;
-
-                require('config/connection.php');
-                $sql = "INSERT INTO `users`(`email`, `name`, `password`, `status`) VALUES ('$formEmail','$formName','$formPass','$formStatus')";
-
-                //Executando o insert
-                $conn->query($sql);
-                
-                $conn -> close();
-            }
+        
         ?>
     </div>
 </body>
