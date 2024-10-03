@@ -1,10 +1,10 @@
 <?php
 
-$host = '50.6.138.176';
+$host = '';
 $port = 3306;
-$dbname = 'thinfo36_Tests';
-$user = 'thinfo36_elionardosantos';
-$password = 'Novasenha@2024';
+$dbname = '';
+$user = '';
+$password = '';
 
 // Criar conexão
 $conn = new mysqli($host, $user, $password, $dbname, $port);
