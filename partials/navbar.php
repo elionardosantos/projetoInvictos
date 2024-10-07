@@ -9,7 +9,7 @@
         <li class="nav-item">
           <a class="nav-link" href="index.php">Home</a>
         </li>
-        <!-- <li class="nav-item dropdown">
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Orçamentos
           </a>
@@ -17,8 +17,8 @@
             <li><a class="dropdown-item" href="#">Novo</a></li>
             <li><a class="dropdown-item" href="#">Histórico</a></li>
           </ul>
-        </li> -->
-        <!-- <li class="nav-item dropdown">
+        </li>
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Pedidos
           </a>
@@ -26,15 +26,12 @@
             <li><a class="dropdown-item" href="#">Novo</a></li>
             <li><a class="dropdown-item" href="#">Histórico</a></li>
           </ul>
-        </li> -->
-
-
+        </li>
 
         <?php 
           // Esta área será exibida somente para os administradores do sistema
           if($_SESSION['loggedUserLevel'] > 1){
         ?>
-
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -44,12 +41,9 @@
             <li><a class="dropdown-item" href="usersList.php">Usuários</a></li>
           </ul>
 
-
         <?php 
           }
         ?>
-
-
 
       </ul>
       <ul class="navbar-nav mb-2 ms-auto mb-lg-0">

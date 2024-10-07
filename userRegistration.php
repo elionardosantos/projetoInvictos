@@ -12,7 +12,6 @@
     ?>
     <div class="container">
         <p><h2>Cadastrar usuário</h2></p>
-        <p>A senha que o usuário digitar no primeiro login, será atribuida ao seu usuário.</p>
         <br>
         <form action="" method="post">
             <div class="input-group mb-3">
@@ -23,10 +22,10 @@
                 <span class="input-group-text col-sm-1 col-3">Email</span>
                 <input type="email" class="form-control" placeholder="Digite o email" name="formEmail">
             </div>
-            <!-- <div class="input-group mb-3">
+            <div class="input-group mb-3">
                 <span class="input-group-text col-sm-1 col-3">Senha</span>
                 <input type="password" class="form-control" placeholder="Digite a senha" name="formPassword">
-            </div> -->
+            </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">Nível de Usuário</span>
                 <div class="">
@@ -45,9 +44,9 @@
         <?php
             $formName = isset($_POST['formName'])?$_POST['formName']:"";
             $formEmail = isset($_POST['formEmail'])?$_POST['formEmail']:"";
-            // $formPassNoHash = isset($_POST['formPassword'])?$_POST['formPassword']:"";
+            $formPassword = isset($_POST['formPassword'])?$_POST['formPassword']:"";
             $formLevel = isset($_POST['formLevel'])?$_POST['formLevel']:"";
-            $formPassword = 'unset';
+            $formPasswordHash = hash('sha256',$formPassword);
 
             // password_verify(senha_login, senha_hash)
             
@@ -61,8 +60,6 @@
                     echo '<div class="alert alert-danger">O email ' . $formEmail . ' já está sendo utilizado. Por favor, escolha outro email</div>';
                 } else {
                     userInsert();
-                    echo '<div class="alert alert-success">Usuário cadastrado com sucesso</div>';
-                    
                 }
                 
                 $conn -> close();
@@ -71,14 +68,16 @@
             function userInsert() {
                 global $formName;
                 global $formEmail;
-                global $formPassword;
+                global $formPasswordHash;
                 global $formLevel;
 
                 require('config/connection.php');
-                $sql = "INSERT INTO `users`(`email`, `name`, `password`, `level`) VALUES ('$formEmail','$formName','$formPassword','$formLevel')";
+                $sql = "INSERT INTO `users`(`email`, `name`, `password`, `level`) VALUES ('$formEmail','$formName','$formPasswordHash','$formLevel')";
 
                 //Executando o insert
-                $conn->query($sql);
+                if($conn->query($sql) == true){
+                    echo '<div class="alert alert-success">Usuário cadastrado com sucesso</div>';
+                };
                 
                 $conn->close();
             }

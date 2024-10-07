@@ -15,25 +15,12 @@
         } else if((isset($_POST['email']) && $_POST['email'] !== "")){            
             $formEmail = $_POST['email'];
             $formPassword = isset($_POST['password'])?$_POST['password']:"";
-            $dbReturn = dbCredentialsQuery($formEmail, $formPassword);
+            $formPasswordHash = hash('sha256',$formPassword);
+            $dbReturn = dbCredentialsQuery($formEmail);
 
             if($dbReturn == 'email not found'){
                 $screenMessage = "<div class=\"alert alert-danger\">Email ou senha incorretos</div>";
                 $errorFormStyle = "is-invalid";
-            } else if($dbReturn['dbPassword'] === 'unset'){
-                $newPasswordId = $dbReturn['dbId'];
-                $newPasswordHash = password_hash($formPassword, PASSWORD_DEFAULT);
-
-                require('config/connection.php');
-                $sql = "UPDATE `users` SET `password`='$newPasswordHash' WHERE `id` = $newPasswordId";
-                $conn->query($sql);
-                
-                $screenMessage = "<div class=\"alert alert-success\">Nova senha definida. Efetue o login</div>";
-
-                $conn->close();
-                $_SESSION['loginStatus'] = 'unlogged';
-                $_SESSION['loggedUserEmail'] = 'unset';
-                $_SESSION['loggedUserStatus'] = 'unset';
             } else {
                 $dbId = isset($dbReturn['dbId'])?$dbReturn['dbId']:'';
                 $dbName = isset($dbReturn['dbName'])?$dbReturn['dbName']:'';
@@ -43,7 +30,7 @@
     
                 // echo "$dbId, $dbName, $dbEmail, $dbPassword, $dbLevel - ";
 
-                if(password_verify($formPassword, $dbPassword)){
+                if($formPasswordHash === $dbPassword){
                     $_SESSION['loginStatus'] = 'logged';
                     $_SESSION['loggedUserId'] = $dbId;
                     $_SESSION['loggedUserName'] = $dbName;
@@ -64,7 +51,7 @@
             // echo "Ninguém logado";
         }
 
-        function dbCredentialsQuery($formEmail, $formPassword){
+        function dbCredentialsQuery($formEmail){
 
             require('config/connection.php');
             
@@ -104,7 +91,7 @@
                 <form action="" method="post">
                     <div class="form-group">
                         <label for="email">E-mail</label>
-                        <input required type="email" class="form-control <?= $errorFormStyle ?>" name="email" id="email" placeholder="Digite seu e-mail">
+                        <input autofocus required type="email" class="form-control <?= $errorFormStyle ?>" name="email" id="email" placeholder="Digite seu e-mail">
                     </div>
                     <div class="form-group">
                         <label for="senha">Senha</label>

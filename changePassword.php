@@ -16,6 +16,7 @@
         </p>
         <?php 
             $formCurrentPassword = isset($_POST['formCurrentPassword'])?$_POST['formCurrentPassword']:"";
+            $formCurrentPasswordHash = hash('sha256', $formCurrentPassword);
             $formNewPassword = isset($_POST['formNewPassword'])?$_POST['formNewPassword']:"";
             $formNewPassword2 = isset($_POST['formNewPassword2'])?$_POST['formNewPassword2']:"";
             $loggedUserId = $_SESSION['loggedUserId'];
@@ -31,13 +32,13 @@
                         $dbCurrentPassword = $row['password'];
                     }
 
-                    if(password_verify($formCurrentPassword, $dbCurrentPassword)){
+                    if($formCurrentPasswordHash === $dbCurrentPassword){
 
                         if($formNewPassword !== "" && $formNewPassword2 !== ""){
 
                             if($formNewPassword === $formNewPassword2){
 
-                                $passwordHash = password_hash($formNewPassword2, PASSWORD_DEFAULT);
+                                $passwordHash = hash('sha256',$formNewPassword2);
                                 
                                 $sql = "update `users` set `password`=\"$passwordHash\" where `id` = \"$loggedUserId\"";
                                 $result = mysqli_query($conn, $sql);
@@ -79,7 +80,7 @@
         <form action="" method="post">
             <div class="input-group mb-3">
                 <span class="input-group-text col-sm-3 col-lg-2 col-3 is-invalid">Senha atual</span>
-                <input type="password" class="form-control <?= $currentPasswordFormStyle ?>" placeholder="Digite a senha atual" name="formCurrentPassword" required>
+                <input autofocus type="password" class="form-control <?= $currentPasswordFormStyle ?>" placeholder="Digite a senha atual" name="formCurrentPassword" required>
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text col-sm-3 col-lg-2 col-3">Nova Senha</span>
