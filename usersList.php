@@ -24,7 +24,7 @@
             function usersListing() {
                 require('config/connection.php');
 
-                $sql = "SELECT * FROM users";
+                $sql = "SELECT * FROM `users`";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

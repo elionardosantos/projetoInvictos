@@ -51,7 +51,7 @@
             if($formName !== "" && $formEmail !== "" && $formPassword !== ""){
                 require('config/connection.php');
 
-                $sql = "SELECT * FROM `users` WHERE email = :formEmail";
+                $sql = "SELECT * FROM `users` WHERE `email` = :formEmail";
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindParam(':formEmail', $formEmail);
                 $stmt->execute();
@@ -72,7 +72,7 @@
                 global $formLevel;
                 try {
                     require('config/connection.php');
-                    $sql = "INSERT INTO users(name, email, level, active, password) VALUES (:formName, :formEmail, :formLevel, :active, :formPasswordHash)";
+                    $sql = "INSERT INTO `users`(`name`, `email`, `level`, `active`, `password`) VALUES (:formName, :formEmail, :formLevel, :active, :formPasswordHash)";
                     $stmt = $pdo->prepare($sql);
                     $stmt->bindValue(':formName', $formName);
                     $stmt->bindValue(':formEmail', $formEmail);

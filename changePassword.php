@@ -24,7 +24,7 @@
 
             if(isset($formCurrentPassword) && $formCurrentPassword !== ""){
                 require('config/connection.php');
-                $sql = "SELECT * FROM users WHERE id = :loggedUserId";
+                $sql = "SELECT * FROM `users` WHERE `id` = :loggedUserId";
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindValue(':loggedUserId', $loggedUserId);
                 $stmt->execute();
@@ -43,13 +43,18 @@
 
                                 $passwordHash = hash('sha256',$formNewPassword2);
                                 
-                                $sql = "update `users` set `password`=\"$passwordHash\" where `id` = \"$loggedUserId\"";
-                                $result = mysqli_query($conn, $sql);
+                                $sql = "update `users` set `password`=:passwordHash where `id` =:loggedUserId";
+                                $stmt = $pdo->prepare($sql);
+                                $stmt->bindValue(':passwordHash', $passwordHash);
+                                $stmt->bindValue(':loggedUserId', $loggedUserId);
+                                $stmt->execute();
+
+                                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 
-                                if($result) {
+                                if($stmt->rowCount() > 0) {
                                     $screenMessage = "<div class=\"alert alert-success\">Senha atualizada com sucesso</div>";
                                 } else {
-                                    $screenMessage = "<div class=\"alert alert-success\">Erro na atualização. Contate o administrador do sistema</div>";
+                                    $screenMessage = "<div class=\"alert alert-danger\">Erro na atualização. Contate o administrador do sistema</div>";
                                 }
 
                             } else {
@@ -70,10 +75,6 @@
                 } else {
                     $screenMessage = "<div class=\"alert alert-danger\">Seu usuário não foi encontrado no banco de dados. Por favor contate o administrador do sistema</div>";
                 }
-
-                echo "<div>Senha preenchida. User id: $loggedUserId</div>";
-                
-                
             }
         ?>
 
