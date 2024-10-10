@@ -1,5 +1,5 @@
 <?php
-
+/*
 // Connect to the SQLite database
 try {
     $pdo = new PDO("sqlite:database.db");
@@ -11,7 +11,8 @@ try {
 } catch (PDOException $e) {
     echo "Erro ao conectar ao banco de dados: " . $e->getMessage();
 }
-
+*/
+/*
 // Criar uma tabela chamada 'users'
 $sql = "CREATE TABLE IF NOT EXISTS users (
     `id` INT PRIMARY KEY AUTOINCREMENT,
@@ -23,5 +24,21 @@ $sql = "CREATE TABLE IF NOT EXISTS users (
 )";
 
 $pdo->exec($sql);
+*/
+
+
+$host = 'localhost';
+$dbname = 'invictos';
+$username = 'root';
+$password = '';
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // echo "Successfully connected!";
+} catch (PDOException $e) {
+    echo "Falha na conexão: " . $e->getMessage();
+}
+
 
 ?>

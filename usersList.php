@@ -24,8 +24,9 @@
             function usersListing() {
                 require('config/connection.php');
 
-                $sql = "SELECT * FROM `users`";
+                $sql = "SELECT * FROM `users` WHERE `active` = :active";
                 $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':active', 1);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

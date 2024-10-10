@@ -55,7 +55,7 @@
 
             require('config/connection.php');
             
-            $sql = "SELECT * FROM `users` WHERE `email` = :email";
+            $sql = "SELECT * FROM `users` WHERE `email` = :email AND `active` = 1";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':email',$formEmail);
             $stmt->execute();

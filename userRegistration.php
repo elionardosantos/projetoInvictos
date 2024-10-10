@@ -72,7 +72,9 @@
                 global $formLevel;
                 try {
                     require('config/connection.php');
-                    $sql = "INSERT INTO `users`(`name`, `email`, `level`, `active`, `password`) VALUES (:formName, :formEmail, :formLevel, :active, :formPasswordHash)";
+                    $sql = "INSERT INTO `users`(`name`, `email`, `level`, `active`, `password`) 
+                        VALUES (:formName, :formEmail, :formLevel, :active, :formPasswordHash)";
+                        
                     $stmt = $pdo->prepare($sql);
                     $stmt->bindValue(':formName', $formName);
                     $stmt->bindValue(':formEmail', $formEmail);

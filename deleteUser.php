@@ -13,15 +13,19 @@
 
         require('config/connection.php');
 
-        $sql = "DELETE FROM `users` WHERE `id` = \"$formUserId\"";
+        $sql = "UPDATE `users` SET `active`= :active WHERE `id`= :formUserId";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':formUserId', $formUserId);
+        $stmt->bindValue(':active', 0);
+        $stmt->execute();
+        $result = $stmt->rowCount();
 
-        if($conn->query($sql)){
-            $screenMessage = "<div class=\"alert alert-danger\">Usuário apagado</div>";
+        if($result){
+            $screenMessage = "<div class=\"alert alert-success\">Usuário apagado com sucesso.</div>";
         } else {
-            $screenMessage = "<div class=\"alert alert-danger\">Erro: Usuário não apagado</div>";
+            $screenMessage = "<div class=\"alert alert-danger\">Um erro ocorreu. Favor verificar se o usuário foi apagado.</div>";
         }
 
-        $conn->close();
     ?>
 
     <div class="container">
