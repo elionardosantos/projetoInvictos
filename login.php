@@ -55,10 +55,14 @@
 
             require('config/connection.php');
             
-            $sql = "SELECT * FROM `users` WHERE `email` = \"$formEmail\"";
-            $result = mysqli_query($conn, $sql);
+            $sql = "SELECT * FROM users WHERE email = :email";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':email',$formEmail);
+            $stmt->execute();
+
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
-            if($result-> num_rows > 0) {
+            if($result) {
                 foreach ($result as $row) {
                                        
                     $dbId = $row['id'];
@@ -80,9 +84,6 @@
             }
         }
 
-        function passwordsCheck($formPassword, $dbPassword){
-            
-        }
     ?>
     <div class="bg-secondary">
         <div class="container d-flex justify-content-center align-items-center vh-100">

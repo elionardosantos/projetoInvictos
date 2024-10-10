@@ -24,10 +24,13 @@
 
             if(isset($formCurrentPassword) && $formCurrentPassword !== ""){
                 require('config/connection.php');
-                $sql = "select * from `users` where `id` = \"$loggedUserId\"";
-                $result = mysqli_query($conn, $sql);
+                $sql = "SELECT * FROM users WHERE id = :loggedUserId";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':loggedUserId', $loggedUserId);
+                $stmt->execute();
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                if($result->num_rows > 0) {
+                if($result > 0) {
                     foreach($result as $row){
                         $dbCurrentPassword = $row['password'];
                     }
@@ -68,9 +71,8 @@
                     $screenMessage = "<div class=\"alert alert-danger\">Seu usuário não foi encontrado no banco de dados. Por favor contate o administrador do sistema</div>";
                 }
 
-                // $screenMessage = "<div class=\"alert alert-success\">Senha preenchida. User id: $loggedUserId</div>";
+                echo "<div>Senha preenchida. User id: $loggedUserId</div>";
                 
-                $conn->close();
                 
             }
         ?>

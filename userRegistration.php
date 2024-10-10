@@ -47,39 +47,46 @@
             $formPassword = isset($_POST['formPassword'])?$_POST['formPassword']:"";
             $formLevel = isset($_POST['formLevel'])?$_POST['formLevel']:"";
             $formPasswordHash = hash('sha256',$formPassword);
-
-            // password_verify(senha_login, senha_hash)
             
             if($formName !== "" && $formEmail !== "" && $formPassword !== ""){
                 require('config/connection.php');
 
-                $sql = "SELECT * FROM `users` WHERE email = \"$formEmail\"";
-                $result = mysqli_query($conn, $sql);
-                
-                if($result -> num_rows > 0) {
+                $sql = "SELECT * FROM `users` WHERE email = :formEmail";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':formEmail', $formEmail);
+                $stmt->execute();
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                if($result) {
                     echo '<div class="alert alert-danger">O email ' . $formEmail . ' já está sendo utilizado. Por favor, escolha outro email</div>';
                 } else {
                     userInsert();
                 }
                 
-                $conn -> close();
-            }        
+            }
             
             function userInsert() {
                 global $formName;
                 global $formEmail;
                 global $formPasswordHash;
                 global $formLevel;
-
-                require('config/connection.php');
-                $sql = "INSERT INTO `users`(`email`, `name`, `password`, `level`) VALUES ('$formEmail','$formName','$formPasswordHash','$formLevel')";
-
-                //Executando o insert
-                if($conn->query($sql) == true){
-                    echo '<div class="alert alert-success">Usuário cadastrado com sucesso</div>';
-                };
-                
-                $conn->close();
+                try {
+                    require('config/connection.php');
+                    $sql = "INSERT INTO users(name, email, level, active, password) VALUES (:formName, :formEmail, :formLevel, :active, :formPasswordHash)";
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->bindValue(':formName', $formName);
+                    $stmt->bindValue(':formEmail', $formEmail);
+                    $stmt->bindValue(':formPasswordHash', $formPasswordHash);
+                    $stmt->bindValue(':formLevel', $formLevel);
+                    $stmt->bindValue(':active', 1);
+                    
+                    if($stmt->execute() === true){
+                        echo '<div class="alert alert-success">Usuário cadastrado com sucesso</div>';
+                    }
+                    
+                } catch(PDOException $e) {
+                    echo "Erro ao inserir dados: " . $e->getMessage();
+                }
             }
         ?>
     </div>

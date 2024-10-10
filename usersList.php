@@ -24,11 +24,10 @@
             function usersListing() {
                 require('config/connection.php');
 
-                // Consulta SQL
-                $sql = "SELECT * FROM `users` WHERE 1";
-                $result = mysqli_query($conn, $sql);
-                if($result-> num_rows > 0) {
-
+                $sql = "SELECT * FROM users";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute();
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         ?>
                 <div>
@@ -46,22 +45,26 @@
                         <tbody>
                             <tr>
                                 <?php
-                                    foreach($result as $row) {
-                                        $userId = $row['id'];
-                                        $userName = $row['name'];
-                                        $userEmail = $row['email'];
-                                        $userStatus = $row['level'];
-                                        // $userPass = $row['password'];
-                                        
-                                        echo "<tr>";
-                                        echo "<td>$userId</td>";
-                                        echo "<td>$userName</td>";
-                                        echo "<td>$userEmail</td>";
-                                        echo "<td>$userStatus</td>";
-                                        // echo "<td>$userPass</td>";
-                                        echo "<td><a href=\"userEdit.php?id=$userId\" class=\"btn btn-primary btn-sm\">Editar</a></td>";
-                                        echo "</tr>";
+                                    if($result) {
+
+                                        foreach($result as $row) {
+                                            $userId = $row['id'];
+                                            $userName = $row['name'];
+                                            $userEmail = $row['email'];
+                                            $userStatus = $row['level'];
+                                            $userPass = $row['password'];
+                                            
+                                            echo "<tr>";
+                                            echo "<td>$userId</td>";
+                                            echo "<td>$userName</td>";
+                                            echo "<td>$userEmail</td>";
+                                            echo "<td>$userStatus</td>";
+                                            // echo "<td>$userPass</td>";
+                                            echo "<td><a href=\"userEdit.php?id=$userId\" class=\"btn btn-primary btn-sm\">Editar</a></td>";
+                                            echo "</tr>";
+                                        }
                                     }
+                                        
                                 ?>
                             </tr>
                         </tbody>
@@ -69,11 +72,8 @@
                 </div>
         <?php
         
-                } else {
-                    echo "Nenhum usuário cadastrado";
-                }
-            $conn -> close();
             }
+            
         ?>
     </div>
 </body>

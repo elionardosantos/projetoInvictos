@@ -19,23 +19,33 @@
             $formEmail = $_POST['formEmail'];
             $formLevel = $_POST['formLevel'];
             
-            $sql = "UPDATE `users` SET `name` = \"$formName\", `email` = \"$formEmail\", `level` = \"$formLevel\" WHERE `id` = \"$userId\"";
-            
-            if($conn->query($sql) === TRUE) {
+            $sql = "UPDATE `users` SET `name` = :formName, `email` = :formEmail, `level` = :formLevel WHERE `id` = :userId";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':formName', $formName);
+            $stmt->bindParam(':formEmail', $formEmail);
+            $stmt->bindParam(':formLevel', $formLevel);
+            $stmt->bindParam(':userId', $userId);
+
+            if($stmt->execute() === TRUE) {
                 $screenMessage = "<div class=\"alert alert-success\">Usuário atualizado</div>";                
             } else {
                 $screenMessage = "<div class=\"alert alert-danger\">Erro na atualização</div>";
             }
-            $conn->close();
+
         } else {
             // $screenMessage = "<div class=\"alert alert-danger\">Favor preencher todos os campos</div>";
         }
         
+        // Auto fill with user data
         if($userId !== ""){
             require('config/connection.php');
 
-            $sql = "SELECT * FROM `users` WHERE `id` = \"$userId\"";
-            $result = mysqli_query($conn, $sql);
+            $sql = "SELECT * FROM `users` WHERE `id` = :userId";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':userId', $userId);
+            $stmt->execute();
+
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             foreach($result as $row){
                 $dbUserName = isset($row['name'])?$row['name']:"";
@@ -43,7 +53,6 @@
                 $dbUserLevel = isset($row['level'])?$row['level']:"";
             }
 
-            $conn->close();
         }
         
     ?>
