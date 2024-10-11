@@ -6,14 +6,14 @@
 </head>
 <body>
     <?php
-        require('controller/loginChecker.php');
+        require('controller/login_checker.php');
         require('partials/navbar.php');
-        require('controller/onlyLevel2.php');
+        require('controller/only_level_2.php');
     ?>
     <div class="container">
         <p>
             <div class="container">
-                <a class="btn btn-primary" href="userRegistration.php">Cadastrar novo usuário</a>
+                <a class="btn btn-primary" href="user_registration.php">Cadastrar novo usuário</a>
             </div>
         </p>
         
@@ -24,9 +24,9 @@
             function usersListing() {
                 require('config/connection.php');
 
-                $sql = "SELECT * FROM `users` WHERE `active` = :active";
+                $sql = "SELECT `id`,`name`,`email`,`level` FROM `users` WHERE `deleted` = :deleted";
                 $stmt = $pdo->prepare($sql);
-                $stmt->bindValue(':active', 1);
+                $stmt->bindValue(':deleted', 0);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -53,7 +53,6 @@
                                             $userName = $row['name'];
                                             $userEmail = $row['email'];
                                             $userStatus = $row['level'];
-                                            $userPass = $row['password'];
                                             
                                             echo "<tr>";
                                             echo "<td>$userId</td>";
@@ -61,7 +60,7 @@
                                             echo "<td>$userEmail</td>";
                                             echo "<td>$userStatus</td>";
                                             // echo "<td>$userPass</td>";
-                                            echo "<td><a href=\"userEdit.php?id=$userId\" class=\"btn btn-primary btn-sm\">Editar</a></td>";
+                                            echo "<td><a href=\"user_edit.php?id=$userId\" class=\"btn btn-primary btn-sm\">Editar</a></td>";
                                             echo "</tr>";
                                         }
                                     }

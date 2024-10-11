@@ -6,17 +6,18 @@
 </head>
 <body>
     <?php
-        require('controller/loginChecker.php');
+        require('controller/login_checker.php');
+        require('controller/only_level_2.php');
         require('partials/navbar.php');
 
         $formUserId = $_GET['id'];
 
         require('config/connection.php');
 
-        $sql = "UPDATE `users` SET `active`= :active WHERE `id`= :formUserId";
+        $sql = "UPDATE `users` SET `deleted`= :deleted WHERE `id`= :formUserId";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':formUserId', $formUserId);
-        $stmt->bindValue(':active', 0);
+        $stmt->bindValue(':deleted', 1);
         $stmt->execute();
         $result = $stmt->rowCount();
 

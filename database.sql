@@ -35,7 +35,7 @@ CREATE TABLE `users` (
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `password` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `level` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `active` int NOT NULL,
+  `deleted` int DEFAULT NULL,
   `created_by` int DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_by` int DEFAULT NULL,
@@ -47,9 +47,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `name`, `password`, `level`, `active`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'admin@admin', 'Usuário Administrador', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '2', 1, NULL, NULL, NULL, NULL),
-(2, 'usuario@usuario', 'Usuario Comum', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '1', 1, 0, NULL, 0, NULL),
-(3, 'inativo@inativo', 'Usuário Inativo', 'aefdde27979f6c25eff519ea4623b5ff21fd143dc9b0943e122de0a53ac9fdbd', '0', 1, NULL, NULL, NULL, NULL),
+(1, 'admin@admin', 'Usuário Administrador', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '2', 0, NULL, NULL, NULL, NULL),
+(2, 'usuario@usuario', 'Usuario Comum', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '1', 0, 0, NULL, 0, NULL),
+(3, 'inativo@inativo', 'Usuário Inativo', 'aefdde27979f6c25eff519ea4623b5ff21fd143dc9b0943e122de0a53ac9fdbd', '0', 0, NULL, NULL, NULL, NULL),
 (4, 'deletado@deletado', 'Usuario Deletado', '8a1491af3660be97f687a85ef8aace49723987219a75febeb3a0673a99e2def0', '0', 0, NULL, NULL, NULL, NULL);
 
 --

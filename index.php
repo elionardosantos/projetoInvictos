@@ -6,7 +6,7 @@
 </head>
 <body>
     <?php
-        require('controller/loginChecker.php');
+        require('controller/login_checker.php');
         require('partials/navbar.php');
 
     ?>

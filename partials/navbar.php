@@ -38,7 +38,7 @@
               Admin
             </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="usersList.php">Usuários</a></li>
+            <li><a class="dropdown-item" href="users_list.php">Usuários</a></li>
           </ul>
 
         <?php 
@@ -52,7 +52,7 @@
             <?= isset($_SESSION['loggedUserName'])?$_SESSION['loggedUserName']:"Usuário"; ?>
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="changePassword.php">Trocar Senha</a></li>
+            <li><a class="dropdown-item" href="change_password.php">Trocar Senha</a></li>
           </ul>
         </li>
         <li class="nav-item">

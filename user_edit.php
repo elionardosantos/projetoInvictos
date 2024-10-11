@@ -6,9 +6,9 @@
 </head>
 <body>
     <?php
-        require('controller/loginChecker.php');
+        require('controller/login_checker.php');
         require('partials/navbar.php');
-        require('controller/onlyLevel2.php');
+        require('controller/only_level_2.php');
 
         $userId = isset($_GET['id'])?$_GET['id']:"";
 
@@ -40,7 +40,7 @@
         if($userId !== ""){
             require('config/connection.php');
 
-            $sql = "SELECT * FROM `users` WHERE `id` = :userId";
+            $sql = "SELECT `name`,`email`,`level` FROM `users` WHERE `id` = :userId";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':userId', $userId);
             $stmt->execute();
@@ -90,7 +90,7 @@
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserQuest">
                 Apagar Usuário
             </button>
-            <a href="usersList.php">
+            <a href="users_list.php">
                 <button type="submit" class="btn btn-primary">Voltar</button>
             </a>
         </div>
@@ -108,7 +108,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <a href="deleteUser.php?id=<?= $userId; ?>">
+                            <a href="delete_user.php?id=<?= $userId; ?>">
                                 <button type="button" class="btn btn-danger">Sim</button>
 
                             </a>
