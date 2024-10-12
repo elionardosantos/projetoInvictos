@@ -14,10 +14,11 @@
 
         require('config/connection.php');
 
-        $sql = "UPDATE `users` SET `deleted`= :deleted WHERE `id`= :formUserId";
+        $sql = "UPDATE `users` SET `deleted`= :deleted, `level` = :level WHERE `id`= :formUserId";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':formUserId', $formUserId);
         $stmt->bindValue(':deleted', 1);
+        $stmt->bindValue(':level',0);
         $stmt->execute();
         $result = $stmt->rowCount();
 

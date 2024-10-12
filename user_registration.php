@@ -39,31 +39,38 @@
             global $formEmail;
             global $formPasswordHash;
             global $formLevel;
+            $created_by = $_SESSION['loggedUserId'];
+            date_default_timezone_set('America/Sao_Paulo');
+            $created_at = date('Y-m-d H:i:s');
+
             try {
                 require('config/connection.php');
-                $sql = "INSERT INTO `users`(`name`, `email`, `level`, `deleted`, `password`) 
-                    VALUES (:formName, :formEmail, :formLevel, :deleted, :formPasswordHash)";
+                $sql = "INSERT INTO `users`(`name`, `email`, `level`, `deleted`, `password`, `created_by`, `created_at`) 
+                    VALUES (:formName, :formEmail, :formLevel, :deleted, :formPasswordHash, :created_by, :created_at)";
                     
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindValue(':formName', $formName);
                 $stmt->bindValue(':formEmail', $formEmail);
                 $stmt->bindValue(':formPasswordHash', $formPasswordHash);
                 $stmt->bindValue(':formLevel', $formLevel);
+                $stmt->bindValue(':created_by', $created_by);
+                $stmt->bindValue(':created_at', $created_at);
                 $stmt->bindValue(':deleted', 0);
                 
-                if($stmt->execute() === true){
+                if($stmt->execute()){
+                    global $screenMessage;
                     $screenMessage = '<div class="alert alert-success">Usuário cadastrado com sucesso</div>';
-                }
+                } 
                 
             } catch(PDOException $e) {
-                echo "Erro ao inserir dados: " . $e->getMessage();
+                global $screenMessage;
+                $screenMessage = "Erro ao inserir dados: " . $e->getMessage();
             }
         }
     ?>
     <div class="container">
         <p><h2>Cadastrar usuário</h2></p>
-        <br>
-        <?= $screenMessage; ?>
+        <?= isset($screenMessage)?$screenMessage:"" ?>
         <form action="" method="post">
             <div class="input-group mb-3">
                 <span class="input-group-text col-sm-1 col-3">Nome</span>

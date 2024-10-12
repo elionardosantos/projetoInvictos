@@ -14,6 +14,12 @@
         <p>
             <h2>Início</h2>
         </p>
+        <p>
+        <?php
+            date_default_timezone_set('America/Sao_Paulo');
+            echo $dataHoraAtual = date('Y-m-d H:i:s');
+        ?>
+        </p>
 
     </div>
 </body>
