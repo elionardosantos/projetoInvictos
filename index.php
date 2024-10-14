@@ -17,7 +17,7 @@
         <p>
         <?php
             date_default_timezone_set('America/Sao_Paulo');
-            echo $dataHoraAtual = date('Y-m-d H:i:s');
+            echo $dataHoraAtual = date('Y-m-d');
         ?>
         </p>
 
