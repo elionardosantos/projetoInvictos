@@ -29,6 +29,11 @@
         function cnpjQuery() {
             global $cnpj;
             global $companyName;
+            global $street;
+            global $number;
+            global $district;
+            global $city;
+            global $state;
 
             $formCnpj = isset($_POST['cnpj'])?$_POST['cnpj']:"";
 
@@ -38,7 +43,7 @@
             $url = "https://open.cnpja.com/office/$cnpj";
 
             if($cnpj === ''){
-                echo "O CNPJ não está preenchido";
+                // echo "O CNPJ não está preenchido";
             } else {
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url);
@@ -63,6 +68,7 @@
                     
                     echo "Última atualização dos dados: $updated2";
                     
+                    /*
                     echo "<div class='alert alert-success'>";
                     echo "Status: $status <br>";
                     echo "Nome fantasia: $alias <br>";
@@ -71,11 +77,11 @@
                     echo "Rua: $street <br>";
                     echo "Número: $number <br>";
                     echo "Bairro: $district <br>";
-                    echo "Cidade: $city <br>";
+                    echo "Município: $city <br>";
                     echo "Estado: $state <br>";
                     echo "Código postal: $zip";
                     echo "</div>";
-                    
+                    */
                 } else if($data->code === 429){
                     echo "<div class='alert alert-danger'>Você excedeu o linite de consultas por minuto. Por favor aguarde um pouco para consultar novamente</div>";
                 }
@@ -87,7 +93,7 @@
         ?>
     </div>
     <div class="container mt-4">
-        <form>
+        <form action="new_budget_process.php" method="POST">
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="cliente" class="form-label">CNPJ</label>
@@ -115,31 +121,54 @@
             <div class="row mb-3">
                 <div class="col-md-8">
                     <label for="endereco" class="form-label">Endereço</label>
-                    <input type="text" class="form-control" id="endereco" placeholder="Rua, Avenida, etc.">
+                    <input type="text" class="form-control" id="endereco" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:$street; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="numero" class="form-label">Número</label>
-                    <input type="text" class="form-control" id="numero" placeholder="Número">
+                    <input type="text" class="form-control" id="numero" placeholder="Número" value="<?= isset($number)?$number:$number; ?>">
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="bairro" class="form-label">Bairro</label>
-                    <input type="text" class="form-control" id="bairro" placeholder="Bairro">
+                    <input type="text" class="form-control" id="bairro" placeholder="Bairro" value="<?= isset($district)?$district:$district; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="municipio" class="form-label">Município</label>
-                    <input type="text" class="form-control" id="municipio" placeholder="Município">
+                    <input type="text" class="form-control" id="municipio" placeholder="Município" value="<?= isset($city)?$city:$city; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="estado" class="form-label">Estado</label>
                     <select class="form-select" id="estado">
                         <option selected>Escolha...</option>
-                        <option value="RJ">RJ</option>
-                        <option value="SP">SP</option>
-                        <option value="MG">MG</option>
-                        <!-- Adicione mais opções conforme necessário -->
+                        <option value="RJ" <?= $state === 'RJ'?'selected':''; ?>>RJ</option>
+                        <option value="SP" <?= $state === 'SP'?'selected':''; ?>>SP</option>
+                        <option value="ES" <?= $state === 'ES'?'selected':''; ?>>ES</option>
+                        <option value="MG" <?= $state === 'MG'?'selected':''; ?>>MG</option>
+                        <option value="AC" <?= $state === 'AC'?'selected':''; ?>>AC</option>
+                        <option value="AL" <?= $state === 'AL'?'selected':''; ?>>AL</option>
+                        <option value="AP" <?= $state === 'AP'?'selected':''; ?>>AP</option>
+                        <option value="AM" <?= $state === 'AM'?'selected':''; ?>>AM</option>
+                        <option value="BA" <?= $state === 'BA'?'selected':''; ?>>BA</option>
+                        <option value="CE" <?= $state === 'CE'?'selected':''; ?>>CE</option>
+                        <option value="DF" <?= $state === 'DF'?'selected':''; ?>>DF</option>
+                        <option value="GO" <?= $state === 'GO'?'selected':''; ?>>GO</option>
+                        <option value="MA" <?= $state === 'MA'?'selected':''; ?>>MA</option>
+                        <option value="MT" <?= $state === 'MT'?'selected':''; ?>>MT</option>
+                        <option value="MS" <?= $state === 'MS'?'selected':''; ?>>MS</option>
+                        <option value="PA" <?= $state === 'PA'?'selected':''; ?>>PA</option>
+                        <option value="PB" <?= $state === 'PB'?'selected':''; ?>>PB</option>
+                        <option value="PR" <?= $state === 'PR'?'selected':''; ?>>PR</option>
+                        <option value="PE" <?= $state === 'PE'?'selected':''; ?>>PE</option>
+                        <option value="PI" <?= $state === 'PI'?'selected':''; ?>>PI</option>
+                        <option value="RN" <?= $state === 'RN'?'selected':''; ?>>RN</option>
+                        <option value="RS" <?= $state === 'RS'?'selected':''; ?>>RS</option>
+                        <option value="RO" <?= $state === 'RO'?'selected':''; ?>>RO</option>
+                        <option value="RR" <?= $state === 'RR'?'selected':''; ?>>RR</option>
+                        <option value="SC" <?= $state === 'SC'?'selected':''; ?>>SC</option>
+                        <option value="SE" <?= $state === 'SE'?'selected':''; ?>>SE</option>
+                        <option value="TO" <?= $state === 'TO'?'selected':''; ?>>TO</option>
                     </select>
                 </div>
             </div>
@@ -147,11 +176,28 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="tabela" class="form-label">Tabela</label>
-                    <input type="text" class="form-control" id="tabela" value="Consumidor Final" readonly>
+                    <select class="form-select" id="tabela">
+                        <option value="consumidor-final" selected>Consumidor final</option>
+                        <option value="serralheiro" >Serralheiro</option>
+                    </select>
                 </div>
                 <div class="col-md-6">
                     <label for="condicao" class="form-label">Condição de Pagto</label>
-                    <input type="text" class="form-control" id="condicao" value="À Vista" readonly>
+                    <select class="form-select" id="condicao">
+                        <option selected>À vista</option>
+                        <option value="cartao1x">Cartão 1x</option>
+                        <option value="cartao2x">Cartão 2x</option>
+                        <option value="cartao3x">Cartão 3x</option>
+                        <option value="cartao4x">Cartão 4x</option>
+                        <option value="cartao5x">Cartão 5x</option>
+                        <option value="cartao6x">Cartão 6x</option>
+                        <option value="cartao7x">Cartão 7x</option>
+                        <option value="cartao8x">Cartão 8x</option>
+                        <option value="cartao9x">Cartão 9x</option>
+                        <option value="cartao10x">Cartão 10x</option>
+                        <option value="cartao11x">Cartão 11x</option>
+                        <option value="cartao12x">Cartão 12x</option>
+                    </select>
                 </div>
             </div>
 

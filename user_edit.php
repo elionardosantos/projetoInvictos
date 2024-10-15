@@ -108,9 +108,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <a href="delete_user.php?id=<?= $userId; ?>">
+                            <a href="delete_user_process.php?id=<?= $userId; ?>">
                                 <button type="button" class="btn btn-danger">Sim</button>
-
                             </a>
                         </div>
                     </div>
