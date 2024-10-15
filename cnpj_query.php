@@ -15,7 +15,7 @@
             <h2>Consultar CNPJ</h2>
         </p>
         
-        <form action="" method="GET">
+        <form action="new_budget.php" method="POST">
             <div class="input-group mb-3">
                 <span class="input-group-text" id="formCnpj">CNPJ</span>
                 <input type="text" name="cnpj" class="form-control" placeholder="Digite aqui" autofocus>

@@ -16,21 +16,86 @@
         </p>
     </div>
     <div class="container">
-        <a href="">
-            <button class="btn btn-primary">Consultar CNPJ</button>
+        <p>
+            <a href="cnpj_query.php">
+                <button class="btn btn-primary">Consultar CNPJ</button>
+            </a>
+        </p>
+    </div>
+    <div class="container">
+        <?php
+        cnpjQuery();
 
-        </a>
+        function cnpjQuery() {
+            global $cnpj;
+            global $companyName;
+
+            $formCnpj = isset($_POST['cnpj'])?$_POST['cnpj']:"";
+
+            //removing no numeric characters
+            $cnpj = preg_replace("/[^0-9]/", "", $formCnpj);
+
+            $url = "https://open.cnpja.com/office/$cnpj";
+
+            if($cnpj === ''){
+                echo "O CNPJ não está preenchido";
+            } else {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec($ch);
+
+                $data = json_decode($response);
+
+                if(isset($data->company->name)){
+
+                    $updated = new DateTime($data->updated);
+                    $updated2 = $updated->format('d/m/Y');
+                    $status = $data->status->text;
+                    $alias = $data->alias;
+                    $companyName = $data->company->name;
+                    $street = $data->address->street;
+                    $number = $data->address->number;
+                    $district = $data->address->district;
+                    $city = $data->address->city;
+                    $state = $data->address->state;
+                    $zip = $data->address->zip;
+                    
+                    echo "Última atualização dos dados: $updated2";
+                    
+                    echo "<div class='alert alert-success'>";
+                    echo "Status: $status <br>";
+                    echo "Nome fantasia: $alias <br>";
+                    echo "Razão Social: $companyName <br>";
+                    echo "CNPJ: $cnpj <br>";
+                    echo "Rua: $street <br>";
+                    echo "Número: $number <br>";
+                    echo "Bairro: $district <br>";
+                    echo "Cidade: $city <br>";
+                    echo "Estado: $state <br>";
+                    echo "Código postal: $zip";
+                    echo "</div>";
+                    
+                } else if($data->code === 429){
+                    echo "<div class='alert alert-danger'>Você excedeu o linite de consultas por minuto. Por favor aguarde um pouco para consultar novamente</div>";
+                }
+                else {
+                    echo "<div class='alert alert-danger'><p>Verifique se o CNPJ digitado está correto. Houve um erro na requisição dos dados</p>" . "<p>Erro: " . $response . "</p></div>";
+                }
+            }
+        }
+        ?>
     </div>
     <div class="container mt-4">
         <form>
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="cliente" class="form-label">CNPJ</label>
-                    <input type="text" class="form-control" id="cliente" placeholder="CNPJ do Cliente">
+                    <input type="text" class="form-control" id="cliente" placeholder="CNPJ do Cliente" value="<?= isset($cnpj)?$cnpj:""; ?>">
                 </div>
                 <div class="col-md-6">
                     <label for="data" class="form-label">Razão Social</label>
-                    <input type="text" class="form-control" id="data" placeholder="Razão social do Cliente">
+                    <input type="text" class="form-control" id="data" placeholder="Razão social do Cliente" value="<?= isset($companyName)?$companyName:""; ?>">
                 </div>
             </div>
             <div class="row mb-3">
@@ -44,7 +109,7 @@
                 </div>
                 <div class="col-md-3">
                     <label for="data" class="form-label">Data</label>
-                    <input type="date" class="form-control" id="data">
+                    <input type="date" class="form-control" id="data" value="<?= date('Y-m-d') ?>">
                 </div>
             </div>
             <div class="row mb-3">
