@@ -10,12 +10,10 @@
         require('partials/navbar.php');
         require('controller/only_level_2.php');
     ?>
-    <div class="container">
-        <p>
-            <div class="container">
-                <a class="btn btn-primary" href="user_registration.php">Cadastrar novo usuário</a>
-            </div>
-        </p>
+    <div class="container my-3">
+        <a href="user_registration.php" class="btn btn-primary" role="button">Cadastrar novo usuário</a>
+    </div>
+    <div class="container my-3">
         
         <?php 
 

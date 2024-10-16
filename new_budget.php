@@ -10,21 +10,15 @@
         require('partials/navbar.php');
 
     ?>
-    <div class="container">
-        <p>
-            <h2>Novo orçamento</h2>
-        </p>
+    <div class="container my-3">
+        <h2>Novo orçamento</h2>
     </div>
-    <div class="container">
-        <p>
-            <a href="cnpj_query.php">
-                <button class="btn btn-primary">Consultar CNPJ</button>
-            </a>
-        </p>
+    <div class="container my-3">
+        <a href="cnpj_query.php" class="btn btn-primary" role="button">Consultar CNPJ</a>
     </div>
     <div class="container">
         <?php
-        cnpjQuery();
+        isset($_POST['cnpj'])?cnpjQuery():"";
 
         function cnpjQuery() {
             global $cnpj;
@@ -95,18 +89,8 @@
     <div class="container mt-4">
         <form action="new_budget_process.php" method="POST">
             <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="cliente" class="form-label">CNPJ</label>
-                    <input type="text" class="form-control" id="cliente" placeholder="CNPJ do Cliente" value="<?= isset($cnpj)?$cnpj:""; ?>">
-                </div>
-                <div class="col-md-6">
-                    <label for="data" class="form-label">Razão Social</label>
-                    <input type="text" class="form-control" id="data" placeholder="Razão social do Cliente" value="<?= isset($companyName)?$companyName:""; ?>">
-                </div>
-            </div>
-            <div class="row mb-3">
                 <div class="col-md-5">
-                    <label for="cliente" class="form-label">Cliente</label>
+                    <label for="cliente" class="form-label">Nome</label>
                     <input type="text" class="form-control" id="cliente" placeholder="Nome do Cliente">
                 </div>
                 <div class="col-md-4">
@@ -116,6 +100,16 @@
                 <div class="col-md-3">
                     <label for="data" class="form-label">Data</label>
                     <input type="date" class="form-control" id="data" value="<?= date('Y-m-d') ?>">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="cliente" class="form-label">CNPJ</label>
+                    <input type="text" class="form-control" id="cliente" placeholder="CNPJ do Cliente" value="<?= isset($cnpj)?$cnpj:""; ?>">
+                </div>
+                <div class="col-md-6">
+                    <label for="data" class="form-label">Razão Social</label>
+                    <input type="text" class="form-control" id="data" placeholder="Razão social do Cliente" value="<?= isset($companyName)?$companyName:""; ?>">
                 </div>
             </div>
             <div class="row mb-3">

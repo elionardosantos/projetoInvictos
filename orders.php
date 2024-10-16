@@ -10,11 +10,8 @@
         require('partials/navbar.php');
 
     ?>
-    <div class="container">
-        <p>
-            <h2>Pedidos</h2>
-        </p>
-
+    <div class="container my-3">
+        <h2>Pedidos</h2>
     </div>
 </body>
 </html>

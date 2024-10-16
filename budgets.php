@@ -10,11 +10,14 @@
         require('partials/navbar.php');
 
     ?>
-    <div class="container">
-        <p>
-            <h2>Orçamentos</h2>
-        </p>
+    <div class="container my-3">
+        <h2 class="">Orçamentos</h2>
     </div>
+    <div class="container my-3">
+        <a href="new_budget.php" class="btn btn-primary" role="button">Novo</a>
+        <a href="cnpj_query.php" class="btn btn-primary" role="button">Consulta CNPJ</a>    
+    </div>
+
     <div class="container">
         <table class="table table-striped">
             <thead>

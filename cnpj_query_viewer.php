@@ -14,7 +14,7 @@
         <h2>Consultar CNPJ</h2>
     </div>
     <div class="container my-3">
-        <form action="new_budget.php" method="POST">
+        <form action="" method="GET">
             <div class="input-group mb-3">
                 <span class="input-group-text" id="formCnpj">CNPJ</span>
                 <input type="text" name="cnpj" class="form-control" placeholder="Digite aqui" autofocus>
@@ -44,7 +44,8 @@
 
             if(isset($data->company->name)){
 
-                $updated = $data->updated;
+                $updatedString = $data->updated;
+                $updated = date('d/m/Y', strtotime($updatedString));
                 $status = $data->status->text;
                 $alias = $data->alias;
                 $companyName = $data->company->name;

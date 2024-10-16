@@ -10,14 +10,12 @@
         require('partials/navbar.php');
 
     ?>
-    <div class="container">
-        <p>
-            <h2>Início</h2>
-        </p>
+    <div class="container my-3">
+        <h2>Início</h2>
         <p>
         <?php
             date_default_timezone_set('America/Sao_Paulo');
-            echo $dataHoraAtual = date('Y-m-d');
+            echo $dataHoraAtual = date('d/m/Y');
         ?>
         </p>
 

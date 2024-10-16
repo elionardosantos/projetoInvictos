@@ -9,20 +9,14 @@
         <li class="nav-item">
           <a class="nav-link" href="index.php">Home</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Orçamentos
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="new_budget.php">Novo</a></li>
-            <li><a class="dropdown-item" href="budgets.php">Histórico</a></li>
-          </ul>
+        <li class="nav-item">
+          <a class="nav-link" href="budgets.php">Orçamentos</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="orders.php">Pedidos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="cnpj_query.php">Consulta CNPJ</a>
+          <a class="nav-link" href="cnpj_query_viewer.php">Consulta CNPJ</a>
         </li>
         <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
