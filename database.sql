@@ -51,10 +51,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `email`, `name`, `password`, `level`, `deleted`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
 (1, 'admin@admin', 'Usuário Administrador', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 2, 0, NULL, NULL, NULL, NULL, NULL, NULL),
 (2, 'usuario@usuario', 'Usuario Comum', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 'inativo@inativo', 'Usuário Inativo', 'aefdde27979f6c25eff519ea4623b5ff21fd143dc9b0943e122de0a53ac9fdbd', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 'deletado@deletado', 'Usuario Deletado', '8a1491af3660be97f687a85ef8aace49723987219a75febeb3a0673a99e2def0', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
-(35, 'elionars@gmail.com', 'Elionardo S Santos', 'c60df4beb6ded3fb6616d30cb83075933d20f8e5141227b6853ed4e93ab94379', 0, 1, 1, '2024-10-12 20:58:46', NULL, NULL, NULL, NULL),
-(36, 'elionars@gmail.com', 'Elionardo S Santos', 'ac8f355d0a1b1a561f96273d3f730fd2563d9e1a17e5644391aa0651d28c2196', 2, 0, 1, '2024-10-12 18:07:00', NULL, NULL, NULL, NULL);
+(3, 'inativo@inativo', 'Usuário Inativo', 'aefdde27979f6c25eff519ea4623b5ff21fd143dc9b0943e122de0a53ac9fdbd', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Índices para tabelas despejadas

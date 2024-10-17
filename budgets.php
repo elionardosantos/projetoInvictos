@@ -17,7 +17,19 @@
         <a href="new_budget.php" class="btn btn-primary" role="button">Novo</a>
         <a href="cnpj_query.php" class="btn btn-primary" role="button">Consulta CNPJ</a>    
     </div>
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col">
+                <label for="initialDate">Data inicial</label>
+                <input type="date" class="form-control" name="datainicial" id="initialDate" value="">
+            </div>
+            <div class="col">
+                <label for="endDate">Data Final</label>
+                <input type="date" class="form-control" name="datafinal" id="endDate" value="">
+            </div>
+        </div>
 
+    </div>
     <div class="container">
         <table class="table table-striped">
             <thead>
