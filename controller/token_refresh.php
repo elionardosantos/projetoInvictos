@@ -2,15 +2,17 @@
 // POST request to the /token endpoint with authorization_code,
 // If authorization_code were valid, the token code are going to be returned
 
-$jsonFile = file_get_contents('config/credentials.json');
-$jsonData = json_decode($jsonFile, true);
+$jsonFileCredentials = file_get_contents('config/credentials.json');
+$jsonDataCredentials = json_decode($jsonFileCredentials, true);
 
+$jsonFileToken = file_get_contents('config/token_request_response.json');
+$jsonDataToken = json_decode($jsonFileToken, true);
 
-$client_id = isset($jsonData['client_id'])?$jsonData['client_id']:""; 
-$client_secret = isset($jsonData['client_secret'])?$jsonData['client_secret']:"";
+$client_id = isset($jsonDataCredentials['client_id'])?$jsonDataCredentials['client_id']:""; 
+$client_secret = isset($jsonDataCredentials['client_secret'])?$jsonDataCredentials['client_secret']:"";
 $authorization_url = 'https://api.bling.com.br/Api/v3/oauth/authorize';
 $token_url = 'https://api.bling.com.br/v3/oauth/token';
-$code = isset($_GET['code'])?$_GET['code']:"";
+$refreshToken = isset($jsonDataToken['refresh_token'])?$jsonDataToken['refresh_token']:"";
 $state = isset($_GET['state'])?$_GET['state']:"";
 
 $credentials64 = base64_encode("$client_id:$client_secret");
@@ -26,8 +28,8 @@ $headers = array(
 
 // Sending data by POST
 $data = array(
-    'grant_type' => 'authorization_code',
-    'code' => $code
+    'grant_type' => 'refresh_token',
+    'refresh_token' => $refreshToken
 );
 
 // Setting cURL options
@@ -56,8 +58,8 @@ if(curl_errno($cURL)) {
         //echo "<p> $response </p>";
         // echo "<center>Acesso autorizado</center>";
     } else {
-        echo "<p><center><h2>Erro na conexão com o Bling</h2></center></p>";
-        echo "<p><center>$response</center></p>";
+        echo "<p>Erro na conexão com o Bling</p>";
+        echo "<p>$response</p>";
         die();
     }
 

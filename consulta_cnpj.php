@@ -14,12 +14,13 @@
         <h2>Consultar CNPJ</h2>
     </div>
     <div class="container my-3">
-        <form action="new_budget.php" method="POST">
+        <form action="novo_orcamento.php" method="POST">
             <div class="input-group mb-3">
                 <span class="input-group-text" id="formCnpj">CNPJ</span>
                 <input type="text" name="cnpj" class="form-control" placeholder="Digite aqui" autofocus>
             </div>
             <input type="submit" class="btn btn-primary" value="Consultar">
+            <a href="novo_orcamento.php" class="btn btn-primary">Voltar</a>
         </form>
     </div>
     <div class="container">

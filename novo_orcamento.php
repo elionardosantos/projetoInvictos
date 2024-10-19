@@ -14,7 +14,7 @@
         <h2>Novo orçamento</h2>
     </div>
     <div class="container my-3">
-        <a href="cnpj_query.php" class="btn btn-primary" role="button">Consultar CNPJ</a>
+        <a href="consulta_cnpj.php" class="btn btn-primary" role="button">Consultar CNPJ</a>
     </div>
     <div class="container">
         <?php
@@ -194,8 +194,10 @@
                     </select>
                 </div>
             </div>
-
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Enviar</button>
+                <a href="orcamentos.php" class="btn btn-primary mx-2">Voltar</a>
+            </div>
         </form>
     </div>
 </body>
