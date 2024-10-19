@@ -14,7 +14,7 @@
     <div class="container">
         <p><h2>Cadastrar usuário</h2></p>
         <?= isset($screenMessage)?$screenMessage:"" ?>
-        <form action="user_registration_process.php" method="post">
+        <form action="cadastrar_usuario_process.php" method="post">
             <div class="input-group mb-3">
                 <span class="input-group-text col-sm-1 col-3">Nome</span>
                 <input type="text" class="form-control" placeholder="Digite o nome" name="formName">
@@ -37,9 +37,10 @@
                     </select>
                 </div>
             </div>
-            <p>
+            <div class="mt-4">
                 <button type="submit" class="btn btn-primary">Cadastrar usuário</button>
-            </p>
+                <a class="btn btn-primary" href="listar_usuarios.php">Voltar</a>
+            </div>
         </form>
 
     </div>

@@ -71,7 +71,7 @@
     <div class="container">
         <p><h2>Cadastrar usuário</h2></p>
         <?= isset($screenMessage)?$screenMessage:"" ?>
-        <a href="user_registration.php">
+        <a href="cadastrar_usuario.php">
             <button class="btn btn-primary">Voltar</button>
         </a>
     </div>

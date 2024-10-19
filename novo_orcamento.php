@@ -115,22 +115,22 @@
             <div class="row mb-3">
                 <div class="col-md-8">
                     <label for="endereco" class="form-label">Endereço</label>
-                    <input type="text" class="form-control" id="endereco" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:$street; ?>">
+                    <input type="text" class="form-control" id="endereco" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="numero" class="form-label">Número</label>
-                    <input type="text" class="form-control" id="numero" placeholder="Número" value="<?= isset($number)?$number:$number; ?>">
+                    <input type="text" class="form-control" id="numero" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="bairro" class="form-label">Bairro</label>
-                    <input type="text" class="form-control" id="bairro" placeholder="Bairro" value="<?= isset($district)?$district:$district; ?>">
+                    <input type="text" class="form-control" id="bairro" placeholder="Bairro" value="<?= isset($district)?$district:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="municipio" class="form-label">Município</label>
-                    <input type="text" class="form-control" id="municipio" placeholder="Município" value="<?= isset($city)?$city:$city; ?>">
+                    <input type="text" class="form-control" id="municipio" placeholder="Município" value="<?= isset($city)?$city:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="estado" class="form-label">Estado</label>

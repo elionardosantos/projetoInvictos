@@ -15,7 +15,7 @@
     </div>
     <div class="container my-3">
         
-        <form action="change_password_process.php" method="post">
+        <form action="alterar_senha_process.php" method="post">
             <div class="input-group mb-3">
                 <span class="input-group-text col-sm-3 col-lg-2 col-3 is-invalid">Senha atual</span>
                 <input autofocus type="password" class="form-control <?= $currentPasswordFormStyle ?>" placeholder="Digite a senha atual" name="formCurrentPassword" required>

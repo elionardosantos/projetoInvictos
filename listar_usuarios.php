@@ -11,7 +11,7 @@
         require('controller/only_level_2.php');
     ?>
     <div class="container my-3">
-        <a href="user_registration.php" class="btn btn-primary" role="button">Cadastrar novo usuário</a>
+        <a href="cadastrar_usuario.php" class="btn btn-primary" role="button">Cadastrar novo usuário</a>
     </div>
     <div class="container my-3">
         
@@ -58,7 +58,7 @@
                                             echo "<td>$userEmail</td>";
                                             echo "<td>$userStatus</td>";
                                             // echo "<td>$userPass</td>";
-                                            echo "<td><a href=\"user_edit.php?id=$userId\" class=\"btn btn-primary btn-sm\">Editar</a></td>";
+                                            echo "<td><a href=\"editar_usuario.php?id=$userId\" class=\"btn btn-primary btn-sm\">Editar</a></td>";
                                             echo "</tr>";
                                         }
                                     }

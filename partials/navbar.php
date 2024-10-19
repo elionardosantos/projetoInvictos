@@ -10,13 +10,13 @@
           <a class="nav-link" href="index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="budgets.php">Orçamentos</a>
+          <a class="nav-link" href="orcamentos.php">Orçamentos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="orders.php">Pedidos</a>
+          <a class="nav-link" href="pedidos.php">Pedidos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="cnpj_query_viewer.php">Consulta CNPJ</a>
+          <a class="nav-link" href="consulta_cnpj_visualizacao.php">Consulta CNPJ</a>
         </li>
         <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -38,7 +38,7 @@
               Admin
             </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="users_list.php">Usuários</a></li>
+            <li><a class="dropdown-item" href="listar_usuarios.php">Usuários</a></li>
           </ul>
 
         <?php 
@@ -52,7 +52,7 @@
             <?= isset($_SESSION['loggedUserName'])?$_SESSION['loggedUserName']:"Usuário"; ?>
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="change_password.php">Trocar Senha</a></li>
+            <li><a class="dropdown-item" href="alterar_senha.php">Trocar Senha</a></li>
           </ul>
         </li>
         <li class="nav-item">

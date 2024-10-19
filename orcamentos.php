@@ -14,20 +14,31 @@
         <h2 class="">Orçamentos</h2>
     </div>
     <div class="container my-3">
-        <a href="new_budget.php" class="btn btn-primary" role="button">Novo</a>
-        <a href="cnpj_query.php" class="btn btn-primary" role="button">Consulta CNPJ</a>    
+        <a href="novo_orcamento.php" class="btn btn-primary" role="button">Novo</a>
+        <a href="consulta_cnpj.php" class="btn btn-primary" role="button">Consulta CNPJ</a>    
     </div>
     <div class="container mb-4">
-        <div class="row">
-            <div class="col">
-                <label for="initialDate">Data inicial</label>
-                <input type="date" class="form-control" name="datainicial" id="initialDate" value="">
+        <form action="" method="get">
+            <div class="row">
+                <div class="col">
+                    <label for="initialDate">Data inicial</label>
+                    <input type="date" class="form-control" name="datainicial" id="initialDate" value="">
+                </div>
+                <div class="col">
+                    <label for="endDate">Data Final</label>
+                    <input type="date" class="form-control" name="datafinal" id="endDate" value="">
+                </div>
+                <div class="col">
+                    <label for="name">Nome</label>
+                    <input type="text" class="form-control" name="name" id="name">
+                </div>
+                <div class="col">
+                    <label for="budget">Orçamento</label>
+                    <input type="number" class="form-control" name="budget" id="budget">
+                </div>
             </div>
-            <div class="col">
-                <label for="endDate">Data Final</label>
-                <input type="date" class="form-control" name="datafinal" id="endDate" value="">
-            </div>
-        </div>
+        </form>
+
 
     </div>
     <div class="container">
