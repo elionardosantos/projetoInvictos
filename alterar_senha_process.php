@@ -80,7 +80,7 @@
 
         <?= $screenMessage; ?>
                 
-        <a href="change_password.php">
+        <a href="alterar_senha.php">
             <button class="btn btn-primary mb-3">Voltar</button>
         </a>
 

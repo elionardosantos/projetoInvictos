@@ -58,8 +58,7 @@ if(curl_errno($cURL)) {
         //echo "<p> $response </p>";
         // echo "<center>Acesso autorizado</center>";
     } else {
-        echo "<p>Erro na conexão com o Bling</p>";
-        echo "<p>$response</p>";
+        echo "<p>Erro na conexão com o Bling: $response</p>";
         die();
     }
 

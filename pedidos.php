@@ -9,7 +9,7 @@
         require('controller/login_checker.php');
         require('partials/navbar.php');
 
-        $dataInicial = isset($_GET['dataInicial'])?$_GET['dataInicial']:date('Y-m-d',strtotime('-2 days'));
+        $dataInicial = isset($_GET['dataInicial'])?$_GET['dataInicial']:date('Y-m-d',strtotime('-7 days'));
         $dataFinal = isset($_GET['dataFinal'])?$_GET['dataFinal']:date('Y-m-d');
         $numeroPedido = isset($_GET['numeroPedido'])?$_GET['numeroPedido']:"";
         $nomePedido = isset($_GET['nomePedido'])?$_GET['nomePedido']:"";
@@ -92,11 +92,12 @@
                                             foreach($data['data'] as $row){
                                                 $pedido = $row['numero'];
 
-                                                //Abrir o orçamento ao clincar na linha do pedido [Ainda não implementado]
-                                                echo "<tr onclick=\"window.location.href='#';\" style=\"cursor: pointer;\">";
-                                                
+                                                //Abrir o orçamento em uma nova guia ao clincar na linha do pedido
+                                                echo "<tr onclick=\"window.open('orcamento_visualizacao.php?numero=$pedido', '_blank');\" style=\"cursor: pointer;\">";
+
+
                                                 echo "<td>" . $row['numero'] . "</td>";
-                                                echo "<td>" . $row['data'] . "</td>";
+                                                echo "<td>" . date('d/m/Y', strtotime($row['data'])) . "</td>";
                                                 echo "<td>" . $row['contato']['nome'] . "</td>";
                                                 echo "<td>R$" . number_format($row['total'], 2, ',', '.') . "</td>";
                                                 echo "<td>" . "-" . "</td>";
