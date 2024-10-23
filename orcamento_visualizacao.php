@@ -2,10 +2,13 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Início</title>
+    <title>Orçamento</title>
     <style>
         body {
             margin: 5px;
+            
+            max-width: 800px;
+            margin: 0 auto;
         }
         @media print {
             body {
@@ -15,12 +18,12 @@
         }
     </style>
 </head>
-<body onload="window.print()">
+<body><!--onload="window.print()"-->
     <?php
         require('controller/login_checker.php');
     ?>
-    <div class="py-2 px-5 mb-4 d-print-none">
-        <a href="" class="btn btn-primary" onclick="window.close()">Voltar</a>
+    <div class="py-2 mb-4 d-print-none">
+        <a href="" class="btn btn-primary" onclick="window.close()">Fechar</a>
         <a href="" class="btn btn-primary">Editar</a>
         <a href="" class="btn btn-primary" onclick="window.print()">Imprimir</a>
     </div>
@@ -215,17 +218,17 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    <div>
-        <p class="fs-7">
-            Este orçamento poderá ter variação para mais ou para menos em seu valor final, pois após aprovação, um dos profissionais da Invictos Portas irá até o seu estabelecimento fazer a conferência das medidas, para que sua porta de enrolar seja fabricada na medida exata.
-        </p>
-        <p class="text-center">
-            C S Silva Portas Automáticas LTDA / Rua Ceará, 310, Fazenda Sobradinho, Magé/RJ, CEP: 25.932-145
-        </p>
-        <p class="text-center">
-            (21) 97200-1200 / (21) 99827-2006 <br>@invictosportasautomaticas / admin@invictosportas.com.br
-        </p>
+        <div>
+            <p class="fs-7">
+                Este orçamento poderá ter variação para mais ou para menos em seu valor final, pois após aprovação, um dos profissionais da Invictos Portas irá até o seu estabelecimento fazer a conferência das medidas, para que sua porta de enrolar seja fabricada na medida exata.
+            </p>
+            <p class="text-center">
+                C S Silva Portas Automáticas LTDA / Rua Ceará, 310, Fazenda Sobradinho, Magé/RJ, CEP: 25.932-145
+            </p>
+            <p class="text-center">
+                (21) 97200-1200 / (21) 99827-2006 <br>@invictosportasautomaticas / admin@invictosportas.com.br
+            </p>
+        </div>
     </div>
 </body>
 </html>

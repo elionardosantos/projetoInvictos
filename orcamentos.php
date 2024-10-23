@@ -97,12 +97,11 @@
                                                 //Abrir o orçamento em uma nova guia ao clincar na linha do pedido
                                                 echo "<tr onclick=\"window.open('orcamento_visualizacao.php?numero=$pedido', '_blank');\" style=\"cursor: pointer;\">";
 
-
                                                 echo "<td>" . $row['numero'] . "</td>";
                                                 echo "<td>" . date('d/m/Y', strtotime($row['data'])) . "</td>";
                                                 echo "<td>" . $row['contato']['nome'] . "</td>";
                                                 echo "<td>R$" . number_format($row['total'], 2, ',', '.') . "</td>";
-                                                echo "<td>" . "-" . "</td>";
+                                                echo "<td>" . "----" . "</td>";
                                                 echo "</tr>";
                                             }
                                         ?>

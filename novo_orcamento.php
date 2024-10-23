@@ -87,31 +87,28 @@
         ?>
     </div>
     <div class="container mt-4">
-        <form action="new_budget_process.php" method="POST">
+        <form action="novo_orcamento_process.php" method="POST">
+
+            <div class="my-4"><h4>Dados cadastrais</h4></div>
             <div class="row mb-3">
                 <div class="col-md-5">
-                    <label for="cliente" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="cliente" placeholder="Nome do Cliente">
-                </div>
+                    <label for="cliente" class="form-label">Nome completo / Razão social</label>
+                    <input type="text" class="form-control" id="cliente" placeholder="Nome completo">
+                </div>                
                 <div class="col-md-4">
-                    <label for="cliente" class="form-label">CPF</label>
-                    <input type="number" class="form-control" id="cliente" placeholder="CPF">
+                    <label for="cliente" class="form-label">CPF/CNPJ</label>
+                    <input type="text" class="form-control" id="cliente" placeholder="CPF ou CNPJ" value="<?= isset($cnpj)?$cnpj:""; ?>">
                 </div>
                 <div class="col-md-3">
-                    <label for="data" class="form-label">Data</label>
-                    <input type="date" class="form-control" id="data" value="<?= date('Y-m-d') ?>">
+                    <label for="tipodepessoa" class="form-label">Tipo de pessoa</label>
+                    <select class="form-select" id="tipodepessoa">
+                        <option value="j">Pessoa jurídica</option>
+                        <option value="f">Pessoa física</option>
+                    </select>
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="cliente" class="form-label">CNPJ</label>
-                    <input type="text" class="form-control" id="cliente" placeholder="CNPJ do Cliente" value="<?= isset($cnpj)?$cnpj:""; ?>">
-                </div>
-                <div class="col-md-6">
-                    <label for="data" class="form-label">Razão Social</label>
-                    <input type="text" class="form-control" id="data" placeholder="Razão social do Cliente" value="<?= isset($companyName)?$companyName:""; ?>">
-                </div>
-            </div>
+
+            <div class="my-4"><h4>Endereço</h4></div>
             <div class="row mb-3">
                 <div class="col-md-8">
                     <label for="endereco" class="form-label">Endereço</label>
@@ -122,7 +119,6 @@
                     <input type="text" class="form-control" id="numero" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
                 </div>
             </div>
-
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="bairro" class="form-label">Bairro</label>
@@ -135,7 +131,7 @@
                 <div class="col-md-4">
                     <label for="estado" class="form-label">Estado</label>
                     <select class="form-select" id="estado">
-                        <option selected>Escolha...</option>
+                        <!-- <option selected>Escolha...</option> -->
                         <option value="RJ" <?= $state === 'RJ'?'selected':''; ?>>RJ</option>
                         <option value="SP" <?= $state === 'SP'?'selected':''; ?>>SP</option>
                         <option value="ES" <?= $state === 'ES'?'selected':''; ?>>ES</option>
@@ -166,7 +162,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="tabela" class="form-label">Tabela</label>
@@ -194,6 +189,24 @@
                     </select>
                 </div>
             </div>
+            
+            <!-- Add email, telefone -->
+            <div class="my-4"><h4>Contato</h4></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="form-label" for="tel">Telefone</label>
+                    <input class="form-control" type="tel" name="tel" id="tel">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="cel">Celular</label>
+                    <input class="form-control" type="tel" name="cel" id="cel">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="email">email</label>
+                    <input class="form-control" type="email" name="email" id="email">
+                </div>
+            </div>
+
             <div class="mt-4">
                 <button type="submit" class="btn btn-primary">Enviar</button>
                 <a href="orcamentos.php" class="btn btn-primary mx-2">Voltar</a>
