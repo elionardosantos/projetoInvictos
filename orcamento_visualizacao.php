@@ -21,6 +21,77 @@
 <body><!--onload="window.print()"-->
     <?php
         require('controller/login_checker.php');
+        $numeroPedido = isset($_GET['numero'])?$_GET['numero']:"";
+        $urlData = "&numero=".$numeroPedido;
+
+        //Pega as informações do pedido via API para preencher o orçamento
+        orderDataQuery();
+        function orderDataQuery(){
+            global $urlData;
+            $jsonFile = file_get_contents('config/token_request_response.json');
+            $jsonData = json_decode($jsonFile, true);
+            $endPoint = "https://api.bling.com.br/Api/v3/pedidos/vendas?$urlData";
+            $token = isset($jsonData['access_token'])?$jsonData['access_token']:"No";
+            
+            $cURL = curl_init($endPoint);
+            $headers = array(
+                'Authorization: Bearer '.$token
+            );
+            curl_setopt($cURL, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($cURL);
+            $data = json_decode($response, true);
+            
+            //verify and refresh token
+            if(isset($data['error']['type']) && $data['error']['type'] === "invalid_token"){
+                require('controller/token_refresh.php');
+                echo "<p>Token atualizado</p>";
+                ordersQuery();
+                curl_close($cURL);
+            } else if($data['data'] == null) {
+                echo "<hr>Nenhum pedido encontrado baseado nos filtros atuais";
+                curl_close($cURL);
+            } else {
+                // echo $response;
+                foreach($data['data'] as $row){
+                    global $clienteNome;
+                    global $clienteId;
+                    global $data;
+
+                    $clienteNome = isset($row['contato']['nome'])?$row['contato']['nome']:"";
+                    $clienteId = isset($row['contato']['id'])?$row['contato']['id']:"";
+                    $data = isset($row['data'])?date('d/m/Y',strtotime($row['data'])):"";
+                }
+                curl_close($cURL);
+            }
+        }
+
+        //Pega as informações do cliente via API para preencher o orçamento
+        customerQuery();
+        function customerQuery() {
+            global $clienteId;
+
+            $jsonFile = file_get_contents('config/token_request_response.json');
+            $jsonData = json_decode($jsonFile, true);
+            $endPoint = "https://api.bling.com.br/Api/v3/contatos?idsContatos[]=$clienteId";
+            echo $token = isset($jsonData['access_token'])?$jsonData['access_token']:"No";
+
+            $cURL = curl_init($endPoint);
+            $headers = array(
+                'Authorization Bearer'.$token
+            );
+            curl_setopt($cURL, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($cURL);
+            $data = json_decode($response, true);
+
+            echo "<p>$clienteId</p>";
+            
+            echo "<p>$response</p>";
+        }
+
+
+
     ?>
     <div class="py-2 mb-4 d-print-none">
         <a href="" class="btn btn-primary" onclick="window.close()">Fechar</a>
@@ -33,21 +104,21 @@
             <!-- Dados do cliente -->
             <div class="col-8">
                 <div class="row">
-                    <div class="col">Cliente: <strong>Nome do cliente</strong></div>
+                    <div class="col">Cliente: <strong><?= $clienteNome ?></strong></div>
                 </div>
                 <div class="row">
-                    <div class="col">Endereço: <strong>Endereço do cliente</strong></div>
+                    <div class="col">Endereço: <strong>-</strong></div>
                 </div>
                 <div class="row">
-                    <div class="col">Bairro: <strong>Bairro de Exemplo</strong></div>
-                    <div class="col-4">Número: <strong>1234</strong></div>
+                    <div class="col">Bairro: <strong>-</strong></div>
+                    <div class="col-4">Número: <strong>-</strong></div>
                 </div>
                 <div class="row">
-                    <div class="col-8">Município: <strong>Município do Cliente</strong></div>
-                    <div class="col-4">Estado: <strong>RJ</strong></div>
+                    <div class="col-8">Município: <strong>-</strong></div>
+                    <div class="col-4">Estado: <strong>-</strong></div>
                 </div>
                 <div class="row">
-                    <div class="col">Data: <strong>21/10/2024</strong></div>
+                    <div class="col">Data: <strong><?= $data ?></strong></div>
                 </div>
             </div>
 
@@ -60,7 +131,7 @@
         <!-- Número do orçamento -->
         <div class="row mt-3 mx-0 bg-dark text-white">
             <div class="col text-center fs-5">
-                Número do orçamento: <strong>123456</strong>
+                Número do orçamento: <strong><?= $numeroPedido ?></strong>
             </div>
         </div>
         
@@ -230,5 +301,6 @@
             </p>
         </div>
     </div>
+    <?= $dados ?>
 </body>
 </html>

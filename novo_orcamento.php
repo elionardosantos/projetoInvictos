@@ -8,7 +8,6 @@
     <?php
         require('controller/login_checker.php');
         require('partials/navbar.php');
-
     ?>
     <div class="container my-3">
         <h2>Novo orçamento</h2>
@@ -18,72 +17,71 @@
     </div>
     <div class="container">
         <?php
-        isset($_POST['cnpj'])?cnpjQuery():"";
+            isset($_POST['cnpj'])?cnpjQuery():"";
+            function cnpjQuery() {
+                global $cnpj;
+                global $companyName;
+                global $street;
+                global $number;
+                global $district;
+                global $city;
+                global $state;
 
-        function cnpjQuery() {
-            global $cnpj;
-            global $companyName;
-            global $street;
-            global $number;
-            global $district;
-            global $city;
-            global $state;
+                $formCnpj = isset($_POST['cnpj'])?$_POST['cnpj']:"";
 
-            $formCnpj = isset($_POST['cnpj'])?$_POST['cnpj']:"";
+                //removing no numeric characters
+                $cnpj = preg_replace("/[^0-9]/", "", $formCnpj);
 
-            //removing no numeric characters
-            $cnpj = preg_replace("/[^0-9]/", "", $formCnpj);
+                $url = "https://open.cnpja.com/office/$cnpj";
 
-            $url = "https://open.cnpja.com/office/$cnpj";
+                if($cnpj === ''){
+                    // echo "O CNPJ não está preenchido";
+                } else {
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $response = curl_exec($ch);
 
-            if($cnpj === ''){
-                // echo "O CNPJ não está preenchido";
-            } else {
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $response = curl_exec($ch);
+                    $data = json_decode($response);
 
-                $data = json_decode($response);
+                    if(isset($data->company->name)){
 
-                if(isset($data->company->name)){
-
-                    $updated = new DateTime($data->updated);
-                    $updated2 = $updated->format('d/m/Y');
-                    $status = $data->status->text;
-                    $alias = $data->alias;
-                    $companyName = $data->company->name;
-                    $street = $data->address->street;
-                    $number = $data->address->number;
-                    $district = $data->address->district;
-                    $city = $data->address->city;
-                    $state = $data->address->state;
-                    $zip = $data->address->zip;
-                    
-                    echo "Última atualização dos dados: $updated2";
-                    
-                    /*
-                    echo "<div class='alert alert-success'>";
-                    echo "Status: $status <br>";
-                    echo "Nome fantasia: $alias <br>";
-                    echo "Razão Social: $companyName <br>";
-                    echo "CNPJ: $cnpj <br>";
-                    echo "Rua: $street <br>";
-                    echo "Número: $number <br>";
-                    echo "Bairro: $district <br>";
-                    echo "Município: $city <br>";
-                    echo "Estado: $state <br>";
-                    echo "Código postal: $zip";
-                    echo "</div>";
-                    */
-                } else if($data->code === 429){
-                    echo "<div class='alert alert-danger'>Você excedeu o linite de consultas por minuto. Por favor aguarde um pouco para consultar novamente</div>";
-                }
-                else {
-                    echo "<div class='alert alert-danger'><p>Verifique se o CNPJ digitado está correto. Houve um erro na requisição dos dados</p>" . "<p>Erro: " . $response . "</p></div>";
+                        $updated = new DateTime($data->updated);
+                        $updated2 = $updated->format('d/m/Y');
+                        $status = $data->status->text;
+                        $alias = $data->alias;
+                        $companyName = $data->company->name;
+                        $street = $data->address->street;
+                        $number = $data->address->number;
+                        $district = $data->address->district;
+                        $city = $data->address->city;
+                        $state = $data->address->state;
+                        $zip = $data->address->zip;
+                        
+                        echo "Última atualização dos dados: $updated2";
+                        
+                        /*
+                        echo "<div class='alert alert-success'>";
+                        echo "Status: $status <br>";
+                        echo "Nome fantasia: $alias <br>";
+                        echo "Razão Social: $companyName <br>";
+                        echo "CNPJ: $cnpj <br>";
+                        echo "Rua: $street <br>";
+                        echo "Número: $number <br>";
+                        echo "Bairro: $district <br>";
+                        echo "Município: $city <br>";
+                        echo "Estado: $state <br>";
+                        echo "Código postal: $zip";
+                        echo "</div>";
+                        */
+                    } else if($data->code === 429){
+                        echo "<div class='alert alert-danger'>Você excedeu o limite de consultas por minuto. Por favor aguarde um pouco para consultar novamente</div>";
+                    }
+                    else {
+                        echo "<div class='alert alert-danger'><p>Verifique se o CNPJ digitado está correto. Houve um erro na requisição dos dados</p>" . "<p>Erro: " . $response . "</p></div>";
+                    }
                 }
             }
-        }
         ?>
     </div>
     <div class="container mt-4">
@@ -102,8 +100,8 @@
                 <div class="col-md-3">
                     <label for="tipodepessoa" class="form-label">Tipo de pessoa</label>
                     <select class="form-select" id="tipodepessoa">
-                        <option value="j">Pessoa jurídica</option>
-                        <option value="f">Pessoa física</option>
+                        <option value="J">Pessoa jurídica</option>
+                        <option value="F">Pessoa física</option>
                     </select>
                 </div>
             </div>

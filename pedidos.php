@@ -22,11 +22,11 @@
     <div class="container mb-4">
         <form action="" method="get">
             <div class="row">
-                <div class="col">
+                <div class="col-sm-4">
                     <label for="dataInicial">Data inicial</label>
                     <input type="date" class="form-control" name="dataInicial" id="dataInicial" value="<?= $dataInicial ?>">
                 </div>
-                <div class="col">
+                <div class="col-sm-4">
                     <label for="dataFinal">Data Final</label>
                     <input type="date" class="form-control" name="dataFinal" id="dataFinal" value="<?= $dataFinal ?>">
                 </div>
@@ -34,7 +34,7 @@
                     <label for="nomePedido">Nome</label>
                     <input type="text" class="form-control" name="nomePedido" id="nomePedido" value="<?= $nomePedido ?>">
                 </div> -->
-                <div class="col">
+                <div class="col-sm-4">
                     <label for="numeroPedido">Número do pedido</label>
                     <input type="number" class="form-control" name="numeroPedido" id="numeroPedido" value="<?= $numeroPedido ?>">
                 </div>
@@ -42,6 +42,8 @@
             <div class="row mt-4">
                 <div class="col">
                     <input type="submit" value="Buscar" class="btn btn-primary">
+                <a href="novo_orcamento.php" class="btn btn-primary ms-4" role="button">Novo</a>
+                <a href="consulta_cnpj.php" class="btn btn-primary" role="button">Consulta CNPJ</a>
                 </div>
             </div>
         </form>
@@ -95,12 +97,11 @@
                                                 //Abrir o orçamento em uma nova guia ao clincar na linha do pedido
                                                 echo "<tr onclick=\"window.open('orcamento_visualizacao.php?numero=$pedido', '_blank');\" style=\"cursor: pointer;\">";
 
-
                                                 echo "<td>" . $row['numero'] . "</td>";
                                                 echo "<td>" . date('d/m/Y', strtotime($row['data'])) . "</td>";
                                                 echo "<td>" . $row['contato']['nome'] . "</td>";
                                                 echo "<td>R$" . number_format($row['total'], 2, ',', '.') . "</td>";
-                                                echo "<td>" . "-" . "</td>";
+                                                echo "<td>" . "----" . "</td>";
                                                 echo "</tr>";
                                             }
                                         ?>
