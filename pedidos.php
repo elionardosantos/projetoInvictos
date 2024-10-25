@@ -92,10 +92,10 @@
                                     <tbody>
                                         <?php
                                             foreach($data['data'] as $row){
-                                                $pedido = $row['numero'];
+                                                $pedidoId = $row['id'];
 
                                                 //Abrir o orçamento em uma nova guia ao clincar na linha do pedido
-                                                echo "<tr onclick=\"window.open('orcamento_visualizacao.php?numero=$pedido', '_blank');\" style=\"cursor: pointer;\">";
+                                                echo "<tr onclick=\"window.open('orcamento_visualizacao.php?pedidoId=$pedidoId', '_blank');\" style=\"cursor: pointer;\">";
 
                                                 echo "<td>" . $row['numero'] . "</td>";
                                                 echo "<td>" . date('d/m/Y', strtotime($row['data'])) . "</td>";

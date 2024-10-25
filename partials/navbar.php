@@ -10,11 +10,11 @@
           <a class="nav-link" href="index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="orcamentos.php">Orçamentos</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="pedidos.php">Pedidos</a>
         </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="orcamentos.php">Orçamentos</a>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link" href="consulta_cnpj_visualizacao.php">Consulta CNPJ</a>
         </li>

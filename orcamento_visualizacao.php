@@ -28,9 +28,11 @@
         orderDataQuery();
         function orderDataQuery(){
             global $urlData;
+
+            $pedidoId = isset($_GET['pedidoId'])?$_GET['pedidoId']:"";
             $jsonFile = file_get_contents('config/token_request_response.json');
             $jsonData = json_decode($jsonFile, true);
-            $endPoint = "https://api.bling.com.br/Api/v3/pedidos/vendas?$urlData";
+            $endPoint = "https://api.bling.com.br/Api/v3/pedidos/vendas/$pedidoId";
             $token = isset($jsonData['access_token'])?$jsonData['access_token']:"No";
             
             $cURL = curl_init($endPoint);
@@ -41,6 +43,8 @@
             curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
             $response = curl_exec($cURL);
             $data = json_decode($response, true);
+
+            echo "<p>$response</p>";
             
             //verify and refresh token
             if(isset($data['error']['type']) && $data['error']['type'] === "invalid_token"){
@@ -52,14 +56,13 @@
                 echo "<hr>Nenhum pedido encontrado baseado nos filtros atuais";
                 curl_close($cURL);
             } else {
-                // echo $response;
+                echo "<p>$response</p>";
                 foreach($data['data'] as $row){
                     global $clienteNome;
                     global $clienteId;
                     global $data;
 
                     $clienteNome = isset($row['contato']['nome'])?$row['contato']['nome']:"";
-                    $clienteId = isset($row['contato']['id'])?$row['contato']['id']:"";
                     $data = isset($row['data'])?date('d/m/Y',strtotime($row['data'])):"";
                 }
                 curl_close($cURL);
@@ -67,7 +70,7 @@
         }
 
         //Pega as informações do cliente via API para preencher o orçamento
-        customerQuery();
+        // customerQuery();
         function customerQuery() {
             global $clienteId;
 
