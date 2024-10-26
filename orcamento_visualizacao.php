@@ -27,7 +27,7 @@
         //Pega as informações do pedido via API para preencher o orçamento
         orderDataQuery();
         function orderDataQuery(){
-            global $urlData;
+            global $jsonData;
 
             $pedidoId = isset($_GET['pedidoId'])?$_GET['pedidoId']:"";
             $jsonFile = file_get_contents('config/token_request_response.json');
@@ -42,9 +42,10 @@
             curl_setopt($cURL, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
             $response = curl_exec($cURL);
-            $data = json_decode($response, true);
+            $jsonData = json_decode($response, true);
 
-            echo "<p>$response</p>";
+            // echo "<p>$response</p>";
+            // print_r($data['data']['itens']);
             
             //verify and refresh token
             if(isset($data['error']['type']) && $data['error']['type'] === "invalid_token"){
@@ -52,49 +53,26 @@
                 echo "<p>Token atualizado</p>";
                 ordersQuery();
                 curl_close($cURL);
-            } else if($data['data'] == null) {
+            } else if($jsonData['data'] == null) {
                 echo "<hr>Nenhum pedido encontrado baseado nos filtros atuais";
                 curl_close($cURL);
             } else {
-                echo "<p>$response</p>";
-                foreach($data['data'] as $row){
+                // echo "<p>$response</p>";
+                global $numeroPedido;
+                $numeroPedido = $jsonData['data']['numero'];
+                
+                foreach($jsonData as $row){
                     global $clienteNome;
                     global $clienteId;
                     global $data;
+                    global $numeroPedido;
 
-                    $clienteNome = isset($row['contato']['nome'])?$row['contato']['nome']:"";
+                    $clienteNome = isset($row['contato']['nome'])?$row['contato']['nome']:"Nada";
                     $data = isset($row['data'])?date('d/m/Y',strtotime($row['data'])):"";
                 }
                 curl_close($cURL);
             }
         }
-
-        //Pega as informações do cliente via API para preencher o orçamento
-        // customerQuery();
-        function customerQuery() {
-            global $clienteId;
-
-            $jsonFile = file_get_contents('config/token_request_response.json');
-            $jsonData = json_decode($jsonFile, true);
-            $endPoint = "https://api.bling.com.br/Api/v3/contatos?idsContatos[]=$clienteId";
-            echo $token = isset($jsonData['access_token'])?$jsonData['access_token']:"No";
-
-            $cURL = curl_init($endPoint);
-            $headers = array(
-                'Authorization Bearer'.$token
-            );
-            curl_setopt($cURL, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
-            $response = curl_exec($cURL);
-            $data = json_decode($response, true);
-
-            echo "<p>$clienteId</p>";
-            
-            echo "<p>$response</p>";
-        }
-
-
-
     ?>
     <div class="py-2 mb-4 d-print-none">
         <a href="" class="btn btn-primary" onclick="window.close()">Fechar</a>
@@ -121,7 +99,7 @@
                     <div class="col-4">Estado: <strong>-</strong></div>
                 </div>
                 <div class="row">
-                    <div class="col">Data: <strong><?= $data ?></strong></div>
+                    <div class="col">Data: <strong></strong></div>
                 </div>
             </div>
 
@@ -175,54 +153,35 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>3</td>
-                    <td>Perfil Fechado Meia Cana #24</td>
-                    <td>m²</td>
-                    <td>3,83</td>
-                    <td>R$ 170,00</td>
-                    <td>R$ 651,78</td>
-                </tr>
-                <tr>
+                <!-- <tr>
                     <td>10</td>
                     <td>Guia 50 x 30</td>
                     <td>ml</td>
                     <td>4,50</td>
                     <td>R$ 64,00</td>
                     <td>R$ 288,00</td>
-                </tr>
-                <tr>
-                    <td>200</td>
-                    <td>Motor AC 200</td>
-                    <td>Un</td>
-                    <td>1,00</td>
-                    <td>R$ 900,00</td>
-                    <td>R$ 900,00</td>
-                </tr>
-                <tr>
-                    <td>30</td>
-                    <td>Eixo Tubo 114,3</td>
-                    <td>ml</td>
-                    <td>1,42</td>
-                    <td>R$ 100,00</td>
-                    <td>R$ 142,00</td>
-                </tr>
-                <tr>
-                    <td>20</td>
-                    <td>Soleira em T Reforçada</td>
-                    <td>ml</td>
-                    <td>1,42</td>
-                    <td>R$ 100,00</td>
-                    <td>R$ 142,00</td>
-                </tr>
-                <tr>
-                    <td>2002</td>
-                    <td>Borracha para soleira</td>
-                    <td>ml</td>
-                    <td>1,42</td>
-                    <td>R$ 7,00</td>
-                    <td>R$ 9,94</td>
-                </tr>
+                </tr> -->
+                <?php
+                    // print_r($jsonData['data']);
+                    foreach($jsonData['data']['itens'] as $item){
+                        $codigo = isset($item['codigo'])?$item['codigo']:"";
+                        $material = isset($item['descricao'])?$item['descricao']:"";
+                        $unidade = isset($item['unidade'])?$item['unidade']:"";
+                        $quantidade = isset($item['quantidade'])?$item['quantidade']:"";
+                        $valorUnit = isset($item['valor'])?$item['valor']:"";
+                ?>
+                    <tr>
+                        <td><?= $codigo ?></td>
+                        <td><?= $material ?></td>
+                        <td><?= $unidade ?></td>
+                        <td><?= $quantidade ?></td>
+                        <td>R$<?= $valorUnit ?></td>
+                        <td>R$<?= $quantidade * $valorUnit ?></td>
+                    </tr>
+                <?php
+                    }
+                ?>
+                
             </tbody>
         </table>
         <div class="row mx-0 mt-1">
@@ -304,6 +263,5 @@
             </p>
         </div>
     </div>
-    <?= $dados ?>
 </body>
 </html>
