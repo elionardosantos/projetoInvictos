@@ -58,7 +58,7 @@
                     $jsonFile = file_get_contents('config/token_request_response.json');
                     $jsonData = json_decode($jsonFile, true);
                     $endPoint = "https://api.bling.com.br/Api/v3/pedidos/vendas?$urlData";
-                    $token = isset($jsonData['access_token'])?$jsonData['access_token']:"No";
+                    $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
                     
                     $cURL = curl_init($endPoint);
                     $headers = array(
@@ -77,6 +77,7 @@
                     } else if($data['data'] == null) {
                         echo "<hr>Nenhum pedido encontrado baseado nos filtros atuais";
                     } else {
+                        echo $response;
                         ?>
                             <div>
                                 <table class="table table-sm  table-striped">
@@ -101,7 +102,7 @@
                                                 echo "<td>" . date('d/m/Y', strtotime($row['data'])) . "</td>";
                                                 echo "<td>" . $row['contato']['nome'] . "</td>";
                                                 echo "<td>R$" . number_format($row['total'], 2, ',', '.') . "</td>";
-                                                echo "<td>" . "----" . "</td>";
+                                                echo "<td>" . $row['situacao']['id'] . " - " . $row['situacao']['valor'] . "</td>";
                                                 echo "</tr>";
                                             }
                                         ?>

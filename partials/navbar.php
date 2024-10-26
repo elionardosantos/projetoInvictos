@@ -39,6 +39,7 @@
             </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="listar_usuarios.php">Usuários</a></li>
+            <li><a class="dropdown-item" href="editar_credenciais.php">Credenciais do sistema</a></li>
           </ul>
 
         <?php 
