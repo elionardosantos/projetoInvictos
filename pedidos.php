@@ -77,7 +77,7 @@
                     } else if($data['data'] == null) {
                         echo "<hr>Nenhum pedido encontrado baseado nos filtros atuais";
                     } else {
-                        echo $response;
+                        // echo $response;
                         ?>
                             <div>
                                 <table class="table table-sm  table-striped">

@@ -64,15 +64,43 @@
                 
                 foreach($jsonData as $row){
                     global $clienteNome;
-                    global $endereco;
-                    global $dataPedido;
+                    global $clienteId;
+                    global $data;
+                    global $numeroPedido;
 
-                    $clienteNome = isset($row['contato']['nome'])?$row['contato']['nome']:"";
-                    $endereco = isset($row['contato']['endereco'])?$row['contato']['endereco']:"";
-                    $dataPedido = isset($row['data'])?date('d/m/Y',strtotime($row['data'])):"";
+                    $clienteNome = isset($row['contato']['nome'])?$row['contato']['nome']:"Nada";
+                    $data = isset($row['data'])?date('d/m/Y',strtotime($row['data'])):"";
                 }
                 curl_close($cURL);
             }
+        }
+
+        // Verifica se o item do pedido é um "P" Produto ou "S" Serviço
+        function verificaTipoItem($produtoId){
+            $produtoId = isset($produtoId)?$produtoId:"";
+            $jsonFile = file_get_contents('config/token_request_response.json');
+            $jsonData = json_decode($jsonFile, true);
+            $endPoint = "https://api.bling.com.br/Api/v3/produtos?idsProdutos[]=$produtoId";
+            $token = isset($jsonData['access_token'])?$jsonData['access_token']:"No";
+        
+            $cURL_produtoId = curl_init($endPoint);
+            $headers = array(
+                'Authorization: Bearer '.$token
+            );
+            curl_setopt($cURL_produtoId, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($cURL_produtoId, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($cURL_produtoId);
+            $jsonData = json_decode($response, true);
+        
+            if (curl_errno($cURL_produtoId)) {
+                echo 'Erro ao executar cURL: ' . curl_error($cURL_produtoId);
+                curl_close($cURL_produtoId);
+                exit;
+            }
+            
+            echo " - Resposta do curl do verificaTipoItem:" . $response;
+            $tipo = $jsonData['data']['0']['tipo'];
+            return $tipo;
         }
 
     ?>
@@ -101,7 +129,7 @@
                     <div class="col-4">Estado: <strong>-</strong></div>
                 </div>
                 <div class="row">
-                    <div class="col">Data: <strong><?= $dataPedido ?></strong></div>
+                    <div class="col">Data: <strong></strong></div>
                 </div>
             </div>
 
@@ -150,31 +178,27 @@
                     <th>Material</th>
                     <th>Unidade</th>
                     <th>Quantidade</th>
-                    <!-- <th>Valor Unitário</th> -->
-                    <!-- <th>Valor Total</th> -->
+                    <th>Valor Unitário</th>
+                    <th>Valor Total</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                    $subTotal = 0;
                     foreach($jsonData['data']['itens'] as $item){
-                        global $subtotal;
-
+                            
                         $codigo = isset($item['codigo'])?$item['codigo']:"";
                         $material = isset($item['descricao'])?$item['descricao']:"";
                         $unidade = isset($item['unidade'])?$item['unidade']:"";
                         $quantidade = isset($item['quantidade'])?$item['quantidade']:"";
                         $valorUnit = isset($item['valor'])?$item['valor']:"";
-                        $valorTotal = $item['quantidade'] * $item['valor'];
-                        $subTotal += $valorTotal;
                 ?>
                        <tr>
                             <td><?= $codigo ?></td>
                             <td><?= $material ?></td>
                             <td><?= $unidade ?></td>
-                            <td><?= number_format($quantidade, 2, ",", ".") ?></td>
-                            <!-- <td>R$<?= number_format($valorUnit, 2, ",", ".") ?></td> -->
-                            <!-- <td>R$<?= number_format($valorTotal, 2, ",", ".") ?></td> -->
+                            <td><?= $quantidade ?></td>
+                            <td><?= $valorUnit ?></td>
+                            <td><?= $quantidade * $valorUnit ?></td>
                         </tr>
                 <?php
                     }
@@ -185,7 +209,7 @@
         <div class="row mx-0 mt-1">
             <div class="col-7"></div>
             <div class="col-3 bg-dark text-white py-1">Subtotal:</div>
-            <div class="col-2 bg-dark text-white py-1"><strong>R$<?= number_format($subTotal, 2, ",", ".") ?></strong></div>
+            <div class="col-2 bg-dark text-white py-1"><strong>R$2.800,00</strong></div>
         </div>
         
         <table class="table table-bordered mt-3 text-center table-sm">
@@ -193,14 +217,14 @@
                 <tr>
                     <th>Total sem desconto</th>
                     <th>Desconto</th>
-                    <th>Valor total</th>
+                    <th>Total com desconto</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th>R$ -</th>
-                    <th>-</th>
-                    <th>R$ -</th>
+                    <th>R$5.750,00</th>
+                    <th>R$15%</th>
+                    <th>R$5.420,00</th>
                 </tr>
             </tbody>
         </table>
