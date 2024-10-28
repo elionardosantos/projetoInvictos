@@ -130,33 +130,21 @@
                     <label for="estado" class="form-label">Estado</label>
                     <select class="form-select" id="estado" name="estado">
                         <!-- <option selected>Escolha...</option> -->
-                        <option value="RJ" <?php if(isset($state) && $state === 'RJ') {echo 'selected';} ?>>RJ</option>
-                        <option value="SP" <?php if(isset($state) && $state === 'SP') {echo 'selected';} ?>>SP</option>
-                        <option value="ES" <?php if(isset($state) && $state === 'ES') {echo 'selected';} ?>>ES</option>
-                        <option value="MG" <?php if(isset($state) && $state === 'MG') {echo 'selected';} ?>>MG</option>
-                        <option value="AC" <?php if(isset($state) && $state === 'AC') {echo 'selected';} ?>>AC</option>
-                        <option value="AL" <?php if(isset($state) && $state === 'AL') {echo 'selected';} ?>>AL</option>
-                        <option value="AP" <?php if(isset($state) && $state === 'AP') {echo 'selected';} ?>>AP</option>
-                        <option value="AM" <?php if(isset($state) && $state === 'AM') {echo 'selected';} ?>>AM</option>
-                        <option value="BA" <?php if(isset($state) && $state === 'BA') {echo 'selected';} ?>>BA</option>
-                        <option value="CE" <?php if(isset($state) && $state === 'CE') {echo 'selected';} ?>>CE</option>
-                        <option value="DF" <?php if(isset($state) && $state === 'DF') {echo 'selected';} ?>>DF</option>
-                        <option value="GO" <?php if(isset($state) && $state === 'GO') {echo 'selected';} ?>>GO</option>
-                        <option value="MA" <?php if(isset($state) && $state === 'MA') {echo 'selected';} ?>>MA</option>
-                        <option value="MT" <?php if(isset($state) && $state === 'MT') {echo 'selected';} ?>>MT</option>
-                        <option value="MS" <?php if(isset($state) && $state === 'MS') {echo 'selected';} ?>>MS</option>
-                        <option value="PA" <?php if(isset($state) && $state === 'PA') {echo 'selected';} ?>>PA</option>
-                        <option value="PB" <?php if(isset($state) && $state === 'PB') {echo 'selected';} ?>>PB</option>
-                        <option value="PR" <?php if(isset($state) && $state === 'PR') {echo 'selected';} ?>>PR</option>
-                        <option value="PE" <?php if(isset($state) && $state === 'PE') {echo 'selected';} ?>>PE</option>
-                        <option value="PI" <?php if(isset($state) && $state === 'PI') {echo 'selected';} ?>>PI</option>
-                        <option value="RN" <?php if(isset($state) && $state === 'RN') {echo 'selected';} ?>>RN</option>
-                        <option value="RS" <?php if(isset($state) && $state === 'RS') {echo 'selected';} ?>>RS</option>
-                        <option value="RO" <?php if(isset($state) && $state === 'RO') {echo 'selected';} ?>>RO</option>
-                        <option value="RR" <?php if(isset($state) && $state === 'RR') {echo 'selected';} ?>>RR</option>
-                        <option value="SC" <?php if(isset($state) && $state === 'SC') {echo 'selected';} ?>>SC</option>
-                        <option value="SE" <?php if(isset($state) && $state === 'SE') {echo 'selected';} ?>>SE</option>
-                        <option value="TO" <?php if(isset($state) && $state === 'TO') {echo 'selected';} ?>>TO</option>
+                         <?php
+                            // Lista de estados que irá aparecer no formulário
+                            $estados = [
+                                "SP", "RJ", "MG", "ES", 
+                                "AC", "AL", "AP", "AM", 
+                                "BA", "CE", "DF", "GO", 
+                                "MA", "MT", "MS", "PA", 
+                                "PB", "PR", "PE", "PI", 
+                                "RN", "RS", "RO", "RR", 
+                                "SC", "SE", "TO"
+                            ];
+                            foreach($estados as $uf){
+                                echo "<option value=\"$uf\" <?php if(isset($state) && $state === '$uf') {echo 'selected';} ?>$uf</option>\n";
+                            }
+                         ?>
                     </select>
                 </div>
             </div>
