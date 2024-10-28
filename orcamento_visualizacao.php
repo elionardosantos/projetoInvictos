@@ -58,17 +58,25 @@
                 echo "<hr>Nenhum pedido encontrado baseado nos filtros atuais";
                 curl_close($cURL);
             } else {
-                // echo "<p>$response</p>";
+                echo "<p>$response</p>";
                 global $numeroPedido;
                 $numeroPedido = $jsonData['data']['numero'];
                 
                 foreach($jsonData as $row){
                     global $clienteNome;
                     global $endereco;
+                    global $bairro;
+                    global $numero;
+                    global $municipio;
+                    global $uf;
                     global $dataPedido;
 
                     $clienteNome = isset($row['contato']['nome'])?$row['contato']['nome']:"";
-                    $endereco = isset($row['contato']['endereco'])?$row['contato']['endereco']:"";
+                    $endereco = isset($row['transporte']['etiqueta']['endereco'])?$row['transporte']['etiqueta']['endereco']:"";
+                    $bairro = isset($row['transporte']['etiqueta']['bairro'])?$row['transporte']['etiqueta']['bairro']:"";
+                    $numero = isset($row['transporte']['etiqueta']['numero'])?$row['transporte']['etiqueta']['numero']:"";
+                    $municipio = isset($row['transporte']['etiqueta']['municipio'])?$row['transporte']['etiqueta']['municipio']:"";
+                    $uf = isset($row['transporte']['etiqueta']['uf'])?$row['transporte']['etiqueta']['uf']:"";
                     $dataPedido = isset($row['data'])?date('d/m/Y',strtotime($row['data'])):"";
                 }
                 curl_close($cURL);
@@ -90,15 +98,15 @@
                     <div class="col">Cliente: <strong><?= $clienteNome ?></strong></div>
                 </div>
                 <div class="row">
-                    <div class="col">Endereço: <strong>-</strong></div>
+                    <div class="col">Endereço: <strong><?= $endereco ?></strong></div>
                 </div>
                 <div class="row">
-                    <div class="col">Bairro: <strong>-</strong></div>
-                    <div class="col-4">Número: <strong>-</strong></div>
+                    <div class="col">Bairro: <strong><?= $bairro ?></strong></div>
+                    <div class="col-4">Número: <strong><?= $numero ?></strong></div>
                 </div>
                 <div class="row">
-                    <div class="col-8">Município: <strong>-</strong></div>
-                    <div class="col-4">Estado: <strong>-</strong></div>
+                    <div class="col-8">Município: <strong><?= $municipio ?></strong></div>
+                    <div class="col-4">Estado: <strong><?= $uf ?></strong></div>
                 </div>
                 <div class="row">
                     <div class="col">Data: <strong><?= $dataPedido ?></strong></div>

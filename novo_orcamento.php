@@ -91,15 +91,15 @@
             <div class="row mb-3">
                 <div class="col-md-5">
                     <label for="cliente" class="form-label">Nome completo / Razão social</label>
-                    <input type="text" class="form-control" id="cliente" placeholder="Nome completo">
+                    <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome completo">
                 </div>                
                 <div class="col-md-4">
-                    <label for="cliente" class="form-label">CPF/CNPJ</label>
-                    <input type="text" class="form-control" id="cliente" placeholder="CPF ou CNPJ" value="<?= isset($cnpj)?$cnpj:""; ?>">
+                    <label for="documento" class="form-label">CPF/CNPJ</label>
+                    <input type="text" class="form-control" id="documento" name="documento" placeholder="CPF ou CNPJ" value="<?= isset($cnpj)?$cnpj:""; ?>">
                 </div>
                 <div class="col-md-3">
-                    <label for="tipodepessoa" class="form-label">Tipo de pessoa</label>
-                    <select class="form-select" id="tipodepessoa">
+                    <label for="tipoPessoa" class="form-label">Tipo de pessoa</label>
+                    <select class="form-select" id="tipodepessoa" name="tipoPessoa">
                         <option value="J">Pessoa jurídica</option>
                         <option value="F">Pessoa física</option>
                     </select>
@@ -110,67 +110,67 @@
             <div class="row mb-3">
                 <div class="col-md-8">
                     <label for="endereco" class="form-label">Endereço</label>
-                    <input type="text" class="form-control" id="endereco" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:""; ?>">
+                    <input type="text" class="form-control" name="endereco" id="endereco" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="numero" class="form-label">Número</label>
-                    <input type="text" class="form-control" id="numero" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
+                    <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="bairro" class="form-label">Bairro</label>
-                    <input type="text" class="form-control" id="bairro" placeholder="Bairro" value="<?= isset($district)?$district:""; ?>">
+                    <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" value="<?= isset($district)?$district:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="municipio" class="form-label">Município</label>
-                    <input type="text" class="form-control" id="municipio" placeholder="Município" value="<?= isset($city)?$city:""; ?>">
+                    <input type="text" class="form-control" name="municipio" id="municipio" placeholder="Município" value="<?= isset($city)?$city:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="estado" class="form-label">Estado</label>
-                    <select class="form-select" id="estado">
+                    <select class="form-select" id="estado" name="estado">
                         <!-- <option selected>Escolha...</option> -->
-                        <option value="RJ" <?= $state === 'RJ'?'selected':''; ?>>RJ</option>
-                        <option value="SP" <?= $state === 'SP'?'selected':''; ?>>SP</option>
-                        <option value="ES" <?= $state === 'ES'?'selected':''; ?>>ES</option>
-                        <option value="MG" <?= $state === 'MG'?'selected':''; ?>>MG</option>
-                        <option value="AC" <?= $state === 'AC'?'selected':''; ?>>AC</option>
-                        <option value="AL" <?= $state === 'AL'?'selected':''; ?>>AL</option>
-                        <option value="AP" <?= $state === 'AP'?'selected':''; ?>>AP</option>
-                        <option value="AM" <?= $state === 'AM'?'selected':''; ?>>AM</option>
-                        <option value="BA" <?= $state === 'BA'?'selected':''; ?>>BA</option>
-                        <option value="CE" <?= $state === 'CE'?'selected':''; ?>>CE</option>
-                        <option value="DF" <?= $state === 'DF'?'selected':''; ?>>DF</option>
-                        <option value="GO" <?= $state === 'GO'?'selected':''; ?>>GO</option>
-                        <option value="MA" <?= $state === 'MA'?'selected':''; ?>>MA</option>
-                        <option value="MT" <?= $state === 'MT'?'selected':''; ?>>MT</option>
-                        <option value="MS" <?= $state === 'MS'?'selected':''; ?>>MS</option>
-                        <option value="PA" <?= $state === 'PA'?'selected':''; ?>>PA</option>
-                        <option value="PB" <?= $state === 'PB'?'selected':''; ?>>PB</option>
-                        <option value="PR" <?= $state === 'PR'?'selected':''; ?>>PR</option>
-                        <option value="PE" <?= $state === 'PE'?'selected':''; ?>>PE</option>
-                        <option value="PI" <?= $state === 'PI'?'selected':''; ?>>PI</option>
-                        <option value="RN" <?= $state === 'RN'?'selected':''; ?>>RN</option>
-                        <option value="RS" <?= $state === 'RS'?'selected':''; ?>>RS</option>
-                        <option value="RO" <?= $state === 'RO'?'selected':''; ?>>RO</option>
-                        <option value="RR" <?= $state === 'RR'?'selected':''; ?>>RR</option>
-                        <option value="SC" <?= $state === 'SC'?'selected':''; ?>>SC</option>
-                        <option value="SE" <?= $state === 'SE'?'selected':''; ?>>SE</option>
-                        <option value="TO" <?= $state === 'TO'?'selected':''; ?>>TO</option>
+                        <option value="RJ" <?php if(isset($state) && $state === 'RJ') {echo 'selected';} ?>>RJ</option>
+                        <option value="SP" <?php if(isset($state) && $state === 'SP') {echo 'selected';} ?>>SP</option>
+                        <option value="ES" <?php if(isset($state) && $state === 'ES') {echo 'selected';} ?>>ES</option>
+                        <option value="MG" <?php if(isset($state) && $state === 'MG') {echo 'selected';} ?>>MG</option>
+                        <option value="AC" <?php if(isset($state) && $state === 'AC') {echo 'selected';} ?>>AC</option>
+                        <option value="AL" <?php if(isset($state) && $state === 'AL') {echo 'selected';} ?>>AL</option>
+                        <option value="AP" <?php if(isset($state) && $state === 'AP') {echo 'selected';} ?>>AP</option>
+                        <option value="AM" <?php if(isset($state) && $state === 'AM') {echo 'selected';} ?>>AM</option>
+                        <option value="BA" <?php if(isset($state) && $state === 'BA') {echo 'selected';} ?>>BA</option>
+                        <option value="CE" <?php if(isset($state) && $state === 'CE') {echo 'selected';} ?>>CE</option>
+                        <option value="DF" <?php if(isset($state) && $state === 'DF') {echo 'selected';} ?>>DF</option>
+                        <option value="GO" <?php if(isset($state) && $state === 'GO') {echo 'selected';} ?>>GO</option>
+                        <option value="MA" <?php if(isset($state) && $state === 'MA') {echo 'selected';} ?>>MA</option>
+                        <option value="MT" <?php if(isset($state) && $state === 'MT') {echo 'selected';} ?>>MT</option>
+                        <option value="MS" <?php if(isset($state) && $state === 'MS') {echo 'selected';} ?>>MS</option>
+                        <option value="PA" <?php if(isset($state) && $state === 'PA') {echo 'selected';} ?>>PA</option>
+                        <option value="PB" <?php if(isset($state) && $state === 'PB') {echo 'selected';} ?>>PB</option>
+                        <option value="PR" <?php if(isset($state) && $state === 'PR') {echo 'selected';} ?>>PR</option>
+                        <option value="PE" <?php if(isset($state) && $state === 'PE') {echo 'selected';} ?>>PE</option>
+                        <option value="PI" <?php if(isset($state) && $state === 'PI') {echo 'selected';} ?>>PI</option>
+                        <option value="RN" <?php if(isset($state) && $state === 'RN') {echo 'selected';} ?>>RN</option>
+                        <option value="RS" <?php if(isset($state) && $state === 'RS') {echo 'selected';} ?>>RS</option>
+                        <option value="RO" <?php if(isset($state) && $state === 'RO') {echo 'selected';} ?>>RO</option>
+                        <option value="RR" <?php if(isset($state) && $state === 'RR') {echo 'selected';} ?>>RR</option>
+                        <option value="SC" <?php if(isset($state) && $state === 'SC') {echo 'selected';} ?>>SC</option>
+                        <option value="SE" <?php if(isset($state) && $state === 'SE') {echo 'selected';} ?>>SE</option>
+                        <option value="TO" <?php if(isset($state) && $state === 'TO') {echo 'selected';} ?>>TO</option>
                     </select>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="tabela" class="form-label">Tabela</label>
-                    <select class="form-select" id="tabela">
+                    <label for="tabelaPreco" class="form-label">Tabela</label>
+                    <select class="form-select" id="tabelaPreco" name="tabelaPreco">
                         <option value="consumidor-final" selected>Consumidor final</option>
                         <option value="serralheiro" >Serralheiro</option>
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <label for="condicao" class="form-label">Condição de Pagto</label>
-                    <select class="form-select" id="condicao">
+                    <label for="condicaoPagamento" class="form-label">Condição de Pagto</label>
+                    <select class="form-select" id="condicaoPagamento" name="condicaoPagamento">
                         <option selected>À vista</option>
                         <option value="cartao1x">Cartão 1x</option>
                         <option value="cartao2x">Cartão 2x</option>
