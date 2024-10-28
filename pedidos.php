@@ -102,7 +102,7 @@
                                                 echo "<td>" . date('d/m/Y', strtotime($row['data'])) . "</td>";
                                                 echo "<td>" . $row['contato']['nome'] . "</td>";
                                                 echo "<td>R$" . number_format($row['total'], 2, ',', '.') . "</td>";
-                                                echo "<td>" . $row['situacao']['id'] . " - " . $row['situacao']['valor'] . "</td>";
+                                                echo "<td>" . $row['situacao']['id'] . "</td>";
                                                 echo "</tr>";
                                             }
                                         ?>
