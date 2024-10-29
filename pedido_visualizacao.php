@@ -86,7 +86,7 @@
     ?>
     <div class="py-2 mb-4 d-print-none">
         <a href="" class="btn btn-primary" onclick="window.close()">Fechar</a>
-        <a href="" class="btn btn-primary">Editar</a>
+        <a href="editar_pedido.php?pedidoId=<?= $_GET['pedidoId'] ?>" class="btn btn-primary">Editar</a>
         <a href="" class="btn btn-primary" onclick="window.print()">Imprimir</a>
     </div>
     <div class="">
