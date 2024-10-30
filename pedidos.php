@@ -42,7 +42,7 @@
             <div class="row mt-4">
                 <div class="col">
                     <input type="submit" value="Buscar" class="btn btn-primary">
-                <a href="novo_orcamento.php" class="btn btn-primary ms-4" role="button">Novo</a>
+                <a href="novo_pedido.php" class="btn btn-primary ms-4" role="button">Novo</a>
                 <a href="consulta_cnpj.php" class="btn btn-primary" role="button">Consulta CNPJ</a>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                                                 $pedidoId = $row['id'];
 
                                                 //Abrir o orçamento em uma nova guia ao clincar na linha do pedido
-                                                echo "<tr onclick=\"window.open('orcamento_visualizacao.php?pedidoId=$pedidoId', '_blank');\" style=\"cursor: pointer;\">";
+                                                echo "<tr onclick=\"window.open('pedido_visualizacao.php?pedidoId=$pedidoId', '_blank');\" style=\"cursor: pointer;\">";
                                                 
                                                 echo "<td>" . $row['numero'] . "</td>";
                                                 echo "<td>" . date('d/m/Y', strtotime($row['data'])) . "</td>";

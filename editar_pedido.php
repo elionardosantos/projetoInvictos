@@ -86,7 +86,7 @@
     </div>
     
     <div class="container mt-4">
-        <form action="novo_orcamento_process.php" method="POST">
+        <form action="novo_pedido_process.php" method="POST">
 
             <div class="mt-4"><h4>Dados cadastrais</h4></div>
             <div class="row">
@@ -261,7 +261,7 @@
 
             <div class="my-5">
                 <button type="submit" class="btn btn-primary">Enviar</button>
-                <a href="orcamentos.php" class="btn btn-primary mx-2">Voltar</a>
+                <a href="pedidos.php" class="btn btn-primary mx-2">Voltar</a>
             </div>
         </form>
     </div>
