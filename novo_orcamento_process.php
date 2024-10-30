@@ -11,6 +11,21 @@ echo isset($_POST['tabelaPreco'])?$_POST['tabelaPreco']."<br>":"";
 echo isset($_POST['tel'])?$_POST['tel']."<br>":"";
 echo isset($_POST['cel'])?$_POST['cel']."<br>":"";
 echo isset($_POST['email'])?$_POST['email']."<br>":"";
+echo isset($_POST['condicaoPagamento'])?$_POST['condicaoPagamento']."<br>":"";
+// telefone
+// celular
+// email
+// quantidade
+// largura
+// altura
+// rolo
+// enderecoServico
+// numeroServico
+// bairroServico
+// estadoServico
+// observacoes
+// observacoesInternas
+
 
 //Modelo de dados
 $bodyData = [
