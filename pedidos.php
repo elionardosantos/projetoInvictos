@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Pedidos</title>
+    <title>Pedidos/Orçamentos</title>
 </head>
 <body>
     <?php
@@ -17,7 +17,7 @@
 
     ?>
     <div class="container my-3">
-        <h2>Pedidos</h2>
+        <h2>Pedidos/Orçamentos</h2>
     </div>
     <div class="container mb-4">
         <form action="" method="get">
@@ -75,7 +75,8 @@
                         echo "<p>Token atualizado</p>";
                         ordersQuery();
                     } else if($data['data'] == null) {
-                        echo "<hr>Nenhum pedido encontrado baseado nos filtros atuais";
+                        echo "<hr><p>Nenhum pedido encontrado baseado nos filtros atuais</p>";
+                        echo $jsonData;
                     } else {
                         // echo $response;
                         ?>

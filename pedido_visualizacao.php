@@ -58,7 +58,7 @@
                 echo "<hr>Nenhum pedido encontrado baseado nos filtros atuais";
                 curl_close($cURL);
             } else {
-                echo "<p>$response</p>";
+                echo "<p class='d-print-none'>$response</p>";
                 global $numeroPedido;
                 $numeroPedido = $jsonData['data']['numero'];
                 

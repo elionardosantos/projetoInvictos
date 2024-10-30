@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Novo orçamento</title>
+    <title>Novo Pedido/Orçamento</title>
 </head>
 <body>
     <?php
@@ -10,7 +10,7 @@
         require('partials/navbar.php');
     ?>
     <div class="container my-3">
-        <h2>Novo orçamento</h2>
+        <h2>Novo Pedido/Orçamento</h2>
     </div>
     <div class="container my-3">
         <a href="consulta_cnpj.php" class="btn btn-primary" role="button">Consultar CNPJ</a>
