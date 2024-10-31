@@ -42,8 +42,8 @@
             curl_setopt($cURL, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
             $response = curl_exec($cURL);
-            $jsonData = json_decode($response, true);
             curl_close($cURL);
+            $jsonData = json_decode($response, true);
 
             // echo "<p>$response</p>";
             // print_r($jsonData['data']['itens']);
@@ -58,7 +58,7 @@
                 echo "<hr>Nenhum pedido encontrado baseado nos filtros atuais";
                 curl_close($cURL);
             } else {
-                echo "<p class='d-print-none'>$response</p>";
+                echo "<script>console.log($response)</script>";
                 global $numeroPedido;
                 $numeroPedido = $jsonData['data']['numero'];
                 
@@ -195,7 +195,10 @@
             <div class="col-3 bg-dark text-white py-1">Subtotal:</div>
             <div class="col-2 bg-dark text-white py-1"><strong>R$<?= number_format($subTotal, 2, ",", ".") ?></strong></div>
         </div>
-        
+        <?php
+            // ADICIONAR CONDIÇÃO PARA EXIBIR ESTE BLOCO SE O SUBTOTAL FOR MENOR QUE O TOTAL
+            // CASO CONTRÁRIO, EXIBIR SOMENTE O TOTAL
+        ?>
         <table class="table table-bordered mt-3 text-center table-sm">
             <thead class="table-dark">
                 <tr>
@@ -212,6 +215,9 @@
                 </tr>
             </tbody>
         </table>
+        <?php
+
+        ?>
         <div>
             <p class="fs-7">
                 Este orçamento poderá ter variação para mais ou para menos em seu valor final, pois após aprovação, um dos profissionais da Invictos Portas irá até o seu estabelecimento fazer a conferência das medidas, para que sua porta de enrolar seja fabricada na medida exata.

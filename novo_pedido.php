@@ -17,15 +17,16 @@
     </div>
     <div class="container">
         <?php
+            global $cnpj;
+            global $companyName;
+            global $street;
+            global $number;
+            global $district;
+            global $city;
+            global $state;
+            
             isset($_POST['cnpj'])?cnpjQuery():"";
             function cnpjQuery() {
-                global $cnpj;
-                global $companyName;
-                global $street;
-                global $number;
-                global $district;
-                global $city;
-                global $state;
 
                 $formCnpj = isset($_POST['cnpj'])?$_POST['cnpj']:"";
 
@@ -55,7 +56,7 @@
                         $number = $data->address->number;
                         $district = $data->address->district;
                         $city = $data->address->city;
-                        $state = $data->address->state;
+                        $state = isset($data->address->state)?$data->address->state:"";
                         $zip = $data->address->zip;
                         
                         echo "Última atualização dos dados: $updated2";

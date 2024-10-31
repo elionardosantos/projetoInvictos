@@ -53,7 +53,7 @@
                 $number = $data->address->number;
                 $district = $data->address->district;
                 $city = $data->address->city;
-                $state = $data->address->state;
+                $state = isset($data->address->state)?$data->address->state:"";
                 $zip = $data->address->zip;
                 $name = $data->address->country->name;
                 
