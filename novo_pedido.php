@@ -46,18 +46,24 @@
                     $data = json_decode($response);
 
                     if(isset($data->company->name)){
+                        global $cnpj;
+                        global $companyName;
+                        global $street;
+                        global $number;
+                        global $district;
+                        global $city;
+                        global $state;
 
                         $updated = new DateTime($data->updated);
                         $updated2 = $updated->format('d/m/Y');
-                        $status = $data->status->text;
-                        $alias = $data->alias;
+                        $cnpj = $data->taxId;
                         $companyName = $data->company->name;
                         $street = $data->address->street;
                         $number = $data->address->number;
                         $district = $data->address->district;
                         $city = $data->address->city;
                         $state = isset($data->address->state)?$data->address->state:"";
-                        $zip = $data->address->zip;
+                        $phones = isset($data->phones)?$data->phones:"";
                         
                         echo "Última atualização dos dados: $updated2";
                         
@@ -93,7 +99,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <label for="cliente" class="form-label mb-0 mt-2">Nome completo / Razão social*</label>
-                    <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome completo">
+                    <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome completo" value="<?= isset($companyName)?$companyName:""; ?>">
                 </div>                
                 <div class="col-md-4">
                     <label for="documento" class="form-label mb-0 mt-2">CPF/CNPJ*</label>
