@@ -43,7 +43,8 @@
                 <div class="col">
                     <input type="submit" value="Buscar" class="btn btn-primary">
                 <a href="novo_pedido.php" class="btn btn-primary ms-4" role="button">Novo</a>
-                <a href="consulta_cnpj.php" class="btn btn-primary" role="button">Consulta CNPJ</a>
+                <a href="consulta_cnpj.php" class="btn btn-primary" role="button">Consultar CNPJ</a>
+                <a href="consulta_contato.php" class="btn btn-primary" role="button">Consultar Contatos</a>
                 </div>
             </div>
         </form>
@@ -57,8 +58,8 @@
                     global $urlData;
                     $jsonFile = file_get_contents('config/token_request_response.json');
                     $jsonData = json_decode($jsonFile, true);
-                    $endPoint = "https://api.bling.com.br/Api/v3/pedidos/vendas?$urlData";
                     $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+                    $endPoint = "https://api.bling.com.br/Api/v3/pedidos/vendas?$urlData";
                     
                     $cURL = curl_init($endPoint);
                     $headers = array(

@@ -13,22 +13,64 @@
         <h2>Novo Pedido/Orçamento</h2>
     </div>
     <div class="container my-3">
+        <a href="consulta_contato.php" class="btn btn-primary" role="button">Consultar Contatos</a>
         <a href="consulta_cnpj.php" class="btn btn-primary" role="button">Consultar CNPJ</a>
     </div>
     <div class="container">
         <?php
             global $cnpj;
-            global $companyName;
+            global $name;
             global $street;
             global $number;
             global $district;
             global $city;
             global $state;
             
-            isset($_POST['cnpj'])?cnpjQuery():"";
+            isset($_GET['cnpj'])?cnpjQuery():"";
+            isset($_GET['contatoId'])?contatoQuery():"";
+
+            function contatoQuery(){
+                $contatoId = $_GET['contatoId'];
+                $jsonFile = file_get_contents('config/token_request_response.json');
+                $jsonData = json_decode($jsonFile, true);
+                $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+                $url = "https://api.bling.com.br/Api/v3/contatos/$contatoId";
+
+                $headers = array(
+                    "authorization: Bearer " . $token
+                );
+                $ch = curl_init($url);
+
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec($ch);
+                curl_close($ch);
+                
+                // echo "<script>console.log($response)</script>";
+                $data = json_decode($response, true);
+
+                global $documento;
+                global $name;
+                global $street;
+                global $number;
+                global $district;
+                global $city;
+                global $state;
+                global $tipoPessoa;
+
+                $tipoPessoa = $data['data']['tipo'];
+                $documento = $data['data']['numeroDocumento'];
+                $name = $data['data']['nome'];
+                $street = $data['data']['endereco']['geral']['endereco'];
+                $number = $data['data']['endereco']['geral']['numero'];
+                $district = $data['data']['endereco']['geral']['bairro'];
+                $city = $data['data']['endereco']['geral']['municipio'];
+                $state = $data['data']['endereco']['geral']['uf'];
+            }
             function cnpjQuery() {
 
-                $formCnpj = isset($_POST['cnpj'])?$_POST['cnpj']:"";
+                $formCnpj = isset($_GET['cnpj'])?$_GET['cnpj']:"";
 
                 //removing no numeric characters
                 $cnpj = preg_replace("/[^0-9]/", "", $formCnpj);
@@ -46,41 +88,28 @@
                     $data = json_decode($response);
 
                     if(isset($data->company->name)){
-                        global $cnpj;
-                        global $companyName;
+                        global $documento;
+                        global $name;
                         global $street;
                         global $number;
                         global $district;
                         global $city;
                         global $state;
+                        global $tipoPessoa;
 
+                        $tipoPessoa = "J";
                         $updated = new DateTime($data->updated);
                         $updated2 = $updated->format('d/m/Y');
-                        $cnpj = $data->taxId;
-                        $companyName = $data->company->name;
+                        $documento = $data->taxId;
+                        $name = $data->company->name;
                         $street = $data->address->street;
                         $number = $data->address->number;
                         $district = $data->address->district;
                         $city = $data->address->city;
                         $state = isset($data->address->state)?$data->address->state:"";
-                        $phones = isset($data->phones)?$data->phones:"";
                         
                         echo "Última atualização dos dados: $updated2";
                         
-                        /*
-                        echo "<div class='alert alert-success'>";
-                        echo "Status: $status <br>";
-                        echo "Nome fantasia: $alias <br>";
-                        echo "Razão Social: $companyName <br>";
-                        echo "CNPJ: $cnpj <br>";
-                        echo "Rua: $street <br>";
-                        echo "Número: $number <br>";
-                        echo "Bairro: $district <br>";
-                        echo "Município: $city <br>";
-                        echo "Estado: $state <br>";
-                        echo "Código postal: $zip";
-                        echo "</div>";
-                        */
                     } else if($data->code === 429){
                         echo "<div class='alert alert-danger'>Você excedeu o limite de consultas por minuto. Por favor aguarde um pouco para consultar novamente</div>";
                     }
@@ -99,17 +128,17 @@
             <div class="row">
                 <div class="col-md-5">
                     <label for="cliente" class="form-label mb-0 mt-2">Nome completo / Razão social*</label>
-                    <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome completo" value="<?= isset($companyName)?$companyName:""; ?>">
+                    <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome completo" value="<?= isset($name)?$name:""; ?>">
                 </div>                
                 <div class="col-md-4">
                     <label for="documento" class="form-label mb-0 mt-2">CPF/CNPJ*</label>
-                    <input type="text" class="form-control" id="documento" name="documento" placeholder="CPF ou CNPJ" value="<?= isset($cnpj)?$cnpj:""; ?>">
+                    <input type="text" class="form-control" id="documento" name="documento" placeholder="CPF ou CNPJ" value="<?= isset($documento)?$documento:""; ?>">
                 </div>
                 <div class="col-md-3">
                     <label for="tipoPessoa" class="form-label mb-0 mt-2">Tipo de pessoa</label>
                     <select class="form-select" id="tipodepessoa" name="tipoPessoa">
-                        <option value="J">Pessoa jurídica</option>
-                        <option value="F">Pessoa física</option>
+                        <option <?= $tipoPessoa="J"?"selected":"" ?> value="J">Pessoa jurídica</option>
+                        <option <?= $tipoPessoa="F"?"selected":"" ?> value="F">Pessoa física</option>
                     </select>
                 </div>
             </div>
