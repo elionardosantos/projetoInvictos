@@ -20,7 +20,7 @@
                 <input type="text" name="nome" class="form-control" placeholder="Digite aqui" autofocus>
             </div>
             <input type="submit" class="btn btn-primary" value="Consultar">
-            <a onclick="window.history.back()" class="btn btn-primary">Voltar</a>
+            <a href="novo_pedido.php" class="btn btn-primary">Voltar</a>
         </form>
     </div>
     <div class="container mt-5">
@@ -51,12 +51,15 @@
                     $response = curl_exec($ch);
                     curl_close($ch);
                     
-                    // echo "<script>console.log($response)</script>";
                     $data = json_decode($response, true);
-
-                    if($data['data'] == null){
+                    
+                    
+                if($data['error']['type'] === "invalid_token"){
+                    require('controller/token_refresh.php');
+                    consultaContato($nome);
+                }elseif($data['data'] == null){
                         echo "Nenhum resultado encontrado";
-                    } else {
+                    }else{
                         ?>
                         <table class="table table-sm  table-striped">
                             <thead>

@@ -30,6 +30,8 @@
             isset($_GET['contatoId'])?contatoQuery():"";
 
             function contatoQuery(){
+                global $contatoId;
+
                 $contatoId = $_GET['contatoId'];
                 $jsonFile = file_get_contents('config/token_request_response.json');
                 $jsonData = json_decode($jsonFile, true);
@@ -47,7 +49,7 @@
                 $response = curl_exec($ch);
                 curl_close($ch);
                 
-                // echo "<script>console.log($response)</script>";
+                echo "<script>console.log($response)</script>";
                 $data = json_decode($response, true);
 
                 global $documento;
@@ -125,6 +127,12 @@
         <form action="novo_pedido_process.php" method="POST">
 
             <div class="mt-4"><h4>Dados cadastrais</h4></div>
+            <div class="row">
+                <div class="col-md-3 d-none">
+                    <label for="contatoId" class="form-label mb-0 mt-2">ID</label>
+                    <input type="text" class="form-control" name="contatoId" id="contatoId" value="<?= $contatoId; ?>">
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-5">
                     <label for="cliente" class="form-label mb-0 mt-2">Nome completo / Razão social*</label>
