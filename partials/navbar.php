@@ -16,7 +16,7 @@
           <a class="nav-link" href="orcamentos.php">Orçamentos</a>
         </li> -->
         <li class="nav-item">
-          <a class="nav-link" href="consulta_cnpj_visualizacao.php">Consulta CNPJ</a>
+          <a class="nav-link" href="consulta_cnpj_visualizacao.php">Consultar CNPJ</a>
         </li>
         <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

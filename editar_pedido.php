@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Novo Pedido/Orçamento</title>
+    <title>Editar Pedido/Orçamento</title>
 </head>
 <body>
     <?php
@@ -10,24 +10,76 @@
         require('partials/navbar.php');
     ?>
     <div class="container my-3">
-        <h2>Novo Pedido/Orçamento</h2>
-    </div>
-    <div class="container my-3">
-        <a href="consulta_cnpj.php" class="btn btn-primary" role="button">Consultar CNPJ</a>
+        <h2>Editar Pedido/Orçamento</h2>
     </div>
     <div class="container">
         <?php
-            isset($_POST['cnpj'])?cnpjQuery():"";
-            function cnpjQuery() {
-                global $cnpj;
-                global $companyName;
+            global $cnpj;
+            global $name;
+            global $street;
+            global $number;
+            global $district;
+            global $city;
+            global $state;
+            
+            isset($_GET['cnpj'])?cnpjQuery():"";
+            isset($_GET['contatoId'])?contatoQuery():"";
+
+            function contatoQuery(){
+                global $contatoId;
+
+                $contatoId = $_GET['contatoId'];
+                $jsonFile = file_get_contents('config/token_request_response.json');
+                $jsonData = json_decode($jsonFile, true);
+                $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+                $url = "https://api.bling.com.br/Api/v3/contatos/$contatoId";
+
+                $headers = array(
+                    "authorization: Bearer " . $token
+                );
+                $ch = curl_init($url);
+
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec($ch);
+                curl_close($ch);
+                
+                echo "<script>console.log($response)</script>";
+                $data = json_decode($response, true);
+
+                // Atualizando token
+                if(isset($data['error']['type']) && $data['error']['type'] === 'invalid_token'){
+                    require('controller/token_refresh.php');
+                }
+
+                global $documento;
+                global $name;
                 global $street;
                 global $number;
                 global $district;
                 global $city;
                 global $state;
+                global $tipoPessoa;
+                global $email;
+                global $celular;
+                global $telefone;
 
-                $formCnpj = isset($_POST['cnpj'])?$_POST['cnpj']:"";
+                $tipoPessoa = $data['data']['tipo'];
+                $documento = $data['data']['numeroDocumento'];
+                $name = $data['data']['nome'];
+                $street = $data['data']['endereco']['geral']['endereco'];
+                $number = $data['data']['endereco']['geral']['numero'];
+                $district = $data['data']['endereco']['geral']['bairro'];
+                $city = $data['data']['endereco']['geral']['municipio'];
+                $state = $data['data']['endereco']['geral']['uf'];
+                $email = isset($data['data']['email'])?$data['data']['email']:"";
+                $celular = isset($data['data']['celular'])?$data['data']['celular']:"";
+                $telefone = isset($data['data']['telefone'])?$data['data']['telefone']:"";
+            }
+            function cnpjQuery() {
+
+                $formCnpj = isset($_GET['cnpj'])?$_GET['cnpj']:"";
 
                 //removing no numeric characters
                 $cnpj = preg_replace("/[^0-9]/", "", $formCnpj);
@@ -45,35 +97,28 @@
                     $data = json_decode($response);
 
                     if(isset($data->company->name)){
+                        global $documento;
+                        global $name;
+                        global $street;
+                        global $number;
+                        global $district;
+                        global $city;
+                        global $state;
+                        global $tipoPessoa;
 
+                        $tipoPessoa = "J";
                         $updated = new DateTime($data->updated);
                         $updated2 = $updated->format('d/m/Y');
-                        $status = $data->status->text;
-                        $alias = $data->alias;
-                        $companyName = $data->company->name;
+                        $documento = $data->taxId;
+                        $name = $data->company->name;
                         $street = $data->address->street;
                         $number = $data->address->number;
                         $district = $data->address->district;
                         $city = $data->address->city;
-                        $state = $data->address->state;
-                        $zip = $data->address->zip;
+                        $state = isset($data->address->state)?$data->address->state:"";
                         
                         echo "Última atualização dos dados: $updated2";
                         
-                        /*
-                        echo "<div class='alert alert-success'>";
-                        echo "Status: $status <br>";
-                        echo "Nome fantasia: $alias <br>";
-                        echo "Razão Social: $companyName <br>";
-                        echo "CNPJ: $cnpj <br>";
-                        echo "Rua: $street <br>";
-                        echo "Número: $number <br>";
-                        echo "Bairro: $district <br>";
-                        echo "Município: $city <br>";
-                        echo "Estado: $state <br>";
-                        echo "Código postal: $zip";
-                        echo "</div>";
-                        */
                     } else if($data->code === 429){
                         echo "<div class='alert alert-danger'>Você excedeu o limite de consultas por minuto. Por favor aguarde um pouco para consultar novamente</div>";
                     }
@@ -90,19 +135,25 @@
 
             <div class="mt-4"><h4>Dados cadastrais</h4></div>
             <div class="row">
+                <div class="col-md-3 d-none">
+                    <label for="contatoId" class="form-label mb-0 mt-2">ID</label>
+                    <input type="text" class="form-control" name="contatoId" id="contatoId" value="<?= isset($contatoId)?$contatoId:""; ?>">
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-5">
                     <label for="cliente" class="form-label mb-0 mt-2">Nome completo / Razão social*</label>
-                    <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome completo">
+                    <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome completo" value="<?= isset($name)?$name:""; ?>">
                 </div>                
                 <div class="col-md-4">
                     <label for="documento" class="form-label mb-0 mt-2">CPF/CNPJ*</label>
-                    <input type="text" class="form-control" id="documento" name="documento" placeholder="CPF ou CNPJ" value="<?= isset($cnpj)?$cnpj:""; ?>">
+                    <input type="text" class="form-control" id="documento" name="documento" placeholder="CPF ou CNPJ" value="<?= isset($documento)?$documento:""; ?>">
                 </div>
                 <div class="col-md-3">
                     <label for="tipoPessoa" class="form-label mb-0 mt-2">Tipo de pessoa</label>
                     <select class="form-select" id="tipodepessoa" name="tipoPessoa">
-                        <option value="J">Pessoa jurídica</option>
-                        <option value="F">Pessoa física</option>
+                        <option <?php if(isset($tipoPessoa) && $tipoPessoa === "J"){echo "selected";} ?> value="J">Pessoa jurídica</option>
+                        <option <?php if(isset($tipoPessoa) && $tipoPessoa === "F"){echo "selected";} ?> value="F">Pessoa física</option>
                     </select>
                 </div>
             </div>
@@ -172,15 +223,15 @@
             <div class="row">
                 <div class="col-md-4">
                     <label class="form-label mb-0 mt-2" for="tel">Telefone</label>
-                    <input class="form-control" type="tel" name="tel" id="tel">
+                    <input class="form-control" type="tel" name="tel" id="tel" value="<?= isset($telefone)?$telefone:"" ?>">
                 </div>
                 <div class="col-md-4">
                     <label class="form-label mb-0 mt-2" for="cel">Celular*</label>
-                    <input class="form-control" type="tel" name="cel" id="cel">
+                    <input class="form-control" type="tel" name="cel" id="cel" value="<?= isset($celular)?$celular:"" ?>">
                 </div>
                 <div class="col-md-4">
                     <label class="form-label mb-0 mt-2" for="email">email</label>
-                    <input class="form-control" type="email" name="email" id="email">
+                    <input class="form-control" type="email" name="email" id="email" value="<?= isset($email)?$email:""; ?>">
                 </div>
             </div>
             
@@ -188,19 +239,19 @@
             <div class="row">
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="quantidade">Quantidade*</label>
-                    <input class="form-control" type="number" name="quantidade" id="quantidade">
+                    <input class="form-control" name="quantidade" id="quantidade">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="largura">Largura*</label>
-                    <input class="form-control" type="number" name="largura" id="largura">
+                    <input class="form-control" name="largura" id="largura">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="altura">Altura*</label>
-                    <input class="form-control" type="number" name="altura" id="altura">
+                    <input class="form-control" name="altura" id="altura">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="rolo">Rolo*</label>
-                    <input class="form-control" type="number" name="rolo" id="rolo">
+                    <input class="form-control" name="rolo" id="rolo">
                 </div>
             </div>
             
@@ -260,7 +311,7 @@
             </div>
 
             <div class="my-5">
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="submit" class="btn btn-primary">Salvar</button>
                 <a href="pedidos.php" class="btn btn-primary mx-2">Voltar</a>
             </div>
         </form>

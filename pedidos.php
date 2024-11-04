@@ -9,7 +9,7 @@
         require('controller/login_checker.php');
         require('partials/navbar.php');
 
-        $dataInicial = isset($_GET['dataInicial'])?$_GET['dataInicial']:date('Y-m-d',strtotime('-7 days'));
+        $dataInicial = isset($_GET['dataInicial'])?$_GET['dataInicial']:date('Y-m-d',strtotime('-30 days'));
         $dataFinal = isset($_GET['dataFinal'])?$_GET['dataFinal']:date('Y-m-d');
         $numeroPedido = isset($_GET['numeroPedido'])?$_GET['numeroPedido']:"";
         $nomePedido = isset($_GET['nomePedido'])?$_GET['nomePedido']:"";

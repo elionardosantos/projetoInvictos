@@ -38,7 +38,7 @@
                     $jsonFile = file_get_contents('config/token_request_response.json');
                     $jsonData = json_decode($jsonFile, true);
                     $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
-                    $url = "https://api.bling.com.br/Api/v3/contatos?pesquisa=%$nome%";
+                    $url = "https://api.bling.com.br/Api/v3/contatos?pesquisa=$nome";
 
                     $headers = array(
                         "authorization: Bearer " . $token
@@ -53,8 +53,10 @@
                     
                     $data = json_decode($response, true);
                     
+                    echo "<script>console.log($response)</script>";
                     
-                if($data['error']['type'] === "invalid_token"){
+                    
+                if(isset($data['error']['type']) && $data['error']['type'] === "invalid_token"){
                     require('controller/token_refresh.php');
                     consultaContato($nome);
                 }elseif($data['data'] == null){

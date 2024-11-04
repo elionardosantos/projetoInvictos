@@ -9,6 +9,7 @@
             
             max-width: 800px;
             margin: 0 auto;
+            
         }
         @media print {
             body {
@@ -125,30 +126,6 @@
                 Número do orçamento: <strong><?= $numeroPedido ?></strong>
             </div>
         </div>
-        
-        <!-- Tabela de dados do orçamento -->
-        <table class="table table-sm table-bordered mt-3 text-center">
-            <thead class="table-dark">
-                <tr>
-                    <th>Quantidade</th>
-                    <th>Largura (m)</th>
-                    <th>Altura (m)</th>
-                    <th>Rolo (m)</th>
-                    <th>m²</th>
-                    <th>Peso Total (kg)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>1,42</td>
-                    <td>2,20</td>
-                    <td>0,50</td>
-                    <td>3,83</td>
-                    <td>46,01</td>
-                </tr>
-            </tbody>
-        </table>
 
         <!-- Tabela de produtos -->
         <table class="table table-bordered table-sm text-center mt-3 mb-1" id="tabelaProdutos">

@@ -52,6 +52,11 @@
                 echo "<script>console.log($response)</script>";
                 $data = json_decode($response, true);
 
+                // Atualizando token
+                if(isset($data['error']['type']) && $data['error']['type'] === 'invalid_token'){
+                    require('controller/token_refresh.php');
+                }
+
                 global $documento;
                 global $name;
                 global $street;
@@ -60,6 +65,9 @@
                 global $city;
                 global $state;
                 global $tipoPessoa;
+                global $email;
+                global $celular;
+                global $telefone;
 
                 $tipoPessoa = $data['data']['tipo'];
                 $documento = $data['data']['numeroDocumento'];
@@ -69,6 +77,9 @@
                 $district = $data['data']['endereco']['geral']['bairro'];
                 $city = $data['data']['endereco']['geral']['municipio'];
                 $state = $data['data']['endereco']['geral']['uf'];
+                $email = isset($data['data']['email'])?$data['data']['email']:"";
+                $celular = isset($data['data']['celular'])?$data['data']['celular']:"";
+                $telefone = isset($data['data']['telefone'])?$data['data']['telefone']:"";
             }
             function cnpjQuery() {
 
@@ -130,7 +141,7 @@
             <div class="row">
                 <div class="col-md-3 d-none">
                     <label for="contatoId" class="form-label mb-0 mt-2">ID</label>
-                    <input type="text" class="form-control" name="contatoId" id="contatoId" value="<?= $contatoId; ?>">
+                    <input type="text" class="form-control" name="contatoId" id="contatoId" value="<?= isset($contatoId)?$contatoId:""; ?>">
                 </div>
             </div>
             <div class="row">
@@ -145,8 +156,8 @@
                 <div class="col-md-3">
                     <label for="tipoPessoa" class="form-label mb-0 mt-2">Tipo de pessoa</label>
                     <select class="form-select" id="tipodepessoa" name="tipoPessoa">
-                        <option <?= $tipoPessoa="J"?"selected":"" ?> value="J">Pessoa jurídica</option>
-                        <option <?= $tipoPessoa="F"?"selected":"" ?> value="F">Pessoa física</option>
+                        <option <?php if(isset($tipoPessoa) && $tipoPessoa === "J"){echo "selected";} ?> value="J">Pessoa jurídica</option>
+                        <option <?php if(isset($tipoPessoa) && $tipoPessoa === "F"){echo "selected";} ?> value="F">Pessoa física</option>
                     </select>
                 </div>
             </div>
@@ -216,15 +227,15 @@
             <div class="row">
                 <div class="col-md-4">
                     <label class="form-label mb-0 mt-2" for="tel">Telefone</label>
-                    <input class="form-control" type="tel" name="tel" id="tel">
+                    <input class="form-control" type="tel" name="tel" id="tel" value="<?= isset($telefone)?$telefone:"" ?>">
                 </div>
                 <div class="col-md-4">
                     <label class="form-label mb-0 mt-2" for="cel">Celular*</label>
-                    <input class="form-control" type="tel" name="cel" id="cel">
+                    <input class="form-control" type="tel" name="cel" id="cel" value="<?= isset($celular)?$celular:"" ?>">
                 </div>
                 <div class="col-md-4">
                     <label class="form-label mb-0 mt-2" for="email">email</label>
-                    <input class="form-control" type="email" name="email" id="email">
+                    <input class="form-control" type="email" name="email" id="email" value="<?= isset($email)?$email:""; ?>">
                 </div>
             </div>
             
@@ -304,7 +315,7 @@
             </div>
 
             <div class="my-5">
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="submit" class="btn btn-primary">Salvar</button>
                 <a href="pedidos.php" class="btn btn-primary mx-2">Voltar</a>
             </div>
         </form>
