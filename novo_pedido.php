@@ -196,7 +196,12 @@
                                 "SC", "SE", "TO"
                             ];
                             foreach($estados as $uf){
-                                echo "<option value=\"$uf\" <?php if(isset($state) && $state === '$uf') {echo 'selected';} ?>$uf</option>\n";
+                                if(isset($state) && $state === "$uf"){
+                                    $selected = "selected";
+                                } else {
+                                    $selected = "";
+                                }
+                                echo "<option value=\"$uf\" $selected>$uf</option>\n";
                             }
                          ?>
                     </select>
@@ -295,7 +300,12 @@
                                 "SC", "SE", "TO"
                             ];
                             foreach($estados as $uf){
-                                echo "<option value=\"$uf\" <?php if(isset($state) && $state === '$uf') {echo 'selected';} ?>$uf</option>\n";
+                                if(isset($state) && $state === "$uf"){
+                                    $selected = "selected";
+                                } else {
+                                    $selected = "";
+                                }
+                                echo "<option value=\"$uf\" $selected>$uf</option>\n";
                             }
                         ?>
                     </select>
