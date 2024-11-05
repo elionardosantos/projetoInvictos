@@ -42,8 +42,14 @@ $observacoesInternas = isset($_POST['observacoesInternas'])?$_POST['observacoesI
 echo "<hr>";
 consultaContatoId($contatoId);
 
+if($contatoId === ""){
+    echo "Cliente Id vazio. Verificar se o contato exite";
+} else {
+    echo "Criar pedido com o clienteId fornecido";
+}
+
 function consultaContatoId($contatoId){
-    echo $url = "https://api.bling.com.br/Api/v3/contatos/$contatoId";
+    // echo $url = "https://api.bling.com.br/Api/v3/contatos/$contatoId";
 
 }
 
