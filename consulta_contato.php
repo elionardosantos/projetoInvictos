@@ -27,10 +27,8 @@
                 <?php //CONSULTANDO CONTATOS NO BLING
                 $nome = isset($_GET['nome'])?$_GET['nome']:"";
                 if($nome === ''){
-                    
+                    // Nada acontece
                 } else {
-                ?>
-                <?php
                     consultaContato($nome);
                 }
 
@@ -50,10 +48,10 @@
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     $response = curl_exec($ch);
                     curl_close($ch);
+                    echo "<script>console.log($response)</script>";
                     
                     $data = json_decode($response, true);
                     
-                    echo "<script>console.log($response)</script>";
                     
                     
                 if(isset($data['error']['type']) && $data['error']['type'] === "invalid_token"){

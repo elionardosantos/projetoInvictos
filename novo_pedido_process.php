@@ -19,10 +19,10 @@ $cel = isset($_POST['cel'])?$_POST['cel']:"";
 $email = isset($_POST['email'])?$_POST['email']:"";
 
 // Dados da instalação
-echo "quantidade: " . $quantidade = isset($_POST['quantidade'])?floatval(str_replace(",",".",str_replace(".","",$_POST['quantidade']))):""; echo "<br>";
-echo "largura: " . $largura = isset($_POST['largura'])?floatval(str_replace(",",".",str_replace(".","",$_POST['largura']))):""; echo "<br>";
-echo "altura: " . $altura = isset($_POST['altura'])?floatval(str_replace(",",".",str_replace(".","",$_POST['altura']))):""; echo "<br>";
-echo "rolo: " . $rolo = isset($_POST['rolo'])?floatval(str_replace(",",".",str_replace(".","",$_POST['rolo']))):""; echo "<br>";
+$quantidade = isset($_POST['quantidade'])?floatval(str_replace(",",".",str_replace(".","",$_POST['quantidade']))):"";
+$largura = isset($_POST['largura'])?floatval(str_replace(",",".",str_replace(".","",$_POST['largura']))):"";
+$altura = isset($_POST['altura'])?floatval(str_replace(",",".",str_replace(".","",$_POST['altura']))):"";
+$rolo = isset($_POST['rolo'])?floatval(str_replace(",",".",str_replace(".","",$_POST['rolo']))):"";
 
 // Local do serviço
 $enderecoServico = isset($_POST['enderecoServico'])?$_POST['enderecoServico']:"";
@@ -35,22 +35,45 @@ $estadoServico = isset($_POST['estadoServico'])?$_POST['estadoServico']:"";
 $observacoes = isset($_POST['observacoes'])?$_POST['observacoes']:"";
 $observacoesInternas = isset($_POST['observacoesInternas'])?$_POST['observacoesInternas']:"";
 
+// Calculando metro quadrado
+$m2 = (($altura + $rolo) * $largura) * $quantidade;
 
-// $m2 = (($altura + $rolo) * $largura) * $quantidade;
-// $pesoPortaUnitario = ($m2 * 8) * 1.2;
+// Calculando peso de acordo com o campo personalizado "consumo" dos produtos
+$pesoPortaUnitario = ($m2 * 8) * 1.2;
 
-echo "<hr>";
-consultaContatoId($contatoId);
-
-if($contatoId === ""){
-    echo "Cliente Id vazio. Verificar se o contato exite";
+if(consultaContatoId($contatoId)){
+    // Se o contato já existe...
+    // Criar o pedido.
 } else {
-    echo "Criar pedido com o clienteId fornecido";
+    echo "O contato ainda não está cadastrado no Bling. Esta função ainda não está disponível.";
 }
 
-function consultaContatoId($contatoId){
-    // echo $url = "https://api.bling.com.br/Api/v3/contatos/$contatoId";
+// FUNCOES
 
+// Verifica se o ID de contato existe no Bling
+function consultaContatoId($contatoId){
+    $url = "https://api.bling.com.br/Api/v3/contatos/$contatoId";
+    $jsonFile = file_get_contents('config/token_request_response.json');
+    $jsonData = json_decode($jsonFile, true);
+    $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+    $header = array(
+        "authorization: bearer " . $token
+    );
+    $cURL = curl_init($url);
+    curl_setopt($cURL, CURLOPT_URL, $url);
+    curl_setopt($cURL, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($cURL);
+    $data = json_decode($response, true);
+    
+    echo "<script>console.log($response)</script>";
+    
+    if(isset($data['data']['id']) && $data['data']['id'] == $contatoId){
+        return true;
+    }else{
+        return false;
+    };
 }
 
 
