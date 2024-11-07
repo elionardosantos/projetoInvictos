@@ -41,7 +41,7 @@ $m2 = (($altura + $rolo) * $largura) * $quantidade;
 // Calculando peso de acordo com o campo personalizado "consumo" dos produtos
 $pesoPortaUnitario = ($m2 * 8) * 1.2;
 
-// FUNCOES
+// ###################### FUNCTIONS START ########################
 
 // Verifica se o ID de contato existe no Bling
 function consultaContatoId($contatoId){
@@ -68,6 +68,7 @@ function consultaContatoId($contatoId){
         return false;
     };
 }
+// CRIA UM NOVO PEDIDO
 function novoPedido(){
     global $contatoId;
 
@@ -87,8 +88,7 @@ function novoPedido(){
             "id"=>$contatoId
         ],
         "itens"=>[
-            "codigo"=>44,
-            "quantidade"=>1
+            //criando função para buscar id dos produtos. Linha 124
         ],
         "data"=>"2024-11-06"
     ];
@@ -120,6 +120,11 @@ function novoPedido(){
         echo "Houve um erro ao gerar o pedido";
     }
 }
+// RETORNA O ID DOS PRODUTOS
+function(){
+
+}
+// ################# FUNCTIONS END #########################
 
 
 ?>
@@ -146,7 +151,11 @@ function novoPedido(){
     <div class="container mt-3">
         <?php
             if(consultaContatoId($contatoId)){
-                novoPedido()?header("location: pedido_visualizacao.php?pedidoId=$pedidoId"):"";
+                if(novoPedido()){
+
+                } else {
+                    
+                }
 
             } else {
                 echo "O contato ainda não está cadastrado no Bling.";
