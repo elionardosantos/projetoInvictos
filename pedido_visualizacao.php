@@ -86,9 +86,9 @@
 
     ?>
     <div class="py-2 mb-4 d-print-none">
-        <a href="" class="btn btn-primary" onclick="window.close()">Fechar</a>
+        <a href="" class="btn btn-primary" onclick="window.history.back(); return false;">Voltar</a>
         <a href="editar_pedido.php?pedidoId=<?= $_GET['pedidoId'] ?>" class="btn btn-primary">Editar</a>
-        <a href="" class="btn btn-primary" onclick="window.print()">Imprimir</a>
+        <a href="" class="btn btn-primary" onclick="window.print(); return false;">Imprimir</a>
     </div>
     <div class="">
         <!-- Área do cabeçalho -->

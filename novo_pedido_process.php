@@ -41,13 +41,6 @@ $m2 = (($altura + $rolo) * $largura) * $quantidade;
 // Calculando peso de acordo com o campo personalizado "consumo" dos produtos
 $pesoPortaUnitario = ($m2 * 8) * 1.2;
 
-if(consultaContatoId($contatoId)){
-    // Se o contato já existe...
-    // Criar o pedido.
-} else {
-    echo "O contato ainda não está cadastrado no Bling. Esta função ainda não está disponível.";
-}
-
 // FUNCOES
 
 // Verifica se o ID de contato existe no Bling
@@ -75,6 +68,92 @@ function consultaContatoId($contatoId){
         return false;
     };
 }
+function novoPedido(){
+    global $contatoId;
+
+    $url = "https://api.bling.com.br/Api/v3/pedidos/vendas";
+    $jsonFile = file_get_contents('config/token_request_response.json');
+    $jsonData = json_decode($jsonFile, true);
+    $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+
+    $header = [
+        "Content-Type: application/json",
+        "Accept: application/json",
+        "authorization: bearer " . $token
+    ];
+
+    $postData = [
+        "contato"=>[
+            "id"=>$contatoId
+        ],
+        "itens"=>[
+            "codigo"=>44,
+            "quantidade"=>1
+        ],
+        "data"=>"2024-11-06"
+    ];
+
+    $jsonPostData = json_encode($postData);
+
+    $cURL = curl_init($url);
+    curl_setopt($cURL, CURLOPT_URL, $url);
+    curl_setopt($cURL, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($cURL, CURLOPT_POSTFIELDS, $jsonPostData);
+    curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($cURL);
+    echo "<script>console.log($response)</script>";
+
+    $responseData = json_decode($response, true);
+    
+    if(isset($responseData['error']['type']) && $responseData['error']['type'] === "VALIDATION_ERROR"){
+        // echo $responseData['error']['description'];
+        foreach($responseData['error']['fields'] as $field){
+            echo $field['msg'] . ". ";
+        }
+
+    } else if (isset($responseData['data']['id']) && $responseData['data']['id'] !== ""){
+        echo "Pedido criado com sucesso!";
+        $pedidoId = isset($responseData['data']['id'])?$responseData['data']['id']:"";
+        return true;
+    } else {
+        echo "Houve um erro ao gerar o pedido";
+    }
+}
 
 
 ?>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <?php require('partials/head.php'); ?>
+    <title>Início</title>
+</head>
+<body>
+    <?php
+        require('controller/login_checker.php');
+        require('partials/navbar.php');
+
+    ?>
+    <div class="container mt-3">
+        <h2>Início</h2>
+    </div>
+    <div class="container mt-3">
+        <?php
+            if(consultaContatoId($contatoId)){
+                novoPedido()?header("location: pedido_visualizacao.php?pedidoId=$pedidoId"):"";
+
+            } else {
+                echo "O contato ainda não está cadastrado no Bling.";
+            }
+        ?>
+
+    </div>
+
+</body>
+</html>

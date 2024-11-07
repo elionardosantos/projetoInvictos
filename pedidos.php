@@ -75,7 +75,7 @@
                         require('controller/token_refresh.php');
                         echo "<p>Token atualizado</p>";
                         ordersQuery();
-                    } else if($data['data'] == null) {
+                    } else if(isset($data['data']) && $data['data'] == null) {
                         echo "<hr><p>Nenhum pedido encontrado baseado nos filtros atuais</p>";
                         echo $jsonData;
                     } else {
@@ -98,7 +98,7 @@
                                                 $pedidoId = $row['id'];
 
                                                 //Abrir o orçamento em uma nova guia ao clincar na linha do pedido
-                                                echo "<tr onclick=\"window.open('pedido_visualizacao.php?pedidoId=$pedidoId', '_blank');\" style=\"cursor: pointer;\">";
+                                                echo "<tr onclick=\"window.location.href='pedido_visualizacao.php?pedidoId=$pedidoId'; return false;\" style=\"cursor: pointer;\">";
                                                 
                                                 echo "<td>" . $row['numero'] . "</td>";
                                                 echo "<td>" . date('d/m/Y', strtotime($row['data'])) . "</td>";
