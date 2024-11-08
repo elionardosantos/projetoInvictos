@@ -84,13 +84,19 @@ function novoPedido(){
     ];
     
     $listaProdutos = [30, 44];
+    $produtosId = consultaProdutoId($listaProdutos);
+
     $postData = [
         "contato"=>[
             "id"=>$contatoId
         ],
         "itens"=>[
-            //criando função para buscar id dos produtos. Linha 124
-            consultaProdutoId($listaProdutos)
+            [
+                "produto"=>[
+                    "id"=>16083585673,
+                ],
+                "quantidade"=>5,
+            ],
         ],
         "data"=>"2024-11-07"
     ];
@@ -103,15 +109,15 @@ function novoPedido(){
     curl_setopt($cURL, CURLOPT_POSTFIELDS, $jsonPostData);
     curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
 
-    $response = curl_exec($cURL);
-    echo "<script>console.log($response)</script>";
+    // $response = curl_exec($cURL);
+    // echo "<script>console.log($response)</script>";
 
-    $responseData = json_decode($response, true);
-    
+    // $responseData = json_decode($response, true);
+
     if(isset($responseData['error']['type']) && $responseData['error']['type'] === "VALIDATION_ERROR"){
         // echo $responseData['error']['description'];
         foreach($responseData['error']['fields'] as $field){
-            echo $field['msg'] . ". ";
+            echo $field['msg'];
         }
 
     } else if (isset($responseData['data']['id']) && $responseData['data']['id'] !== ""){
@@ -123,6 +129,7 @@ function novoPedido(){
     }
 }
 // RETORNA O ID DOS PRODUTOS
+
 function consultaProdutoId($listaProdutos){
     $link = "";
     foreach($listaProdutos as $produto){
@@ -143,12 +150,11 @@ function consultaProdutoId($listaProdutos){
     $response = curl_exec($cURL);
     $responseData = json_decode($response, true);
     
-    // echo "<script>console.log($response)</script>";
+    echo "<script>console.log($response)</script>";
     foreach($responseData['data'] as $produto){
-        return $produto['id'].",";
+        return "\"" . $produto['codigo'] . "\"" . "=>" . "\"" . $produto['id'] . "\",\n";
     }
 }
-
 
 // ################# FUNCTIONS END #########################
 
