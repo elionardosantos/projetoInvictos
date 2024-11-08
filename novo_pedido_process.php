@@ -66,8 +66,59 @@ function consultaContatoId($contatoId){
         return true;
     }else{
         return false;
-    };
+    }
 }
+
+// Cria um novo contato
+function criarContato(){
+    global $cliente;
+    global $documento;
+    global $tel;
+    global $cel;
+    global $tipoPessoa;
+    global $email;
+    global $endereco;
+    global $bairro;
+    global $municipio;
+    global $estado;
+    global $numero;
+
+    // REALIZAR AJUSTES
+    // $url = "https://api.bling.com.br/Api/v3/contatos/$contatoId";
+    // $jsonFile = file_get_contents('config/token_request_response.json');
+    // $jsonData = json_decode($jsonFile, true);
+    // $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+    // $header = array(
+    //     "authorization: bearer " . $token
+    // );
+    // $cURL = curl_init($url);
+    // curl_setopt($cURL, CURLOPT_URL, $url);
+    // curl_setopt($cURL, CURLOPT_HTTPHEADER, $header);
+    // curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+
+    // $response = curl_exec($cURL);
+
+    $data = [
+        "nome"=>$cliente,
+        "numeroDocumento"=>$documento,
+        "telefone"=>$tel,
+        "celular"=>$cel,
+        "tipo"=>$tipoPessoa,
+        "email"=>$email,
+        "endereco"=>[
+            "geral"=>[
+                "endereco"=>$endereco,
+                // "cep"=>$cep,            //VARIAVEL INDEFINIDA
+                "bairro"=>$bairro,
+                "municipio"=>$municipio,
+                "uf"=>$estado,
+                "numero"=>$numero,
+                // "complemento"=>$complemento //VARIAVEL INDEFINIDA
+            ]
+        ]
+    ];
+}
+
 // CRIA UM NOVO PEDIDO
 function novoPedido(){
     global $contatoId;
@@ -182,6 +233,7 @@ function consultaProdutoId($listaProdutos){
     </div>
     <div class="container mt-3">
         <?php
+            // Se o contato existir
             if(consultaContatoId($contatoId)){
                 if(novoPedido()){
 
