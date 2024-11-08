@@ -60,10 +60,36 @@ function consultaContatoId($contatoId){
     $response = curl_exec($cURL);
     $data = json_decode($response, true);
     
+    echo "<script>console.log('Consulta contato ID')</script>";
     echo "<script>console.log($response)</script>";
     
     if(isset($data['data']['id']) && $data['data']['id'] == $contatoId){
         return true;
+    }else{
+        return false;
+    }
+}
+function consultaContatoDocumento($documento){
+    $url = "https://api.bling.com.br/Api/v3/contatos?numeroDocumento=$documento";
+    $jsonFile = file_get_contents('config/token_request_response.json');
+    $jsonData = json_decode($jsonFile, true);
+    $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+    $header = array(
+        "authorization: bearer " . $token
+    );
+    $cURL = curl_init($url);
+    curl_setopt($cURL, CURLOPT_URL, $url);
+    curl_setopt($cURL, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($cURL);
+    $data = json_decode($response, true);
+    
+    echo "<script>console.log('Consulta documento:')</script>";
+    echo "<script>console.log($response)</script>";
+    
+    if(isset($data['data']) && count($data['data']) > 0){
+        return $data['data'][0]['id'];
     }else{
         return false;
     }
@@ -149,7 +175,7 @@ function novoPedido(){
                 "quantidade"=>5,
             ],
         ],
-        "data"=>"2024-11-07"
+        "data"=>"2024-11-08"
     ];
 
     $jsonPostData = json_encode($postData);
@@ -160,23 +186,23 @@ function novoPedido(){
     curl_setopt($cURL, CURLOPT_POSTFIELDS, $jsonPostData);
     curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
 
-    // $response = curl_exec($cURL);
-    // echo "<script>console.log($response)</script>";
+    $response = curl_exec($cURL);
+    echo "<script>console.log('Resultado da criação do pedido')</script>";
+    echo "<script>console.log($response)</script>";
 
-    // $responseData = json_decode($response, true);
+    $responseData = json_decode($response, true);
 
     if(isset($responseData['error']['type']) && $responseData['error']['type'] === "VALIDATION_ERROR"){
         // echo $responseData['error']['description'];
         foreach($responseData['error']['fields'] as $field){
-            echo $field['msg'];
+            echo $field['msg']."<br>";
         }
 
     } else if (isset($responseData['data']['id']) && $responseData['data']['id'] !== ""){
-        echo "Pedido criado com sucesso!";
         $pedidoId = isset($responseData['data']['id'])?$responseData['data']['id']:"";
         return true;
     } else {
-        echo "Houve um erro ao gerar o pedido";
+        return false;
     }
 }
 // RETORNA O ID DOS PRODUTOS
@@ -201,6 +227,7 @@ function consultaProdutoId($listaProdutos){
     $response = curl_exec($cURL);
     $responseData = json_decode($response, true);
     
+    echo "<script>console.log('Consulta produtos')</script>";
     echo "<script>console.log($response)</script>";
     foreach($responseData['data'] as $produto){
         return "\"" . $produto['codigo'] . "\"" . "=>" . "\"" . $produto['id'] . "\",\n";
@@ -220,7 +247,7 @@ function consultaProdutoId($listaProdutos){
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Início</title>
+    <title>Orçamento</title>
 </head>
 <body>
     <?php
@@ -229,20 +256,26 @@ function consultaProdutoId($listaProdutos){
 
     ?>
     <div class="container mt-3">
-        <h2>Início</h2>
+        <h2>Orçamento</h2>
     </div>
     <div class="container mt-3">
         <?php
             // Se o contato existir
             if(consultaContatoId($contatoId)){
                 if(novoPedido()){
-
+                    echo "Pedido criado com sucesso";
                 } else {
-                    
+                    echo "Erro ao criar o pedido";
                 }
 
+            } else if($contatoId = consultaContatoDocumento($documento)) {
+                if(novoPedido()){
+                    echo "Pedido criado com sucesso";
+                } else {
+                    echo "Erro ao criar o pedido";
+                }
             } else {
-                echo "O contato ainda não está cadastrado no Bling.";
+                echo "Contato não existe. Criar um novo.";
             }
         ?>
 
