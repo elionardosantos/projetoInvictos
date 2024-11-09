@@ -88,7 +88,7 @@ function consultaContatoDocumento($documento){
     echo "<script>console.log('Consulta documento:')</script>";
     echo "<script>console.log($response)</script>";
     
-    if(isset($data['data']) && count($data['data']) > 0){
+    if(isset($data['data']) && count($data['data']) == 1){
         return $data['data'][0]['id'];
     }else{
         return false;
@@ -134,16 +134,16 @@ function criarContato(){
         "endereco"=>[
             "geral"=>[
                 "endereco"=>$endereco,
-                // "cep"=>$cep,            //VARIAVEL INDEFINIDA
+                // "cep"=>$cep,
                 "bairro"=>$bairro,
                 "municipio"=>$municipio,
                 "uf"=>$estado,
                 "numero"=>$numero,
-                // "complemento"=>$complemento //VARIAVEL INDEFINIDA
-            ]
-        ]
+                // "complemento"=>$complemento
+            ],
+        ],
     ];
-}
+};
 
 // CRIA UM NOVO PEDIDO
 function novoPedido(){
@@ -159,9 +159,6 @@ function novoPedido(){
         "Accept: application/json",
         "authorization: bearer " . $token
     ];
-    
-    $listaProdutos = [30, 44];
-    $produtosId = consultaProdutoId($listaProdutos);
 
     $postData = [
         "contato"=>[
@@ -172,10 +169,10 @@ function novoPedido(){
                 "produto"=>[
                     "id"=>16083585673,
                 ],
-                "quantidade"=>5,
+                "quantidade"=>1,
             ],
         ],
-        "data"=>"2024-11-08"
+        "data"=>date('Y-m-d'),
     ];
 
     $jsonPostData = json_encode($postData);
@@ -199,7 +196,7 @@ function novoPedido(){
         }
 
     } else if (isset($responseData['data']['id']) && $responseData['data']['id'] !== ""){
-        $pedidoId = isset($responseData['data']['id'])?$responseData['data']['id']:"";
+        return $pedidoId = isset($responseData['data']['id'])?$responseData['data']['id']:"";
         return true;
     } else {
         return false;
@@ -260,22 +257,25 @@ function consultaProdutoId($listaProdutos){
     </div>
     <div class="container mt-3">
         <?php
-            // Se o contato existir
-            if(consultaContatoId($contatoId)){
+            echo "<p>Altura: $altura / Largura: $largura / Quant: $quantidade / m²: $m2</p>";
+            
+            if(consultaContatoId($contatoId)){ // Verifica se o contato existe pelo ID
                 if(novoPedido()){
                     echo "Pedido criado com sucesso";
                 } else {
                     echo "Erro ao criar o pedido";
                 }
 
-            } else if($contatoId = consultaContatoDocumento($documento)) {
+            } else if($contatoId = consultaContatoDocumento($documento)) { // Verifica se o contato existe pelo Documento
                 if(novoPedido()){
                     echo "Pedido criado com sucesso";
+                    echo "ID do pedido: ". $pedidoId;
                 } else {
                     echo "Erro ao criar o pedido";
                 }
             } else {
                 echo "Contato não existe. Criar um novo.";
+                
             }
         ?>
 

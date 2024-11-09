@@ -24,7 +24,10 @@
         </form>
     </div>
     <div class="container mt-5">
-                <?php //CONSULTANDO CONTATOS NO BLING
+                <?php
+                $passHere = "yes";
+                
+                //CONSULTANDO CONTATOS NO BLING
                 $nome = isset($_GET['nome'])?$_GET['nome']:"";
                 if($nome === ''){
                     // Nada acontece
@@ -33,6 +36,8 @@
                 }
 
                 function consultaContato($nome){
+                    global $passHere;
+
                     $jsonFile = file_get_contents('config/token_request_response.json');
                     $jsonData = json_decode($jsonFile, true);
                     $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
@@ -52,13 +57,18 @@
                     
                     $data = json_decode($response, true);
                     
-                    
-                    
-                if(isset($data['error']['type']) && $data['error']['type'] === "invalid_token"){
-                    require('controller/token_refresh.php');
-                    consultaContato($nome);
-                }elseif($data['data'] == null){
-                        echo "Nenhum resultado encontrado";
+                    if(isset($data['error']['type']) && $data['error']['type'] === "invalid_token"){
+                        require('controller/token_refresh.php');
+                        consultaContato($nome);
+                    }elseif($data['data'] == null){
+                        if($passHere == "yes"){
+                            $passHere = "no";
+                            // Este IF pesquisa o contato utilizando % antes e depois da string se o else não retornar nenhum resultado.
+                            // O Bling diferencia a pesquisa com e sem o símbolo % como em uma consulta SQL
+                            consultaContato("%".$nome."%"); 
+                        } else {
+                            echo "Nenhum resultado encontrado";
+                        }
                     }else{
                         ?>
                         <table class="table table-sm  table-striped">

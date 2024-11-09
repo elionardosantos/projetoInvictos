@@ -260,7 +260,7 @@
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="rolo">Rolo*</label>
-                    <input class="form-control" name="rolo" id="rolo">
+                    <input class="form-control" name="rolo" id="rolo" value="0,5">
                 </div>
             </div>
             
