@@ -63,7 +63,7 @@
                     }elseif($data['data'] == null){
                         if($passHere == "yes"){
                             $passHere = "no";
-                            // Este IF pesquisa o contato utilizando % antes e depois da string se o else não retornar nenhum resultado.
+                            // Este IF pesquisa o contato utilizando % antes e depois da string se o primeiro if não retornar nenhum resultado.
                             // O Bling diferencia a pesquisa com e sem o símbolo % como em uma consulta SQL
                             consultaContato("%".$nome."%"); 
                         } else {
