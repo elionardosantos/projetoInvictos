@@ -68,6 +68,7 @@
                 global $email;
                 global $celular;
                 global $telefone;
+                global $cep;
 
                 $tipoPessoa = $data['data']['tipo'];
                 $documento = $data['data']['numeroDocumento'];
@@ -76,6 +77,7 @@
                 $number = $data['data']['endereco']['geral']['numero'];
                 $district = $data['data']['endereco']['geral']['bairro'];
                 $city = $data['data']['endereco']['geral']['municipio'];
+                $zip = $data['data']['endereco']['geral']['cep'];
                 $state = $data['data']['endereco']['geral']['uf'];
                 $email = isset($data['data']['email'])?$data['data']['email']:"";
                 $celular = isset($data['data']['celular'])?$data['data']['celular']:"";
@@ -98,6 +100,7 @@
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     $response = curl_exec($ch);
 
+                    echo "<script>console.log($response)</script>";
                     $data = json_decode($response);
 
                     if(isset($data->company->name)){
@@ -109,6 +112,7 @@
                         global $city;
                         global $state;
                         global $tipoPessoa;
+                        global $zip;
 
                         $tipoPessoa = "J";
                         $updated = new DateTime($data->updated);
@@ -120,6 +124,7 @@
                         $district = $data->address->district;
                         $city = $data->address->city;
                         $state = isset($data->address->state)?$data->address->state:"";
+                        $zip = $data->address->zip;
                         
                         echo "Última atualização dos dados: $updated2";
                         
@@ -172,6 +177,10 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-2">
+                    <label for="cep" class="form-label mb-0 mt-2">CEP</label>
+                    <input type="text" class="form-control" id="cep" name="cep" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
+                </div>
                 <div class="col-md-4">
                     <label for="bairro" class="form-label mb-0 mt-2">Bairro</label>
                     <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" value="<?= isset($district)?$district:""; ?>">
@@ -180,7 +189,7 @@
                     <label for="municipio" class="form-label mb-0 mt-2">Município</label>
                     <input type="text" class="form-control" name="municipio" id="municipio" placeholder="Município" value="<?= isset($city)?$city:""; ?>">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <label for="estado" class="form-label mb-0 mt-2">Estado</label>
                     <select class="form-select" id="estado" name="estado">
                         <!-- <option selected>Escolha...</option> -->
@@ -276,6 +285,10 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-2">
+                    <label for="cep" class="form-label mb-0 mt-2">CEP</label>
+                    <input type="text" class="form-control" id="cep" name="cep" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
+                </div>
                 <div class="col-md-4">
                     <label for="bairroServico" class="form-label mb-0 mt-2">Bairro</label>
                     <input type="text" class="form-control" id="bairroServico" name="bairroServico" placeholder="Bairro" value="<?= isset($district)?$district:""; ?>">
@@ -284,7 +297,7 @@
                     <label for="municipioServico" class="form-label mb-0 mt-2">Município</label>
                     <input type="text" class="form-control" name="municipioServico" id="municipioServico" placeholder="Município" value="<?= isset($city)?$city:""; ?>">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <label for="estadoServico" class="form-label mb-0 mt-2">Estado</label>
                     <select class="form-select" id="estadoServico" name="estadoServico">
                         <!-- <option selected>Escolha...</option> -->
