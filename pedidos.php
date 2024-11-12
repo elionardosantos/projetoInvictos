@@ -13,7 +13,11 @@
         $dataFinal = isset($_GET['dataFinal'])?$_GET['dataFinal']:date('Y-m-d');
         $numeroPedido = isset($_GET['numeroPedido'])?$_GET['numeroPedido']:"";
         $nomePedido = isset($_GET['nomePedido'])?$_GET['nomePedido']:"";
-        $urlData = "dataInicial=".$dataInicial."&dataFinal=".$dataFinal."&numero=".$numeroPedido."&nome=".$nomePedido;
+        $situacaoPedido = isset($_GET['situacao'])?$_GET['situacao']:"";
+
+        $situcaoPedidoUrl = isset($_GET['situacao'])&&$situacaoPedido!==""?"&idsSituacoes[]=".$situacaoPedido:"";
+
+        $urlData = "dataInicial=".$dataInicial."&dataFinal=".$dataFinal."&numero=".$numeroPedido."&nome=".$nomePedido.$situcaoPedidoUrl;
         
         $situacoes = consultaSituacoes(98310);
     ?>
@@ -37,12 +41,13 @@
                 </div>
                 <div class="col-sm-3">
                     <label for="situacao">Situação:</label>
-                    <select class="form-control" id="situacao">
+                    <select class="form-select" id="situacao" name="situacao">
+                        <option value="">Todos</option>
                         <?php
                             if(isset($situacoes)){
                                 foreach($situacoes['data'] as $situacao){
                                     ?>
-                                    <option value="<?= $situacao['id'] ?>"><?= $situacao['nome'] ?></option>;
+                                    <option <?php if($situacaoPedido == $situacao['id']){echo "selected";} ?> value="<?= $situacao['id'] ?>"><?= $situacao['nome'] ?></option>;
                                     <?php
                                 }
                             }
@@ -118,7 +123,7 @@
                         ordersQuery();
                     } else if(isset($data['data']) && $data['data'] == null) {
                         echo "<hr><p>Nenhum pedido encontrado baseado nos filtros atuais</p>";
-                        echo $jsonData;
+                        // echo $jsonData;
                     } else {
                         // echo $response;
                         ?>
