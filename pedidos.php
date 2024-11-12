@@ -82,7 +82,8 @@
                     $response = curl_exec($cURL);
                     curl_close($cURL);
                     $data = json_decode($response, true);
-
+                    
+                    echo "<script>console.log('funcao ConsultaSituacoes')</script>";
                     echo "<script>console.log($response)</script>";
 
                     if(count($data['data']) > 0){
