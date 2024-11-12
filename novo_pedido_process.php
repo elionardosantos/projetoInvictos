@@ -3,7 +3,8 @@
 // Dados do contato
 $contatoId = isset($_POST['contatoId'])?$_POST['contatoId']:"";
 $cliente = isset($_POST['cliente'])?$_POST['cliente']:"";
-$documento = isset($_POST['documento'])?$_POST['documento']:"";
+$documentoForm = isset($_POST['documento'])?$_POST['documento']:"";
+$documento = preg_replace("/[^0-9]/", "", $documentoForm); //deixando somente números
 $tipoPessoa = isset($_POST['tipoPessoa'])?$_POST['tipoPessoa']:"";
 $endereco = isset($_POST['endereco'])?$_POST['endereco']:"";
 $numero = isset($_POST['numero'])?$_POST['numero']:"";
@@ -280,7 +281,7 @@ function consultaProdutoId($listaProdutos){
             
             if(consultaContatoId($contatoId)){ // Verifica se o contato existe pelo ID
                 if($pedidoId = novoPedido()){
-                    echo "Pedido criado com sucesso";
+                    echo "Pedido criado com sucesso¹<br>";
                     echo "ID do pedido: ". $pedidoId;
                 } else {
                     // echo "Erro ao criar o pedido";
@@ -288,14 +289,14 @@ function consultaProdutoId($listaProdutos){
 
             } else if($contatoId = consultaContatoDocumento($documento)) { // Verifica se o contato existe pelo Documento
                 if($pedidoId = novoPedido()){
-                    echo "Pedido criado com sucesso<br>";
+                    echo "Pedido criado com sucesso²<br>";
                     echo "ID do pedido: ". $pedidoId;
                 } else {
                     // echo "Erro ao criar o pedido";
                 }
             } else if($contatoId = novoContato()){ // Se o contato não existir, um novo contato é criado
                 if($pedidoId = novoPedido()){
-                    echo "Pedido criado com sucesso<br>";
+                    echo "Pedido criado com sucesso³<br>";
                     echo "ID do pedido: ". $pedidoId;
                 } else {
                     // echo "Erro ao criar o pedido";
@@ -303,7 +304,7 @@ function consultaProdutoId($listaProdutos){
                 
             } else {
                 // echo "Houve um erro ao criar um novo contato";
-                echo "Houve um erro ao criar um novo pedido. Favor entrar em contato com um administrador do sistema";
+                echo "Houve um erro ao criar o novo orçamento. Favor entrar em contato com um administrador do sistema";
             }
         ?>
 
