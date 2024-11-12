@@ -41,6 +41,8 @@ $m2 = (($altura + $rolo) * $largura) * $quantidade;
 // Calculando peso de acordo com o campo personalizado "consumo" dos produtos
 $pesoPortaUnitario = ($m2 * 8) * 1.2;
 
+date_default_timezone_set('America/Sao_Paulo');
+
 // ###################### FUNCTIONS START ########################
 
 // Verifica se o ID de contato existe no Bling
@@ -179,6 +181,13 @@ function novoPedido(){
         "authorization: bearer " . $token
     ];
 
+//  pf24	Perfil Fechado Meia Cana #24				
+//  GUI70	Guia 70 x 30				
+//  AC300	Motor AC 300				
+//  EIX11	Eixo Tubo 114,3				
+//  SOLT	Soleira em T Reforçada				
+//  BOR	Borracha para soleira				
+
     $postData = [
         "contato"=>[
             "id"=>$contatoId
@@ -188,7 +197,7 @@ function novoPedido(){
                 "produto"=>[
                     "id"=>16083585673,
                 ],
-                "quantidade"=>1,
+                "quantidade"=>4.3,
             ],
         ],
         "data"=>date('Y-m-d'),

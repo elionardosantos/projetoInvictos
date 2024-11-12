@@ -40,6 +40,8 @@
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $response = curl_exec($ch);
 
+            echo "<script>console.log($response)</script>";
+
             $data = json_decode($response);
 
             if(isset($data->company->name)){

@@ -6,10 +6,9 @@
     <style>
         body {
             margin: 5px;
-            
             max-width: 800px;
             margin: 0 auto;
-            
+            font-size: 0.9em;
         }
         @media print {
             body {
