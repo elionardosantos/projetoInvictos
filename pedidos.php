@@ -57,10 +57,10 @@
             </div>
             <div class="row mt-4">
                 <div class="col">
-                    <input type="submit" value="Buscar" class="btn btn-primary">
-                <a href="novo_pedido.php" class="btn btn-primary ms-4" role="button">Novo Orçamento</a>
-                <a href="consulta_cnpj.php" class="btn btn-primary" role="button">Consultar CNPJ</a>
-                <a href="consulta_contato.php" class="btn btn-primary" role="button">Consultar Contatos</a>
+                    <input type="submit" value="Buscar" class="btn btn-primary mt-1">
+                    <a href="novo_orcamento.php" class="btn btn-primary ms-4 mt-1" role="button">Novo Orçamento</a>
+                    <a href="consulta_cnpj.php" class="btn btn-primary mt-1" role="button">Consultar CNPJ</a>
+                    <a href="consulta_contato.php" class="btn btn-primary mt-1" role="button">Consultar Contatos</a>
                 </div>
             </div>
         </form>

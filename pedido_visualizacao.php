@@ -5,10 +5,15 @@
     <title>Orçamento</title>
     <style>
         body {
-            margin: 5px;
+            font-size: 0.9em;
+        }
+        .buttons {
             max-width: 800px;
             margin: 0 auto;
-            font-size: 0.9em;
+        }
+        .printView {
+            max-width: 800px;
+            margin: 0 auto;
         }
         @media print {
             body {
@@ -84,12 +89,15 @@
         }
 
     ?>
-    <div class="py-2 mb-4 d-print-none">
-        <a href="" class="btn btn-primary" onclick="window.history.back(); return false;">Voltar</a>
-        <a href="editar_pedido.php?pedidoId=<?= $_GET['pedidoId'] ?>" class="btn btn-primary">Editar</a>
-        <a href="" class="btn btn-primary" onclick="window.print(); return false;">Imprimir</a>
+    <div class="py-2 mb-4 d-print-none shadow">
+        <div class="buttons">
+            <a href="" class="btn btn-primary ms-2 " onclick="window.history.back(); return false;">Voltar</a>
+            <a href="editar_pedido.php?pedidoId=<?= $_GET['pedidoId'] ?>" class="btn btn-primary">Editar</a>
+            <a href="" class="btn btn-primary" onclick="window.print(); return false;">Imprimir</a>
+
+        </div>
     </div>
-    <div class="">
+    <div class="printView">
         <!-- Área do cabeçalho -->
         <div class="row align-items-center">
             <!-- Dados do cliente -->

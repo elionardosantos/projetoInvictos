@@ -37,7 +37,7 @@ $observacoes = isset($_POST['observacoes'])?$_POST['observacoes']:"";
 $observacoesInternas = isset($_POST['observacoesInternas'])?$_POST['observacoesInternas']:"";
 
 // Calculando metro quadrado
-$m2 = (($altura + $rolo) * $largura) * $quantidade;
+// $m2 = (($altura + $rolo) * $largura) * $quantidade;
 
 // Calculando peso de acordo com o campo personalizado "consumo" dos produtos
 $pesoPortaUnitario = ($m2 * 8) * 1.2;
@@ -188,17 +188,23 @@ function novoPedido(){
 //  EIX11	Eixo Tubo 114,3				
 //  SOLT	Soleira em T Reforçada				
 //  BOR	Borracha para soleira				
-
+    $respostaConsultaProdutos = consultaProdutoId([44,45]);
+    foreach($respostaConsultaProdutos as $item){
+        echo "Tatu da mata";
+        echo "[\"produto\"=>[\"id\"=>$item[id],],\"quantidade\"=>4.5,],";
+    }
+    
     $postData = [
         "contato"=>[
             "id"=>$contatoId
         ],
         "itens"=>[
+
             [
                 "produto"=>[
                     "id"=>16083585673,
                 ],
-                "quantidade"=>4.3,
+                "quantidade"=>4.1,
             ],
         ],
         "data"=>date('Y-m-d'),
@@ -231,8 +237,8 @@ function novoPedido(){
         return false;
     }
 }
-// RETORNA O ID DOS PRODUTOS
 
+// RETORNA O ID DOS PRODUTOS
 function consultaProdutoId($listaProdutos){
     $link = "";
     foreach($listaProdutos as $produto){
@@ -255,8 +261,16 @@ function consultaProdutoId($listaProdutos){
     
     echo "<script>console.log('Consulta produtos')</script>";
     echo "<script>console.log($response)</script>";
-    foreach($responseData['data'] as $produto){
+
+    if($responseData['data'] > 0){
         return "\"" . $produto['codigo'] . "\"" . "=>" . "\"" . $produto['id'] . "\",\n";
+    }
+    if(isset($responseData['error']['type']) && $responseData['error']['type'] === "VALIDATION_ERROR"){
+       
+    } else if (isset($responseData['data']['id']) && $responseData['data']['id'] !== ""){
+        return $responseData['data'];
+    } else {
+        return false;
     }
 }
 

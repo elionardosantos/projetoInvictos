@@ -94,7 +94,7 @@
                                 $telefone = isset($contato['telefone'])?$contato['telefone']:"";
                                     
                                 ?>
-                                <tr onclick="window.location.href='novo_pedido.php?contatoId=<?= $id ?>';" style="cursor: pointer;">
+                                <tr onclick="window.location.href='novo_orcamento.php?contatoId=<?= $id ?>';" style="cursor: pointer;">
                                     <td><?= $codigo ?></td>
                                     <td><?= $nome ?></td>
                                     <td><?= $numeroDocumento ?></td>
