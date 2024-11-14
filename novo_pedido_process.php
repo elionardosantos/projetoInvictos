@@ -37,7 +37,7 @@ $observacoes = isset($_POST['observacoes'])?$_POST['observacoes']:"";
 $observacoesInternas = isset($_POST['observacoesInternas'])?$_POST['observacoesInternas']:"";
 
 // Calculando metro quadrado
-// $m2 = (($altura + $rolo) * $largura) * $quantidade;
+$m2 = (($altura + $rolo) * $largura) * $quantidade;
 
 // Calculando peso de acordo com o campo personalizado "consumo" dos produtos
 $pesoPortaUnitario = ($m2 * 8) * 1.2;
@@ -170,41 +170,30 @@ function novoContato(){
 // CRIA UM NOVO PEDIDO
 function novoPedido(){
     global $contatoId;
+    global $m2;
 
     $url = "https://api.bling.com.br/Api/v3/pedidos/vendas";
     $jsonFile = file_get_contents('config/token_request_response.json');
     $jsonData = json_decode($jsonFile, true);
     $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
 
+    $produtos = consultaProdutoId([44,45]);
     $header = [
         "Content-Type: application/json",
         "Accept: application/json",
         "authorization: bearer " . $token
     ];
-
-//  pf24	Perfil Fechado Meia Cana #24				
-//  GUI70	Guia 70 x 30				
-//  AC300	Motor AC 300				
-//  EIX11	Eixo Tubo 114,3				
-//  SOLT	Soleira em T Reforçada				
-//  BOR	Borracha para soleira				
-    $respostaConsultaProdutos = consultaProdutoId([44,45]);
-    foreach($respostaConsultaProdutos as $item){
-        echo "Tatu da mata";
-        echo "[\"produto\"=>[\"id\"=>$item[id],],\"quantidade\"=>4.5,],";
-    }
-    
     $postData = [
         "contato"=>[
             "id"=>$contatoId
         ],
         "itens"=>[
-
             [
                 "produto"=>[
                     "id"=>16083585673,
                 ],
-                "quantidade"=>4.1,
+                "quantidade"=>$m2,
+                "valor"=>170,
             ],
         ],
         "data"=>date('Y-m-d'),
@@ -240,6 +229,7 @@ function novoPedido(){
 
 // RETORNA O ID DOS PRODUTOS
 function consultaProdutoId($listaProdutos){
+    global $m2;
     $link = "";
     foreach($listaProdutos as $produto){
         $link .= "&codigos%5B%5D=$produto";
@@ -262,8 +252,10 @@ function consultaProdutoId($listaProdutos){
     echo "<script>console.log('Consulta produtos')</script>";
     echo "<script>console.log($response)</script>";
 
-    if($responseData['data'] > 0){
-        return "\"" . $produto['codigo'] . "\"" . "=>" . "\"" . $produto['id'] . "\",\n";
+    if(isset($responseData['data']) && $responseData['data'] > 0){
+        foreach($responseData['data'] as $item){
+            return "[\"produto\"=>[\"id\"=>".$item['id'].",],\"quantidade\"=>".$m2.",],";
+        }
     }
     if(isset($responseData['error']['type']) && $responseData['error']['type'] === "VALIDATION_ERROR"){
        

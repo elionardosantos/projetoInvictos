@@ -84,15 +84,24 @@
                     
                     curl_setopt($cURL, CURLOPT_HTTPHEADER, $headers);
                     curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
-                    $response = curl_exec($cURL);
+                    $response2 = curl_exec($cURL);
                     curl_close($cURL);
-                    $data = json_decode($response, true);
+                    $jsonData = json_decode($response2, true);
                     
                     echo "<script>console.log('funcao ConsultaSituacoes')</script>";
-                    echo "<script>console.log($response)</script>";
+                    echo "<script>console.log($response2)</script>";
 
-                    if(count($data['data']) > 0){
-                        return $data;
+                    
+                    //verify and refresh token
+                    if(isset($jsonData['error']['type']) && $jsonData['error']['type'] === "invalid_token"){
+                        require('controller/token_refresh.php');
+                        echo "<script>console.log('Token atualizado')</script></p>";
+                        return consultaSituacoes($idModulo);
+                    }else if(isset($jsonData['data']) && $jsonData['data'] == null) {
+                        echo "<hr><p>Nenhum pedido encontrado baseado nos filtros atuais</p>";
+                        // echo $jsonData;
+                    }else if(count($jsonData['data']) > 0){
+                        return $jsonData;
                     } else {
                         echo "<script>console.log('Nenhum status encontrado')</script>";
                     };
@@ -113,8 +122,6 @@
                     $response = curl_exec($cURL);
                     curl_close($cURL);
                     $data = json_decode($response, true);
-
-                    
                     
                     //verify and refresh token
                     if(isset($data['error']['type']) && $data['error']['type'] === "invalid_token"){
@@ -153,11 +160,13 @@
                                                 echo "<td>" . $row['contato']['nome'] . "</td>";
                                                 echo "<td>R$" . number_format($row['total'], 2, ',', '.') . "</td>";
                                                 $situacaoPedidoId = $row['situacao']['id'];
-                                                foreach($situacoes['data'] as $situacao){
-                                                    if($situacaoPedidoId == $situacao['id']){
-                                                        ?>
-                                                        <td><?= $situacao['nome'] ?></td>
-                                                        <?php
+                                                if(isset($situacoes['data']) && $situacoes['data'] > 0) {
+                                                    foreach($situacoes['data'] as $situacao){
+                                                        if($situacaoPedidoId == $situacao['id']){
+                                                            ?>
+                                                            <td><?= $situacao['nome'] ?></td>
+                                                            <?php
+                                                        }
                                                     }
                                                 }
                                                 echo "</tr>";
