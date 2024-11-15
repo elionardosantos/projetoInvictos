@@ -362,68 +362,68 @@
             <div class="row mt-3 ms-0">
                 <!-- CHECKED -->
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="44" name="item44" checked>
-                    <label class="form-check-label" for="item44">
+                    <input class="form-check-input" type="checkbox" name="item1" value="true" checked>
+                    <label class="form-check-label" for="item1">
                     Perfil Fechado Meia Cana #24
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="36" name="item36" checked>
-                    <label class="form-check-label" for="item36">
+                    <input class="form-check-input" type="checkbox" name="item2" value="true" checked>
+                    <label class="form-check-label" for="item2">
                     Eixo Tubo 114,3
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item3" value="" checked>
+                    <input class="form-check-input" type="checkbox" name="item3" value="true" checked>
                     <label class="form-check-label" for="item3">
-                    Guia 70 x 30
+                    Guia
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item4" value="" checked>
+                    <input class="form-check-input" type="checkbox" name="item4" value="true" checked>
                     <label class="form-check-label" for="item4">
-                    Borracha para soleira
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item5" value="" checked>
-                    <label class="form-check-label" for="item5">
                     Soleira em T Reforçada
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item6" value="" checked>
-                    <label class="form-check-label" for="item6">
-                    Motor AC 300
+                    <input class="form-check-input" type="checkbox" name="item5" value="true" checked>
+                    <label class="form-check-label" for="item5">
+                    Borracha para soleira
                     </label>
                 </div>
                 <!-- UNCHECKED -->
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item7" value="">
+                    <input class="form-check-input" type="checkbox" name="item6" value="true">
+                    <label class="form-check-label" for="item6">
+                    Motor AC 300
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="item7" value="true">
                     <label class="form-check-label" for="item7">
                     Portinhola Lateral
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item8" value="">
+                    <input class="form-check-input" type="checkbox" name="item8" value="true">
                     <label class="form-check-label" for="item8">
                     Alçapão
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item9" value="">
+                    <input class="form-check-input" type="checkbox" name="item9" value="true">
                     <label class="form-check-label" for="item9">
                     Pintura eletrostática
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item10" value="">
+                    <input class="form-check-input" type="checkbox" name="item10" value="true">
                     <label class="form-check-label" for="item10">
                     Mão de Obra Piabeta
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item11" value="">
+                    <input class="form-check-input" type="checkbox" name="item11" value="true">
                     <label class="form-check-label" for="item11">
                     Mão de Obra Instalação até 100 km
                     </label>

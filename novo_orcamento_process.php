@@ -1,6 +1,7 @@
 <?php
 require('controller/login_checker.php');
 date_default_timezone_set('America/Sao_Paulo');
+ob_start();
 
 // Dados do contato
 $contatoId = isset($_POST['contatoId'])?$_POST['contatoId']:"";
@@ -40,17 +41,27 @@ $rolo = isset($_POST['rolo'])?floatval(str_replace(",",".",str_replace(".","",$_
 
 // Calculando metro quadrado
 $m2 = (($altura + $rolo) * $largura) * $quantidade;
+$observacoesInternas .= "Largura: ".$largura."m / Altura: ".$altura."m / Quant: ".$quantidade." / m²: $m2 \n";
 
 // Calculando peso de acordo com o campo personalizado "consumo" dos produtos
 $pesoPortaUnitario = ($m2 * 8) * 1.2;
 
 // Itens do orçamento
-$consultaProdutos = consultaProdutoId([
-    isset($_POST['item44'])?$_POST['item44']:"",
-    isset($_POST['item36'])?$_POST['item36']:"",
-    isset($_POST['item30'])?$_POST['item30']:"",
-]);
+// Maior que 3.8 guia 50 : guia 70
+$guia = $largura<3.8?30:32;
 
+// Criando array de referencias para a função consultaProdutoID()
+$produtosSelecionados = [];
+isset($_POST['item1'])?$produtosSelecionados[] = 44:"";
+isset($_POST['item2'])?$produtosSelecionados[] = 36:"";
+isset($_POST['item3'])?$produtosSelecionados[] = $guia:"";
+isset($_POST['item4'])?$produtosSelecionados[] = 35:"";
+isset($_POST['item5'])?$produtosSelecionados[] = 50:"";
+
+// Retorna ID de cada produto
+$consultaProdutos = consultaProdutoId($produtosSelecionados);
+
+// Consulta o preço de cada item dentro da variavel $consultaProdutos
 function precoItem($codigo){
     global $consultaProdutos;
     if(isset($consultaProdutos)){
@@ -67,6 +78,8 @@ function precoItem($codigo){
         };
     }
 };
+
+// Consulta o ID de cada item dentro da variavel $consultaProdutos
 function idItem($codigo){
     global $consultaProdutos;
     if(isset($consultaProdutos)){
@@ -96,42 +109,68 @@ $listaItens = [
         "produto"=>[
             "id"=>idItem(30),
         ],
-        "quantidade"=>$largura,
+        "quantidade"=>($altura+$rolo)*2,
         "valor"=>precoItem(30),
+    ],
+    32=>[
+        "produto"=>[
+            "id"=>idItem(32),
+        ],
+        "quantidade"=>($altura+$rolo)*2,
+        "valor"=>precoItem(32),
+    ],
+    35=>[
+        "produto"=>[
+            "id"=>idItem(35),
+        ],
+        "quantidade"=>$largura,
+        "valor"=>precoItem(35),
+    ],
+    50=>[
+        "produto"=>[
+            "id"=>idItem(50),
+        ],
+        "quantidade"=>$largura,
+        "valor"=>precoItem(50),
     ],
 ];
 
-$itensPedido[] = isset($_POST['item44'])?$listaItens[44]:"";
-$itensPedido[] = isset($_POST['item36'])?$listaItens[36]:"";
-$itensPedido[] = isset($_POST['item30'])?$listaItens[30]:"";
+isset($_POST['item1']) && $_POST['item1'] !== ""?$itensPedido[] = $listaItens[44]:"";
+isset($_POST['item2']) && $_POST['item2'] !== ""?$itensPedido[] = $listaItens[36]:"";
+isset($_POST['item3']) && $_POST['item3'] !== ""?$itensPedido[] = $listaItens[$guia]:"";
+isset($_POST['item4']) && $_POST['item4'] !== ""?$itensPedido[] = $listaItens[35]:"";
+isset($_POST['item5']) && $_POST['item5'] !== ""?$itensPedido[] = $listaItens[50]:"";
 
 
 // ###################### FUNCTIONS START ########################
 
 // Verifica se o ID de contato existe no Bling
 function consultaContatoId($contatoId){
-    $url = "https://api.bling.com.br/Api/v3/contatos/$contatoId";
-    $jsonFile = file_get_contents('config/token_request_response.json');
-    $jsonData = json_decode($jsonFile, true);
-    $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
-    $header = array(
-        "authorization: bearer " . $token
-    );
-    $cURL = curl_init($url);
-    curl_setopt($cURL, CURLOPT_URL, $url);
-    curl_setopt($cURL, CURLOPT_HTTPHEADER, $header);
-    curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+    if(isset($contatoId) && $contatoId !== ""){
+        $url = "https://api.bling.com.br/Api/v3/contatos/$contatoId";
+        $jsonFile = file_get_contents('config/token_request_response.json');
+        $jsonData = json_decode($jsonFile, true);
+        $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+        $header = array(
+            "authorization: bearer " . $token
+        );
+        $cURL = curl_init($url);
+        curl_setopt($cURL, CURLOPT_URL, $url);
+        curl_setopt($cURL, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+    
+        $response = curl_exec($cURL);
+        $data = json_decode($response, true);
+        
+        echo "<script>console.log('Consulta contato por ID')</script>";
+        echo "<script>console.log($response)</script>";
+        
+        if(isset($data['data']['id']) && $data['data']['id'] == $contatoId){
+            return true;
+        }else{
+            return false;
+        }
 
-    $response = curl_exec($cURL);
-    $data = json_decode($response, true);
-    
-    echo "<script>console.log('Consulta contato por ID')</script>";
-    echo "<script>console.log($response)</script>";
-    
-    if(isset($data['data']['id']) && $data['data']['id'] == $contatoId){
-        return true;
-    }else{
-        return false;
     }
 }
 function consultaContatoDocumento($documento){
@@ -176,56 +215,59 @@ function novoContato(){
     global $estado;
     global $numero;
 
-    $url = "https://api.bling.com.br/Api/v3/contatos";
-    $jsonFile = file_get_contents('config/token_request_response.json');
-    $jsonData = json_decode($jsonFile, true);
-    $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
-    $header = array(
-        "authorization: bearer " . $token,
-        "accept: application/json",
-        "Content-Type: application/json"
-    );
-    $data = [
-        "nome"=>$cliente,
-        "numeroDocumento"=>$documento,
-        "telefone"=>$tel,
-        "celular"=>$cel,
-        "tipo"=>$tipoPessoa,
-        "email"=>$email,
-        "situacao"=>"A",
-        "endereco"=>[
-            "geral"=>[
-                "endereco"=>$endereco,
-                // "cep"=>$cep,
-                "bairro"=>$bairro,
-                "municipio"=>$municipio,
-                "uf"=>$estado,
-                "numero"=>$numero,
-                // "complemento"=>$complemento
+    if(isset($cliente) && $cliente !== ""){
+        $url = "https://api.bling.com.br/Api/v3/contatos";
+        $jsonFile = file_get_contents('config/token_request_response.json');
+        $jsonData = json_decode($jsonFile, true);
+        $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+        $header = array(
+            "authorization: bearer " . $token,
+            "accept: application/json",
+            "Content-Type: application/json"
+        );
+        $data = [
+            "nome"=>$cliente,
+            "numeroDocumento"=>$documento,
+            "telefone"=>$tel,
+            "celular"=>$cel,
+            "tipo"=>$tipoPessoa,
+            "email"=>$email,
+            "situacao"=>"A",
+            "endereco"=>[
+                "geral"=>[
+                    "endereco"=>$endereco,
+                    // "cep"=>$cep,
+                    "bairro"=>$bairro,
+                    "municipio"=>$municipio,
+                    "uf"=>$estado,
+                    "numero"=>$numero,
+                    // "complemento"=>$complemento
+                ],
             ],
-        ],
-    ];
-
-    $cURL = curl_init($url);
-    curl_setopt($cURL, CURLOPT_URL, $url);
-    curl_setopt($cURL, CURLOPT_HTTPHEADER, $header);
-    curl_setopt($cURL, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($cURL);
-    $responseData = json_decode($response, true);
-
-    echo "<script>console.log('Resultado da criação do contato')</script>";
-    echo "<script>console.log($response)</script>";
+        ];
     
-    if(isset($responseData['error']['type']) && $responseData['error']['type'] === "VALIDATION_ERROR"){
-        echo $responseData['error']['message']."<br>";
-        foreach($responseData['error']['fields'] as $field){
-            echo $field['msg']."<br>";
+        $cURL = curl_init($url);
+        curl_setopt($cURL, CURLOPT_URL, $url);
+        curl_setopt($cURL, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($cURL, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($cURL);
+        $responseData = json_decode($response, true);
+    
+        echo "<script>console.log('Resultado da criação do contato')</script>";
+        echo "<script>console.log($response)</script>";
+        
+        if(isset($responseData['error']['type']) && $responseData['error']['type'] === "VALIDATION_ERROR"){
+            echo $responseData['error']['message']."<br>";
+            foreach($responseData['error']['fields'] as $field){
+                echo $field['msg']."<br>";
+            }
+        }else if(isset($responseData['data']['id'])){
+            return $responseData['data']['id'];
+        } else {
+            return false;
         }
-    }else if(isset($responseData['data']['id'])){
-        return $responseData['data']['id'];
-    } else {
-        return false;
+
     }
 };
 
@@ -234,6 +276,8 @@ function novoContato(){
 function novoPedido(){
     global $contatoId;
     global $itensPedido;
+    global $observacoes;
+    global $observacoesInternas;
 
     $url = "https://api.bling.com.br/Api/v3/pedidos/vendas";
     $jsonFile = file_get_contents('config/token_request_response.json');
@@ -251,6 +295,8 @@ function novoPedido(){
         ],
         "itens"=>$itensPedido,
         "data"=>date('Y-m-d'),
+        "observacoes"=>$observacoes,
+        "observacoesInternas"=>$observacoesInternas,
     ];
 
     $jsonPostData = json_encode($postData);
@@ -284,11 +330,8 @@ function novoPedido(){
 
 // RETORNA O ID DOS PRODUTOS
 function consultaProdutoId($listaProdutos){
-
     $link = "";
-    if($listaProdutos[0] == null){
-        echo "Lista vazia";
-    } else {
+    if(count($listaProdutos) > 0){
         foreach($listaProdutos as $produto){
             $link .= "&codigos%5B%5D=$produto";
         }
@@ -341,18 +384,19 @@ function consultaProdutoId($listaProdutos){
         require('partials/navbar.php');
 
     ?>
-    <div class="container mt-3">
+    <!-- <div class="container mt-3">
         <h2>Orçamento</h2>
-    </div>
+    </div> -->
     <div class="container mt-3">
         <?php
-            echo "<p>Altura: $altura / Largura: $largura / Quant: $quantidade / m²: $m2</p>";
             
             if(consultaContatoId($contatoId)){ // Verifica se o contato existe pelo ID
                 if($pedidoId = novoPedido()){
                     echo "Pedido criado com sucesso¹<br>";
                     echo "ID do pedido: ". $pedidoId;
-                    header("location: pedido_visualizacao.php?pedidoId=$pedidoId");
+                    header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
+                    ob_end_flush();
+                    exit;
                 } else {
                     // echo "Erro ao criar o pedido";
                 }
@@ -361,7 +405,9 @@ function consultaProdutoId($listaProdutos){
                 if($pedidoId = novoPedido()){
                     echo "Pedido criado com sucesso²<br>";
                     echo "ID do pedido: ". $pedidoId;
-                    header("location: pedido_visualizacao.php?pedidoId=$pedidoId");
+                    header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
+                    ob_end_flush();
+                    exit;
                 } else {
                     // echo "Erro ao criar o pedido";
                 }
@@ -369,7 +415,9 @@ function consultaProdutoId($listaProdutos){
                 if($pedidoId = novoPedido()){
                     echo "Pedido criado com sucesso³<br>";
                     echo "ID do pedido: ". $pedidoId;
-                    header("location: pedido_visualizacao.php?pedidoId=$pedidoId");
+                    header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
+                    ob_end_flush();
+                    exit;
                 } else {
                     // echo "Erro ao criar o pedido";
                 }
@@ -380,20 +428,23 @@ function consultaProdutoId($listaProdutos){
             }
         ?>
 
-        <!-- AREA DE TESTES -->
-        <h1><br>Array itensPedido</h1>
-        
+        <!-- ############# AREA DE TESTES ############### -->
+
+        <!-- <h3><br>Array itensPedido</h3>
         <pre>
         <?php
             print_r($itensPedido);
         ?>
-        </pre>
+        </pre> -->
+
+<!-- 
         <h1><br>Consulta produtos ID</h1>
         <pre>
         <?php
             print_r($consultaProdutos);
         ?>    
-        </pre>
+        </pre> -->
+
 
     </div>
 
