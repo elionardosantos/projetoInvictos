@@ -253,26 +253,6 @@
                 </div>
             </div>
             
-            <div class="mt-4"><h4>Dados da instalação</h4></div>
-            <div class="row">
-                <div class="col-md-3">
-                    <label class="form-label mb-0 mt-2" for="quantidade">Quantidade*</label>
-                    <input class="form-control" name="quantidade" id="quantidade">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label mb-0 mt-2" for="largura">Largura*</label>
-                    <input class="form-control" name="largura" id="largura">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label mb-0 mt-2" for="altura">Altura*</label>
-                    <input class="form-control" name="altura" id="altura">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label mb-0 mt-2" for="rolo">Rolo*</label>
-                    <input class="form-control" name="rolo" id="rolo" value="0,5">
-                </div>
-            </div>
-            
             <div class="mt-4"><h4>Endereço do serviço</h4></div>
             <div class="row mb-3">
                 <div class="col-md-8">
@@ -336,6 +316,27 @@
                     <textarea type="text" class="form-control" rows="3" id="observacoesInternas" name="observacoesInternas" style="color: blue;" placeholder="Esta área é de uso interno, portanto não será impressa" value=""></textarea>
                 </div>
             </div>
+
+            <div class="mt-4"><h4>Dados da instalação</h4></div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="form-label mb-0 mt-2" for="quantidade">Quantidade*</label>
+                    <input class="form-control" name="quantidade" id="quantidade" value="1">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label mb-0 mt-2" for="largura">Largura*</label>
+                    <input class="form-control" name="largura" id="largura">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label mb-0 mt-2" for="altura">Altura*</label>
+                    <input class="form-control" name="altura" id="altura">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label mb-0 mt-2" for="rolo">Rolo*</label>
+                    <input class="form-control" name="rolo" id="rolo" value="0,5">
+                </div>
+            </div>
+            
             <div class="mt-4">
                 <h4>Itens do orçamento</h4>
             </div>
@@ -361,68 +362,68 @@
             <div class="row mt-3 ms-0">
                 <!-- CHECKED -->
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="item2" checked>
-                    <label class="form-check-label" for="item2">
+                    <input class="form-check-input" type="checkbox" value="44" name="item44" checked>
+                    <label class="form-check-label" for="item44">
                     Perfil Fechado Meia Cana #24
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="item1" checked>
-                    <label class="form-check-label" for="item1">
+                    <input class="form-check-input" type="checkbox" value="36" name="item36" checked>
+                    <label class="form-check-label" for="item36">
                     Eixo Tubo 114,3
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="item3" checked>
+                    <input class="form-check-input" type="checkbox" name="item3" value="" checked>
                     <label class="form-check-label" for="item3">
                     Guia 70 x 30
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="item4" checked>
+                    <input class="form-check-input" type="checkbox" name="item4" value="" checked>
                     <label class="form-check-label" for="item4">
                     Borracha para soleira
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="item5" checked>
+                    <input class="form-check-input" type="checkbox" name="item5" value="" checked>
                     <label class="form-check-label" for="item5">
                     Soleira em T Reforçada
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="item6" checked>
+                    <input class="form-check-input" type="checkbox" name="item6" value="" checked>
                     <label class="form-check-label" for="item6">
                     Motor AC 300
                     </label>
                 </div>
                 <!-- UNCHECKED -->
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="item7">
+                    <input class="form-check-input" type="checkbox" name="item7" value="">
                     <label class="form-check-label" for="item7">
                     Portinhola Lateral
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="item8">
+                    <input class="form-check-input" type="checkbox" name="item8" value="">
                     <label class="form-check-label" for="item8">
                     Alçapão
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="item9">
+                    <input class="form-check-input" type="checkbox" name="item9" value="">
                     <label class="form-check-label" for="item9">
                     Pintura eletrostática
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="item10">
+                    <input class="form-check-input" type="checkbox" name="item10" value="">
                     <label class="form-check-label" for="item10">
                     Mão de Obra Piabeta
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="item11">
+                    <input class="form-check-input" type="checkbox" name="item11" value="">
                     <label class="form-check-label" for="item11">
                     Mão de Obra Instalação até 100 km
                     </label>
