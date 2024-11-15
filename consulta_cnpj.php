@@ -14,7 +14,7 @@
         <h2>Consultar CNPJ</h2>
     </div>
     <div class="container my-3">
-        <form action="novo_pedido.php" method="GET">
+        <form action="novo_orcamento.php" method="GET">
             <div class="input-group mb-3">
                 <span class="input-group-text" id="formCnpj">CNPJ</span>
                 <input type="text" name="cnpj" class="form-control" placeholder="Digite aqui" autofocus>

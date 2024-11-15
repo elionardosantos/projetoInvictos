@@ -89,7 +89,7 @@
         }
 
     ?>
-    <div class="py-2 mb-4 d-print-none shadow">
+    <div class="py-2 mb-4 d-print-none shadow fixed-top bg-white">
         <div class="buttons">
             <a href="" class="btn btn-primary ms-2 " onclick="window.history.back(); return false;">Voltar</a>
             <a href="editar_pedido.php?pedidoId=<?= $_GET['pedidoId'] ?>" class="btn btn-primary">Editar</a>
@@ -97,6 +97,7 @@
 
         </div>
     </div>
+    <div class="d-print-none" style="height: 70px;"></div>
     <div class="printView">
         <!-- Área do cabeçalho -->
         <div class="row align-items-center">

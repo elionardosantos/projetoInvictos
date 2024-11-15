@@ -140,7 +140,7 @@
     </div>
     
     <div class="container mt-4">
-        <form action="novo_pedido_process.php" method="POST">
+        <form action="novo_orcamento_process.php" method="POST">
 
             <div class="mt-4"><h4>Dados cadastrais</h4></div>
             <div class="row">
@@ -334,6 +334,98 @@
                 <div class="col-md-6">
                     <label for="observacoesInternas" class="form-label mb-0 mt-2">Observações internas</label>
                     <textarea type="text" class="form-control" rows="3" id="observacoesInternas" name="observacoesInternas" style="color: blue;" placeholder="Esta área é de uso interno, portanto não será impressa" value=""></textarea>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h4>Itens do orçamento</h4>
+            </div>
+
+            <!-- CHECKEDS
+            Eixo Tubo 114,3				
+            Perfil Fechado Meia Cana #24				
+            Guia 70 x 30				
+            Borracha para soleira				
+            Soleira em T Reforçada				
+            Motor AC 300				
+            -->
+
+            <!-- UNCHECKEDS
+            Portinhola Lateral				
+            Alçapão				
+            Pintura eletrostática
+            
+            Mão de Obra Piabeta				
+            Mão de Obra Instalação até 100 km				
+            -->
+
+            <div class="row mt-3 ms-0">
+                <!-- CHECKED -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="item2" checked>
+                    <label class="form-check-label" for="item2">
+                    Perfil Fechado Meia Cana #24
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="item1" checked>
+                    <label class="form-check-label" for="item1">
+                    Eixo Tubo 114,3
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="item3" checked>
+                    <label class="form-check-label" for="item3">
+                    Guia 70 x 30
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="item4" checked>
+                    <label class="form-check-label" for="item4">
+                    Borracha para soleira
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="item5" checked>
+                    <label class="form-check-label" for="item5">
+                    Soleira em T Reforçada
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="item6" checked>
+                    <label class="form-check-label" for="item6">
+                    Motor AC 300
+                    </label>
+                </div>
+                <!-- UNCHECKED -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="item7">
+                    <label class="form-check-label" for="item7">
+                    Portinhola Lateral
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="item8">
+                    <label class="form-check-label" for="item8">
+                    Alçapão
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="item9">
+                    <label class="form-check-label" for="item9">
+                    Pintura eletrostática
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="item10">
+                    <label class="form-check-label" for="item10">
+                    Mão de Obra Piabeta
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="item11">
+                    <label class="form-check-label" for="item11">
+                    Mão de Obra Instalação até 100 km
+                    </label>
                 </div>
             </div>
 

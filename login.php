@@ -92,11 +92,11 @@
                 <form action="" method="post">
                     <div class="form-group">
                         <label for="email">E-mail</label>
-                        <input autofocus required type="email" class="form-control <?= $errorFormStyle ?>" name="email" id="email" placeholder="Digite seu e-mail">
+                        <input autofocus required type="email" class="form-control <?= isset($errorFormStyle)?$errorFormStyle:"" ?>" name="email" id="email" placeholder="Digite seu e-mail">
                     </div>
                     <div class="form-group">
                         <label for="senha">Senha</label>
-                        <input required type="password" class="form-control <?= $errorFormStyle ?>" name="password" id="password" placeholder="Digite sua senha">
+                        <input required type="password" class="form-control <?= isset($errorFormStyle)?$errorFormStyle:"" ?>" name="password" id="password" placeholder="Digite sua senha">
                     </div>
                     <p>
                         <?= isset($screenMessage)?"$screenMessage":"" ?>

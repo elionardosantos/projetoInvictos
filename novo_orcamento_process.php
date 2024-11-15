@@ -178,6 +178,10 @@ function novoPedido(){
     $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
 
     $produtos = consultaProdutoId([44,45]);
+    echo "<pre>";
+    print_r($produtos);
+    echo "</pre>";
+
     $header = [
         "Content-Type: application/json",
         "Accept: application/json",
@@ -187,8 +191,9 @@ function novoPedido(){
         "contato"=>[
             "id"=>$contatoId
         ],
+        
         "itens"=>[
-            [
+            [ // Perfil Fechado Meia Cana #24
                 "produto"=>[
                     "id"=>16083585673,
                 ],
@@ -207,11 +212,12 @@ function novoPedido(){
     curl_setopt($cURL, CURLOPT_POSTFIELDS, $jsonPostData);
     curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
 
-    $response = curl_exec($cURL);
-    echo "<script>console.log('Resultado da criação do pedido')</script>";
-    echo "<script>console.log($response)</script>";
+    // $response = curl_exec($cURL);
+    // echo "<script>console.log('Resultado da criação do pedido')</script>";
+    // echo "<script>console.log($response)</script>";
 
-    $responseData = json_decode($response, true);
+    // $responseData = json_decode($response, true);
+    echo "O PEDIDO NÃO FOI CRIADO. INTEGRAÇÃO DESABILITADA PARA TESTES.";
 
     if(isset($responseData['error']['type']) && $responseData['error']['type'] === "VALIDATION_ERROR"){
         echo $responseData['error']['message']."<br>";
@@ -251,17 +257,13 @@ function consultaProdutoId($listaProdutos){
     
     echo "<script>console.log('Consulta produtos')</script>";
     echo "<script>console.log($response)</script>";
-
-    if(isset($responseData['data']) && $responseData['data'] > 0){
-        foreach($responseData['data'] as $item){
-            return "[\"produto\"=>[\"id\"=>".$item['id'].",],\"quantidade\"=>".$m2.",],";
-        }
-    }
+    
     if(isset($responseData['error']['type']) && $responseData['error']['type'] === "VALIDATION_ERROR"){
-       
-    } else if (isset($responseData['data']['id']) && $responseData['data']['id'] !== ""){
+        echo "VALIDATION_ERROR";
+    } else if (isset($responseData['data']) && $responseData['data'] !== ""){
         return $responseData['data'];
     } else {
+        return "erro";
         return false;
     }
 }
@@ -298,6 +300,7 @@ function consultaProdutoId($listaProdutos){
                 if($pedidoId = novoPedido()){
                     echo "Pedido criado com sucesso¹<br>";
                     echo "ID do pedido: ". $pedidoId;
+                    header("location: pedido_visualizacao.php?pedidoId=$pedidoId");
                 } else {
                     // echo "Erro ao criar o pedido";
                 }
@@ -306,6 +309,7 @@ function consultaProdutoId($listaProdutos){
                 if($pedidoId = novoPedido()){
                     echo "Pedido criado com sucesso²<br>";
                     echo "ID do pedido: ". $pedidoId;
+                    header("location: pedido_visualizacao.php?pedidoId=$pedidoId");
                 } else {
                     // echo "Erro ao criar o pedido";
                 }
@@ -313,6 +317,7 @@ function consultaProdutoId($listaProdutos){
                 if($pedidoId = novoPedido()){
                     echo "Pedido criado com sucesso³<br>";
                     echo "ID do pedido: ". $pedidoId;
+                    header("location: pedido_visualizacao.php?pedidoId=$pedidoId");
                 } else {
                     // echo "Erro ao criar o pedido";
                 }
