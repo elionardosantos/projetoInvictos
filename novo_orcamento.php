@@ -13,6 +13,7 @@
         <h2>Novo Pedido/Orçamento</h2>
     </div>
     <div class="container my-3">
+        <a href="" class="btn btn-primary ms-2 " onclick="window.history.back(); return false;">Voltar</a>
         <a href="consulta_contato.php" class="btn btn-primary" role="button">Consultar Contatos</a>
         <a href="consulta_cnpj.php" class="btn btn-primary" role="button">Consultar CNPJ</a>
     </div>
@@ -224,7 +225,7 @@
                         <option value="serralheiro" >Serralheiro</option>
                     </select>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="condicaoPagamento" class="form-label mb-0 mt-2">Condição de Pagto</label>
                     <select class="form-select" id="condicaoPagamento" name="condicaoPagamento">
                         <option selected>À vista</option>
@@ -235,8 +236,8 @@
                         ?>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label for="desconto" class="form-label mb-0 mt-2">Desconto</label>
+                <div class="col-md-3">
+                    <label for="desconto" class="form-label mb-0 mt-2">Valor do Desconto</label>
                     <input type="number" id="desconto" name="desconto" class="form-control" placeholder="Somente números">
                 </div>
                 <div class="col-md-2">

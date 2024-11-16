@@ -65,8 +65,17 @@
             } else {
                 echo "<script>console.log($response)</script>";
                 global $numeroPedido;
+                global $totalProdutos;
+                global $totalPedido;
+                global $valorDesconto;
+                global $tipoDesconto;
+
                 $numeroPedido = $jsonData['data']['numero'];
-                
+                $totalProdutos = $jsonData['data']['totalProdutos'];
+                $totalPedido = $jsonData['data']['total'];
+                $valorDesconto = $jsonData['data']['desconto']['valor'];
+                $tipoDesconto = $jsonData['data']['desconto']['unidade'];
+
                 foreach($jsonData as $row){
                     global $clienteNome;
                     global $endereco;
@@ -75,6 +84,7 @@
                     global $municipio;
                     global $uf;
                     global $dataPedido;
+                    global $totalProdutos;
 
                     $clienteNome = isset($row['contato']['nome'])?$row['contato']['nome']:"";
                     $endereco = isset($row['transporte']['etiqueta']['endereco'])?$row['transporte']['etiqueta']['endereco']:"";
@@ -84,7 +94,6 @@
                     $uf = isset($row['transporte']['etiqueta']['uf'])?$row['transporte']['etiqueta']['uf']:"";
                     $dataPedido = isset($row['data'])?date('d/m/Y',strtotime($row['data'])):"";
                 }
-                curl_close($cURL);
             }
         }
 
@@ -151,7 +160,6 @@
                 <?php
                     $subTotal = 0;
                     foreach($jsonData['data']['itens'] as $item){
-                        global $subtotal;
 
                         $codigo = isset($item['codigo'])?$item['codigo']:"";
                         $material = isset($item['descricao'])?$item['descricao']:"";
@@ -159,7 +167,6 @@
                         $quantidade = isset($item['quantidade'])?$item['quantidade']:"";
                         $valorUnit = isset($item['valor'])?$item['valor']:"";
                         $valorTotal = $item['quantidade'] * $item['valor'];
-                        $subTotal += $valorTotal;
                 ?>
                        <tr>
                             <td><?= $codigo ?></td>
@@ -175,32 +182,51 @@
                 
             </tbody>
         </table>
-        <div class="row mx-0 mt-1">
+        <div class="row mx-0 mt-1 me-0">
             <div class="col-7"></div>
-            <div class="col-3 bg-dark text-white py-1">Subtotal:</div>
-            <div class="col-2 bg-dark text-white py-1">R$<?= number_format($subTotal, 2, ",", ".") ?></div>
+            <div class="border col row mx-0">
+                <div class="col py-1">Subtotal:</div>
+                <div class="col py-1">R$<?= number_format($totalProdutos, 2, ",", ".") ?></div>
+
+            </div>
         </div>
         <?php
-            // ADICIONAR CONDIÇÃO PARA EXIBIR ESTE BLOCO SE O SUBTOTAL FOR MENOR QUE O TOTAL
-            // CASO CONTRÁRIO, EXIBIR SOMENTE O TOTAL
+            if(isset($valorDesconto) && $valorDesconto > 0){
+                ?>
+                <div class="row mx-0 mt-1 me-0">
+                    <div class="col-7"></div>
+                    <div class="border col row mx-0">
+                        <div class="col py-1">Desconto:</div>
+                            <?php
+                                if(isset($tipoDesconto) && $tipoDesconto == "REAL"){
+                            ?>
+                            <div class="col py-1">R$<?= number_format($totalProdutos, 2, ",", ".") ?></div>
+                            <?php
+                                }else if(isset($tipoDesconto) && $tipoDesconto == "PERCENTUAL"){
+                            ?>
+                            <div class="col py-1"><?= $valorDesconto ?>%</div>
+                            <?php
+                                }
+                            ?>
+                        </div>
+                    </div>
+                <?php
+            }
         ?>
-        <table class="table table-bordered mt-3 text-center table-sm">
-            <thead class="table-dark">
-                <tr>
-                    <th>Total sem desconto</th>
-                    <th>Desconto</th>
-                    <th>Valor no cartão em até 12x</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>R$ -</th>
-                    <th>-</th>
-                    <th><strong>R$<?= number_format($subTotal, 2, ",", ".") ?></th>
-                </tr>
-            </tbody>
-        </table>
+        <div class="row mx-0 mt-1 me-0">
+            <div class="col-5"></div>
+            <div class="col-7 row mx-0 bg-dark text-white">
+                <div class="col py-1"><strong><?= isset($valorDesconto) && $valorDesconto > 0 ?"Valor Total:":"Total em até 12x no cartão:"; ?></strong></div>
+                <div class="col-4 py-1"><strong>R$<?= number_format($totalPedido, 2, ",", ".") ?></strong></div>
+
+            </div>
+        </div>
         <?php
+        // $numeroPedido
+        // $totalProdutos
+        // $totalPedido
+        // $valorDesconto
+        // $tipoDesconto
 
         ?>
         <div>

@@ -46,7 +46,7 @@ $rolo = isset($_POST['rolo'])?floatval(str_replace(",",".",str_replace(".","",$_
 
 // Calculando metro quadrado
 $m2 = (($altura + $rolo) * $largura) * $quantidade;
-$observacoesInternas .= "Largura: ".$largura."m / Altura: ".$altura."m / Quant: ".$quantidade." / m²: $m2 \n";
+$observacoesInternas .= "\n Largura: ".$largura."m / Altura: ".$altura."m / m²: ".$m2;
 
 // Calculando peso de acordo com o campo personalizado "consumo" dos produtos
 $pesoPortaUnitario = ($m2 * 8) * 1.2;
@@ -311,7 +311,7 @@ function novoPedido(){
         "itens"=>$itensPedido,
         "data"=>date('Y-m-d'),
         "observacoes"=>$observacoes,
-        "observacoesInternas"=>" - ".$observacoesInternas,
+        "observacoesInternas"=>$observacoesInternas,
         "transporte"=>[
             "etiqueta"=>[
                 "nome"=>$nomeServico,
