@@ -135,7 +135,7 @@
                         // echo $response;
                         ?>
                             <div>
-                                <table class="table table-sm  table-striped">
+                                <table class="table table-sm table-hover">
                                     <thead>
                                         <tr>
                                             <th scope="col">Número</th>

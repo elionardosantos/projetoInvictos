@@ -16,6 +16,9 @@ $municipio = isset($_POST['municipio'])?$_POST['municipio']:"";
 $estado = isset($_POST['estado'])?$_POST['estado']:"";
 $tabelaPreco = isset($_POST['tabelaPreco'])?$_POST['tabelaPreco']:"";
 $condicaoPagamento = isset($_POST['condicaoPagamento'])?$_POST['condicaoPagamento']:"";
+$cep = isset($_POST['cep'])?$_POST['cep']:"";
+$desconto = isset($_POST['desconto'])?$_POST['desconto']:"";
+$tipoDesconto = isset($_POST['tipoDesconto'])?$_POST['tipoDesconto']:"";
 
 // Dados de contato
 $tel = isset($_POST['tel'])?$_POST['tel']:"";
@@ -27,11 +30,13 @@ $observacoes = isset($_POST['observacoes'])?$_POST['observacoes']:"";
 $observacoesInternas = isset($_POST['observacoesInternas'])?$_POST['observacoesInternas']:"";
 
 // Local do serviço
+$nomeServico = isset($_POST['nomeServico'])?$_POST['nomeServico']:"";
 $enderecoServico = isset($_POST['enderecoServico'])?$_POST['enderecoServico']:"";
 $numeroServico = isset($_POST['numeroServico'])?$_POST['numeroServico']:"";
 $bairroServico = isset($_POST['bairroServico'])?$_POST['bairroServico']:"";
 $municipioServico = isset($_POST['municipioServico'])?$_POST['municipioServico']:"";
 $estadoServico = isset($_POST['estadoServico'])?$_POST['estadoServico']:"";
+$cepServico = isset($_POST['cepServico'])?$_POST['cepServico']:"";
 
 // Dados da instalação
 $quantidade = isset($_POST['quantidade'])?floatval(str_replace(",",".",str_replace(".","",$_POST['quantidade']))):"";
@@ -214,6 +219,7 @@ function novoContato(){
     global $municipio;
     global $estado;
     global $numero;
+    global $cep;
 
     if(isset($cliente) && $cliente !== ""){
         $url = "https://api.bling.com.br/Api/v3/contatos";
@@ -236,12 +242,12 @@ function novoContato(){
             "endereco"=>[
                 "geral"=>[
                     "endereco"=>$endereco,
-                    // "cep"=>$cep,
+                    "cep"=>$cep,
                     "bairro"=>$bairro,
                     "municipio"=>$municipio,
                     "uf"=>$estado,
                     "numero"=>$numero,
-                    // "complemento"=>$complemento
+                    // "complemento"=>$complemento,
                 ],
             ],
         ];
@@ -278,6 +284,15 @@ function novoPedido(){
     global $itensPedido;
     global $observacoes;
     global $observacoesInternas;
+    global $nomeServico;
+    global $enderecoServico;
+    global $numeroServico;
+    global $bairroServico;
+    global $municipioServico;
+    global $estadoServico;
+    global $cepServico;
+    global $desconto;
+    global $tipoDesconto;
 
     $url = "https://api.bling.com.br/Api/v3/pedidos/vendas";
     $jsonFile = file_get_contents('config/token_request_response.json');
@@ -296,7 +311,23 @@ function novoPedido(){
         "itens"=>$itensPedido,
         "data"=>date('Y-m-d'),
         "observacoes"=>$observacoes,
-        "observacoesInternas"=>$observacoesInternas,
+        "observacoesInternas"=>" - ".$observacoesInternas,
+        "transporte"=>[
+            "etiqueta"=>[
+                "nome"=>$nomeServico,
+                "endereco"=>$enderecoServico,
+                "numero"=>$numeroServico,
+                "municipio"=>$municipioServico,
+                "uf"=>$estadoServico,
+                "cep"=>$cepServico,
+                "bairro"=>$bairroServico,
+                // "complemento"=>"",
+            ],
+        ],
+        "desconto"=>[
+            "valor"=>$desconto,
+            "unidade"=>$tipoDesconto,
+        ]
     ];
 
     $jsonPostData = json_encode($postData);
@@ -424,7 +455,7 @@ function consultaProdutoId($listaProdutos){
                 
             } else {
                 // echo "Houve um erro ao criar um novo contato";
-                echo "Houve um erro ao criar o novo orçamento. Favor entrar em contato com um administrador do sistema";
+                echo "O orçamento não foi criado.";
             }
         ?>
 

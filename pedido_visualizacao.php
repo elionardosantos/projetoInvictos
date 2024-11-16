@@ -178,7 +178,7 @@
         <div class="row mx-0 mt-1">
             <div class="col-7"></div>
             <div class="col-3 bg-dark text-white py-1">Subtotal:</div>
-            <div class="col-2 bg-dark text-white py-1"><strong>R$<?= number_format($subTotal, 2, ",", ".") ?></strong></div>
+            <div class="col-2 bg-dark text-white py-1">R$<?= number_format($subTotal, 2, ",", ".") ?></div>
         </div>
         <?php
             // ADICIONAR CONDIÇÃO PARA EXIBIR ESTE BLOCO SE O SUBTOTAL FOR MENOR QUE O TOTAL
@@ -189,14 +189,14 @@
                 <tr>
                     <th>Total sem desconto</th>
                     <th>Desconto</th>
-                    <th>Valor total</th>
+                    <th>Valor no cartão em até 12x</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <th>R$ -</th>
                     <th>-</th>
-                    <th>R$ -</th>
+                    <th><strong>R$<?= number_format($subTotal, 2, ",", ".") ?></th>
                 </tr>
             </tbody>
         </table>

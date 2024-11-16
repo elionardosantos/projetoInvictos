@@ -68,7 +68,7 @@
                 global $email;
                 global $celular;
                 global $telefone;
-                global $cep;
+                global $zip;
 
                 $tipoPessoa = $data['data']['tipo'];
                 $documento = $data['data']['numeroDocumento'];
@@ -217,14 +217,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label for="tabelaPreco" class="form-label mb-0 mt-2">Tabela</label>
                     <select class="form-select" id="tabelaPreco" name="tabelaPreco">
                         <option value="consumidor-final" selected>Consumidor final</option>
                         <option value="serralheiro" >Serralheiro</option>
                     </select>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label for="condicaoPagamento" class="form-label mb-0 mt-2">Condição de Pagto</label>
                     <select class="form-select" id="condicaoPagamento" name="condicaoPagamento">
                         <option selected>À vista</option>
@@ -233,6 +233,17 @@
                                echo "<option value=\"cartao".$i."x\">Cartão $i"."x</option>";
                             }
                         ?>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="desconto" class="form-label mb-0 mt-2">Desconto</label>
+                    <input type="number" id="desconto" name="desconto" class="form-control" placeholder="Somente números">
+                </div>
+                <div class="col-md-2">
+                    <label for="tipoDesconto" class="form-label mb-0 mt-2">Tipo</label>
+                    <select class="form-select" name="tipoDesconto">
+                        <option value="REAL" selected>R$</option>
+                        <option value="PERCENTUAL">%</option>
                     </select>
                 </div>
             </div>
@@ -255,7 +266,11 @@
             
             <div class="mt-4"><h4>Endereço do serviço</h4></div>
             <div class="row mb-3">
-                <div class="col-md-8">
+                <div class="col-md-4">
+                    <label for="nomeServico" class="form-label mb-0 mt-2">Nome do responsável</label>
+                    <input type="text" class="form-control" name="nomeServico" id="nomeServico" placeholder="Responsável no local" value="<?= isset($name)?$name:""; ?>">
+                </div>
+                <div class="col-md-4">
                     <label for="enderecoServico" class="form-label mb-0 mt-2">Endereço</label>
                     <input type="text" class="form-control" name="enderecoServico" id="enderecoServico" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:""; ?>">
                 </div>
@@ -266,8 +281,8 @@
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <label for="cep" class="form-label mb-0 mt-2">CEP</label>
-                    <input type="text" class="form-control" id="cep" name="cep" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
+                    <label for="cepServico" class="form-label mb-0 mt-2">CEP</label>
+                    <input type="text" class="form-control" id="cepServico" name="cepServico" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="bairroServico" class="form-label mb-0 mt-2">Bairro</label>
