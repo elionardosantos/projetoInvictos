@@ -48,8 +48,6 @@ $rolo = isset($_POST['rolo'])?floatval(str_replace(",",".",str_replace(".","",$_
 $m2 = (($altura + $rolo) * $largura) * $quantidade;
 $observacoesInternas .= "\n Largura: ".$largura."m / Altura: ".$altura."m / m²: ".$m2;
 
-// Calculando peso de acordo com o campo personalizado "consumo" dos produtos
-$pesoPortaUnitario = ($m2 * 8) * 1.2;
 
 // Itens do orçamento
 // Maior que 3.8 guia 50 : guia 70
@@ -96,49 +94,74 @@ function idItem($codigo){
     }
 };
 $listaItens = [
-    44=>[
+    44=>[// PERFIL
         "produto"=>[
             "id"=>idItem(44),
         ],
         "quantidade"=>$m2,
         "valor"=>precoItem(44),
+        "peso"=>8.57,
     ],
-    36=>[
+    36=>[// EIXO 114,3MM
         "produto"=>[
             "id"=>idItem(36),
         ],
         "quantidade"=>$largura,
         "valor"=>precoItem(36),
+        "peso"=>3,
     ],
-    30=>[
+    30=>[// PERFIL 50X30
         "produto"=>[
             "id"=>idItem(30),
         ],
         "quantidade"=>($altura+$rolo)*2,
         "valor"=>precoItem(30),
+        "peso"=>8,
     ],
-    32=>[
+    32=>[// PERFIL 70X30
         "produto"=>[
             "id"=>idItem(32),
         ],
         "quantidade"=>($altura+$rolo)*2,
         "valor"=>precoItem(32),
+        "peso"=>8,
     ],
-    35=>[
+    35=>[// PERFIL INVICTOS SOLEIRA DUPLA EM T
         "produto"=>[
             "id"=>idItem(35),
         ],
         "quantidade"=>$largura,
         "valor"=>precoItem(35),
+        "peso"=>1,
     ],
-    50=>[
+    50=>[// BORRACHA PARA SOLEIRA INVICTOS 55 X 8 MM
         "produto"=>[
             "id"=>idItem(50),
         ],
         "quantidade"=>$largura,
         "valor"=>precoItem(50),
+        "peso"=>0.1,
     ],
 ];
+
+echo  "Peso da porta: ". $pesoTotal = ($m2 * $listaItens[$guia]['peso']) * 1.2;
+
+
+if ($pesoTotal > 0 && $pesoTotal <= 170) {
+    $resultado = "AC200";
+} elseif ($pesoTotal > 170 && $pesoTotal <= 260) {
+    $resultado = "AC300";
+} elseif ($pesoTotal > 260 && $pesoTotal <= 300) {
+    $resultado = "AC400";
+} elseif ($pesoTotal > 300 && $pesoTotal <= 375) {
+    $resultado = "AC500";
+} elseif ($pesoTotal > 375 && $pesoTotal <= 450) {
+    $resultado = "AC600";
+} else {
+    $resultado = "Condição não atendida";
+}
+
+echo " - motor a utilizar: ".$resultado;
 
 isset($_POST['item1']) && $_POST['item1'] !== ""?$itensPedido[] = $listaItens[44]:"";
 isset($_POST['item2']) && $_POST['item2'] !== ""?$itensPedido[] = $listaItens[36]:"";
@@ -425,8 +448,8 @@ function consultaProdutoId($listaProdutos){
                 if($pedidoId = novoPedido()){
                     echo "Pedido criado com sucesso¹<br>";
                     echo "ID do pedido: ". $pedidoId;
-                    header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
-                    ob_end_flush();
+                    // header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
+                    ob_end_flush(); // Liberando as impressões na tela após o header para não impedir o redirecionamento
                     exit;
                 } else {
                     // echo "Erro ao criar o pedido";
@@ -436,8 +459,8 @@ function consultaProdutoId($listaProdutos){
                 if($pedidoId = novoPedido()){
                     echo "Pedido criado com sucesso²<br>";
                     echo "ID do pedido: ". $pedidoId;
-                    header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
-                    ob_end_flush();
+                    // header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
+                    ob_end_flush(); // Liberando as impressões na tela após o header para não impedir o redirecionamento
                     exit;
                 } else {
                     // echo "Erro ao criar o pedido";
@@ -446,8 +469,8 @@ function consultaProdutoId($listaProdutos){
                 if($pedidoId = novoPedido()){
                     echo "Pedido criado com sucesso³<br>";
                     echo "ID do pedido: ". $pedidoId;
-                    header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
-                    ob_end_flush();
+                    // header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
+                    ob_end_flush(); // Liberando as impressões na tela após o header para não impedir o redirecionamento
                     exit;
                 } else {
                     // echo "Erro ao criar o pedido";
