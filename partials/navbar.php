@@ -17,6 +17,9 @@
             <a class="nav-link" href="pedidos.php">Pedidos/Orçamentos</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="produtos.php">Produtos</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="consulta_cnpj_visualizacao.php">Consultar CNPJ</a>
           </li>
           <?php 

@@ -8,21 +8,10 @@ try {
     echo "Erro ao conectar ao banco de dados: " . $e->getMessage();
 }
 
-$sql = "";
+$sql = "create table itens";
 
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
+$stmt = $pdo->query($sql);
+// $stmt->execute();
 
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-foreach($result as $row){
-    $name = $row['name'] . ", ";
-    $email = $row['email'] . ", ";
-
-
-
-
-
-
-
-};
