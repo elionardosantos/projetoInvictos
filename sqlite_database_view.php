@@ -8,9 +8,12 @@ try {
     echo "Erro ao conectar ao banco de dados: " . $e->getMessage();
 }
 
-$sql = "create table itens";
+$sql = "";
 
 $stmt = $pdo->query($sql);
+
+print_r($stmt);
+
 // $stmt->execute();
 
 // $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

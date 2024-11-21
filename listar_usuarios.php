@@ -38,7 +38,7 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Nome</th>
-                                <th scope="col" class="d-none d-sm-block">Email</th>
+                                <th scope="col">Email</th>
                                 <th scope="col">Nível</th>
                                 <!-- <th scope="col">Senha</th> -->
                                 <th scope="col">Ação</th>
@@ -58,7 +58,7 @@
                                             echo "<tr>";
                                             echo "<td>$userId</td>";
                                             echo "<td>$userName</td>";
-                                            echo "<td class=\"d-none d-sm-block\">$userEmail</td>";
+                                            echo "<td>$userEmail</td>";
                                             echo "<td>$userStatus</td>";
                                             // echo "<td>$userPass</td>";
                                             echo "<td><a href=\"editar_usuario.php?id=$userId\" class=\"btn btn-primary btn-sm\">Editar</a></td>";

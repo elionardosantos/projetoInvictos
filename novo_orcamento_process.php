@@ -46,7 +46,7 @@ $rolo = isset($_POST['rolo'])?floatval(str_replace(",",".",str_replace(".","",$_
 
 // Calculando metro quadrado
 $m2 = (($altura + $rolo) * $largura) * $quantidade;
-$observacoesInternas .= "\n Largura: ".$largura."m / Altura: ".$altura."m / m²: ".$m2;
+$observacoesInternas .= "\n"."Largura: ".$largura."m / Altura: ".$altura."m / m²: ".$m2;
 
 
 // Itens do orçamento
@@ -417,6 +417,7 @@ function consultaProdutoId($listaProdutos){
         }
     }
 }
+
 
 // ################# FUNCTIONS END #########################
 
