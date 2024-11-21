@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Editar credenciais</title>
+    <title>Credenciais do Bling</title>
 </head>
 <body>
     <?php
@@ -19,7 +19,7 @@
         // echo $client_id . " " . $client_secret;
     ?>
     <div class="container my-3">
-        <h2>Editar credenciais</h2>
+        <h2>Editar credenciais do Bling</h2>
     </div>
     <div class="container">
         <form action="editar_credenciais_process.php" method="GET">

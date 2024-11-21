@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Início</title>
+    <title>Listar usuários</title>
 </head>
 <body>
     <?php
@@ -10,6 +10,9 @@
         require('partials/navbar.php');
         require('controller/only_level_2.php');
     ?>
+    <div class="container my-3">
+        <h2>Listar usuários</h2>
+    </div>
     <div class="container my-3">
         <a href="cadastrar_usuario.php" class="btn btn-primary" role="button">Cadastrar novo usuário</a>
     </div>

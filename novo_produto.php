@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Cadastrar Produto</title>
+    <title>Novo Produto</title>
 </head>
 <body>
     <?php
@@ -11,38 +11,45 @@
 
     ?>
     <div class="container">
-        <h1>
-            Cadastrar produto
-        </h1>
+        <h2>
+            Novo produto
+        </h2>
     </div>
     <div class="container">
-        <form action="cadastrar_produto_process.php" method="post">
+        <form action="novo_produto_process.php" method="post">
             <div class="row">
-                <div class="col-md mt-2">
+                <div class="col-lg-2 mt-2">
                     <label for="referenciaProduto" class="form-label mb-0">Referência</label>
-                    <input class="form-control" name="referencia" type="text" placeholder="Referencia no Bling" id="referenciaProduto">
+                    <input class="form-control" name="referenciaProduto" type="text" placeholder="Referencia no Bling" id="referenciaProduto">
                 </div>
-                <div class="col-md mt-2">
-                    <label for="pesoProduto" class="form-label mb-0">Peso</label>
-                    <input class="form-control" name="pesoProduto" type="number" placeholder="Peso por unidade" id="pesoProduto">
+                <div class="col-lg-4 mt-2">
+                    <label for="tituloProduto" class="form-label mb-0">Título do produto</label>
+                    <input class="form-control" name="tituloProduto" type="text" placeholder="Aparecerá no orçamento" id="tituloProduto">
                 </div>
-                <div class="col-md mt-2">
-                    <label for="calculoConsumo" class="form-label mb-0">Cálculo de consumo</label>
-                    <select class="form-select" name="calculoConsumo" id="calculoConsumo">
+                <div class="col-lg-2 mt-2">
+                    <label for="pesoProduto" class="form-label mb-0">Peso em KG</label>
+                    <input class="form-control" name="pesoProduto" type="text" inputmode="decimal" placeholder="Por unidade" id="pesoProduto">
+                </div>
+                <div class="col-lg-2 mt-2">
+                    <label for="consumoProduto" class="form-label mb-0">Consumo tipo</label>
+                    <select class="form-select" name="consumoProduto" id="consumoProduto">
                         <option value="m2">Metro quadrado</option>
+                        <option value="altura">Altura</option>
+                        <option value="largura">Largura</option>
                     </select>
                 </div>
-                <div class="col-md mt-2">
-                    <label for="pesoProduto" class="form-label mb-0">Multiplicação</label>
-                    <input class="form-control" name="pesoProduto" type="number" placeholder="Fator de multiplicação" id="pesoProduto">
+                <div class="col-lg-2 mt-2">
+                    <label for="multiplicacaoProduto" class="form-label mb-0">Multiplicação</label>
+                    <input class="form-control" name="multiplicacaoProduto" type="text" inputmode="decimal" placeholder="Fator de multiplicação" id="multiplicacaoProduto">
                 </div>
             </div>
-            <input class="btn btn-primary mt-4" type="submit" value="Salvar">
+            <div class="mt-4">
+                <input class="btn btn-primary" type="submit" value="Salvar">
+                <a href="produtos.php" class="btn btn-primary ms-2">Voltar</a>
+            </div>
         </form>
     </div>
     <div class="container mt-4">
-        
     </div>
-
 </body>
 </html>

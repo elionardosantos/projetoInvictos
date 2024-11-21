@@ -15,9 +15,9 @@
         $nomePedido = isset($_GET['nomePedido'])?$_GET['nomePedido']:"";
         $situacaoPedido = isset($_GET['situacao'])?$_GET['situacao']:"";
 
-        $situcaoPedidoUrl = isset($_GET['situacao'])&&$situacaoPedido!==""?"&idsSituacoes[]=".$situacaoPedido:"";
+        $situacaoPedidoUrl = isset($_GET['situacao'])&&$situacaoPedido!==""?"&idsSituacoes[]=".$situacaoPedido:"";
 
-        $urlData = "dataInicial=".$dataInicial."&dataFinal=".$dataFinal."&numero=".$numeroPedido."&nome=".$nomePedido.$situcaoPedidoUrl;
+        $urlData = "dataInicial=".$dataInicial."&dataFinal=".$dataFinal."&numero=".$numeroPedido."&nome=".$nomePedido.$situacaoPedidoUrl;
         
         $situacoes = consultaSituacoes(98310);
     ?>
