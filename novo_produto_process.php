@@ -10,9 +10,9 @@
         require('partials/navbar.php');
         require('config/connection.php');
 
-        $pesoForm = isset($_POST['pesoProduto'])?$_POST['pesoProduto']:"";
-        $multiplicacaoForm = isset($_POST['multiplicacaoProduto'])?$_POST['multiplicacaoProduto']:"";
-        $consumo = isset($_POST['consumoProduto'])?$_POST['consumoProduto']:"";
+        $pesoForm = isset($_POST['peso_produto'])?$_POST['peso_produto']:"";
+        $multiplicacaoForm = isset($_POST['multiplicador_produto'])?$_POST['multiplicador_produto']:"";
+        $consumo = isset($_POST['consumo_produto'])?$_POST['consumo_produto']:"";
         $alturaMinimaForm = isset($_POST['altura_minima'])?$_POST['altura_minima']:"";
         $alturaMaximaForm = isset($_POST['altura_maxima'])?$_POST['altura_maxima']:"";
         $larguraMinimaForm = isset($_POST['largura_minima'])?$_POST['largura_minima']:"";
@@ -20,8 +20,8 @@
         $pesoMinimoForm = isset($_POST['peso_minimo'])?$_POST['peso_minimo']:"";
         $pesoMaximoForm = isset($_POST['peso_maximo'])?$_POST['peso_maximo']:"";
         
-        $codigoProduto = isset($_POST['codigoProduto'])?$_POST['codigoProduto']:"";
-        $titulo = isset($_POST['tituloProduto'])?$_POST['tituloProduto']:"";
+        $codigoProduto = isset($_POST['codigo_produto'])?$_POST['codigo_produto']:"";
+        $titulo = isset($_POST['titulo_produto'])?$_POST['titulo_produto']:"";
         $selecionado = isset($_POST['selecionado'])?$_POST['selecionado']:"";
         $peso = floatval(str_replace(",",".",$pesoForm));
         $multiplicacao = floatval(str_replace(",",".",$multiplicacaoForm));
@@ -104,7 +104,6 @@
             global $pesoMinimo;
             global $pesoMaximo;
             global $selecionado;
-
 
             $created_by = $_SESSION['loggedUserId'];
             date_default_timezone_set('America/Sao_Paulo');

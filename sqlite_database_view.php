@@ -8,13 +8,12 @@ try {
     echo "Erro ao conectar ao banco de dados: " . $e->getMessage();
 }
 
-$sql = "";
+$sql = "SELECT * FROM produtos WHERE codigo = 44";
 
-$stmt = $pdo->query($sql);
 
-print_r($stmt);
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
 
-// $stmt->execute();
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+print_r($result);

@@ -1,0 +1,108 @@
+<?php
+######## SQLite database ########
+try {
+    $pdo = new PDO("sqlite:database.db");
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);   
+} catch (PDOException $e) {
+    echo "Erro ao conectar ao banco de dados: " . $e->getMessage();
+}
+
+
+
+
+$altura = floatVal(isset($_GET['altura'])?$_GET['altura']:"");
+$largura = floatVal(isset($_GET['largura'])?$_GET['largura']:"");
+$peso = floatVal(isset($_GET['peso'])?$_GET['peso']:"");
+
+if($altura !== "" && $largura !== ""){
+    $m2 = (($altura) * $largura);
+    echo "<p>m² = " . $m2 . "</p>";
+}
+
+
+
+
+$sql = "SELECT * FROM produtos
+        WHERE altura_minima <= $altura
+        AND altura_maxima > $altura
+        AND largura_minima <= $largura
+        AND largura_maxima > $largura
+        AND peso_minimo <= $peso
+        AND peso_maximo > $peso
+        ";
+
+
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+
+$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+<head>
+    <title>zTeste</title>
+</head>
+<form>
+    <input type="text" id="altura" name="altura" placeholder="altura">
+    <input type="text" id="largura" name="largura" placeholder="largura">
+    <input type="text" step="0.01" id="peso" name="peso" placeholder="peso">
+    <button type="submit">Enviar</button>
+</form>
+<div class="container mt-4">
+<table class="table table-hover table-sm">
+    <thead>
+        <tr>
+            <th>Referencia</th>
+            <th>Titulo</th>
+            <th>Peso</th>
+            <th>Consumo</th>
+            <th>Multiplicador</th>
+            <th>Altura Minima</th>
+            <th>Altura Maxima</th>
+            <th>Largura Minima</th>
+            <th>Largura Maxima</th>
+            <th>Peso Minimo</th>
+            <th>Peso Maximo</th>
+            <th>Selecionado</th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+            foreach($resultado as $row){
+                $id = isset($row['id'])?$row['id']:"";
+                $codigo = isset($row['codigo'])?$row['codigo']:"";
+                $titulo = isset($row['titulo'])?$row['titulo']:"";
+                $peso = isset($row['peso'])?$row['peso']:"";
+                $consumo = isset($row['consumo'])?$row['consumo']:"";
+                $multiplicador = isset($row['multiplicador'])?$row['multiplicador']:"";
+                $alturaMinima = isset($row['altura_minima'])?$row['altura_minima']:"";
+                $alturaMaxima = isset($row['altura_maxima'])?$row['altura_maxima']:"";
+                $larguraMinima = isset($row['largura_minima'])?$row['largura_minima']:"";
+                $larguraMaxima = isset($row['largura_maxima'])?$row['largura_maxima']:"";
+                $pesoMinimo = isset($row['peso_minimo'])?$row['peso_minimo']:"";
+                $pesoMaximo = isset($row['peso_maximo'])?$row['peso_maximo']:"";
+                $selecionado = isset($row['selecionado'])?$row['selecionado']:"";
+
+
+            echo "<tr>";
+            echo "    <td>$codigo</td>";
+            echo "    <td>$titulo</td>";
+            echo "    <td>$peso</td>";
+            echo "    <td>$consumo</td>";
+            echo "    <td>$multiplicador</td>";
+            echo "    <td>$alturaMinima</td>";
+            echo "    <td>$alturaMaxima</td>";
+            echo "    <td>$larguraMinima</td>";
+            echo "    <td>$larguraMaxima</td>";
+            echo "    <td>$pesoMinimo</td>";
+            echo "    <td>$pesoMaximo</td>";
+            echo "    <td>$selecionado</td>";
+            echo "    <td><a class=\"btn btn-primary btn-sm\" href=\"editar_produto.php?produto_id=$id\">editar</a></td>";
+            echo "</tr>";
+        
+            }
+        ?>
+    </tbody>
+</table>
+</div>

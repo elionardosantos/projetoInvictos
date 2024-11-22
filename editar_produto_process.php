@@ -10,9 +10,9 @@
         require('partials/navbar.php');
         require('config/connection.php');
 
-        $idProduto = isset($_POST['idProduto'])?$_POST['idProduto']:"";
-        $pesoForm = isset($_POST['pesoProduto'])?$_POST['pesoProduto']:"";
-        $multiplicadorForm = isset($_POST['multiplicadorProduto'])?$_POST['multiplicadorProduto']:"";
+        $idProduto = isset($_POST['id_produto'])?$_POST['id_produto']:"";
+        $pesoForm = isset($_POST['peso_produto'])?$_POST['peso_produto']:"";
+        $multiplicadorForm = isset($_POST['multiplicador_produto'])?$_POST['multiplicador_produto']:"";
         $alturaMinimaForm = isset($_POST['altura_minima'])?$_POST['altura_minima']:"";
         $alturaMaximaForm = isset($_POST['altura_maxima'])?$_POST['altura_maxima']:"";
         $larguraMinimaForm = isset($_POST['largura_minima'])?$_POST['largura_minima']:"";
@@ -20,11 +20,11 @@
         $pesoMinimoForm = isset($_POST['peso_minimo'])?$_POST['peso_minimo']:"";
         $pesoMaximoForm = isset($_POST['peso_maximo'])?$_POST['peso_maximo']:"";
         
-        $codigoProduto = isset($_POST['codigoProduto'])?$_POST['codigoProduto']:"";
-        $titulo = isset($_POST['tituloProduto'])?$_POST['tituloProduto']:"";
+        $codigoProduto = isset($_POST['codigo_produto'])?$_POST['codigo_produto']:"";
+        $titulo = isset($_POST['titulo_produto'])?$_POST['titulo_produto']:"";
         $peso = floatval(str_replace(",",".",$pesoForm));
         $multiplicador = floatval(str_replace(",",".",$multiplicadorForm));
-        $consumoProduto = isset($_POST['consumoProduto'])?$_POST['consumoProduto']:"";
+        $consumoProduto = isset($_POST['consumo_produto'])?$_POST['consumo_produto']:"";
         $alturaMinima = floatval(str_replace(",",".",$alturaMinimaForm));
         $alturaMaxima = floatval(str_replace(",",".",$alturaMaximaForm));
         $larguraMinima = floatval(str_replace(",",".",$larguraMinimaForm));
