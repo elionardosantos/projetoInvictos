@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Tempo de geração: 21/11/2024 às 09:32
+-- Tempo de geração: 22/11/2024 às 02:11
 -- Versão do servidor: 8.0.30
 -- Versão do PHP: 8.1.10
 
@@ -31,12 +31,19 @@ USE `invictos`;
 
 CREATE TABLE `produtos` (
   `id` int NOT NULL,
-  `referencia` varchar(64) NOT NULL,
+  `codigo` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `titulo` varchar(256) DEFAULT NULL,
   `peso` float DEFAULT NULL,
   `consumo` varchar(64) DEFAULT NULL,
-  `multiplicacao` float DEFAULT NULL,
-  `deleted` int DEFAULT NULL,
+  `multiplicador` float DEFAULT NULL,
+  `altura_minima` float DEFAULT NULL,
+  `altura_maxima` float DEFAULT NULL,
+  `largura_minima` float DEFAULT NULL,
+  `largura_maxima` float DEFAULT NULL,
+  `peso_minimo` float DEFAULT NULL,
+  `peso_maximo` float DEFAULT NULL,
+  `selecionado` tinyint(1) DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT NULL,
   `created_by` int DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_by` int DEFAULT NULL,
@@ -49,9 +56,10 @@ CREATE TABLE `produtos` (
 -- Despejando dados para a tabela `produtos`
 --
 
-INSERT INTO `produtos` (`id`, `referencia`, `titulo`, `peso`, `consumo`, `multiplicacao`, `deleted`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
-(9, '44', '', 8, 'm2', 1, 0, 5, '2024-11-20 12:25:10', NULL, NULL, NULL, NULL),
-(10, '22', '', 0, 'altura', 0, 0, 5, '2024-11-20 13:36:08', NULL, NULL, NULL, NULL);
+INSERT INTO `produtos` (`id`, `codigo`, `titulo`, `peso`, `consumo`, `multiplicador`, `altura_minima`, `altura_maxima`, `largura_minima`, `largura_maxima`, `peso_minimo`, `peso_maximo`, `selecionado`, `deleted`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
+(9, '44', 'PERFIL INVICTOS 75 ALTO 24 FECHADA', 8, 'm2', 1, 0, 0, 0, 0, 0, 0, 0, 0, 5, '2024-11-20 12:25:10', 5, '2024-11-21 19:44:56', NULL, NULL),
+(10, '22', '', 0, 'altura', 2, 0, 0, 0, 0, 0, 0, 0, 0, 5, '2024-11-20 13:36:08', 5, '2024-11-21 19:43:45', NULL, NULL),
+(13, '36', 'EIXO 114,3MM', 3, 'largura', 1, 0, 0, 0, 0, 0, 0, 1, 0, 5, '2024-11-21 22:28:22', 5, '2024-11-21 23:10:20', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -110,7 +118,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `users`

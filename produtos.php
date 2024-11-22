@@ -23,14 +23,24 @@
                     <th>Titulo</th>
                     <th>Peso</th>
                     <th>Consumo</th>
-                    <th>Multiplicação</th>
+                    <th>Multiplicador</th>
+                    <th>Altura Minima</th>
+                    <th>Altura Maxima</th>
+                    <th>Largura Minima</th>
+                    <th>Largura Maxima</th>
+                    <th>Peso Minimo</th>
+                    <th>Peso Maximo</th>
+                    <th>Selecionado</th>
                     <th>Ação</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                     require('config/connection.php');
-                    $sql = "SELECT `id`,`referencia`,`titulo`,`peso`,`consumo`,`multiplicacao` FROM `produtos` WHERE `deleted` = :deleted";
+                    $sql = "SELECT `id`,`codigo`,`titulo`,`peso`,`consumo`,`multiplicador`,`altura_minima`,`altura_maxima`,`largura_minima`,`largura_maxima`,`peso_minimo`,`peso_maximo`,`selecionado` 
+                            FROM `produtos` 
+                            WHERE `deleted` = :deleted";
+
                     $stmt = $pdo->prepare($sql);
                     $stmt->bindValue(':deleted', 0);
                     $stmt->execute();
@@ -38,20 +48,35 @@
                     $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
                     foreach($resultado as $row){
-                        $referencia = isset($row['referencia'])?$row['referencia']:"";
+                        $id = isset($row['id'])?$row['id']:"";
+                        $codigo = isset($row['codigo'])?$row['codigo']:"";
                         $titulo = isset($row['titulo'])?$row['titulo']:"";
                         $peso = isset($row['peso'])?$row['peso']:"";
                         $consumo = isset($row['consumo'])?$row['consumo']:"";
-                        $multiplicacao = isset($row['multiplicacao'])?$row['multiplicacao']:"";
-                        $id = isset($row['id'])?$row['id']:"";
-                
+                        $multiplicador = isset($row['multiplicador'])?$row['multiplicador']:"";
+                        $alturaMinima = isset($row['altura_minima'])?$row['altura_minima']:"";
+                        $alturaMaxima = isset($row['altura_maxima'])?$row['altura_maxima']:"";
+                        $larguraMinima = isset($row['largura_minima'])?$row['largura_minima']:"";
+                        $larguraMaxima = isset($row['largura_maxima'])?$row['largura_maxima']:"";
+                        $pesoMinimo = isset($row['peso_minimo'])?$row['peso_minimo']:"";
+                        $pesoMaximo = isset($row['peso_maximo'])?$row['peso_maximo']:"";
+                        $selecionado = isset($row['selecionado'])?$row['selecionado']:"";
+
+
                     echo "<tr>";
-                    echo "    <td>$referencia</td>";
+                    echo "    <td>$codigo</td>";
                     echo "    <td>$titulo</td>";
                     echo "    <td>$peso</td>";
                     echo "    <td>$consumo</td>";
-                    echo "    <td>$multiplicacao</td>";
-                    echo "    <td><a href=\"editar_produto.php?produto_id=$id\">editar</a></td>";
+                    echo "    <td>$multiplicador</td>";
+                    echo "    <td>$alturaMinima</td>";
+                    echo "    <td>$alturaMaxima</td>";
+                    echo "    <td>$larguraMinima</td>";
+                    echo "    <td>$larguraMaxima</td>";
+                    echo "    <td>$pesoMinimo</td>";
+                    echo "    <td>$pesoMaximo</td>";
+                    echo "    <td>$selecionado</td>";
+                    echo "    <td><a class=\"btn btn-primary btn-sm\" href=\"editar_produto.php?produto_id=$id\">editar</a></td>";
                     echo "</tr>";
                 
                     }

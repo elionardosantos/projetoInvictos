@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Cadastrar Produto</title>
+    <title>Editar Produto</title>
 </head>
 <body>
     <?php
@@ -10,9 +10,9 @@
         require('partials/navbar.php');
         require('config/connection.php');
 
+        $idProduto = isset($_POST['idProduto'])?$_POST['idProduto']:"";
         $pesoForm = isset($_POST['pesoProduto'])?$_POST['pesoProduto']:"";
-        $multiplicacaoForm = isset($_POST['multiplicacaoProduto'])?$_POST['multiplicacaoProduto']:"";
-        $consumo = isset($_POST['consumoProduto'])?$_POST['consumoProduto']:"";
+        $multiplicadorForm = isset($_POST['multiplicadorProduto'])?$_POST['multiplicadorProduto']:"";
         $alturaMinimaForm = isset($_POST['altura_minima'])?$_POST['altura_minima']:"";
         $alturaMaximaForm = isset($_POST['altura_maxima'])?$_POST['altura_maxima']:"";
         $larguraMinimaForm = isset($_POST['largura_minima'])?$_POST['largura_minima']:"";
@@ -22,23 +22,20 @@
         
         $codigoProduto = isset($_POST['codigoProduto'])?$_POST['codigoProduto']:"";
         $titulo = isset($_POST['tituloProduto'])?$_POST['tituloProduto']:"";
-        $selecionado = isset($_POST['selecionado'])?$_POST['selecionado']:"";
         $peso = floatval(str_replace(",",".",$pesoForm));
-        $multiplicacao = floatval(str_replace(",",".",$multiplicacaoForm));
+        $multiplicador = floatval(str_replace(",",".",$multiplicadorForm));
+        $consumoProduto = isset($_POST['consumoProduto'])?$_POST['consumoProduto']:"";
         $alturaMinima = floatval(str_replace(",",".",$alturaMinimaForm));
         $alturaMaxima = floatval(str_replace(",",".",$alturaMaximaForm));
         $larguraMinima = floatval(str_replace(",",".",$larguraMinimaForm));
         $larguraMaxima = floatval(str_replace(",",".",$larguraMaximaForm));
         $pesoMinimo = floatval(str_replace(",",".",$pesoMinimoForm));
         $pesoMaximo = floatval(str_replace(",",".",$pesoMaximoForm));
+        $selecionado = isset($_POST['selecionado'])?$_POST['selecionado']:"";
 
         //Lógica da página
         if(consultaProdutoBling($codigoProduto)){
-            if(verificaReferenciaBD($codigoProduto) === "naoExiste"){
-                novoProduto();
-            }else{
-                $screenMessage = '<div class="alert alert-danger">Este produto já está cadastrado no sistema</div>';
-            };
+            atualizaProduto($idProduto);
         }else{
             $screenMessage = '<div class="alert alert-danger">Este código de produto não existe no Bling</div>';
         }
@@ -60,8 +57,8 @@
             }
         };
         
-        function consultaProdutoBling($codigoProduto){
-            $url = "https://api.bling.com.br/Api/v3/produtos?codigos%5B%5D=$codigoProduto";
+        function consultaProdutoBling($referencia){
+            $url = "https://api.bling.com.br/Api/v3/produtos?codigos%5B%5D=$referencia";
             $jsonFile = file_get_contents('config/token_request_response.json');
             $jsonData = json_decode($jsonFile, true);
             $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
@@ -91,11 +88,13 @@
             }
         }
         
-        function novoProduto(){
+        function atualizaProduto($idProduto){
+            
+            global $idProduto;
             global $codigoProduto;
             global $titulo;
             global $peso;
-            global $consumo;
+            global $consumoProduto;
             global $multiplicador;
             global $alturaMinima;
             global $alturaMaxima;
@@ -105,21 +104,37 @@
             global $pesoMaximo;
             global $selecionado;
 
-
-            $created_by = $_SESSION['loggedUserId'];
+            $updated_by = $_SESSION['loggedUserId'];
             date_default_timezone_set('America/Sao_Paulo');
-            $created_at = date('Y-m-d H:i:s');
+            $updated_at = date('Y-m-d H:i:s');
 
             try {
                 require('config/connection.php');
-                $sql = "INSERT INTO `produtos`(`codigo`,`titulo`,`peso`,`consumo`,`multiplicador`,`altura_minima`,`altura_maxima`,`largura_minima`,`largura_maxima`,`peso_minimo`,`peso_maximo`,`selecionado`,`deleted`,`created_by`,`created_at`)
-                    VALUES (:codigo,:titulo, :peso, :consumo, :multiplicador, :altura_minima, :altura_maxima, :largura_minima, :largura_maxima, :peso_minimo, :peso_maximo, :selecionado, :deleted, :created_by, :created_at)";
+                $sql = "UPDATE `produtos` 
+                        SET
+                            `codigo` = :codigo,
+                            `titulo` = :titulo,
+                            `peso` = :peso,
+                            `consumo` = :consumo,
+                            `multiplicador` = :multiplicador,
+                            `altura_minima` = :altura_minima,
+                            `altura_maxima` = :altura_maxima,
+                            `largura_minima` = :largura_minima,
+                            `largura_maxima` = :largura_maxima,
+                            `peso_minimo` = :peso_minimo,
+                            `peso_maximo` = :peso_maximo,
+                            `selecionado` = :selecionado,
+                            `deleted` = :deleted,
+                            `updated_by` = :updated_by,
+                            `updated_at` = :updated_at
+                        WHERE id = :id";
 
                 $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':id', $idProduto);
                 $stmt->bindValue(':codigo', $codigoProduto);
                 $stmt->bindValue(':titulo', $titulo);
                 $stmt->bindValue(':peso', $peso);
-                $stmt->bindValue(':consumo', $consumo);
+                $stmt->bindValue(':consumo', $consumoProduto);
                 $stmt->bindValue(':multiplicador', $multiplicador);
                 $stmt->bindValue(':altura_minima', $alturaMinima);
                 $stmt->bindValue(':altura_maxima', $alturaMaxima);
@@ -129,12 +144,14 @@
                 $stmt->bindValue(':peso_maximo', $pesoMaximo);
                 $stmt->bindValue(':selecionado', $selecionado);
                 $stmt->bindValue(':deleted', 0);
-                $stmt->bindValue(':created_by', $created_by);
-                $stmt->bindValue(':created_at', $created_at);
+                $stmt->bindValue(':updated_by', $updated_by);
+                $stmt->bindValue(':updated_at', $updated_at);
 
-                if($stmt->execute()){
+                if($stmt->execute() == true){
                     global $screenMessage;
-                    $screenMessage = '<div class="alert alert-success">Produto cadastrado com sucesso</div>';
+                    $screenMessage = '<div class="alert alert-success">Produto atualizado com sucesso</div>';
+                } else {
+                    $screenMessage = '<div class="alert alert-danger">Erro ao atualizar o produto</div>';
                 }
 
             } catch(PDOException $e) {
@@ -147,7 +164,7 @@
     ?>
     <div class="container">
         <h1>
-            Cadastrar produto
+            Editar produto
         </h1>
     </div>
     <div class="container">
