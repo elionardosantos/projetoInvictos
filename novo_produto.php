@@ -37,6 +37,7 @@
                         <option value="altura">Altura</option>
                         <option value="largura">Largura</option>
                         <option value="peso">Peso</option>
+                        <option value="unidade">Unidade</option>
                     </select>
                 </div>
                 <div class="col-lg-2 mt-2">

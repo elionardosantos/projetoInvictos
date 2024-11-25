@@ -22,15 +22,15 @@
         
         $codigoProduto = isset($_POST['codigo_produto'])?$_POST['codigo_produto']:"";
         $titulo = isset($_POST['titulo_produto'])?$_POST['titulo_produto']:"";
-        $peso = floatval(str_replace(",",".",$pesoForm));
-        $multiplicador = floatval(str_replace(",",".",$multiplicadorForm));
+        $peso = $pesoForm !== ""?floatval(str_replace(",",".",$pesoForm)):null;
+        $multiplicador = $multiplicadorForm !== ""?floatval(str_replace(",",".",$multiplicadorForm)):null;
         $consumoProduto = isset($_POST['consumo_produto'])?$_POST['consumo_produto']:"";
-        $alturaMinima = floatval(str_replace(",",".",$alturaMinimaForm));
-        $alturaMaxima = floatval(str_replace(",",".",$alturaMaximaForm));
-        $larguraMinima = floatval(str_replace(",",".",$larguraMinimaForm));
-        $larguraMaxima = floatval(str_replace(",",".",$larguraMaximaForm));
-        $pesoMinimo = floatval(str_replace(",",".",$pesoMinimoForm));
-        $pesoMaximo = floatval(str_replace(",",".",$pesoMaximoForm));
+        $alturaMinima = $alturaMinimaForm !== ""?floatval(str_replace(",",".",$alturaMinimaForm)):null;
+        $alturaMaxima = $alturaMaximaForm !== ""?floatval(str_replace(",",".",$alturaMaximaForm)):null;
+        $larguraMinima = $larguraMinimaForm !== ""?floatval(str_replace(",",".",$larguraMinimaForm)):null;
+        $larguraMaxima = $larguraMaximaForm !== ""?floatval(str_replace(",",".",$larguraMaximaForm)):null;
+        $pesoMinimo = $pesoMinimoForm !== ""?floatval(str_replace(",",".",$pesoMinimoForm)):null;
+        $pesoMaximo = $pesoMaximoForm !== ""?floatval(str_replace(",",".",$pesoMaximoForm)):null;
         $selecionado = isset($_POST['selecionado'])?$_POST['selecionado']:"";
 
         //Lógica da página

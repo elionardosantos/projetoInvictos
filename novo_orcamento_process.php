@@ -110,7 +110,7 @@ $listaItens = [
         "valor"=>precoItem(36),
         "peso"=>3,
     ],
-    30=>[// PERFIL 50X30
+    30=>[// GUIA 50X30
         "produto"=>[
             "id"=>idItem(30),
         ],
@@ -118,7 +118,7 @@ $listaItens = [
         "valor"=>precoItem(30),
         "peso"=>8,
     ],
-    32=>[// PERFIL 70X30
+    32=>[// GUIA 70X30
         "produto"=>[
             "id"=>idItem(32),
         ],
