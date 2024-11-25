@@ -17,6 +17,9 @@
     </div>
     <div class="container">
         <form action="novo_produto_process.php" method="post">
+            <div class="mt-5">
+                <h4>Dados do produto</h4>
+            </div>
             <div class="row">
                 <div class="col-lg-2 mt-2">
                     <label for="codigo_produto" class="form-label mb-0">codigo</label>
@@ -44,6 +47,11 @@
                     <label for="multiplicador_produto" class="form-label mb-0">Multiplicador</label>
                     <input class="form-control" name="multiplicador_produto" type="text" inputmode="decimal" placeholder="Fator de multiplicação" id="multiplicador_produto">
                 </div>
+            </div>
+            <div class="mt-5">
+                <h4>Dimensões permitidas</h4>
+            </div>
+            <div class="row">
                 <div class="col-lg-2 mt-2">
                     <label for="altura_minima" class="form-label mb-0">Altura mínima</label>
                     <input class="form-control" name="altura_minima" type="text" inputmode="decimal" placeholder="Altura Mínima" id="altura_minima">
@@ -60,6 +68,11 @@
                     <label for="largura_maxima" class="form-label mb-0">Largura máxima</label>
                     <input class="form-control" name="largura_maxima" type="text" inputmode="decimal" placeholder="Largura máxima" id="largura_maxima">
                 </div>
+            </div>
+            <div class="mt-5">
+                <h4>Peso permitido</h4>
+            </div>
+            <div class="row">
                 <div class="col-lg-2 mt-2">
                     <label for="peso_minimo" class="form-label mb-0">Peso mínimo</label>
                     <input class="form-control" name="peso_minimo" type="text" inputmode="decimal" placeholder="Peso mínimo" id="peso_minimo">

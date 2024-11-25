@@ -8,19 +8,27 @@ $altura = floatVal(isset($_GET['altura'])?$_GET['altura']:"");
 $largura = floatVal(isset($_GET['largura'])?$_GET['largura']:"");
 // $peso = floatVal(isset($_GET['peso'])?$_GET['peso']:"");
 
-$sql = "SELECT * FROM produtos
-        WHERE altura_minima <= $altura
-        AND altura_maxima > $altura
-        AND largura_minima <= $largura
-        AND largura_maxima > $largura
-        ";
-        // AND peso_minimo <= $peso
-        // AND peso_maximo > $peso
-
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-
-$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if($altura !== "" && $largura !== ""){
+    if($altura !== 0 && $largura !== 0){
+        $sql = "SELECT * FROM produtos
+                WHERE altura_minima <= $altura
+                AND altura_maxima > $altura
+                AND largura_minima <= $largura
+                AND largura_maxima > $largura
+                ";
+                // AND peso_minimo <= $peso
+                // AND peso_maximo > $peso
+        
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        
+        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        echo "Dados inválidos";
+    }
+} else {
+    echo "Digite os dados";
+}
 
 ?>
 <head>
@@ -44,16 +52,15 @@ echo " / Largura: " . $largura;
                 <th>Referencia</th>
                 <th>Titulo</th>
                 <th>Peso</th>
-                <th>Consumo</th>
-                <th>Multiplicador</th>
-                <th>Altura Minima</th>
-                <th>Altura Maxima</th>
-                <th>Largura Minima</th>
-                <th>Largura Maxima</th>
-                <th>Peso Minimo</th>
-                <th>Peso Maximo</th>
-                <th>Selecionado</th>
-                <th>Ação</th>
+                <th>Cons</th>
+                <th>Mult</th>
+                <th>Alt Min</th>
+                <th>Alt Max</th>
+                <th>Lar Min</th>
+                <th>Lar Max</th>
+                <th>Peso Min</th>
+                <th>Peso Max</th>
+                <th>Selec</th>
             </tr>
         </thead>
         <tbody>
@@ -86,7 +93,6 @@ echo " / Largura: " . $largura;
                 echo "    <td>$pesoMinimo</td>";
                 echo "    <td>$pesoMaximo</td>";
                 echo "    <td>$selecionado</td>";
-                echo "    <td><a class=\"btn btn-primary btn-sm\" href=\"editar_produto.php?produto_id=$id\">editar</a></td>";
                 echo "</tr>";
             
                 }
