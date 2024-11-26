@@ -13,7 +13,7 @@
         $produtoId = isset($_GET['produto_id'])?$_GET['produto_id']:"";
         
         if($produtoId !== ""){
-            $sql = "SELECT `id`,`codigo`,`titulo`,`peso`,`consumo`,`multiplicador`,`altura_minima`,`altura_maxima`,`largura_minima`,`largura_maxima`,`peso_minimo`,`peso_maximo`,`selecionado` 
+            $sql = "SELECT `id`,`codigo`,`titulo`,`peso`,`tipo_consumo`,`multiplicador`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`selecionado` 
             FROM `produtos` 
             WHERE `id` = :id 
             AND `deleted` = :deleted";
@@ -55,10 +55,11 @@
                 <div class="col-lg-2 mt-2">
                     <label for="consumo_produto" class="form-label mb-0">Consumo tipo</label>
                     <select class="form-select" name="consumo_produto" id="consumo_produto">
-                        <option <?= $produto['consumo'] == "m2"?"selected":"" ?> value="m2">Metro quadrado</option>
-                        <option <?= $produto['consumo'] == "altura"?"selected":"" ?> value="altura">Altura</option>
-                        <option <?= $produto['consumo'] == "largura"?"selected":"" ?> value="largura">Largura</option>
-                        <option <?= $produto['consumo'] == "peso"?"selected":"" ?> value="peso">Peso</option>
+                        <option <?= $produto['tipo_consumo'] == "m2"?"selected":"" ?> value="m2">Metro quadrado</option>
+                        <option <?= $produto['tipo_consumo'] == "altura"?"selected":"" ?> value="altura">Altura</option>
+                        <option <?= $produto['tipo_consumo'] == "largura"?"selected":"" ?> value="largura">Largura</option>
+                        <option <?= $produto['tipo_consumo'] == "peso"?"selected":"" ?> value="peso">Peso</option>
+                        <option <?= $produto['tipo_consumo'] == "unidade"?"selected":"" ?> value="unidade">Unidade</option>
                     </select>
                 </div>
                 <div class="col-lg-2 mt-2">
@@ -67,27 +68,27 @@
                 </div>
                 <div class="col-lg-2 mt-2">
                     <label for="altura_minima" class="form-label mb-0">Altura mínima</label>
-                    <input value="<?= $produto['altura_minima'] ?>" class="form-control" name="altura_minima" type="text" inputmode="decimal" placeholder="Altura Mínima" id="altura_minima">
+                    <input value="<?= $produto['altura_minima_porta'] ?>" class="form-control" name="altura_minima" type="text" inputmode="decimal" placeholder="Altura Mínima" id="altura_minima">
                 </div>
                 <div class="col-lg-2 mt-2">
                     <label for="altura_maxima" class="form-label mb-0">Altura máxima</label>
-                    <input value="<?= $produto['altura_maxima'] ?>" class="form-control" name="altura_maxima" type="text" inputmode="decimal" placeholder="Altura Máxima" id="altura_maxima">
+                    <input value="<?= $produto['altura_maxima_porta'] ?>" class="form-control" name="altura_maxima" type="text" inputmode="decimal" placeholder="Altura Máxima" id="altura_maxima">
                 </div>
                 <div class="col-lg-2 mt-2">
                     <label for="largura_minima" class="form-label mb-0">Largura mínima</label>
-                    <input value="<?= $produto['largura_minima'] ?>" class="form-control" name="largura_minima" type="text" inputmode="decimal" placeholder="Largura mínima" id="largura_minima">
+                    <input value="<?= $produto['largura_minima_porta'] ?>" class="form-control" name="largura_minima" type="text" inputmode="decimal" placeholder="Largura mínima" id="largura_minima">
                 </div>
                 <div class="col-lg-2 mt-2">
                     <label for="largura_maxima" class="form-label mb-0">Largura máxima</label>
-                    <input value="<?= $produto['largura_maxima'] ?>" class="form-control" name="largura_maxima" type="text" inputmode="decimal" placeholder="Largura máxima" id="largura_maxima">
+                    <input value="<?= $produto['largura_maxima_porta'] ?>" class="form-control" name="largura_maxima" type="text" inputmode="decimal" placeholder="Largura máxima" id="largura_maxima">
                 </div>
                 <div class="col-lg-2 mt-2">
                     <label for="peso_minimo" class="form-label mb-0">Peso mínimo</label>
-                    <input value="<?= $produto['peso_minimo'] ?>" class="form-control" name="peso_minimo" type="text" inputmode="decimal" placeholder="Peso mínimo" id="peso_minimo">
+                    <input value="<?= $produto['peso_minimo_porta'] ?>" class="form-control" name="peso_minimo" type="text" inputmode="decimal" placeholder="Peso mínimo" id="peso_minimo">
                 </div>
                 <div class="col-lg-2 mt-2">
                     <label for="peso_maximo" class="form-label mb-0">Peso máximo</label>
-                    <input value="<?= $produto['peso_maximo'] ?>" class="form-control" name="peso_maximo" type="text" inputmode="decimal" placeholder="Peso máximo" id="peso_maximo">
+                    <input value="<?= $produto['peso_maximo_porta'] ?>" class="form-control" name="peso_maximo" type="text" inputmode="decimal" placeholder="Peso máximo" id="peso_maximo">
                 </div>
                 <div class="col-lg-2 mt-2">
                     <label for="selecionado" class="form-label mb-0">Selecionado</label>

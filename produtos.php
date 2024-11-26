@@ -37,7 +37,7 @@
             <tbody>
                 <?php
                     require('config/connection.php');
-                    $sql = "SELECT `id`,`codigo`,`titulo`,`peso`,`consumo`,`multiplicador`,`altura_minima`,`altura_maxima`,`largura_minima`,`largura_maxima`,`peso_minimo`,`peso_maximo`,`selecionado` 
+                    $sql = "SELECT `id`,`codigo`,`titulo`,`peso`,`tipo_consumo`,`multiplicador`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`selecionado` 
                             FROM `produtos` 
                             WHERE `deleted` = :deleted";
 
@@ -52,14 +52,14 @@
                         $codigo = isset($row['codigo'])?$row['codigo']:"";
                         $titulo = isset($row['titulo'])?$row['titulo']:"";
                         $peso = isset($row['peso'])?$row['peso']:"";
-                        $consumo = isset($row['consumo'])?$row['consumo']:"";
+                        $consumo = isset($row['tipo_consumo'])?$row['tipo_consumo']:"";
                         $multiplicador = isset($row['multiplicador'])?$row['multiplicador']:"";
-                        $alturaMinima = isset($row['altura_minima'])?$row['altura_minima']:"";
-                        $alturaMaxima = isset($row['altura_maxima'])?$row['altura_maxima']:"";
-                        $larguraMinima = isset($row['largura_minima'])?$row['largura_minima']:"";
-                        $larguraMaxima = isset($row['largura_maxima'])?$row['largura_maxima']:"";
-                        $pesoMinimo = isset($row['peso_minimo'])?$row['peso_minimo']:"";
-                        $pesoMaximo = isset($row['peso_maximo'])?$row['peso_maximo']:"";
+                        $alturaMinima = isset($row['altura_minima_porta'])?$row['altura_minima_porta']:"";
+                        $alturaMaxima = isset($row['altura_maxima_porta'])?$row['altura_maxima_porta']:"";
+                        $larguraMinima = isset($row['largura_minima_porta'])?$row['largura_minima_porta']:"";
+                        $larguraMaxima = isset($row['largura_maxima_porta'])?$row['largura_maxima_porta']:"";
+                        $pesoMinimo = isset($row['peso_minimo_porta'])?$row['peso_minimo_porta']:"";
+                        $pesoMaximo = isset($row['peso_maximo_porta'])?$row['peso_maximo_porta']:"";
                         $selecionado = isset($row['selecionado'])?$row['selecionado']:"";
 
 

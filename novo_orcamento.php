@@ -141,7 +141,7 @@
     </div>
     
     <div class="container mt-4">
-        <form action="novo_orcamento_process.php" method="POST">
+        <form action="novo_orcamento_itens.php" method="POST">
 
             <div class="mt-4"><h4>Dados cadastrais</h4></div>
             <div class="row">

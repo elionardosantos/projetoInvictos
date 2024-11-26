@@ -115,14 +115,14 @@
                             `codigo` = :codigo,
                             `titulo` = :titulo,
                             `peso` = :peso,
-                            `consumo` = :consumo,
+                            `tipo_consumo` = :tipo_consumo,
                             `multiplicador` = :multiplicador,
-                            `altura_minima` = :altura_minima,
-                            `altura_maxima` = :altura_maxima,
-                            `largura_minima` = :largura_minima,
-                            `largura_maxima` = :largura_maxima,
-                            `peso_minimo` = :peso_minimo,
-                            `peso_maximo` = :peso_maximo,
+                            `altura_minima_porta` = :altura_minima_porta,
+                            `altura_maxima_porta` = :altura_maxima_porta,
+                            `largura_minima_porta` = :largura_minima_porta,
+                            `largura_maxima_porta` = :largura_maxima_porta,
+                            `peso_minimo_porta` = :peso_minimo_porta,
+                            `peso_maximo_porta` = :peso_maximo_porta,
                             `selecionado` = :selecionado,
                             `deleted` = :deleted,
                             `updated_by` = :updated_by,
@@ -134,14 +134,14 @@
                 $stmt->bindValue(':codigo', $codigoProduto);
                 $stmt->bindValue(':titulo', $titulo);
                 $stmt->bindValue(':peso', $peso);
-                $stmt->bindValue(':consumo', $consumoProduto);
+                $stmt->bindValue(':tipo_consumo', $consumoProduto);
                 $stmt->bindValue(':multiplicador', $multiplicador);
-                $stmt->bindValue(':altura_minima', $alturaMinima);
-                $stmt->bindValue(':altura_maxima', $alturaMaxima);
-                $stmt->bindValue(':largura_minima', $larguraMinima);
-                $stmt->bindValue(':largura_maxima', $larguraMaxima);
-                $stmt->bindValue(':peso_minimo', $pesoMinimo);
-                $stmt->bindValue(':peso_maximo', $pesoMaximo);
+                $stmt->bindValue(':altura_minima_porta', $alturaMinima);
+                $stmt->bindValue(':altura_maxima_porta', $alturaMaxima);
+                $stmt->bindValue(':largura_minima_porta', $larguraMinima);
+                $stmt->bindValue(':largura_maxima_porta', $larguraMaxima);
+                $stmt->bindValue(':peso_minimo_porta', $pesoMinimo);
+                $stmt->bindValue(':peso_maximo_porta', $pesoMaximo);
                 $stmt->bindValue(':selecionado', $selecionado);
                 $stmt->bindValue(':deleted', 0);
                 $stmt->bindValue(':updated_by', $updated_by);
