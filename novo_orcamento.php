@@ -12,10 +12,10 @@
     <div class="container my-3">
         <h2>Novo Pedido/Orçamento</h2>
     </div>
-    <div class="container my-3">
-        <a href="" class="btn btn-primary ms-2 " onclick="window.history.back(); return false;">Voltar</a>
-        <a href="consulta_contato.php" class="btn btn-primary" role="button">Consultar Contatos</a>
-        <a href="consulta_cnpj.php" class="btn btn-primary" role="button">Consultar CNPJ</a>
+    <div class="container">
+        <a href="" class="btn btn-primary mt-1" onclick="window.history.back(); return false;">Voltar</a>
+        <a href="consulta_contato.php" class="btn btn-primary mt-1" role="button">Consultar Contatos</a>
+        <a href="consulta_cnpj.php" class="btn btn-primary mt-1" role="button">Consultar CNPJ</a>
     </div>
     <div class="container">
         <?php
@@ -352,102 +352,9 @@
                     <input class="form-control" name="rolo" id="rolo" value="0,5">
                 </div>
             </div>
-            
-            <div class="mt-4">
-                <h4>Itens do orçamento</h4>
-            </div>
-
-            <!-- CHECKEDS
-            Eixo Tubo 114,3				
-            Perfil Fechado Meia Cana #24				
-            Guia 70 x 30				
-            Borracha para soleira				
-            Soleira em T Reforçada				
-            Motor AC 300				
-            -->
-
-            <!-- UNCHECKEDS
-            Portinhola Lateral				
-            Alçapão				
-            Pintura eletrostática
-            
-            Mão de Obra Piabeta				
-            Mão de Obra Instalação até 100 km				
-            -->
-
-            <div class="row mt-3 ms-0">
-                <!-- CHECKED -->
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item1" value="true" checked>
-                    <label class="form-check-label" for="item1">
-                    Perfil Fechado Meia Cana #24
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item2" value="true" checked>
-                    <label class="form-check-label" for="item2">
-                    Eixo Tubo 114,3
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item3" value="true" checked>
-                    <label class="form-check-label" for="item3">
-                    Guia
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item4" value="true" checked>
-                    <label class="form-check-label" for="item4">
-                    Soleira em T Reforçada
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item5" value="true" checked>
-                    <label class="form-check-label" for="item5">
-                    Borracha para soleira
-                    </label>
-                </div>
-                <!-- UNCHECKED -->
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item6" value="true">
-                    <label class="form-check-label" for="item6">
-                    Motor AC 300
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item7" value="true">
-                    <label class="form-check-label" for="item7">
-                    Portinhola Lateral
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item8" value="true">
-                    <label class="form-check-label" for="item8">
-                    Alçapão
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item9" value="true">
-                    <label class="form-check-label" for="item9">
-                    Pintura eletrostática
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item10" value="true">
-                    <label class="form-check-label" for="item10">
-                    Mão de Obra Piabeta
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="item11" value="true">
-                    <label class="form-check-label" for="item11">
-                    Mão de Obra Instalação até 100 km
-                    </label>
-                </div>
-            </div>
 
             <div class="my-5">
-                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="submit" class="btn btn-primary">Continuar</button>
                 <a href="pedidos.php" class="btn btn-primary mx-2">Voltar</a>
             </div>
         </form>

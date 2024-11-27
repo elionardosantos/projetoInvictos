@@ -53,7 +53,7 @@ $observacoesInternas .= "\n"."Largura: ".$largura."m / Altura: ".$altura."m / m�
 // Maior que 3.8 guia 50 : guia 70
 $guia = $largura<3.8?30:32;
 
-// Criando array de referencias para a função consultaProdutoID()
+// Criando array de sku para a função consultaProdutoID()
 $produtosSelecionados = [];
 isset($_POST['item1'])?$produtosSelecionados[] = 44:"";
 isset($_POST['item2'])?$produtosSelecionados[] = 36:"";

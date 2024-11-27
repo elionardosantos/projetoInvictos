@@ -30,18 +30,18 @@ USE `invictos`;
 --
 
 CREATE TABLE `produtos` (
-  `id` int NOT NULL,
+  `id` int AUTOINCREMENT NOT NULL,
   `codigo` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `titulo` varchar(256) DEFAULT NULL,
   `peso` float DEFAULT NULL,
-  `consumo` varchar(64) DEFAULT NULL,
+  `tipo_consumo` varchar(64) DEFAULT NULL,
   `multiplicador` float DEFAULT NULL,
-  `altura_minima` float DEFAULT NULL,
-  `altura_maxima` float DEFAULT NULL,
-  `largura_minima` float DEFAULT NULL,
-  `largura_maxima` float DEFAULT NULL,
-  `peso_minimo` float DEFAULT NULL,
-  `peso_maximo` float DEFAULT NULL,
+  `altura_minima_porta` float DEFAULT NULL,
+  `altura_maxima_porta` float DEFAULT NULL,
+  `largura_minima_porta` float DEFAULT NULL,
+  `largura_maxima_porta` float DEFAULT NULL,
+  `peso_minimo_porta` float DEFAULT NULL,
+  `peso_maximo_porta` float DEFAULT NULL,
   `selecionado` tinyint(1) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT NULL,
   `created_by` int DEFAULT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE `produtos` (
 -- Despejando dados para a tabela `produtos`
 --
 
-INSERT INTO `produtos` (`id`, `codigo`, `titulo`, `peso`, `consumo`, `multiplicador`, `altura_minima`, `altura_maxima`, `largura_minima`, `largura_maxima`, `peso_minimo`, `peso_maximo`, `selecionado`, `deleted`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
+INSERT INTO `produtos` (`id`, `codigo`, `titulo`, `peso`, `consumo`, `multiplicador`, `altura_minima_porta`, `altura_maxima_porta`, `largura_minima_porta`, `largura_maxima_porta`, `peso_minimo_porta`, `peso_maximo_porta`, `selecionado`, `deleted`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
 (9, '44', 'PERFIL INVICTOS 75 ALTO 24 FECHADA', 8, 'm2', 1, 0, 0, 0, 0, 0, 0, 0, 0, 5, '2024-11-20 12:25:10', 5, '2024-11-21 19:44:56', NULL, NULL),
 (10, '22', '', 0, 'altura', 2, 0, 0, 0, 0, 0, 0, 0, 0, 5, '2024-11-20 13:36:08', 5, '2024-11-21 19:43:45', NULL, NULL),
 (13, '36', 'EIXO 114,3MM', 3, 'largura', 1, 0, 0, 0, 0, 0, 0, 1, 0, 5, '2024-11-21 22:28:22', 5, '2024-11-21 23:10:20', NULL, NULL);
@@ -68,7 +68,7 @@ INSERT INTO `produtos` (`id`, `codigo`, `titulo`, `peso`, `consumo`, `multiplica
 --
 
 CREATE TABLE `users` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTOINCREMENT,
   `email` varchar(64) NOT NULL,
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `password` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,

@@ -133,7 +133,7 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
                 <th>Titulo</th>
                 <th>Quantidade</th>
                 <th>Peso</th>
-                <th>Cons</th>
+                <th>Consumo</th>
             </tr>
         </thead>
         <tbody>
@@ -141,17 +141,16 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
                 if(isset($resultado) && count($resultado) > 0){
                     
                     echo "metro²: $m2";
-                    $pesoTotalPorta = null;
-
+                    $pesoTotalPorta = 0;
 
                     foreach($resultado as $row){
                         $id = isset($row['id'])?$row['id']:"";
                         $codigo = isset($row['codigo'])?$row['codigo']:"";
                         $titulo = isset($row['titulo'])?$row['titulo']:"";
                         $peso = isset($row['peso'])?floatVal(str_replace(",",".",$row['peso'])):null;
-                        $tipoConsumo = isset($row['tipo_consumo'])?$row['tipo_consumo']:"";
-                        $multiplicador = isset($row['multiplicador'])?$row['multiplicador']:"";
-                        $selecionado = isset($row['selecionado'])?$row['selecionado']:"";
+                        $tipoConsumo = isset($row['tipo_consumo'])?$row['tipo_consumo']:null;
+                        $multiplicador = isset($row['multiplicador'])?$row['multiplicador']:null;
+                        $selecionado = isset($row['selecionado'])?$row['selecionado']:null;
 
                         $pesoItem = null;
                         switch ($tipoConsumo) {
@@ -160,35 +159,56 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
                                 break;
 
                             case 'largura':
-                                $quantidadeItem = $larguraTotal;
+                                $quantidadeItem = $larguraTotal * $multiplicador;
                                 break;
                                 
                             case 'altura':
-                                $quantidadeItem = $alturaTotal;
+                                $quantidadeItem = $alturaTotal * $multiplicador;
                                 break;
 
                             case 'unidade':
-                                $quantidadeItem = $unidade;
+                                $quantidadeItem = $unidade * $multiplicador;
                                 break;
                         }
-                        
+
+                        $pesoItem = $peso * $quantidadeItem;
+                        $produtoParaArray['id'] = $id;
+                        $produtoParaArray['codigo'] = $codigo;
+                        $produtoParaArray['titulo'] = $titulo;
+                        $produtoParaArray['peso'] = $peso;
+                        $produtoParaArray['tipo_consumo'] = $tipoConsumo;
+                        $produtoParaArray['multiplicador'] = $multiplicador;
+                        $produtoParaArray['selecionado'] = $selecionado;
+
+                        $arrayComProdutos[] = $produtoParaArray;
                     ?>
-                    <tr>
-                        <td>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" <?= $selecionado == 1 ? "checked" : ""; ?>>
-                            </div>
-                        </td>
-                        <td><?= $codigo ?></td>
-                        <td><?= $titulo ?></td>
-                        <td><?= $quantidadeItem ?></td>
-                        <td><?= $pesoItem ?></td>
-                        <td><?= $tipoConsumo ?></td>
-                    </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" <?= $selecionado == 1 ? "checked" : ""; ?>>
+                                </div>
+                            </td>
+                            <td><?= $codigo ?></td>
+                            <td><?= $titulo ?></td>
+                            <td><?= $quantidadeItem ?></td>
+                            <td><?= $pesoItem ?></td>
+                            <td><?= $tipoConsumo ?></td>
+                        </tr>
                     <?php
+                        $pesoTotalPorta += $pesoItem;
+
+                        $produtoParaArray['id'] = $id;
+                        $produtoParaArray['codigo'] = $codigo;
+                        $produtoParaArray['titulo'] = $titulo;
+                        $produtoParaArray['peso'] = $peso;
+                        $produtoParaArray['tipo_consumo'] = $tipoConsumo;
+                        $produtoParaArray['multiplicador'] = $multiplicador;
+                        $produtoParaArray['selecionado'] = $selecionado;
+
+                        $arrayComProdutos[] = $produtoParaArray;
                     }
-                    $pesoTotalPorta = 100;
-                    echo " / Peso total porta: $pesoTotalPorta <br><br>";
+                    echo " / Peso total porta: $pesoTotalPorta KG<br><br>";
+                    
                 } else {
                     // nada aqui...
                 }
@@ -217,6 +237,15 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
                         <td><?= $row['tipo_consumo'] ?></td>
                     </tr>
                     <?php
+                        $produtoParaArray['id'] = $id;
+                        $produtoParaArray['codigo'] = $codigo;
+                        $produtoParaArray['titulo'] = $titulo;
+                        $produtoParaArray['peso'] = $peso;
+                        $produtoParaArray['tipo_consumo'] = $tipoConsumo;
+                        $produtoParaArray['multiplicador'] = $multiplicador;
+                        $produtoParaArray['selecionado'] = $selecionado;
+
+                        $arrayComProdutos[] = $produtoParaArray;
                     }
                 } else {
                     // nada aqui...
@@ -224,4 +253,10 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
             ?>
         </tbody>
     </table>
+    <!-- <?php print_r($arrayComProdutos); ?> -->
+    
+</div>
+<!-- Criar uma tabela utilizando a variavel $arrayComProdutos -->
+<div class="container">
+    <form action="" method="post"></form>
 </div>

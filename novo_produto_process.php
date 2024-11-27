@@ -111,21 +111,22 @@
 
             try {
                 require('config/connection.php');
-                $sql = "INSERT INTO `produtos`(`codigo`,`titulo`,`peso`,`consumo`,`multiplicador`,`altura_minima`,`altura_maxima`,`largura_minima`,`largura_maxima`,`peso_minimo`,`peso_maximo`,`selecionado`,`deleted`,`created_by`,`created_at`)
-                    VALUES (:codigo,:titulo, :peso, :consumo, :multiplicador, :altura_minima, :altura_maxima, :largura_minima, :largura_maxima, :peso_minimo, :peso_maximo, :selecionado, :deleted, :created_by, :created_at)";
+                $sql = "INSERT INTO `produtos`(`id`,`codigo`,`titulo`,`peso`,`tipo_consumo`,`multiplicador`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`selecionado`,`deleted`,`created_by`,`created_at`)
+                    VALUES (:id, :codigo, :titulo, :peso, :tipo_consumo, :multiplicador, :altura_minima_porta, :altura_maxima_porta, :largura_minima_porta, :largura_maxima_porta, :peso_minimo_porta, :peso_maximo_porta, :selecionado, :deleted, :created_by, :created_at)";
 
                 $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':id', "");
                 $stmt->bindValue(':codigo', $codigoProduto);
                 $stmt->bindValue(':titulo', $titulo);
                 $stmt->bindValue(':peso', $peso);
-                $stmt->bindValue(':consumo', $consumo);
+                $stmt->bindValue(':tipo_consumo', $consumo);
                 $stmt->bindValue(':multiplicador', $multiplicador);
-                $stmt->bindValue(':altura_minima', $alturaMinima);
-                $stmt->bindValue(':altura_maxima', $alturaMaxima);
-                $stmt->bindValue(':largura_minima', $larguraMinima);
-                $stmt->bindValue(':largura_maxima', $larguraMaxima);
-                $stmt->bindValue(':peso_minimo', $pesoMinimo);
-                $stmt->bindValue(':peso_maximo', $pesoMaximo);
+                $stmt->bindValue(':altura_minima_porta', $alturaMinima);
+                $stmt->bindValue(':altura_maxima_porta', $alturaMaxima);
+                $stmt->bindValue(':largura_minima_porta', $larguraMinima);
+                $stmt->bindValue(':largura_maxima_porta', $larguraMaxima);
+                $stmt->bindValue(':peso_minimo_porta', $pesoMinimo);
+                $stmt->bindValue(':peso_maximo_porta', $pesoMaximo);
                 $stmt->bindValue(':selecionado', $selecionado);
                 $stmt->bindValue(':deleted', 0);
                 $stmt->bindValue(':created_by', $created_by);

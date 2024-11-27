@@ -10,7 +10,7 @@
         require('partials/navbar.php');
 
     ?>
-    <div class="container">
+    <div class="container my-3">
         <h2>
             Novo produto
         </h2>
@@ -22,7 +22,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-2 mt-2">
-                    <label for="codigo_produto" class="form-label mb-0">codigo</label>
+                    <label for="codigo_produto" class="form-label mb-0">Código</label>
                     <input class="form-control" name="codigo_produto" type="text" placeholder="No Bling" id="codigo_produto">
                 </div>
                 <div class="col-lg-4 mt-2">
@@ -34,7 +34,7 @@
                     <input class="form-control" name="peso_produto" type="text" inputmode="decimal" placeholder="Em KG" id="peso_produto">
                 </div>
                 <div class="col-lg-2 mt-2">
-                    <label for="consumo_produto" class="form-label mb-0">Consumo tipo</label>
+                    <label for="consumo_produto" class="form-label mb-0">Consumo tipo*</label>
                     <select class="form-select" name="consumo_produto" id="consumo_produto">
                         <option value="m2">Metro quadrado</option>
                         <option value="altura">Altura</option>
@@ -49,7 +49,7 @@
                 </div>
             </div>
             <div class="mt-5">
-                <h4>Dimensões permitidas</h4>
+                <h4>Faixa de Dimensões</h4>
             </div>
             <div class="row">
                 <div class="col-lg-2 mt-2">
@@ -70,7 +70,7 @@
                 </div>
             </div>
             <div class="mt-5">
-                <h4>Peso permitido</h4>
+                <h4>Faixa de Peso</h4>
             </div>
             <div class="row">
                 <div class="col-lg-2 mt-2">
@@ -81,6 +81,12 @@
                     <label for="peso_maximo" class="form-label mb-0">Peso máximo</label>
                     <input class="form-control" name="peso_maximo" type="text" inputmode="decimal" placeholder="Peso máximo" id="peso_maximo">
                 </div>
+            </div>
+            
+            <div class="mt-5">
+                <h4>Outro</h4>
+            </div>
+            <div class="row">
                 <div class="col-lg-2 mt-2">
                     <label for="selecionado" class="form-label mb-0">Selecionado</label>
                     <select name="selecionado" id="selecionado" class="form-select">

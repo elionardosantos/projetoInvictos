@@ -101,7 +101,7 @@
     <div class="py-2 mb-4 d-print-none shadow fixed-top bg-white">
         <div class="buttons">
             <a href="pedidos.php" class="btn btn-primary ms-2">Voltar</a>
-            <a href="editar_pedido.php?pedidoId=<?= $_GET['pedidoId'] ?>" class="btn btn-primary">Editar</a>
+            <a href="editar_orcamento.php?pedidoId=<?= $_GET['pedidoId'] ?>" class="btn btn-primary">Editar</a>
             <a href="" class="btn btn-primary" onclick="window.print(); return false;">Imprimir</a>
 
         </div>

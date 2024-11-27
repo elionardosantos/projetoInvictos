@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Editar Pedido/Orçamento</title>
+    <title>Editar Orçamento</title>
 </head>
 <body>
     <?php
@@ -14,6 +14,7 @@
     </div>
     <div class="container">
         <?php
+            exit('NÃO IMPLEMENTADO');
             global $cnpj;
             global $name;
             global $street;

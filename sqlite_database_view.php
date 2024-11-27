@@ -8,7 +8,7 @@ try {
     echo "Erro ao conectar ao banco de dados: " . $e->getMessage();
 }
 
-$sql = "SELECT * FROM produtos WHERE codigo = 44";
+$sql = "SELECT * FROM ";
 
 
 $stmt = $pdo->prepare($sql);

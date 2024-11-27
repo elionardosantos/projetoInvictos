@@ -28,13 +28,16 @@
         }
 
     ?>
-    <div class="container">
-        <h1>
+    <div class="container my-3">
+        <h2>
             Editar produto
-        </h1>
+        </h2>
     </div>
     <div class="container">
         <form action="editar_produto_process.php" method="post">
+            <div class="mt-5">
+                <h4>Dados do produto</h4>
+            </div>
             <div class="row">
                 <div class="d-none">
                     <label for="id_produto" class="form-label mb-0">ID</label>
@@ -66,6 +69,12 @@
                     <label for="multiplicador_produto" class="form-label mb-0">Multiplicador</label>
                     <input value="<?= $produto['multiplicador'] ?>" class="form-control" name="multiplicador_produto" type="text" inputmode="decimal" placeholder="Fator de multiplicação" id="multiplicador_produto">
                 </div>
+            </div>
+            
+            <div class="mt-5">
+                <h4>Faixa de Dimensões</h4>
+            </div>
+            <div class="row">
                 <div class="col-lg-2 mt-2">
                     <label for="altura_minima" class="form-label mb-0">Altura mínima</label>
                     <input value="<?= $produto['altura_minima_porta'] ?>" class="form-control" name="altura_minima" type="text" inputmode="decimal" placeholder="Altura Mínima" id="altura_minima">
@@ -82,6 +91,12 @@
                     <label for="largura_maxima" class="form-label mb-0">Largura máxima</label>
                     <input value="<?= $produto['largura_maxima_porta'] ?>" class="form-control" name="largura_maxima" type="text" inputmode="decimal" placeholder="Largura máxima" id="largura_maxima">
                 </div>
+            </div>
+            
+            <div class="mt-5">
+                <h4>Faixa de Peso</h4>
+            </div>
+            <div class="row">
                 <div class="col-lg-2 mt-2">
                     <label for="peso_minimo" class="form-label mb-0">Peso mínimo</label>
                     <input value="<?= $produto['peso_minimo_porta'] ?>" class="form-control" name="peso_minimo" type="text" inputmode="decimal" placeholder="Peso mínimo" id="peso_minimo">
@@ -90,6 +105,12 @@
                     <label for="peso_maximo" class="form-label mb-0">Peso máximo</label>
                     <input value="<?= $produto['peso_maximo_porta'] ?>" class="form-control" name="peso_maximo" type="text" inputmode="decimal" placeholder="Peso máximo" id="peso_maximo">
                 </div>
+            </div>
+            
+            <div class="mt-5">
+                <h4>Outro</h4>
+            </div>
+            <div class="row">
                 <div class="col-lg-2 mt-2">
                     <label for="selecionado" class="form-label mb-0">Selecionado</label>
                     <select name="selecionado" id="selecionado" class="form-select">
