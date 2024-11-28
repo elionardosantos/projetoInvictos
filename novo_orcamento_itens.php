@@ -151,6 +151,7 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
                         $tipoConsumo = isset($row['tipo_consumo'])?$row['tipo_consumo']:null;
                         $multiplicador = isset($row['multiplicador'])?$row['multiplicador']:null;
                         $selecionado = isset($row['selecionado'])?$row['selecionado']:null;
+                        $unidade = isset($row['tipo_unidade'])?$row['selecionado']:null;
 
                         $pesoItem = null;
                         switch ($tipoConsumo) {
@@ -167,7 +168,7 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
                                 break;
 
                             case 'unidade':
-                                $quantidadeItem = $unidade * $multiplicador;
+                                $quantidadeItem = 1 * $multiplicador;
                                 break;
                         }
 
@@ -258,5 +259,7 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
 </div>
 <!-- Criar uma tabela utilizando a variavel $arrayComProdutos -->
 <div class="container">
-    <form action="" method="post"></form>
+    <form action="" method="post">
+        
+    </form>
 </div>

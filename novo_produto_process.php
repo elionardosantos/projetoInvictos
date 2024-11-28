@@ -115,7 +115,7 @@
                     VALUES (:id, :codigo, :titulo, :peso, :tipo_consumo, :multiplicador, :altura_minima_porta, :altura_maxima_porta, :largura_minima_porta, :largura_maxima_porta, :peso_minimo_porta, :peso_maximo_porta, :selecionado, :deleted, :created_by, :created_at)";
 
                 $stmt = $pdo->prepare($sql);
-                $stmt->bindValue(':id', "");
+                $stmt->bindValue(':id', null);
                 $stmt->bindValue(':codigo', $codigoProduto);
                 $stmt->bindValue(':titulo', $titulo);
                 $stmt->bindValue(':peso', $peso);
