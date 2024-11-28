@@ -127,13 +127,13 @@
                         $state = isset($data->address->state)?$data->address->state:"";
                         $zip = $data->address->zip;
                         
-                        echo "Última atualização dos dados: $updated2";
+                        echo "<div class=\"mt-3\">Última atualização dos dados: " . $updated2 . "</div>";
                         
                     } else if($data->code === 429){
                         echo "<div class='alert alert-danger'>Você excedeu o limite de consultas por minuto. Por favor aguarde um pouco para consultar novamente</div>";
                     }
                     else {
-                        echo "<div class='alert alert-danger'><p>Verifique se o CNPJ digitado está correto. Houve um erro na requisição dos dados</p>" . "<p>Erro: " . $response . "</p></div>";
+                        echo "<div class='alert alert-danger mt-4'><p>Verifique se o CNPJ digitado está correto. Houve um erro na requisição dos dados</p>" . "<p>Erro: " . $response . "</p></div>";
                     }
                 }
             }
