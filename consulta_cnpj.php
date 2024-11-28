@@ -17,7 +17,7 @@
         <form action="novo_orcamento.php" method="GET">
             <div class="input-group mb-3">
                 <span class="input-group-text" id="formCnpj">CNPJ</span>
-                <input type="text" name="cnpj" class="form-control" placeholder="Digite aqui" autofocus>
+                <input type="text" name="cnpj" class="form-control" placeholder="Digite aqui" inputmode="decimal" autofocus>
             </div>
             <input type="submit" class="btn btn-primary" value="Consultar">
             <a href="novo_orcamento.php" class="btn btn-primary">Voltar</a>

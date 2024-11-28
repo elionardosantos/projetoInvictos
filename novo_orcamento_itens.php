@@ -125,6 +125,109 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
     ?>
 </div>
 <div class="container mt-4">
+    <?php
+        if(isset($resultado) && count($resultado) > 0){
+            
+            echo "metro²: $m2";
+            $pesoTotalPorta = 0;
+
+            foreach($resultado as $row){
+                $id = isset($row['id'])?$row['id']:"";
+                $codigo = isset($row['codigo'])?$row['codigo']:"";
+                $titulo = isset($row['titulo'])?$row['titulo']:"";
+                $peso = isset($row['peso'])?floatVal(str_replace(",",".",$row['peso'])):null;
+                $tipoConsumo = isset($row['tipo_consumo'])?$row['tipo_consumo']:null;
+                $multiplicador = isset($row['multiplicador'])?$row['multiplicador']:null;
+                $selecionado = isset($row['selecionado'])?$row['selecionado']:null;
+
+                $pesoItem = null;
+                switch ($tipoConsumo) {
+                    case 'm2':
+                        $quantidadeItem = $m2 * $multiplicador;
+                        break;
+
+                    case 'largura':
+                        $quantidadeItem = $larguraTotal * $multiplicador;
+                        break;
+                        
+                    case 'altura':
+                        $quantidadeItem = $alturaTotal * $multiplicador;
+                        break;
+
+                    case 'unidade':
+                        $quantidadeItem = 1 * $multiplicador;
+                        break;
+                }
+
+                $pesoItem = $peso * $quantidadeItem;
+                $pesoTotalPorta += $pesoItem;
+
+                $produtoParaArray['id'] = $id;
+                $produtoParaArray['selecionado'] = $selecionado;
+                $produtoParaArray['codigo'] = $codigo;
+                $produtoParaArray['titulo'] = $titulo;
+                $produtoParaArray['quantidade_item'] = $quantidadeItem;
+                $produtoParaArray['peso_item'] = $pesoItem;
+                $produtoParaArray['tipo_consumo'] = $tipoConsumo;
+                $produtoParaArray['multiplicador'] = $multiplicador;
+
+                $arrayComProdutos[] = $produtoParaArray;
+            }
+            echo " / Peso total porta: $pesoTotalPorta KG<br><br>";
+            
+        } else {
+            // nada aqui...
+        }
+
+        // Consultando produtos por peso
+        $sql = "SELECT * FROM produtos
+            WHERE peso_minimo_porta <= $pesoTotalPorta
+            AND peso_maximo_porta >= $pesoTotalPorta
+            ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+
+        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        if(count($resultado) > 0){
+            foreach($resultado as $row){
+                switch ($row['tipo_consumo']) {
+                    case 'm2':
+                        $quantidadeItem = $m2 * $row['multiplicador'];
+                        break;
+
+                    case 'largura':
+                        $quantidadeItem = $larguraTotal * $row['multiplicador'];
+                        break;
+                        
+                    case 'altura':
+                        $quantidadeItem = $alturaTotal * $row['multiplicador'];
+                        break;
+
+                    case 'unidade':
+                        $quantidadeItem = 1 * $row['multiplicador'];
+                        break;
+                }
+                $produtoParaArray['id'] = null;
+                $produtoParaArray['selecionado'] = $row['selecionado'];
+                $produtoParaArray['codigo'] = $row['codigo'];
+                $produtoParaArray['titulo'] = $row['titulo'];
+                $produtoParaArray['quantidade_item'] = $quantidadeItem;
+                $produtoParaArray['peso_item'] = ($row['peso'] * $row['multiplicador']);
+                $produtoParaArray['tipo_consumo'] = $row['tipo_consumo'];
+                $produtoParaArray['multiplicador'] = $row['multiplicador'];
+
+                $arrayComProdutos[] = $produtoParaArray;
+            }
+        } else {
+            // nada aqui...
+        }
+        // print_r($arrayComProdutos);
+    ?>
+    
+</div>
+<!-- Criar uma tabela utilizando a variavel $arrayComProdutos -->
+<div class="container">
     <table class="table table-hover table-sm">
         <thead>
             <tr>
@@ -138,125 +241,18 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
         </thead>
         <tbody>
             <?php
-                if(isset($resultado) && count($resultado) > 0){
-                    
-                    echo "metro²: $m2";
-                    $pesoTotalPorta = 0;
-
-                    foreach($resultado as $row){
-                        $id = isset($row['id'])?$row['id']:"";
-                        $codigo = isset($row['codigo'])?$row['codigo']:"";
-                        $titulo = isset($row['titulo'])?$row['titulo']:"";
-                        $peso = isset($row['peso'])?floatVal(str_replace(",",".",$row['peso'])):null;
-                        $tipoConsumo = isset($row['tipo_consumo'])?$row['tipo_consumo']:null;
-                        $multiplicador = isset($row['multiplicador'])?$row['multiplicador']:null;
-                        $selecionado = isset($row['selecionado'])?$row['selecionado']:null;
-
-                        $pesoItem = null;
-                        switch ($tipoConsumo) {
-                            case 'm2':
-                                $quantidadeItem = $m2 * $multiplicador;
-                                break;
-
-                            case 'largura':
-                                $quantidadeItem = $larguraTotal * $multiplicador;
-                                break;
-                                
-                            case 'altura':
-                                $quantidadeItem = $alturaTotal * $multiplicador;
-                                break;
-
-                            case 'unidade':
-                                $quantidadeItem = $unidade * $multiplicador;
-                                break;
-                        }
-
-                        $pesoItem = $peso * $quantidadeItem;
-                        $produtoParaArray['id'] = $id;
-                        $produtoParaArray['codigo'] = $codigo;
-                        $produtoParaArray['titulo'] = $titulo;
-                        $produtoParaArray['peso'] = $peso;
-                        $produtoParaArray['tipo_consumo'] = $tipoConsumo;
-                        $produtoParaArray['multiplicador'] = $multiplicador;
-                        $produtoParaArray['selecionado'] = $selecionado;
-
-                        $arrayComProdutos[] = $produtoParaArray;
-                    ?>
-                        <tr>
-                            <td>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" <?= $selecionado == 1 ? "checked" : ""; ?>>
-                                </div>
-                            </td>
-                            <td><?= $codigo ?></td>
-                            <td><?= $titulo ?></td>
-                            <td><?= $quantidadeItem ?></td>
-                            <td><?= $pesoItem ?></td>
-                            <td><?= $tipoConsumo ?></td>
-                        </tr>
-                    <?php
-                        $pesoTotalPorta += $pesoItem;
-
-                        $produtoParaArray['id'] = $id;
-                        $produtoParaArray['codigo'] = $codigo;
-                        $produtoParaArray['titulo'] = $titulo;
-                        $produtoParaArray['peso'] = $peso;
-                        $produtoParaArray['tipo_consumo'] = $tipoConsumo;
-                        $produtoParaArray['multiplicador'] = $multiplicador;
-                        $produtoParaArray['selecionado'] = $selecionado;
-
-                        $arrayComProdutos[] = $produtoParaArray;
-                    }
-                    echo " / Peso total porta: $pesoTotalPorta KG<br><br>";
-                    
-                } else {
-                    // nada aqui...
-                }
-                $sql = "SELECT * FROM produtos
-                    WHERE peso_minimo_porta <= $pesoTotalPorta
-                    AND peso_maximo_porta >= $pesoTotalPorta
-                    ";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute();
-
-                $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                
-                if(count($resultado) > 0){
-                    foreach($resultado as $row){
-                    ?>   
-                    <tr>
-                        <td>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" <?= $row['selecionado'] == 1 ? "checked" : ""; ?>>
-                            </div>
-                        </td>
-                        <td><?= $row['codigo'] ?></td>
-                        <td><?= $row['titulo'] ?></td>
-                        <td><?= $row['multiplicador'] ?></td>
-                        <td><?= $row['peso'] ?></td>
-                        <td><?= $row['tipo_consumo'] ?></td>
-                    </tr>
-                    <?php
-                        $produtoParaArray['id'] = $id;
-                        $produtoParaArray['codigo'] = $codigo;
-                        $produtoParaArray['titulo'] = $titulo;
-                        $produtoParaArray['peso'] = $peso;
-                        $produtoParaArray['tipo_consumo'] = $tipoConsumo;
-                        $produtoParaArray['multiplicador'] = $multiplicador;
-                        $produtoParaArray['selecionado'] = $selecionado;
-
-                        $arrayComProdutos[] = $produtoParaArray;
-                    }
-                } else {
-                    // nada aqui...
+                foreach($arrayComProdutos as $produto){
+            ?>
+                <tr>
+                    <td><?= $produto['selecionado'] ?></td>
+                    <td><?= $produto['codigo'] ?></td>
+                    <td><?= $produto['titulo'] ?></td>
+                    <td><?= $produto['quantidade_item'] ?></td>
+                    <td><?= $produto['peso_item'] ?></td>
+                    <td><?= $produto['tipo_consumo'] ?></td>
+                </tr>
+            <?php
                 }
             ?>
         </tbody>
-    </table>
-    <!-- <?php print_r($arrayComProdutos); ?> -->
-    
-</div>
-<!-- Criar uma tabela utilizando a variavel $arrayComProdutos -->
-<div class="container">
-    <form action="" method="post"></form>
 </div>
