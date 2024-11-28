@@ -14,7 +14,7 @@
             <a class="nav-link" href="index.php">Início</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="pedidos.php">Pedidos/Orçamentos</a>
+            <a class="nav-link" href="orcamentos.php">Orçamentos</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="produtos.php">Produtos</a>

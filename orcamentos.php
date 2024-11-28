@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Pedidos/Orçamentos</title>
+    <title>Orçamentos</title>
 </head>
 <body>
     <?php
