@@ -15,7 +15,7 @@
     <div class="container mt-4">
         <a href="novo_produto.php" class="btn btn-primary" role="button">Novo Produto</a>
     </div>
-    <div class="mx-2 mt-4">
+    <div class="container mt-4" style="font-size: 14px;">
         <table class="table table-hover table-sm">
             <thead>
                 <tr>

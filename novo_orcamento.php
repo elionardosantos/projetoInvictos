@@ -14,7 +14,7 @@
     </div>
     <div class="container">
         <a href="" class="btn btn-primary mt-1" onclick="window.history.back(); return false;">Voltar</a>
-        <a href="consulta_contato.php" class="btn btn-primary mt-1" role="button">Consultar Contatos</a>
+        <a href="consulta_contato.php" class="btn btn-primary mt-1" role="button">Clientes Cadastrados</a>
         <a href="consulta_cnpj.php" class="btn btn-primary mt-1" role="button">Consultar CNPJ</a>
     </div>
     <div class="container">
@@ -153,7 +153,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <label for="cliente" class="form-label mb-0 mt-2">Nome completo / Razão social*</label>
-                    <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome completo" value="<?= isset($name)?$name:""; ?>">
+                    <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome completo" value="<?= isset($name)?$name:""; ?>" required>
                 </div>                
                 <div class="col-md-4">
                     <label for="documento" class="form-label mb-0 mt-2">CPF/CNPJ*</label>

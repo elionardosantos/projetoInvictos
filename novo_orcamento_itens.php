@@ -62,25 +62,25 @@ $_SESSION['cep'] = $cep;
 $_SESSION['desconto'] = $desconto;
 $_SESSION['tipoDesconto'] = $tipoDesconto;
 
-$_POST['tel'] = $tel;
-$_POST['cel'] = $cel;
-$_POST['email'] = $email;
+$_SESSION['tel'] = $tel;
+$_SESSION['cel'] = $cel;
+$_SESSION['email'] = $email;
 
-$_POST['observacoes'] = $observacoes;
-$_POST['observacoesInternas'] = $observacoesInternas;
+$_SESSION['observacoes'] = $observacoes;
+$_SESSION['observacoesInternas'] = $observacoesInternas;
 
-$_POST['nomeServico'] = $nomeServico;
-$_POST['enderecoServico'] = $enderecoServico;
-$_POST['numeroServico'] = $numeroServico;
-$_POST['bairroServico'] = $bairroServico;
-$_POST['municipioServico'] = $municipioServico;
-$_POST['estadoServico'] = $estadoServico;
-$_POST['cepServico'] = $cepServico;
+$_SESSION['nomeServico'] = $nomeServico;
+$_SESSION['enderecoServico'] = $enderecoServico;
+$_SESSION['numeroServico'] = $numeroServico;
+$_SESSION['bairroServico'] = $bairroServico;
+$_SESSION['municipioServico'] = $municipioServico;
+$_SESSION['estadoServico'] = $estadoServico;
+$_SESSION['cepServico'] = $cepServico;
 
-$_POST['quantidade'] = $quantidade;
-$_POST['larguraTotal'] = $larguraTotal;
-$_POST['alturaTotal'] = $alturaTotal;
-$_POST['rolo'] = $rolo;
+$_SESSION['quantidade'] = $quantidade;
+$_SESSION['larguraTotal'] = $larguraTotal;
+$_SESSION['alturaTotal'] = $alturaTotal;
+$_SESSION['rolo'] = $rolo;
 
 ?>
 
@@ -94,6 +94,7 @@ $_POST['rolo'] = $rolo;
 <?php
 require('partials/navbar.php');
 
+// Buscando produtos de acordo com os parametros de largura e altura
 if($alturaTotal !== "" && $larguraTotal !== ""){
     if($alturaTotal !== 0 && $larguraTotal !== 0){
         $sql = "SELECT * FROM produtos
@@ -116,8 +117,21 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
     echo "Preencha as dimensões";
 }
 
+// Exibir nome do cliente na tela de seleção de itens
+if(isset($cliente)){
 ?>
-
+    <div class="container mt-4">
+        <div class="row align-items-center">
+            <div class="col-8">
+                <div class="row">
+                    <div class="col">Cliente: <strong><?= $cliente ?></strong></div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
+}
+?>
 <div class="container mt-4">
     <?php
         echo $alturaTotal !== ""?"Largura: " . $larguraTotal:"";
@@ -131,6 +145,7 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
             echo "metro²: $m2";
             $pesoTotalPorta = 0;
 
+            // Adicionando itens à array de produtos para enviar à página de processamento do orçamento (envio para o Bling)
             foreach($resultado as $row){
                 $id = isset($row['id'])?$row['id']:"";
                 $codigo = isset($row['codigo'])?$row['codigo']:"";
@@ -171,7 +186,7 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
                 $produtoParaArray['tipo_consumo'] = $tipoConsumo;
                 $produtoParaArray['multiplicador'] = $multiplicador;
 
-                $arrayComProdutos[] = $produtoParaArray;
+                $arrayComProdutos[$codigo] = $produtoParaArray;
             }
             echo " / Peso total porta: $pesoTotalPorta KG<br><br>";
             
@@ -179,7 +194,7 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
             // nada aqui...
         }
 
-        // Consultando produtos por peso
+        // Consultando produtos por peso no banco de dados
         $sql = "SELECT * FROM produtos
             WHERE peso_minimo_porta <= $pesoTotalPorta
             AND peso_maximo_porta >= $pesoTotalPorta
@@ -209,7 +224,7 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
                         $quantidadeItem = 1 * $row['multiplicador'];
                         break;
                 }
-                $produtoParaArray['id'] = null;
+                $produtoParaArray['id'] = $row['id'];
                 $produtoParaArray['selecionado'] = $row['selecionado'];
                 $produtoParaArray['codigo'] = $row['codigo'];
                 $produtoParaArray['titulo'] = $row['titulo'];
@@ -218,7 +233,7 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
                 $produtoParaArray['tipo_consumo'] = $row['tipo_consumo'];
                 $produtoParaArray['multiplicador'] = $row['multiplicador'];
 
-                $arrayComProdutos[] = $produtoParaArray;
+                $arrayComProdutos[$codigo] = $produtoParaArray;
             }
         } else {
             // nada aqui...
@@ -227,51 +242,119 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
     ?>
     
 </div>
-<!-- Criar uma tabela utilizando a variavel $arrayComProdutos -->
 <div class="container">
-    <table class="table table-hover table-sm">
-        <thead>
-            <tr>
-                <th>Adicionar</th>
-                <th>Código</th>
-                <th>Titulo</th>
-                <th>Quantidade</th>
-                <th>Peso</th>
-                <th>Consumo</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-                // Duas querys para separar os selecionados dos não selecionados
-                foreach($arrayComProdutos as $produto){
-                    if($produto['selecionado'] == 1){
-                        ?>
-                        <tr>
-                            <td><?= $produto['selecionado'] ?></td>
-                            <td><?= $produto['codigo'] ?></td>
-                            <td><?= $produto['titulo'] ?></td>
-                            <td><?= $produto['quantidade_item'] ?></td>
-                            <td><?= $produto['peso_item'] ?></td>
-                            <td><?= $produto['tipo_consumo'] ?></td>
-                        </tr>
-                        <?php
-                    }
-                }
-                foreach($arrayComProdutos as $produto){
-                    if($produto['selecionado'] == 0){
-                        ?>
-                        <tr>
-                            <td><?= $produto['selecionado'] ?></td>
-                            <td><?= $produto['codigo'] ?></td>
-                            <td><?= $produto['titulo'] ?></td>
-                            <td><?= $produto['quantidade_item'] ?></td>
-                            <td><?= $produto['peso_item'] ?></td>
-                            <td><?= $produto['tipo_consumo'] ?></td>
-                        </tr>
-                        <?php
-                    }
-                }
-                // print_r($arrayComProdutos);
-            ?>
-        </tbody>
+    <form method="post" action="novo_orcamento_process.php">
+        <table class="table table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>Adicionar</th>
+                    <th>Código</th>
+                    <th>Titulo</th>
+                    <th>Quantidade</th>
+                    <th>Peso</th>
+                    <th>Consumo</th>
+                </tr>
+            </thead>
+                <tbody>
+                    <?php
+                        // Duas querys para separar os selecionados dos não selecionados
+                        foreach($arrayComProdutos as $produto){
+                            if($produto['selecionado'] == 1){
+                                ?>
+                                <tr>
+                                    <td>
+                                        <input 
+                                        class="form-check-input" 
+                                        type="checkbox"
+                                        name="produtosSelecionados[]"
+                                        value="<?= $produto['codigo'] ?>" 
+                                        <?= $produto['selecionado'] == 1 ? "checked" : null ?>
+                                        id="<?= "codigo".$produto['codigo'] ?>"
+                                        >
+                                    </td>
+                                    <td>
+                                        <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                            <?= $produto['codigo'] ?>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                            <?= $produto['titulo'] ?>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                            <?= $produto['quantidade_item'] ?>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                            <?= $produto['peso_item'] ?>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                            <?= $produto['tipo_consumo'] ?>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                        }
+                        foreach($arrayComProdutos as $produto){
+                            if($produto['selecionado'] == 0){
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <input 
+                                            class="form-check-input" 
+                                            type="checkbox"
+                                            name="produtosSelecionados[]"
+                                            value="<?= $produto['codigo'] ?>" 
+                                            <?= $produto['selecionado'] == 1 ? "checked" : null ?>
+                                            id="<?= "codigo".$produto['codigo'] ?>"
+                                            >
+                                        </td>
+                                        <td>
+                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                                <?= $produto['codigo'] ?>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                                <?= $produto['titulo'] ?>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                                <?= $produto['quantidade_item'] ?>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                                <?= $produto['peso_item'] ?>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                                <?= $produto['tipo_consumo'] ?>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                <?php
+                            }
+                        }
+                        // print_r($arrayComProdutos);
+                    ?>
+                </tbody>
+        </table>
+        <?php
+            $_SESSION['array_com_produtos'] = $arrayComProdutos;
+            echo "<pre>";
+            print_r($arrayComProdutos);
+        ?>
+        <div class="mt-5">
+            <input type="submit" class="btn btn-primary" value="Continuar">
+        </div>
+    </form>
 </div>
