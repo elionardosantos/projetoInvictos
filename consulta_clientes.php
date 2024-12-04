@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Consultar Contatos</title>
+    <title>Consultar Clientes</title>
 </head>
 <body>
     <?php
@@ -11,10 +11,10 @@
 
     ?>
     <div class="container my-3">
-        <h2>Consultar Contatos</h2>
+        <h2>Consultar Clientes</h2>
     </div>
     <div class="container my-3">
-        <form action="consulta_contato.php" method="GET">
+        <form action="" method="GET">
             <div class="input-group mb-3">
                 <span class="input-group-text" id="nome">Nome</span>
                 <input type="text" name="nome" class="form-control" placeholder="Digite aqui" autofocus>

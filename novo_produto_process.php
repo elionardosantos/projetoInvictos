@@ -11,7 +11,7 @@
         require('config/connection.php');
 
         $pesoForm = isset($_POST['peso_produto'])?$_POST['peso_produto']:"";
-        $multiplicacaoForm = isset($_POST['multiplicador_produto'])?$_POST['multiplicador_produto']:"";
+        $multiplicadorForm = isset($_POST['multiplicador_produto'])?$_POST['multiplicador_produto']:"";
         $consumo = isset($_POST['consumo_produto'])?$_POST['consumo_produto']:"";
         $alturaMinimaForm = isset($_POST['altura_minima'])?$_POST['altura_minima']:"";
         $alturaMaximaForm = isset($_POST['altura_maxima'])?$_POST['altura_maxima']:"";
@@ -24,7 +24,7 @@
         $titulo = isset($_POST['titulo_produto'])?$_POST['titulo_produto']:"";
         $selecionado = isset($_POST['selecionado'])?$_POST['selecionado']:"";
         $peso = floatval(str_replace(",",".",$pesoForm));
-        $multiplicacao = floatval(str_replace(",",".",$multiplicacaoForm));
+        $multiplicador = floatval(str_replace(",",".",$multiplicadorForm));
         $alturaMinima = floatval(str_replace(",",".",$alturaMinimaForm));
         $alturaMaxima = floatval(str_replace(",",".",$alturaMaximaForm));
         $larguraMinima = floatval(str_replace(",",".",$larguraMinimaForm));

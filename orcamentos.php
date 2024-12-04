@@ -15,7 +15,7 @@
         $nomePedido = isset($_GET['nomePedido'])?$_GET['nomePedido']:"";
         $situacaoPedido = isset($_GET['situacao'])?$_GET['situacao']:"";
 
-        $situacaoPedidoUrl = isset($_GET['situacao'])&&$situacaoPedido!==""?"&idsSituacoes[]=".$situacaoPedido:"";
+        $situacaoPedidoUrl = isset($_GET['situacao'])&&$situacaoPedido!==""?"&idsSituacoes[]=".$situacaoPedido:"&idsSituacoes[]=447794";
 
         $urlData = "dataInicial=".$dataInicial."&dataFinal=".$dataFinal."&numero=".$numeroPedido."&nome=".$nomePedido.$situacaoPedidoUrl;
         
@@ -44,10 +44,10 @@
                     <select class="form-select" id="situacao" name="situacao">
                         <option value="">Todos</option>
                         <?php
-                            if(isset($situacoes)){
+                            if(isset($situacoes) && count($situacoes)>0){
                                 foreach($situacoes['data'] as $situacao){
                                     ?>
-                                    <option <?php if($situacaoPedido == $situacao['id']){echo "selected";} ?> value="<?= $situacao['id'] ?>"><?= $situacao['nome'] ?></option>;
+                                    <option <?= $situacao['nome'] === 'Orçamento'?"selected":null ?> value="<?= $situacao['id'] ?>"><?= $situacao['nome'] ?></option>;
                                     <?php
                                 }
                             }

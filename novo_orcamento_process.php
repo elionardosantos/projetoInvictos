@@ -2,7 +2,7 @@
 require('controller/login_checker.php');
 require('config/connection.php');
 date_default_timezone_set('America/Sao_Paulo');
-// ob_start();
+ob_start();
 
 $contatoId = isset($_SESSION['contatoId'])?$_SESSION['contatoId']:"";
 $cliente = isset($_SESSION['cliente'])?$_SESSION['cliente']:"";
@@ -421,7 +421,43 @@ function consultaProdutoId($listaProdutos){
         }
     }
 }
+function alteraStatus($pedidoId,$novoStatusId){
 
+    $url = "https://api.bling.com.br/Api/v3/pedidos/vendas/$pedidoId/situacoes/$novoStatusId";
+    
+    $jsonFile = file_get_contents('config/token_request_response.json');
+    $jsonData = json_decode($jsonFile, true);
+    $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+
+    $headers = [
+        "Accept: application/json",
+        "Authorization: Bearer $token"
+    ];
+
+    // Inicializa o cURL
+    $ch = curl_init();
+
+    // Configurações da requisição PATCH
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    // Executa a requisição
+    $response = curl_exec($ch);
+
+    // Verifica erros
+    if (curl_errno($ch)) {
+        echo "Erro: " . curl_error($ch);
+    } else {
+        // Exibe a resposta
+        echo "Resposta: " . $response;
+    }
+
+    // Fecha a conexão cURL
+    curl_close($ch);
+
+}
 
 // ################# FUNCTIONS END #########################
 
@@ -448,12 +484,14 @@ function consultaProdutoId($listaProdutos){
     </div> -->
     <div class="container mt-3">
         <?php
-            if(0){// Chave geral que habilita/desabilita criação de pedidos para testes. 0 para testes
+            $modoTeste = 0;
+            if($motoTeste == 0){// Chave geral que habilita/desabilita criação de pedidos para testes. 0 para testes
                 if(consultaContatoId($contatoId)){ // Verifica se o contato existe pelo ID
                     if($pedidoId = novoPedido()){
+                        alteraStatus($pedidoId,447794);
                         echo "Pedido criado com sucesso¹<br>";
                         echo "ID do pedido: ". $pedidoId;
-                        // header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
+                        header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
                         ob_end_flush(); // Liberando as impressões na tela após o header para não impedir o redirecionamento
                         exit;
                     } else {
@@ -462,9 +500,10 @@ function consultaProdutoId($listaProdutos){
 
                 } elseif ($contatoId = consultaContatoDocumento($documento)) { // Verifica se o contato existe pelo Documento
                     if($pedidoId = novoPedido()){
+                        alteraStatus($pedidoId,447794);
                         echo "Pedido criado com sucesso²<br>";
                         echo "ID do pedido: ". $pedidoId;
-                        // header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
+                        header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
                         ob_end_flush(); // Liberando as impressões na tela após o header para não impedir o redirecionamento
                         exit;
                     } else {
@@ -472,9 +511,10 @@ function consultaProdutoId($listaProdutos){
                     }
                 } elseif ($contatoId = novoContato()){ // Se o contato não existir, um novo contato é criado
                     if($pedidoId = novoPedido()){
+                        alteraStatus($pedidoId,447794);
                         echo "Pedido criado com sucesso³<br>";
                         echo "ID do pedido: ". $pedidoId;
-                        // header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
+                        header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
                         ob_end_flush(); // Liberando as impressões na tela após o header para não impedir o redirecionamento
                         exit;
                     } else {
@@ -502,6 +542,14 @@ function consultaProdutoId($listaProdutos){
                 <pre>
                 <?php
                     print_r($consultaProdutos);
+                ?>    
+                </pre>
+
+
+                <h3><br>arrayComProdutos</h3>
+                <pre>
+                <?php
+                    print_r($arrayComProdutos);
                 ?>    
                 </pre>
             <?php

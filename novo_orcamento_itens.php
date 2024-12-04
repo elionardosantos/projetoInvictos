@@ -110,6 +110,9 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
         $stmt->execute();
         
         $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // echo "<h3>Consulta 1</h3>";
+        // echo "<pre>".print_r($resultado)."</pre>";
     } else {
         echo "Dimensões inválidas";
     }
@@ -132,6 +135,7 @@ if(isset($cliente)){
 <?php
 }
 ?>
+
 <div class="container mt-4">
     <?php
         echo $alturaTotal !== ""?"Largura: " . $larguraTotal:"";
@@ -148,7 +152,7 @@ if(isset($cliente)){
             // Adicionando itens à array de produtos para enviar à página de processamento do orçamento (envio para o Bling)
             foreach($resultado as $row){
                 $id = isset($row['id'])?$row['id']:"";
-                $codigo = isset($row['codigo'])?$row['codigo']:"";
+                $codigo = isset($row['codigo'])?$row['codigo']:"erro";
                 $titulo = isset($row['titulo'])?$row['titulo']:"";
                 $peso = isset($row['peso'])?floatVal(str_replace(",",".",$row['peso'])):null;
                 $tipoConsumo = isset($row['tipo_consumo'])?$row['tipo_consumo']:null;
@@ -205,6 +209,9 @@ if(isset($cliente)){
 
         $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
+        // echo "<h3>Consulta 2</h3>";
+        // echo "<pre>".print_r($resultado)."</pre>";
+        
         if(count($resultado) > 0){
             foreach($resultado as $row){
                 switch ($row['tipo_consumo']) {
@@ -226,14 +233,23 @@ if(isset($cliente)){
                 }
                 $produtoParaArray['id'] = $row['id'];
                 $produtoParaArray['selecionado'] = $row['selecionado'];
-                $produtoParaArray['codigo'] = $row['codigo'];
+                $produtoParaArray['codigo'] = isset($row['codigo'])?$row['codigo']:"";
                 $produtoParaArray['titulo'] = $row['titulo'];
                 $produtoParaArray['quantidade_item'] = $quantidadeItem;
                 $produtoParaArray['peso_item'] = ($row['peso'] * $row['multiplicador']);
                 $produtoParaArray['tipo_consumo'] = $row['tipo_consumo'];
                 $produtoParaArray['multiplicador'] = $row['multiplicador'];
 
-                $arrayComProdutos[$codigo] = $produtoParaArray;
+                // $produtoParaArray['id'] = $id;
+                // $produtoParaArray['selecionado'] = $selecionado;
+                // $produtoParaArray['codigo'] = $codigo;
+                // $produtoParaArray['titulo'] = $titulo;
+                // $produtoParaArray['quantidade_item'] = $quantidadeItem;
+                // $produtoParaArray['peso_item'] = $pesoItem;
+                // $produtoParaArray['tipo_consumo'] = $tipoConsumo;
+                // $produtoParaArray['multiplicador'] = $multiplicador;
+
+                $arrayComProdutos[$row['codigo']] = $produtoParaArray;
             }
         } else {
             // nada aqui...
@@ -344,14 +360,13 @@ if(isset($cliente)){
                                 <?php
                             }
                         }
-                        // print_r($arrayComProdutos);
                     ?>
                 </tbody>
         </table>
         <?php
             $_SESSION['array_com_produtos'] = $arrayComProdutos;
-            echo "<pre>";
-            print_r($arrayComProdutos);
+            // echo "<pre>";
+            // print_r($arrayComProdutos);
         ?>
         <div class="mt-5">
             <input type="submit" class="btn btn-primary" value="Continuar">
