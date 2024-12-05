@@ -2,7 +2,72 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Novo Orçamento</title>
+    <title>Novo Orçamento</title> <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cepInput = document.getElementById("cep");
+            const enderecoInput = document.getElementById("endereco");
+            const bairroInput = document.getElementById("bairro");
+            const cidadeInput = document.getElementById("municipio");
+            const estadoInput = document.getElementById("estado");
+
+            cepInput.addEventListener("blur", function () {
+                const cep = cepInput.value.replace(/\D/g, '');
+                if (cep.length === 8) {
+                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (!data.erro) {
+                                enderecoInput.value = data.logradouro || "";
+                                bairroInput.value = data.bairro || "";
+                                cidadeInput.value = data.localidade || "";
+                                estadoInput.value = data.uf || "";
+                            } else {
+                                alert("CEP não encontrado.");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Erro ao consultar o CEP:", error);
+                            alert("Erro ao consultar o CEP. Verifique a conexão com a internet.");
+                        });
+                } else {
+                    alert("CEP inválido. Por favor, digite um CEP com 8 dígitos.");
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cepInput = document.getElementById("cepServico");
+            const enderecoInput = document.getElementById("enderecoServico");
+            const bairroInput = document.getElementById("bairroServico");
+            const cidadeInput = document.getElementById("municipioServico");
+            const estadoInput = document.getElementById("estadoServico");
+
+            cepInput.addEventListener("blur", function () {
+                const cep = cepInput.value.replace(/\D/g, '');
+                if (cep.length === 8) {
+                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (!data.erro) {
+                                enderecoInput.value = data.logradouro || "";
+                                bairroInput.value = data.bairro || "";
+                                cidadeInput.value = data.localidade || "";
+                                estadoInput.value = data.uf || "";
+                            } else {
+                                alert("CEP não encontrado.");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Erro ao consultar o CEP:", error);
+                            alert("Erro ao consultar o CEP. Verifique a conexão com a internet.");
+                        });
+                } else {
+                    alert("CEP inválido. Por favor, digite um CEP com 8 dígitos.");
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <?php
@@ -168,23 +233,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-8">
-                    <label for="endereco" class="form-label mb-0 mt-2">Endereço</label>
-                    <input type="text" class="form-control" name="endereco" id="endereco" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:""; ?>">
-                </div>
-                <div class="col-md-4">
-                    <label for="numero" class="form-label mb-0 mt-2">Número</label>
-                    <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-md-2">
                     <label for="cep" class="form-label mb-0 mt-2">CEP</label>
-                    <input type="text" class="form-control" id="cep" name="cep" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cep" name="cep" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="bairro" class="form-label mb-0 mt-2">Bairro</label>
-                    <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" value="<?= isset($district)?$district:""; ?>">
+                    <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" readonly value="<?= isset($district)?$district:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="municipio" class="form-label mb-0 mt-2">Município</label>
@@ -215,6 +270,16 @@
                             }
                          ?>
                     </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <label for="endereco" class="form-label mb-0 mt-2">Endereço</label>
+                    <input type="text" class="form-control" name="endereco" id="endereco" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:""; ?>">
+                </div>
+                <div class="col-md-4">
+                    <label for="numero" class="form-label mb-0 mt-2">Número</label>
+                    <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
                 </div>
             </div>
             <div class="row">
@@ -266,24 +331,10 @@
             </div>
             
             <div class="mt-4"><h4>Endereço do serviço</h4></div>
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label for="nomeServico" class="form-label mb-0 mt-2">Nome do responsável</label>
-                    <input type="text" class="form-control" name="nomeServico" id="nomeServico" placeholder="Responsável no local" value="<?= isset($name)?$name:""; ?>">
-                </div>
-                <div class="col-md-4">
-                    <label for="enderecoServico" class="form-label mb-0 mt-2">Endereço</label>
-                    <input type="text" class="form-control" name="enderecoServico" id="enderecoServico" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:""; ?>">
-                </div>
-                <div class="col-md-4">
-                    <label for="numeroServico" class="form-label mb-0 mt-2">Número</label>
-                    <input type="text" class="form-control" id="numeroServico" name="numeroServico" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
-                </div>
-            </div>
             <div class="row">
                 <div class="col-md-2">
                     <label for="cepServico" class="form-label mb-0 mt-2">CEP</label>
-                    <input type="text" class="form-control" id="cepServico" name="cepServico" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cepServico" name="cepServico" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="bairroServico" class="form-label mb-0 mt-2">Bairro</label>
@@ -318,6 +369,20 @@
                             }
                         ?>
                     </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="nomeServico" class="form-label mb-0 mt-2">Nome do responsável</label>
+                    <input type="text" class="form-control" name="nomeServico" id="nomeServico" placeholder="Responsável no local" value="<?= isset($name)?$name:""; ?>">
+                </div>
+                <div class="col-md-4">
+                    <label for="enderecoServico" class="form-label mb-0 mt-2">Endereço</label>
+                    <input type="text" class="form-control" name="enderecoServico" id="enderecoServico" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:""; ?>">
+                </div>
+                <div class="col-md-4">
+                    <label for="numeroServico" class="form-label mb-0 mt-2">Número</label>
+                    <input type="text" class="form-control" id="numeroServico" name="numeroServico" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
                 </div>
             </div>
             
