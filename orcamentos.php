@@ -13,10 +13,10 @@
         $dataFinal = isset($_GET['dataFinal'])?$_GET['dataFinal']:date('Y-m-d');
         $numeroPedido = isset($_GET['numeroPedido'])?$_GET['numeroPedido']:"";
         $nomePedido = isset($_GET['nomePedido'])?$_GET['nomePedido']:"";
-        $situacaoPedido = isset($_GET['situacao'])?$_GET['situacao']:"";
+        $situacaoPedido = isset($_GET['situacao'])?$_GET['situacao']:447794;
 
         $situacaoPedidoUrl = isset($_GET['situacao'])&&$situacaoPedido!==""?"&idsSituacoes[]=".$situacaoPedido:"&idsSituacoes[]=447794";
-
+        // &idsSituacoes[]=447794
         $urlData = "dataInicial=".$dataInicial."&dataFinal=".$dataFinal."&numero=".$numeroPedido."&nome=".$nomePedido.$situacaoPedidoUrl;
         
         $situacoes = consultaSituacoes(98310);
@@ -42,12 +42,12 @@
                 <div class="col-sm-3">
                     <label for="situacao">Situação:</label>
                     <select class="form-select" id="situacao" name="situacao">
-                        <option value="">Todos</option>
+                        <option value=""></option>
                         <?php
                             if(isset($situacoes) && count($situacoes)>0){
                                 foreach($situacoes['data'] as $situacao){
                                     ?>
-                                    <option <?= $situacao['nome'] === 'Orçamento'?"selected":null ?> value="<?= $situacao['id'] ?>"><?= $situacao['nome'] ?></option>;
+                                    <option value="<?= $situacao['id'] ?>"><?= $situacao['nome'] ?></option>;
                                     <?php
                                 }
                             }

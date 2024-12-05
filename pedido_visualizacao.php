@@ -98,6 +98,10 @@
         }
 
     ?>
+    <script>
+        document.title = 'Orçamento n. <?= $numeroPedido ?> - <?= $clienteNome ?>';
+    </script>
+    
     <div class="py-2 mb-4 d-print-none shadow fixed-top bg-white">
         <div class="buttons">
             <a href="orcamentos.php" class="btn btn-primary ms-2">Voltar</a>
@@ -107,6 +111,7 @@
         </div>
     </div>
     <div class="d-print-none" style="height: 70px;"></div>
+    <?= $tituloDaPagina ?>
     <div class="printView">
         <!-- Área do cabeçalho -->
         <div class="row align-items-center">
@@ -229,7 +234,7 @@
         // $tipoDesconto
 
         ?>
-        <div>
+        <div class="mt-5">
             <p class="fs-7">
                 Este orçamento poderá ter variação para mais ou para menos em seu valor final, pois após aprovação, um dos profissionais da Invictos Portas irá até o seu estabelecimento fazer a conferência das medidas, para que sua porta de enrolar seja fabricada na medida exata.
             </p>
@@ -241,5 +246,6 @@
             </p>
         </div>
     </div>
+    
 </body>
 </html>

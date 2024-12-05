@@ -88,7 +88,7 @@ $arrayComProdutos = isset($_SESSION['array_com_produtos'])?$_SESSION['array_com_
 
 // Calculando metro quadrado
 $m2 = (($alturaTotal + $rolo) * $larguraTotal) * $quantidade;
-$observacoesInternas .= "\n"."Largura: ".$larguraTotal."m / Altura: ".$alturaTotal."m / m²: ".$m2;
+$observacoesInternas .= "\n"."Largura: ".$larguraTotal."m / Altura: ".$alturaTotal."m / m²: ".$m2."\n"."Usuario: ".$_SESSION['loggedUserName'];
 
 // Criando array de produtos selecionados na criação do orçamento
 $produtosSelecionados = isset($_POST['produtosSelecionados'])?$_POST['produtosSelecionados']:null;
