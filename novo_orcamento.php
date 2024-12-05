@@ -10,6 +10,7 @@
             const cidadeInput = document.getElementById("municipio");
             const estadoInput = document.getElementById("estado");
 
+
             cepInput.addEventListener("blur", function () {
                 const cep = cepInput.value.replace(/\D/g, '');
                 if (cep.length === 8) {
@@ -21,6 +22,12 @@
                                 bairroInput.value = data.bairro || "";
                                 cidadeInput.value = data.localidade || "";
                                 estadoInput.value = data.uf || "";
+
+                                enderecoInput.disabled = true;
+                                bairroInput.disabled = true;
+                                cidadeInput.disabled = true;
+                                estadoInput.disabled = true;
+
                             } else {
                                 alert("CEP não encontrado.");
                             }
@@ -37,23 +44,29 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const cepInput = document.getElementById("cepServico");
-            const enderecoInput = document.getElementById("enderecoServico");
-            const bairroInput = document.getElementById("bairroServico");
-            const cidadeInput = document.getElementById("municipioServico");
-            const estadoInput = document.getElementById("estadoServico");
+            const cepServico = document.getElementById("cepServico");
+            const enderecoServico = document.getElementById("enderecoServico");
+            const bairroServico = document.getElementById("bairroServico");
+            const cidadeServico = document.getElementById("municipioServico");
+            const estadoServico = document.getElementById("estadoServico");
 
-            cepInput.addEventListener("blur", function () {
-                const cep = cepInput.value.replace(/\D/g, '');
+            cepServico.addEventListener("blur", function () {
+                const cep = cepServico.value.replace(/\D/g, '');
                 if (cep.length === 8) {
                     fetch(`https://viacep.com.br/ws/${cep}/json/`)
                         .then(response => response.json())
                         .then(data => {
                             if (!data.erro) {
-                                enderecoInput.value = data.logradouro || "";
-                                bairroInput.value = data.bairro || "";
-                                cidadeInput.value = data.localidade || "";
-                                estadoInput.value = data.uf || "";
+                                enderecoServico.value = data.logradouro || "";
+                                bairroServico.value = data.bairro || "";
+                                cidadeServico.value = data.localidade || "";
+                                estadoServico.value = data.uf || "";
+
+                                enderecoServico.disabled = true;
+                                bairroServico.disabled = true;
+                                cidadeServico.disabled = true;
+                                estadoServico.disabled = true;
+
                             } else {
                                 alert("CEP não encontrado.");
                             }
@@ -222,7 +235,7 @@
                 </div>                
                 <div class="col-md-4">
                     <label for="documento" class="form-label mb-0 mt-2">CPF/CNPJ*</label>
-                    <input type="text" class="form-control" id="documento" name="documento" placeholder="CPF ou CNPJ" value="<?= isset($documento)?$documento:""; ?>">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="documento" name="documento" placeholder="CPF ou CNPJ" value="<?= isset($documento)?$documento:""; ?>">
                 </div>
                 <div class="col-md-3">
                     <label for="tipoPessoa" class="form-label mb-0 mt-2">Tipo de pessoa</label>
@@ -239,7 +252,7 @@
                 </div>
                 <div class="col-md-4">
                     <label for="bairro" class="form-label mb-0 mt-2">Bairro</label>
-                    <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" readonly value="<?= isset($district)?$district:""; ?>">
+                    <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" value="<?= isset($district)?$district:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="municipio" class="form-label mb-0 mt-2">Município</label>
@@ -303,7 +316,7 @@
                 </div>
                 <div class="col-md-3">
                     <label for="desconto" class="form-label mb-0 mt-2">Valor do Desconto</label>
-                    <input type="number" id="desconto" name="desconto" class="form-control" placeholder="Somente números">
+                    <input type="number" inputmode="numeric" id="desconto" name="desconto" class="form-control" placeholder="Somente números">
                 </div>
                 <div class="col-md-2">
                     <label for="tipoDesconto" class="form-label mb-0 mt-2">Tipo</label>
@@ -402,25 +415,25 @@
             <div class="row">
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="quantidade">Quantidade*</label>
-                    <input class="form-control" name="quantidade" id="quantidade" value="1">
+                    <input class="form-control" inputmode="numeric" name="quantidade" id="quantidade" value="1">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="largura">Largura*</label>
-                    <input class="form-control" name="largura" id="largura">
+                    <input class="form-control" inputmode="numeric" name="largura" id="largura">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="altura">Altura*</label>
-                    <input class="form-control" name="altura" id="altura">
+                    <input class="form-control" inputmode="numeric" name="altura" id="altura">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="rolo">Rolo*</label>
-                    <input class="form-control" name="rolo" id="rolo" value="0,5">
+                    <input class="form-control" inputmode="numeric" name="rolo" id="rolo" value="0,5">
                 </div>
             </div>
 
             <div class="my-5">
                 <button type="submit" class="btn btn-primary">Continuar</button>
-                <a href="pedidos.php" class="btn btn-primary mx-2">Voltar</a>
+                <a href="orcamentos.php" class="btn btn-primary mx-2">Voltar</a>
             </div>
         </form>
     </div>

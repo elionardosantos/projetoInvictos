@@ -67,7 +67,7 @@
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text col-sm-2 col-3">Email</span>
-                <input type="email" class="form-control" placeholder="Digite o email" value="<?= $dbUserEmail; ?>" name="formEmail">
+                <input type="text" class="form-control" placeholder="Digite o email" value="<?= $dbUserEmail; ?>" name="formEmail">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text col-sm-2 col-3">Nível</span>
