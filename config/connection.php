@@ -15,12 +15,12 @@ try {
 
 
 ######## SQLite database ########
-try {
-    $pdo = new PDO("sqlite:database.db");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// try {
+//     $pdo = new PDO("sqlite:database.db");
+//     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-} catch (PDOException $e) {
-    echo "Erro ao conectar ao banco de dados: " . $e->getMessage();
-}
+// } catch (PDOException $e) {
+//     echo "Erro ao conectar ao banco de dados: " . $e->getMessage();
+// }
 
 ?>

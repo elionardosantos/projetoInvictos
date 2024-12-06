@@ -110,13 +110,16 @@
 
         </div>
     </div>
+
+    <!-- Espaço para distanciar dos botões do topo -->
     <div class="d-print-none" style="height: 70px;"></div>
-    <?= $tituloDaPagina ?>
     <div class="printView">
+
         <!-- Área do cabeçalho -->
-        <div class="row align-items-center">
+        <div class="row">
+
             <!-- Dados do cliente -->
-            <div class="col-8">
+            <div class="col-5">
                 <div class="row">
                     <div class="col">Cliente: <strong><?= $clienteNome ?></strong></div>
                 </div>
@@ -124,20 +127,43 @@
                     <div class="col">Endereço: <strong><?= $endereco ?></strong></div>
                 </div>
                 <div class="row">
-                    <div class="col">Bairro: <strong><?= $bairro ?></strong></div>
-                    <div class="col-4">Número: <strong><?= $numero ?></strong></div>
+                    <div class="col">Número: <strong><?= $numero ?></strong></div>
                 </div>
                 <div class="row">
-                    <div class="col-8">Município: <strong><?= $municipio ?></strong></div>
-                    <div class="col-4">Estado: <strong><?= $uf ?></strong></div>
+                    <div class="col">Bairro: <strong><?= $bairro ?></strong></div>
+                </div>
+                <div class="row">
+                    <div class="col">Município: <strong><?= $municipio ?></strong></div>
+                </div>
+                <div class="row">
+                    <div class="col">Estado: <strong><?= $uf ?></strong></div>
                 </div>
                 <div class="row">
                     <div class="col">Data: <strong><?= $dataPedido ?></strong></div>
                 </div>
             </div>
 
+            <!-- Dados da empresa -->
+            <div class="col-4">
+                <div class="row">
+                    <div class="col"><strong>INVICTOS PORTAS AUTOMATICAS</strong></div>
+                </div>
+                <div class="row">
+                    <div class="col"><img src="assets/img/envelope.svg"> admin@invictosportas.com.br</div>
+                </div>
+                <div class="row">
+                    <div class="col"><img src="assets/img/instagram.svg"> @invictosportasautomaticas</div>
+                </div>
+                <div class="row">
+                    <div class="col"><img src="assets/img/whatsapp.svg"> (21) 97200-1200</div>
+                </div>
+                <div class="row">
+                    <div class="col"><img src="assets/img/whatsapp.svg"> (21) 99827-2006</div>
+                </div>
+            </div>
+
             <!-- Logo -->
-            <div class="col-4 text-end">
+            <div class="col-3 text-end">
                 <img class="logo img-fluid" src="assets/img/logo.png" alt="Logo">
             </div>
         </div>
@@ -220,30 +246,23 @@
         ?>
         <div class="row mx-0 mt-1 me-0">
             <div class="col-5"></div>
-            <div class="col-7 row mx-0 bg-dark text-white">
-                <div class="col py-1"><strong><?= isset($valorDesconto) && $valorDesconto > 0 ?"Valor Total:":"Total em até 12x no cartão:"; ?></strong></div>
+            <div class="col-7 row mx-0 bg-dark text-white mt-2">
+                <div class="col py-1"><strong><?= isset($valorDesconto) && $valorDesconto > 0 ?"Valor Total:":"Total no cartão em até 12x:"; ?></strong></div>
                 <div class="col-4 py-1"><strong>R$<?= number_format($totalPedido, 2, ",", ".") ?></strong></div>
 
             </div>
         </div>
-        <?php
-        // $numeroPedido
-        // $totalProdutos
-        // $totalPedido
-        // $valorDesconto
-        // $tipoDesconto
-
-        ?>
-        <div class="mt-5">
+        <div class="mt-4">
             <p class="fs-7">
                 Este orçamento poderá ter variação para mais ou para menos em seu valor final, pois após aprovação, um dos profissionais da Invictos Portas irá até o seu estabelecimento fazer a conferência das medidas, para que sua porta de enrolar seja fabricada na medida exata.
+                Orçamento válido por 30 dias após a data de emissão.
             </p>
             <p class="text-center">
                 C S Silva Portas Automáticas LTDA / Rua Ceará, 310, Fazenda Sobradinho, Magé/RJ, CEP: 25.932-145
             </p>
-            <p class="text-center">
+            <!-- <p class="text-center">
                 (21) 97200-1200 / (21) 99827-2006 <br>@invictosportasautomaticas / admin@invictosportas.com.br
-            </p>
+            </p> -->
         </div>
     </div>
     

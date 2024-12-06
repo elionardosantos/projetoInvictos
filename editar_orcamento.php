@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Editar Orçamento</title>
+    <title>Novo Orçamento</title>
 </head>
 <body>
     <?php
@@ -10,11 +10,13 @@
         require('partials/navbar.php');
     ?>
     <div class="container my-3">
-        <h2>Editar Pedido/Orçamento</h2>
+        <h2>Novo Pedido/Orçamento</h2>
+    </div>
+    <div class="container">
+        <a href="" class="btn btn-primary mt-1" onclick="window.history.back(); return false;">Voltar</a>
     </div>
     <div class="container">
         <?php
-            exit('NÃO IMPLEMENTADO');
             global $cnpj;
             global $name;
             global $street;
@@ -23,132 +25,96 @@
             global $city;
             global $state;
             
-            isset($_GET['cnpj'])?cnpjQuery():"";
-            isset($_GET['contatoId'])?contatoQuery():"";
+            isset($_GET['pedidoId'])?orderDataQuery($_GET['pedidoId']):"";
 
-            function contatoQuery(){
-                global $contatoId;
+            
+        function orderDataQuery($pedidoId){
+            global $jsonData;
 
-                $contatoId = $_GET['contatoId'];
-                $jsonFile = file_get_contents('config/token_request_response.json');
-                $jsonData = json_decode($jsonFile, true);
-                $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
-                $url = "https://api.bling.com.br/Api/v3/contatos/$contatoId";
+            $pedidoId = isset($_GET['pedidoId'])?$_GET['pedidoId']:"";
+            $jsonFile = file_get_contents('config/token_request_response.json');
+            $jsonData = json_decode($jsonFile, true);
+            $endPoint = "https://api.bling.com.br/Api/v3/pedidos/vendas/$pedidoId";
+            $token = isset($jsonData['access_token'])?$jsonData['access_token']:"No";
+            
+            $cURL = curl_init($endPoint);
+            $headers = array(
+                'Authorization: Bearer '.$token
+            );
+            curl_setopt($cURL, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($cURL);
+            curl_close($cURL);
+            $jsonData = json_decode($response, true);
 
-                $headers = array(
-                    "authorization: Bearer " . $token
-                );
-                $ch = curl_init($url);
-
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $response = curl_exec($ch);
-                curl_close($ch);
-                
+            // echo "<p>$response</p>";
+            // print_r($jsonData['data']['itens']);
+            
+            //verify and refresh token
+            if(isset($data['error']['type']) && $data['error']['type'] === "invalid_token"){
+                require('controller/token_refresh.php');
+                echo "<p>Token atualizado</p>";
+                ordersQuery();
+                curl_close($cURL);
+            } else if($jsonData['data'] == null) {
+                echo "<hr>Nenhum pedido encontrado baseado nos filtros atuais";
+                curl_close($cURL);
+            } else {
                 echo "<script>console.log($response)</script>";
-                $data = json_decode($response, true);
+                global $numeroPedido;
+                global $totalProdutos;
+                global $totalPedido;
+                global $valorDesconto;
+                global $tipoDesconto;
 
-                // Atualizando token
-                if(isset($data['error']['type']) && $data['error']['type'] === 'invalid_token'){
-                    require('controller/token_refresh.php');
-                }
+                $numeroPedido = $jsonData['data']['numero'];
+                $totalProdutos = $jsonData['data']['totalProdutos'];
+                $totalPedido = $jsonData['data']['total'];
+                $valorDesconto = $jsonData['data']['desconto']['valor'];
+                $tipoDesconto = $jsonData['data']['desconto']['unidade'];
 
-                global $documento;
-                global $name;
-                global $street;
-                global $number;
-                global $district;
-                global $city;
-                global $state;
-                global $tipoPessoa;
-                global $email;
-                global $celular;
-                global $telefone;
+                foreach($jsonData as $row){
+                    global $clienteNome;
+                    global $endereco;
+                    global $bairro;
+                    global $numero;
+                    global $municipio;
+                    global $uf;
+                    global $dataPedido;
+                    global $totalProdutos;
 
-                $tipoPessoa = $data['data']['tipo'];
-                $documento = $data['data']['numeroDocumento'];
-                $name = $data['data']['nome'];
-                $street = $data['data']['endereco']['geral']['endereco'];
-                $number = $data['data']['endereco']['geral']['numero'];
-                $district = $data['data']['endereco']['geral']['bairro'];
-                $city = $data['data']['endereco']['geral']['municipio'];
-                $state = $data['data']['endereco']['geral']['uf'];
-                $email = isset($data['data']['email'])?$data['data']['email']:"";
-                $celular = isset($data['data']['celular'])?$data['data']['celular']:"";
-                $telefone = isset($data['data']['telefone'])?$data['data']['telefone']:"";
-            }
-            function cnpjQuery() {
-
-                $formCnpj = isset($_GET['cnpj'])?$_GET['cnpj']:"";
-
-                //removing no numeric characters
-                $cnpj = preg_replace("/[^0-9]/", "", $formCnpj);
-
-                $url = "https://open.cnpja.com/office/$cnpj";
-
-                if($cnpj === ''){
-                    // echo "O CNPJ não está preenchido";
-                } else {
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, $url);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    $response = curl_exec($ch);
-
-                    $data = json_decode($response);
-
-                    if(isset($data->company->name)){
-                        global $documento;
-                        global $name;
-                        global $street;
-                        global $number;
-                        global $district;
-                        global $city;
-                        global $state;
-                        global $tipoPessoa;
-
-                        $tipoPessoa = "J";
-                        $updated = new DateTime($data->updated);
-                        $updated2 = $updated->format('d/m/Y');
-                        $documento = $data->taxId;
-                        $name = $data->company->name;
-                        $street = $data->address->street;
-                        $number = $data->address->number;
-                        $district = $data->address->district;
-                        $city = $data->address->city;
-                        $state = isset($data->address->state)?$data->address->state:"";
-                        
-                        echo "Última atualização dos dados: $updated2";
-                        
-                    } else if($data->code === 429){
-                        echo "<div class='alert alert-danger'>Você excedeu o limite de consultas por minuto. Por favor aguarde um pouco para consultar novamente</div>";
-                    }
-                    else {
-                        echo "<div class='alert alert-danger'><p>Verifique se o CNPJ digitado está correto. Houve um erro na requisição dos dados</p>" . "<p>Erro: " . $response . "</p></div>";
-                    }
+                    $clienteNome = isset($row['contato']['nome'])?$row['contato']['nome']:"";
+                    $endereco = isset($row['transporte']['etiqueta']['endereco'])?$row['transporte']['etiqueta']['endereco']:"";
+                    $bairro = isset($row['transporte']['etiqueta']['bairro'])?$row['transporte']['etiqueta']['bairro']:"";
+                    $numero = isset($row['transporte']['etiqueta']['numero'])?$row['transporte']['etiqueta']['numero']:"";
+                    $municipio = isset($row['transporte']['etiqueta']['municipio'])?$row['transporte']['etiqueta']['municipio']:"";
+                    $uf = isset($row['transporte']['etiqueta']['uf'])?$row['transporte']['etiqueta']['uf']:"";
+                    $dataPedido = isset($row['data'])?date('d/m/Y',strtotime($row['data'])):"";
                 }
             }
+        }
+
         ?>
     </div>
     
     <div class="container mt-4">
-        <form action="novo_pedido_process.php" method="POST">
+        <form action="edita_orcamento_process.php" method="POST">
 
             <div class="mt-4"><h4>Dados cadastrais</h4></div>
             <div class="row">
                 <div class="col-md-3 d-none">
                     <label for="contatoId" class="form-label mb-0 mt-2">ID</label>
-                    <input type="text" class="form-control" name="contatoId" id="contatoId" value="<?= isset($contatoId)?$contatoId:""; ?>">
+                    <input type="text" class="form-control" name="contatoId" id="contatoId" value="<?= isset($pedidoId)?$pedidoId:""; ?>">
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-5">
                     <label for="cliente" class="form-label mb-0 mt-2">Nome completo / Razão social*</label>
-                    <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome completo" value="<?= isset($name)?$name:""; ?>">
+                    <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome completo" value="<?= isset($name)?$name:""; ?>" required>
                 </div>                
                 <div class="col-md-4">
                     <label for="documento" class="form-label mb-0 mt-2">CPF/CNPJ*</label>
-                    <input type="text" class="form-control" id="documento" name="documento" placeholder="CPF ou CNPJ" value="<?= isset($documento)?$documento:""; ?>">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="documento" name="documento" placeholder="CPF ou CNPJ" value="<?= isset($documento)?$documento:""; ?>">
                 </div>
                 <div class="col-md-3">
                     <label for="tipoPessoa" class="form-label mb-0 mt-2">Tipo de pessoa</label>
@@ -159,16 +125,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-8">
-                    <label for="endereco" class="form-label mb-0 mt-2">Endereço</label>
-                    <input type="text" class="form-control" name="endereco" id="endereco" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:""; ?>">
+                <div class="col-md-2">
+                    <label for="cep" class="form-label mb-0 mt-2">CEP</label>
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cep" name="cep" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
                 </div>
-                <div class="col-md-4">
-                    <label for="numero" class="form-label mb-0 mt-2">Número</label>
-                    <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-md-4">
                     <label for="bairro" class="form-label mb-0 mt-2">Bairro</label>
                     <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" value="<?= isset($district)?$district:""; ?>">
@@ -177,7 +137,7 @@
                     <label for="municipio" class="form-label mb-0 mt-2">Município</label>
                     <input type="text" class="form-control" name="municipio" id="municipio" placeholder="Município" value="<?= isset($city)?$city:""; ?>">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <label for="estado" class="form-label mb-0 mt-2">Estado</label>
                     <select class="form-select" id="estado" name="estado">
                         <!-- <option selected>Escolha...</option> -->
@@ -193,21 +153,36 @@
                                 "SC", "SE", "TO"
                             ];
                             foreach($estados as $uf){
-                                echo "<option value=\"$uf\" <?php if(isset($state) && $state === '$uf') {echo 'selected';} ?>$uf</option>\n";
+                                if(isset($state) && $state === "$uf"){
+                                    $selected = "selected";
+                                } else {
+                                    $selected = "";
+                                }
+                                echo "<option value=\"$uf\" $selected>$uf</option>\n";
                             }
                          ?>
                     </select>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-8">
+                    <label for="endereco" class="form-label mb-0 mt-2">Endereço</label>
+                    <input type="text" class="form-control" name="endereco" id="endereco" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:""; ?>">
+                </div>
+                <div class="col-md-4">
+                    <label for="numero" class="form-label mb-0 mt-2">Número</label>
+                    <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
                     <label for="tabelaPreco" class="form-label mb-0 mt-2">Tabela</label>
                     <select class="form-select" id="tabelaPreco" name="tabelaPreco">
                         <option value="consumidor-final" selected>Consumidor final</option>
                         <option value="serralheiro" >Serralheiro</option>
                     </select>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <label for="condicaoPagamento" class="form-label mb-0 mt-2">Condição de Pagto</label>
                     <select class="form-select" id="condicaoPagamento" name="condicaoPagamento">
                         <option selected>À vista</option>
@@ -216,6 +191,17 @@
                                echo "<option value=\"cartao".$i."x\">Cartão $i"."x</option>";
                             }
                         ?>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="desconto" class="form-label mb-0 mt-2">Valor do Desconto</label>
+                    <input type="number" inputmode="numeric" id="desconto" name="desconto" class="form-control" placeholder="Somente números">
+                </div>
+                <div class="col-md-2">
+                    <label for="tipoDesconto" class="form-label mb-0 mt-2">Tipo</label>
+                    <select class="form-select" name="tipoDesconto">
+                        <option value="REAL" selected>R$</option>
+                        <option value="PERCENTUAL">%</option>
                     </select>
                 </div>
             </div>
@@ -236,38 +222,12 @@
                 </div>
             </div>
             
-            <div class="mt-4"><h4>Dados da instalação</h4></div>
-            <div class="row">
-                <div class="col-md-3">
-                    <label class="form-label mb-0 mt-2" for="quantidade">Quantidade*</label>
-                    <input class="form-control" name="quantidade" id="quantidade">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label mb-0 mt-2" for="largura">Largura*</label>
-                    <input class="form-control" name="largura" id="largura">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label mb-0 mt-2" for="altura">Altura*</label>
-                    <input class="form-control" name="altura" id="altura">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label mb-0 mt-2" for="rolo">Rolo*</label>
-                    <input class="form-control" name="rolo" id="rolo">
-                </div>
-            </div>
-            
             <div class="mt-4"><h4>Endereço do serviço</h4></div>
-            <div class="row mb-3">
-                <div class="col-md-8">
-                    <label for="enderecoServico" class="form-label mb-0 mt-2">Endereço</label>
-                    <input type="text" class="form-control" name="enderecoServico" id="enderecoServico" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:""; ?>">
-                </div>
-                <div class="col-md-4">
-                    <label for="numeroServico" class="form-label mb-0 mt-2">Número</label>
-                    <input type="text" class="form-control" id="numeroServico" name="numeroServico" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
-                </div>
-            </div>
             <div class="row">
+                <div class="col-md-2">
+                    <label for="cepServico" class="form-label mb-0 mt-2">CEP</label>
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cepServico" name="cepServico" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
+                </div>
                 <div class="col-md-4">
                     <label for="bairroServico" class="form-label mb-0 mt-2">Bairro</label>
                     <input type="text" class="form-control" id="bairroServico" name="bairroServico" placeholder="Bairro" value="<?= isset($district)?$district:""; ?>">
@@ -276,7 +236,7 @@
                     <label for="municipioServico" class="form-label mb-0 mt-2">Município</label>
                     <input type="text" class="form-control" name="municipioServico" id="municipioServico" placeholder="Município" value="<?= isset($city)?$city:""; ?>">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <label for="estadoServico" class="form-label mb-0 mt-2">Estado</label>
                     <select class="form-select" id="estadoServico" name="estadoServico">
                         <!-- <option selected>Escolha...</option> -->
@@ -292,10 +252,29 @@
                                 "SC", "SE", "TO"
                             ];
                             foreach($estados as $uf){
-                                echo "<option value=\"$uf\" <?php if(isset($state) && $state === '$uf') {echo 'selected';} ?>$uf</option>\n";
+                                if(isset($state) && $state === "$uf"){
+                                    $selected = "selected";
+                                } else {
+                                    $selected = "";
+                                }
+                                echo "<option value=\"$uf\" $selected>$uf</option>\n";
                             }
                         ?>
                     </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="nomeServico" class="form-label mb-0 mt-2">Nome do responsável</label>
+                    <input type="text" class="form-control" name="nomeServico" id="nomeServico" placeholder="Responsável no local" value="<?= isset($name)?$name:""; ?>">
+                </div>
+                <div class="col-md-4">
+                    <label for="enderecoServico" class="form-label mb-0 mt-2">Endereço</label>
+                    <input type="text" class="form-control" name="enderecoServico" id="enderecoServico" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:""; ?>">
+                </div>
+                <div class="col-md-4">
+                    <label for="numeroServico" class="form-label mb-0 mt-2">Número</label>
+                    <input type="text" class="form-control" id="numeroServico" name="numeroServico" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
                 </div>
             </div>
             
@@ -311,11 +290,110 @@
                 </div>
             </div>
 
+            <div class="mt-4"><h4>Dados da instalação</h4></div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="form-label mb-0 mt-2" for="quantidade">Quantidade*</label>
+                    <input class="form-control" inputmode="numeric" name="quantidade" id="quantidade" value="1">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label mb-0 mt-2" for="largura">Largura*</label>
+                    <input class="form-control" inputmode="numeric" name="largura" id="largura">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label mb-0 mt-2" for="altura">Altura*</label>
+                    <input class="form-control" inputmode="numeric" name="altura" id="altura">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label mb-0 mt-2" for="rolo">Rolo*</label>
+                    <input class="form-control" inputmode="numeric" name="rolo" id="rolo" value="0,5">
+                </div>
+            </div>
+
             <div class="my-5">
-                <button type="submit" class="btn btn-primary">Salvar</button>
-                <a href="pedidos.php" class="btn btn-primary mx-2">Voltar</a>
+                <button type="submit" class="btn btn-primary">Continuar</button>
+                <a href="orcamentos.php" class="btn btn-primary mx-2">Voltar</a>
             </div>
         </form>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cepInput = document.getElementById("cep");
+            const enderecoInput = document.getElementById("endereco");
+            const bairroInput = document.getElementById("bairro");
+            const cidadeInput = document.getElementById("municipio");
+            const estadoInput = document.getElementById("estado");
+
+            cepInput.addEventListener("blur", function () {
+                const cep = cepInput.value.replace(/\D/g, '');
+                if (cep.length === 8) {
+                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (!data.erro) {
+                                enderecoInput.value = data.logradouro || "";
+                                bairroInput.value = data.bairro || "";
+                                cidadeInput.value = data.localidade || "";
+                                estadoInput.value = data.uf || "";
+
+                                enderecoInput.disabled = true;
+                                bairroInput.disabled = true;
+                                cidadeInput.disabled = true;
+                                estadoInput.disabled = true;
+
+                            } else {
+                                alert("CEP não encontrado.");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Erro ao consultar o CEP:", error);
+                            alert("Erro ao consultar o CEP. Verifique a conexão com a internet.");
+                        });
+                } else {
+                    alert("CEP inválido. Por favor, digite um CEP com 8 dígitos.");
+                }
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const cepServico = document.getElementById("cepServico");
+            const enderecoServico = document.getElementById("enderecoServico");
+            const bairroServico = document.getElementById("bairroServico");
+            const cidadeServico = document.getElementById("municipioServico");
+            const estadoServico = document.getElementById("estadoServico");
+
+            cepServico.addEventListener("blur", function () {
+                const cep = cepServico.value.replace(/\D/g, '');
+                if (cep.length === 8) {
+                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (!data.erro) {
+                                enderecoServico.value = data.logradouro || "";
+                                bairroServico.value = data.bairro || "";
+                                cidadeServico.value = data.localidade || "";
+                                estadoServico.value = data.uf || "";
+
+                                enderecoServico.disabled = true;
+                                bairroServico.disabled = true;
+                                cidadeServico.disabled = true;
+                                estadoServico.disabled = true;
+
+                            } else {
+                                alert("CEP não encontrado.");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Erro ao consultar o CEP:", error);
+                            alert("Erro ao consultar o CEP. Verifique a conexão com a internet.");
+                        });
+                } else {
+                    alert("CEP inválido. Por favor, digite um CEP com 8 dígitos.");
+                }
+            });
+        });
+    </script>
+
+
 </body>
 </html>

@@ -2,85 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Novo Orçamento</title> <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const cepInput = document.getElementById("cep");
-            const enderecoInput = document.getElementById("endereco");
-            const bairroInput = document.getElementById("bairro");
-            const cidadeInput = document.getElementById("municipio");
-            const estadoInput = document.getElementById("estado");
-
-
-            cepInput.addEventListener("blur", function () {
-                const cep = cepInput.value.replace(/\D/g, '');
-                if (cep.length === 8) {
-                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (!data.erro) {
-                                enderecoInput.value = data.logradouro || "";
-                                bairroInput.value = data.bairro || "";
-                                cidadeInput.value = data.localidade || "";
-                                estadoInput.value = data.uf || "";
-
-                                enderecoInput.disabled = true;
-                                bairroInput.disabled = true;
-                                cidadeInput.disabled = true;
-                                estadoInput.disabled = true;
-
-                            } else {
-                                alert("CEP não encontrado.");
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Erro ao consultar o CEP:", error);
-                            alert("Erro ao consultar o CEP. Verifique a conexão com a internet.");
-                        });
-                } else {
-                    alert("CEP inválido. Por favor, digite um CEP com 8 dígitos.");
-                }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const cepServico = document.getElementById("cepServico");
-            const enderecoServico = document.getElementById("enderecoServico");
-            const bairroServico = document.getElementById("bairroServico");
-            const cidadeServico = document.getElementById("municipioServico");
-            const estadoServico = document.getElementById("estadoServico");
-
-            cepServico.addEventListener("blur", function () {
-                const cep = cepServico.value.replace(/\D/g, '');
-                if (cep.length === 8) {
-                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (!data.erro) {
-                                enderecoServico.value = data.logradouro || "";
-                                bairroServico.value = data.bairro || "";
-                                cidadeServico.value = data.localidade || "";
-                                estadoServico.value = data.uf || "";
-
-                                enderecoServico.disabled = true;
-                                bairroServico.disabled = true;
-                                cidadeServico.disabled = true;
-                                estadoServico.disabled = true;
-
-                            } else {
-                                alert("CEP não encontrado.");
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Erro ao consultar o CEP:", error);
-                            alert("Erro ao consultar o CEP. Verifique a conexão com a internet.");
-                        });
-                } else {
-                    alert("CEP inválido. Por favor, digite um CEP com 8 dígitos.");
-                }
-            });
-        });
-    </script>
+    <title>Novo Orçamento</title>
 </head>
 <body>
     <?php
@@ -437,5 +359,84 @@
             </div>
         </form>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cepInput = document.getElementById("cep");
+            const enderecoInput = document.getElementById("endereco");
+            const bairroInput = document.getElementById("bairro");
+            const cidadeInput = document.getElementById("municipio");
+            const estadoInput = document.getElementById("estado");
+
+            cepInput.addEventListener("blur", function () {
+                const cep = cepInput.value.replace(/\D/g, '');
+                if (cep.length === 8) {
+                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (!data.erro) {
+                                enderecoInput.value = data.logradouro || "";
+                                bairroInput.value = data.bairro || "";
+                                cidadeInput.value = data.localidade || "";
+                                estadoInput.value = data.uf || "";
+
+                                enderecoInput.disabled = true;
+                                bairroInput.disabled = true;
+                                cidadeInput.disabled = true;
+                                estadoInput.disabled = true;
+
+                            } else {
+                                alert("CEP não encontrado.");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Erro ao consultar o CEP:", error);
+                            alert("Erro ao consultar o CEP. Verifique a conexão com a internet.");
+                        });
+                } else {
+                    alert("CEP inválido. Por favor, digite um CEP com 8 dígitos.");
+                }
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const cepServico = document.getElementById("cepServico");
+            const enderecoServico = document.getElementById("enderecoServico");
+            const bairroServico = document.getElementById("bairroServico");
+            const cidadeServico = document.getElementById("municipioServico");
+            const estadoServico = document.getElementById("estadoServico");
+
+            cepServico.addEventListener("blur", function () {
+                const cep = cepServico.value.replace(/\D/g, '');
+                if (cep.length === 8) {
+                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (!data.erro) {
+                                enderecoServico.value = data.logradouro || "";
+                                bairroServico.value = data.bairro || "";
+                                cidadeServico.value = data.localidade || "";
+                                estadoServico.value = data.uf || "";
+
+                                enderecoServico.disabled = true;
+                                bairroServico.disabled = true;
+                                cidadeServico.disabled = true;
+                                estadoServico.disabled = true;
+
+                            } else {
+                                alert("CEP não encontrado.");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Erro ao consultar o CEP:", error);
+                            alert("Erro ao consultar o CEP. Verifique a conexão com a internet.");
+                        });
+                } else {
+                    alert("CEP inválido. Por favor, digite um CEP com 8 dígitos.");
+                }
+            });
+        });
+    </script>
+
+
 </body>
 </html>
