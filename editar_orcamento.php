@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Novo Orçamento</title>
+    <title>Editar Orçamento</title>
 </head>
 <body>
     <?php
@@ -10,7 +10,7 @@
         require('partials/navbar.php');
     ?>
     <div class="container my-3">
-        <h2>Novo Pedido/Orçamento</h2>
+        <h2>Editar Orçamento</h2>
     </div>
     <div class="container">
         <a href="" class="btn btn-primary mt-1" onclick="window.history.back(); return false;">Voltar</a>
@@ -47,8 +47,7 @@
             curl_close($cURL);
             $jsonData = json_decode($response, true);
 
-            // echo "<p>$response</p>";
-            // print_r($jsonData['data']['itens']);
+            echo "<script>console.log(".$jsonData.")</script>";
             
             //verify and refresh token
             if(isset($data['error']['type']) && $data['error']['type'] === "invalid_token"){
@@ -57,7 +56,7 @@
                 ordersQuery();
                 curl_close($cURL);
             } else if($jsonData['data'] == null) {
-                echo "<hr>Nenhum pedido encontrado baseado nos filtros atuais";
+                echo "<hr>Houve um erro ao recuperar os dados do pedido";
                 curl_close($cURL);
             } else {
                 echo "<script>console.log($response)</script>";

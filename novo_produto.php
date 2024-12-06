@@ -53,20 +53,20 @@
             </div>
             <div class="row">
                 <div class="col-lg-2 mt-2">
-                    <label for="altura_minima" class="form-label mb-0">Altura mínima</label>
-                    <input class="form-control" name="altura_minima" type="text" inputmode="decimal" placeholder="Altura Mínima" id="altura_minima">
-                </div>
-                <div class="col-lg-2 mt-2">
-                    <label for="altura_maxima" class="form-label mb-0">Altura máxima</label>
-                    <input class="form-control" name="altura_maxima" type="text" inputmode="decimal" placeholder="Altura Máxima" id="altura_maxima">
-                </div>
-                <div class="col-lg-2 mt-2">
                     <label for="largura_minima" class="form-label mb-0">Largura mínima</label>
                     <input class="form-control" name="largura_minima" type="text" inputmode="decimal" placeholder="Largura mínima" id="largura_minima">
                 </div>
                 <div class="col-lg-2 mt-2">
                     <label for="largura_maxima" class="form-label mb-0">Largura máxima</label>
                     <input class="form-control" name="largura_maxima" type="text" inputmode="decimal" placeholder="Largura máxima" id="largura_maxima">
+                </div>
+                <div class="col-lg-2 mt-2">
+                    <label for="altura_minima" class="form-label mb-0">Altura mínima</label>
+                    <input class="form-control" name="altura_minima" type="text" inputmode="decimal" placeholder="Altura Mínima" id="altura_minima">
+                </div>
+                <div class="col-lg-2 mt-2">
+                    <label for="altura_maxima" class="form-label mb-0">Altura máxima</label>
+                    <input class="form-control" name="altura_maxima" type="text" inputmode="decimal" placeholder="Altura Máxima" id="altura_maxima">
                 </div>
             </div>
             <div class="mt-5">

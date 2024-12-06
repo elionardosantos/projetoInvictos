@@ -149,22 +149,37 @@
                     <div class="col"><strong>INVICTOS PORTAS AUTOMATICAS</strong></div>
                 </div>
                 <div class="row">
-                    <div class="col"><img src="assets/img/envelope.svg"> admin@invictosportas.com.br</div>
+                    <a href="https://www.invictosportas.com.br" style="text-decoration: none; color: black">
+                        <div class="col"><img src="assets/img/globe-americas.svg"> www.invictosportas.com.br</div>
+                    </a>
                 </div>
                 <div class="row">
-                    <div class="col"><img src="assets/img/instagram.svg"> @invictosportasautomaticas</div>
+                    <a href="mailto:admin@invictosportas.com.br" style="text-decoration: none; color: black">
+                        <div class="col"><img src="assets/img/envelope.svg"> admin@invictosportas.com.br</div>
+                    </a>
                 </div>
                 <div class="row">
-                    <div class="col"><img src="assets/img/whatsapp.svg"> (21) 97200-1200</div>
+                    <a href="https://www.instagram.com/invictosportasautomaticas" style="text-decoration: none; color: black">
+                        <div class="col"><img src="assets/img/instagram.svg"> @invictosportasautomaticas</div>
+                    </a>
                 </div>
                 <div class="row">
-                    <div class="col"><img src="assets/img/whatsapp.svg"> (21) 99827-2006</div>
+                    <a href="https://wa.me/5521972001200" style="text-decoration: none; color: black">
+                        <div class="col"><img src="assets/img/whatsapp.svg"> (21) 97200-1200</div>
+                    </a>
+                </div>
+                <div class="row">
+                    <a href="https://wa.me/5521998272006" style="text-decoration: none; color: black">
+                        <div class="col"><img src="assets/img/whatsapp.svg"> (21) 99827-2006</div>
+                    </a>
                 </div>
             </div>
 
             <!-- Logo -->
             <div class="col-3 text-end">
-                <img class="logo img-fluid" src="assets/img/logo.png" alt="Logo">
+                <a href="https://www.invictosportas.com.br" style="text-decoration: none; color: black">
+                    <img class="logo img-fluid" src="assets/img/logo.png" alt="Logo">
+                </a>
             </div>
         </div>
 
