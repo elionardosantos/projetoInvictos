@@ -20,6 +20,9 @@
                 /* Para impressão em cores exatas */
                 -webkit-print-color-adjust: exact;
             }
+            .page-break {
+                page-break-before: always; /* Insere uma quebra antes do elemento */
+            }
         }
     </style>
 </head>
@@ -111,7 +114,7 @@
         <div class="buttons">
             <a href="orcamentos.php" class="btn btn-primary ms-2">Voltar</a>
             <a href="editar_orcamento.php?pedidoId=<?= $_GET['pedidoId'] ?>" class="btn btn-primary">Editar</a>
-            <a href="" class="btn btn-primary" onclick="window.print(); return false;">Imprimir</a>
+            <a href="" class="btn btn-primary" onclick="window.print(); return false;">Imprimir orçamento</a>
 
         </div>
     </div>
@@ -308,6 +311,7 @@
                 (21) 97200-1200 / (21) 99827-2006 <br>@invictosportasautomaticas / admin@invictosportas.com.br
             </p> -->
         </div>
+        <!-- <div class="page-break"></div> -->
     </div>
     
 </body>

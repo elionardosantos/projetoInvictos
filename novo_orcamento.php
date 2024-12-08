@@ -308,16 +308,16 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label for="nomeServico" class="form-label mb-0 mt-2">Nome do responsável</label>
-                    <input type="text" class="form-control" name="nomeServico" id="nomeServico" placeholder="Responsável no local" value="<?= isset($name)?$name:""; ?>">
-                </div>
-                <div class="col-md-4">
                     <label for="enderecoServico" class="form-label mb-0 mt-2">Endereço</label>
                     <input type="text" class="form-control" name="enderecoServico" id="enderecoServico" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="numeroServico" class="form-label mb-0 mt-2">Número</label>
                     <input type="text" class="form-control" id="numeroServico" name="numeroServico" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
+                </div>
+                <div class="col-md-4">
+                    <label for="nomeServico" class="form-label mb-0 mt-2">Nome do responsável</label>
+                    <input type="text" class="form-control" name="nomeServico" id="nomeServico" placeholder="Responsável no local" value="<?= isset($name)?$name:""; ?>">
                 </div>
             </div>
             

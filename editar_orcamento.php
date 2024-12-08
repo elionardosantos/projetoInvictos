@@ -20,9 +20,34 @@
         <?php
         $pedidoId = isset($_GET['pedidoId'])?$_GET['pedidoId']:"";
         if(isset($_GET['pedidoId'])){
-            $jsonData = orderDataQuery($pedidoId);
+            $dadosPedido = orderDataQuery($pedidoId);
         }
-            
+        
+           
+
+        $name = isset($dadosPedido['contato']['nome'])?$dadosPedido['contato']['nome']:"";
+        $documento = isset($dadosPedido['contato']['numeroDocumento'])?$dadosPedido['contato']['numeroDocumento']:"";
+        $tipoPessoa = isset($dadosPedido['contato']['tipoPessoa'])?$dadosPedido['contato']['tipoPessoa']:"";
+        $contatoId = isset($dadosPedido['contato']['id'])?$dadosPedido['contato']['id']:"";
+        $valorDesconto = isset($dadosPedido['desconto']['valor'])?$dadosPedido['desconto']['valor']:"";
+        $tipoDesconto = isset($dadosPedido['desconto']['unidade'])?$dadosPedido['desconto']['unidade']:"";
+        
+        
+        // Dados do local de serviço
+        $cepServico = isset($dadosPedido['transporte']['etiqueta']['cep'])?$dadosPedido['transporte']['etiqueta']['cep']:"";
+        $bairroServico = isset($dadosPedido['transporte']['etiqueta']['bairro'])?$dadosPedido['transporte']['etiqueta']['bairro']:"";
+        $municipioServico = isset($dadosPedido['transporte']['etiqueta']['municipio'])?$dadosPedido['transporte']['etiqueta']['municipio']:"";
+        $ufServico = isset($dadosPedido['transporte']['etiqueta']['uf'])?$dadosPedido['transporte']['etiqueta']['uf']:"";
+        $enderecoServico = isset($dadosPedido['transporte']['etiqueta']['endereco'])?$dadosPedido['transporte']['etiqueta']['endereco']:"";
+        $numeroServico = isset($dadosPedido['transporte']['etiqueta']['numero'])?$dadosPedido['transporte']['etiqueta']['numero']:"";
+        $nomeServico = isset($dadosPedido['transporte']['etiqueta']['nome'])?$dadosPedido['transporte']['etiqueta']['nome']:"";
+        $observacoes = isset($dadosPedido['observacoes'])?$dadosPedido['observacoes']:"";
+        $observacoesInternas = isset($dadosPedido['observacoesInternas'])?$dadosPedido['observacoesInternas']:"";
+
+
+
+        ########## Funções ############
+         
         function orderDataQuery($pedidoId){
             global $jsonData;
 
@@ -45,34 +70,51 @@
             echo "<script>console.log(".$response.")</script>";
             
             //verify and refresh token
-            if(isset($data['error']['type']) && $data['error']['type'] === "invalid_token"){
+            if(isset($jsonData['error']['type']) && $jsonData['error']['type'] === "invalid_token"){
                 require('controller/token_refresh.php');
                 echo "<p>Token atualizado</p>";
                 ordersQuery();
                 curl_close($cURL);
-            } else if($jsonData['data'] == null) {
+            } else if(isset($jsonData['data']) && $jsonData['data'] == null) {
                 echo "<hr>Houve um erro ao recuperar os dados do pedido";
                 curl_close($cURL);
             } else {
                 return $jsonData['data'];
             }
+        } 
+        function consultaContatoId($contatoId){
+            if(isset($contatoId) && $contatoId !== ""){
+                $url = "https://api.bling.com.br/Api/v3/contatos/$contatoId";
+                $jsonFile = file_get_contents('config/token_request_response.json');
+                $jsonData = json_decode($jsonFile, true);
+                $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+                $header = array(
+                    "authorization: bearer " . $token
+                );
+                $cURL = curl_init($url);
+                curl_setopt($cURL, CURLOPT_URL, $url);
+                curl_setopt($cURL, CURLOPT_HTTPHEADER, $header);
+                curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+            
+                $response = curl_exec($cURL);
+                $data = json_decode($response, true);
+                
+                echo "<script>console.log('Consulta contato por ID')</script>";
+                echo "<script>console.log($response)</script>";
+                
+                if(isset($data['data']['id']) && $data['data']['id'] == $contatoId){
+                    return $data['data'];
+                }else{
+                    return false;
+                }
+        
+            }
         }
 
-        $name = isset($jsonData['contato']['nome'])?$jsonData['contato']['nome']:"";
-        $documento = isset($jsonData['contato']['numeroDocumento'])?$jsonData['contato']['numeroDocumento']:"";
-        $tipoPessoa = isset($jsonData['contato']['tipoPessoa'])?$jsonData['contato']['tipoPessoa']:"";
-        
-        
-        // Dados do local de serviço
-        $cepServico = isset($jsonData['transporte']['etiqueta']['cep'])?$jsonData['transporte']['etiqueta']['cep']:"";
-        $bairroServico = isset($jsonData['transporte']['etiqueta']['bairro'])?$jsonData['transporte']['etiqueta']['bairro']:"";
-        $municipioServico = isset($jsonData['transporte']['etiqueta']['municipio'])?$jsonData['transporte']['etiqueta']['municipio']:"";
-        $ufServico = isset($jsonData['transporte']['etiqueta']['uf'])?$jsonData['transporte']['etiqueta']['uf']:"";
-        $enderecoServico = isset($jsonData['transporte']['etiqueta']['endereco'])?$jsonData['transporte']['etiqueta']['endereco']:"";
-        $numeroServico = isset($jsonData['transporte']['etiqueta']['numero'])?$jsonData['transporte']['etiqueta']['numero']:"";
-        $observacoes = isset($jsonData['observacoes'])?$jsonData['observacoes']:"";
-        $observacoesInternas = isset($jsonData['observacoesInternas'])?$jsonData['observacoesInternas']:"";
+        ########## Fim das funções ############
 
+        
+        $dadosCliente = consultaContatoId($contatoId);
         ?>
     </div>
     
@@ -83,38 +125,38 @@
             <div class="row">
                 <div class="col-md-3 d-none">
                     <label for="contatoId" class="form-label mb-0 mt-2">ID</label>
-                    <input type="text" class="form-control" name="contatoId" id="contatoId" value="<?= isset($pedidoId)?$pedidoId:""; ?>">
+                    <input type="text" class="form-control" name="contatoId" id="contatoId" value="<?= isset($dadosCliente['id'])?$dadosCliente['id']:""; ?>">
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-5">
                     <label for="cliente" class="form-label mb-0 mt-2">Nome completo / Razão social*</label>
-                    <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome completo" value="<?= isset($name)?$name:""; ?>" required>
+                    <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome completo" value="<?= isset($dadosCliente['nome'])?$dadosCliente['nome']:""; ?>" required>
                 </div>                
                 <div class="col-md-4">
                     <label for="documento" class="form-label mb-0 mt-2">CPF/CNPJ*</label>
-                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="documento" name="documento" placeholder="CPF ou CNPJ" value="<?= isset($documento)?$documento:""; ?>">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="documento" name="documento" placeholder="CPF ou CNPJ" value="<?= isset($dadosCliente['numeroDocumento'])?$dadosCliente['numeroDocumento']:""; ?>">
                 </div>
                 <div class="col-md-3">
                     <label for="tipoPessoa" class="form-label mb-0 mt-2">Tipo de pessoa</label>
                     <select class="form-select" id="tipodepessoa" name="tipoPessoa">
-                        <option <?php if(isset($tipoPessoa) && $tipoPessoa === "J"){echo "selected";} ?> value="J">Pessoa jurídica</option>
-                        <option <?php if(isset($tipoPessoa) && $tipoPessoa === "F"){echo "selected";} ?> value="F">Pessoa física</option>
+                        <option <?php if(isset($dadosCliente['tipo']) && $dadosCliente['tipo'] === "J"){echo "selected";} ?> value="J">Pessoa jurídica</option>
+                        <option <?php if(isset($dadosCliente['tipo']) && $dadosCliente['tipo'] === "F"){echo "selected";} ?> value="F">Pessoa física</option>
                     </select>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-2">
                     <label for="cep" class="form-label mb-0 mt-2">CEP</label>
-                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cep" name="cep" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cep" name="cep" placeholder="CEP" value="<?= isset($dadosCliente['cep'])?$dadosCliente['cep']:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="bairro" class="form-label mb-0 mt-2">Bairro</label>
-                    <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" value="<?= isset($district)?$district:""; ?>">
+                    <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" value="<?= isset($dadosCliente['bairro'])?$dadosCliente['bairro']:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="municipio" class="form-label mb-0 mt-2">Município</label>
-                    <input type="text" class="form-control" name="municipio" id="municipio" placeholder="Município" value="<?= isset($city)?$city:""; ?>">
+                    <input type="text" class="form-control" name="municipio" id="municipio" placeholder="Município" value="<?= isset($dadosCliente['municipio'])?$dadosCliente['municipio']:""; ?>">
                 </div>
                 <div class="col-md-2">
                     <label for="estado" class="form-label mb-0 mt-2">Estado</label>
@@ -132,7 +174,7 @@
                                 "SC", "SE", "TO"
                             ];
                             foreach($estados as $uf){
-                                if(isset($state) && $state === "$uf"){
+                                if(isset($$dadosCliente['uf']) && $dadosCliente['uf'] === "$uf"){
                                     $selected = "selected";
                                 } else {
                                     $selected = "";
@@ -146,11 +188,11 @@
             <div class="row">
                 <div class="col-md-8">
                     <label for="endereco" class="form-label mb-0 mt-2">Endereço</label>
-                    <input type="text" class="form-control" name="endereco" id="endereco" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:""; ?>">
+                    <input type="text" class="form-control" name="endereco" id="endereco" placeholder="Rua, Avenida, etc." value="<?= isset($dadosCliente['endereco']['geral']['endereco'])?$dadosCliente['endereco']['geral']['endereco']:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="numero" class="form-label mb-0 mt-2">Número</label>
-                    <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
+                    <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" value="<?= isset($dadosCliente['endereco']['geral']['numero'])?$dadosCliente['endereco']['geral']['numero']:""; ?>">
                 </div>
             </div>
             <div class="row">
@@ -174,13 +216,13 @@
                 </div>
                 <div class="col-md-3">
                     <label for="desconto" class="form-label mb-0 mt-2">Valor do Desconto</label>
-                    <input type="number" inputmode="numeric" id="desconto" name="desconto" class="form-control" placeholder="Somente números">
+                    <input value="<?= isset($valorDesconto)?$valorDesconto:"" ?>" type="number" inputmode="numeric" id="desconto" name="desconto" class="form-control" placeholder="Somente números">
                 </div>
                 <div class="col-md-2">
                     <label for="tipoDesconto" class="form-label mb-0 mt-2">Tipo</label>
                     <select class="form-select" name="tipoDesconto">
-                        <option value="REAL" selected>R$</option>
-                        <option value="PERCENTUAL">%</option>
+                        <option <?= isset($tipoDesconto) && $tipoDesconto == "REAL"?"selected":"" ?> value="REAL" >R$</option>
+                        <option <?= isset($tipoDesconto) && $tipoDesconto == "PERCENTUAL"?"selected":"" ?> value="PERCENTUAL">%</option>
                     </select>
                 </div>
             </div>
@@ -189,15 +231,15 @@
             <div class="row">
                 <div class="col-md-4">
                     <label class="form-label mb-0 mt-2" for="tel">Telefone</label>
-                    <input class="form-control" type="tel" name="tel" id="tel" value="<?= isset($telefone)?$telefone:"" ?>">
+                    <input class="form-control" type="tel" name="tel" id="tel" value="<?= $dadosCliente['telefone']?$dadosCliente['telefone']:"" ?>">
                 </div>
                 <div class="col-md-4">
                     <label class="form-label mb-0 mt-2" for="cel">Celular*</label>
-                    <input class="form-control" type="tel" name="cel" id="cel" value="<?= isset($celular)?$celular:"" ?>">
+                    <input class="form-control" type="tel" name="cel" id="cel" value="<?= isset($dadosCliente['celular'])?$dadosCliente['celular']:"" ?>">
                 </div>
                 <div class="col-md-4">
                     <label class="form-label mb-0 mt-2" for="email">email</label>
-                    <input class="form-control" type="email" name="email" id="email" value="<?= isset($email)?$email:""; ?>">
+                    <input class="form-control" type="email" name="email" id="email" value="<?= isset($dadosCliente['email'])?$dadosCliente['email']:""; ?>">
                 </div>
             </div>
             
@@ -244,16 +286,16 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label for="nomeServico" class="form-label mb-0 mt-2">Nome do responsável</label>
-                    <input type="text" class="form-control" name="nomeServico" id="nomeServico" placeholder="Responsável no local" value="<?= isset($name)?$name:""; ?>">
-                </div>
-                <div class="col-md-4">
                     <label for="enderecoServico" class="form-label mb-0 mt-2">Endereço</label>
                     <input type="text" class="form-control" name="enderecoServico" id="enderecoServico" placeholder="Rua, Avenida, etc." value="<?= isset($enderecoServico)?$enderecoServico:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="numeroServico" class="form-label mb-0 mt-2">Número</label>
                     <input type="text" class="form-control" id="numeroServico" name="numeroServico" placeholder="Número" value="<?= isset($numeroServico)?$numeroServico:""; ?>">
+                </div>
+                <div class="col-md-4">
+                    <label for="nomeServico" class="form-label mb-0 mt-2">Nome do responsável</label>
+                    <input type="text" class="form-control" name="nomeServico" id="nomeServico" placeholder="Responsável no local" value="<?= isset($nomeServico)?$nomeServico:""; ?>">
                 </div>
             </div>
             
