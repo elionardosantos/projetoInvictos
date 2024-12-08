@@ -63,11 +63,11 @@
         <form action="" method="post">
             <div class="input-group mb-3">
                 <span class="input-group-text col-sm-2 col-3">Nome</span>
-                <input type="text" class="form-control" placeholder="Digite o nome" value="<?= $dbUserName; ?>" name="formName">
+                <input type="text" class="form-control" placeholder="Digite o nome" value="<?= $dbUserName; ?>" name="formName" autofocus>
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text col-sm-2 col-3">Email</span>
-                <input type="text" class="form-control" placeholder="Digite o email" value="<?= $dbUserEmail; ?>" name="formEmail">
+                <span class="input-group-text col-sm-2 col-3">Login</span>
+                <input type="text" class="form-control" placeholder="Digite o nome de usuario ou email" value="<?= $dbUserEmail; ?>" name="formEmail">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text col-sm-2 col-3">Nível</span>

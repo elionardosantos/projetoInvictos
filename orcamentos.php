@@ -129,7 +129,7 @@
                         echo "<p>Token atualizado</p>";
                         ordersQuery();
                     } else if(isset($data['data']) && $data['data'] == null) {
-                        echo "<hr><p>Nenhum pedido encontrado baseado nos filtros atuais</p>";
+                        echo "<hr><p>Nenhum pedido/orçamento encontrado baseado nos filtros atuais</p>";
                         // echo $jsonData;
                     } else {
                         // echo $response;

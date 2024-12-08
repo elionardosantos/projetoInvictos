@@ -59,8 +59,13 @@
                 echo "<p>Token atualizado</p>";
                 ordersQuery();
                 curl_close($cURL);
-            } else if($jsonData['data'] == null) {
-                echo "<hr>Nenhum pedido encontrado baseado nos filtros atuais";
+            } else if(!isset($jsonData['data'])) {
+                ?>
+                    <div class="container mt-5" style="max-width: 820px;">
+                        <hr>    
+                        <div class="alert alert-danger">Pedido não encontrado</div>
+                    </div>
+                <?php
                 curl_close($cURL);
             } else {
                 echo "<script>console.log($response)</script>";
@@ -117,32 +122,13 @@
 
         <!-- Área do cabeçalho -->
         <div class="row">
-
-            <!-- Dados do cliente -->
-            <div class="col-5">
-                <div class="row">
-                    <div class="col">Cliente: <strong><?= $clienteNome ?></strong></div>
-                </div>
-                <div class="row">
-                    <div class="col">Endereço: <strong><?= $endereco ?></strong></div>
-                </div>
-                <div class="row">
-                    <div class="col">Número: <strong><?= $numero ?></strong></div>
-                </div>
-                <div class="row">
-                    <div class="col">Bairro: <strong><?= $bairro ?></strong></div>
-                </div>
-                <div class="row">
-                    <div class="col">Município: <strong><?= $municipio ?></strong></div>
-                </div>
-                <div class="row">
-                    <div class="col">Estado: <strong><?= $uf ?></strong></div>
-                </div>
-                <div class="row">
-                    <div class="col">Data: <strong><?= $dataPedido ?></strong></div>
-                </div>
+            <!-- Logo -->
+            <div class="col-3 text-end">
+                <a href="https://www.invictosportas.com.br" style="text-decoration: none; color: black">
+                    <img class="logo img-fluid" src="assets/img/logo.png" alt="Logo">
+                </a>
             </div>
-
+            
             <!-- Dados da empresa -->
             <div class="col-4">
                 <div class="row">
@@ -175,12 +161,46 @@
                 </div>
             </div>
 
-            <!-- Logo -->
-            <div class="col-3 text-end">
-                <a href="https://www.invictosportas.com.br" style="text-decoration: none; color: black">
-                    <img class="logo img-fluid" src="assets/img/logo.png" alt="Logo">
-                </a>
+            <!-- Dados do cliente -->
+            <div class="col-5">
+                <?php if(isset($clienteNome) && $clienteNome !== ""){ ?>
+                    <div class="row">
+                        <div class="col">Cliente: <strong><?= isset($clienteNome)?$clienteNome:""; ?></strong></div>
+                    </div>
+                <?php } ?>
+                <?php if(isset($endereco) && $endereco !== ""){ ?>
+                    <div class="row">
+                        <div class="col">Endereço: <strong><?= isset($endereco)?$endereco:""; ?></strong></div>
+                    </div>
+                <?php } ?>
+                <?php if(isset($numero) && $numero !== ""){ ?>
+                    <div class="row">
+                        <div class="col">Número: <strong><?= isset($numero)?$numero:""; ?></strong></div>
+                    </div>
+                <?php } ?>
+                <?php if(isset($bairro) && $bairro !== ""){ ?>
+                    <div class="row">
+                        <div class="col">Bairro: <strong><?= isset($bairro)?$bairro:""; ?></strong></div>
+                    </div>
+                <?php } ?>
+                <?php if(isset($municipio) && $municipio !== ""){ ?>
+                    <div class="row">
+                        <div class="col">Município: <strong><?= isset($municipio)?$municipio:""; ?></strong></div>
+                    </div>
+                <?php } ?>
+                <?php if(isset($uf) && $uf !== ""){ ?>
+                    <div class="row">
+                        <div class="col">Estado: <strong><?= isset($uf)?$uf:""; ?></strong></div>
+                    </div>
+                <?php } ?>
+                <!-- <?php if(isset($dataPedido) && $dataPedido !== ""){ ?>
+                    <div class="row">
+                        <div class="col">Data: <strong><?= isset($dataPedido)?$dataPedido:""; ?></strong></div>
+                    </div>
+                <?php } ?> -->
             </div>
+
+
         </div>
 
         <!-- Número do orçamento -->
@@ -188,6 +208,10 @@
             <div class="col text-center fs-5">
                 Número do orçamento: <strong><?= $numeroPedido ?></strong>
             </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">Data do orçamento: <strong><?= isset($dataPedido)?$dataPedido:""; ?></strong></div>
+            <div class="col">Orçamento válido até: <strong><?= date('d/m/Y',strtotime($dataPedido.'+30 days')) ?></strong></div>
         </div>
 
         <!-- Tabela de produtos -->
@@ -205,24 +229,29 @@
             <tbody>
                 <?php
                     $subTotal = 0;
-                    foreach($jsonData['data']['itens'] as $item){
+                    if(isset($jsonData['data']['itens'])){
 
-                        $codigo = isset($item['codigo'])?$item['codigo']:"";
-                        $material = isset($item['descricao'])?$item['descricao']:"";
-                        $unidade = isset($item['unidade'])?$item['unidade']:"";
-                        $quantidade = isset($item['quantidade'])?$item['quantidade']:"";
-                        $valorUnit = isset($item['valor'])?$item['valor']:"";
-                        $valorTotal = $item['quantidade'] * $item['valor'];
+                        foreach($jsonData['data']['itens'] as $item){
+
+                            $codigo = isset($item['codigo'])?$item['codigo']:"";
+                            $material = isset($item['descricao'])?$item['descricao']:"";
+                            $unidade = isset($item['unidade'])?$item['unidade']:"";
+                            $quantidade = isset($item['quantidade'])?$item['quantidade']:"";
+                            $valorUnit = isset($item['valor'])?$item['valor']:"";
+                            $valorTotal = $item['quantidade'] * $item['valor'];
                 ?>
-                       <tr>
-                            <td><?= $codigo ?></td>
-                            <td><?= $material ?></td>
-                            <td><?= $unidade ?></td>
-                            <td><?= number_format($quantidade, 2, ",", ".") ?></td>
-                            <!-- <td>R$<?= number_format($valorUnit, 2, ",", ".") ?></td> -->
-                            <!-- <td>R$<?= number_format($valorTotal, 2, ",", ".") ?></td> -->
-                        </tr>
+                            <tr>
+                                <td><?= $codigo ?></td>
+                                <td><?= $material ?></td>
+                                <td><?= $unidade ?></td>
+                                <td><?= number_format($quantidade, 2, ",", ".") ?></td>
+                                <!-- <td>R$<?= number_format($valorUnit, 2, ",", ".") ?></td> -->
+                                <!-- <td>R$<?= number_format($valorTotal, 2, ",", ".") ?></td> -->
+                            </tr>
                 <?php
+                        }
+                    }else{
+                        echo "Nenhum item encontrado";
                     }
                 ?>
                 
@@ -232,7 +261,7 @@
             <div class="col-7"></div>
             <div class="border col row mx-0">
                 <div class="col py-1">Subtotal:</div>
-                <div class="col py-1">R$<?= number_format($totalProdutos, 2, ",", ".") ?></div>
+                <div class="col py-1">R$<?= isset($totalProdutos)?number_format($totalProdutos, 2, ",", "."):"" ?></div>
 
             </div>
         </div>
@@ -263,7 +292,7 @@
             <div class="col-5"></div>
             <div class="col-7 row mx-0 bg-dark text-white mt-2">
                 <div class="col py-1"><strong><?= isset($valorDesconto) && $valorDesconto > 0 ?"Valor Total:":"Total no cartão em até 12x:"; ?></strong></div>
-                <div class="col-4 py-1"><strong>R$<?= number_format($totalPedido, 2, ",", ".") ?></strong></div>
+                <div class="col-4 py-1"><strong>R$<?= isset($totalPedido)?number_format($totalPedido, 2, ",", "."):""; ?></strong></div>
 
             </div>
         </div>

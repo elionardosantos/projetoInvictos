@@ -8,6 +8,7 @@
     <?php
         require('controller/login_checker.php');
         require('partials/navbar.php');
+        // die('<div class="alert">Tela em desenvolvimento<div>');
     ?>
     <div class="container my-3">
         <h2>Editar Orçamento</h2>
@@ -17,16 +18,10 @@
     </div>
     <div class="container">
         <?php
-            global $cnpj;
-            global $name;
-            global $street;
-            global $number;
-            global $district;
-            global $city;
-            global $state;
-            
-            isset($_GET['pedidoId'])?orderDataQuery($_GET['pedidoId']):"";
-
+        $pedidoId = isset($_GET['pedidoId'])?$_GET['pedidoId']:"";
+        if(isset($_GET['pedidoId'])){
+            $jsonData = orderDataQuery($pedidoId);
+        }
             
         function orderDataQuery($pedidoId){
             global $jsonData;
@@ -47,7 +42,7 @@
             curl_close($cURL);
             $jsonData = json_decode($response, true);
 
-            echo "<script>console.log(".$jsonData.")</script>";
+            echo "<script>console.log(".$response.")</script>";
             
             //verify and refresh token
             if(isset($data['error']['type']) && $data['error']['type'] === "invalid_token"){
@@ -59,39 +54,24 @@
                 echo "<hr>Houve um erro ao recuperar os dados do pedido";
                 curl_close($cURL);
             } else {
-                echo "<script>console.log($response)</script>";
-                global $numeroPedido;
-                global $totalProdutos;
-                global $totalPedido;
-                global $valorDesconto;
-                global $tipoDesconto;
-
-                $numeroPedido = $jsonData['data']['numero'];
-                $totalProdutos = $jsonData['data']['totalProdutos'];
-                $totalPedido = $jsonData['data']['total'];
-                $valorDesconto = $jsonData['data']['desconto']['valor'];
-                $tipoDesconto = $jsonData['data']['desconto']['unidade'];
-
-                foreach($jsonData as $row){
-                    global $clienteNome;
-                    global $endereco;
-                    global $bairro;
-                    global $numero;
-                    global $municipio;
-                    global $uf;
-                    global $dataPedido;
-                    global $totalProdutos;
-
-                    $clienteNome = isset($row['contato']['nome'])?$row['contato']['nome']:"";
-                    $endereco = isset($row['transporte']['etiqueta']['endereco'])?$row['transporte']['etiqueta']['endereco']:"";
-                    $bairro = isset($row['transporte']['etiqueta']['bairro'])?$row['transporte']['etiqueta']['bairro']:"";
-                    $numero = isset($row['transporte']['etiqueta']['numero'])?$row['transporte']['etiqueta']['numero']:"";
-                    $municipio = isset($row['transporte']['etiqueta']['municipio'])?$row['transporte']['etiqueta']['municipio']:"";
-                    $uf = isset($row['transporte']['etiqueta']['uf'])?$row['transporte']['etiqueta']['uf']:"";
-                    $dataPedido = isset($row['data'])?date('d/m/Y',strtotime($row['data'])):"";
-                }
+                return $jsonData['data'];
             }
         }
+
+        $name = isset($jsonData['contato']['nome'])?$jsonData['contato']['nome']:"";
+        $documento = isset($jsonData['contato']['numeroDocumento'])?$jsonData['contato']['numeroDocumento']:"";
+        $tipoPessoa = isset($jsonData['contato']['tipoPessoa'])?$jsonData['contato']['tipoPessoa']:"";
+        
+        
+        // Dados do local de serviço
+        $cepServico = isset($jsonData['transporte']['etiqueta']['cep'])?$jsonData['transporte']['etiqueta']['cep']:"";
+        $bairroServico = isset($jsonData['transporte']['etiqueta']['bairro'])?$jsonData['transporte']['etiqueta']['bairro']:"";
+        $municipioServico = isset($jsonData['transporte']['etiqueta']['municipio'])?$jsonData['transporte']['etiqueta']['municipio']:"";
+        $ufServico = isset($jsonData['transporte']['etiqueta']['uf'])?$jsonData['transporte']['etiqueta']['uf']:"";
+        $enderecoServico = isset($jsonData['transporte']['etiqueta']['endereco'])?$jsonData['transporte']['etiqueta']['endereco']:"";
+        $numeroServico = isset($jsonData['transporte']['etiqueta']['numero'])?$jsonData['transporte']['etiqueta']['numero']:"";
+        $observacoes = isset($jsonData['observacoes'])?$jsonData['observacoes']:"";
+        $observacoesInternas = isset($jsonData['observacoesInternas'])?$jsonData['observacoesInternas']:"";
 
         ?>
     </div>
@@ -225,15 +205,15 @@
             <div class="row">
                 <div class="col-md-2">
                     <label for="cepServico" class="form-label mb-0 mt-2">CEP</label>
-                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cepServico" name="cepServico" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cepServico" name="cepServico" placeholder="CEP" value="<?= isset($cepServico)?$cepServico:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="bairroServico" class="form-label mb-0 mt-2">Bairro</label>
-                    <input type="text" class="form-control" id="bairroServico" name="bairroServico" placeholder="Bairro" value="<?= isset($district)?$district:""; ?>">
+                    <input type="text" class="form-control" id="bairroServico" name="bairroServico" placeholder="Bairro" value="<?= isset($bairroServico)?$bairroServico:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="municipioServico" class="form-label mb-0 mt-2">Município</label>
-                    <input type="text" class="form-control" name="municipioServico" id="municipioServico" placeholder="Município" value="<?= isset($city)?$city:""; ?>">
+                    <input type="text" class="form-control" name="municipioServico" id="municipioServico" placeholder="Município" value="<?= isset($municipioServico)?$municipioServico:""; ?>">
                 </div>
                 <div class="col-md-2">
                     <label for="estadoServico" class="form-label mb-0 mt-2">Estado</label>
@@ -250,13 +230,13 @@
                                 "RN", "RS", "RO", "RR", 
                                 "SC", "SE", "TO"
                             ];
-                            foreach($estados as $uf){
-                                if(isset($state) && $state === "$uf"){
+                            foreach($estados as $ufServico){
+                                if(isset($state) && $state === "$ufServico"){
                                     $selected = "selected";
                                 } else {
                                     $selected = "";
                                 }
-                                echo "<option value=\"$uf\" $selected>$uf</option>\n";
+                                echo "<option value=\"$ufServico\" $selected>$ufServico</option>\n";
                             }
                         ?>
                     </select>
@@ -269,11 +249,11 @@
                 </div>
                 <div class="col-md-4">
                     <label for="enderecoServico" class="form-label mb-0 mt-2">Endereço</label>
-                    <input type="text" class="form-control" name="enderecoServico" id="enderecoServico" placeholder="Rua, Avenida, etc." value="<?= isset($street)?$street:""; ?>">
+                    <input type="text" class="form-control" name="enderecoServico" id="enderecoServico" placeholder="Rua, Avenida, etc." value="<?= isset($enderecoServico)?$enderecoServico:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="numeroServico" class="form-label mb-0 mt-2">Número</label>
-                    <input type="text" class="form-control" id="numeroServico" name="numeroServico" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
+                    <input type="text" class="form-control" id="numeroServico" name="numeroServico" placeholder="Número" value="<?= isset($numeroServico)?$numeroServico:""; ?>">
                 </div>
             </div>
             
@@ -281,14 +261,17 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="observacoes" class="form-label mb-0 mt-2">Observações</label>
-                    <textarea type="text" class="form-control" rows="3" name="observacoes" id="observacoes" placeholder="As informações digitadas aqui serão impressas no orçamento, na fatura e transferida para as observações da nota" value=""></textarea>
+                    <textarea type="text" class="form-control" rows="3" name="observacoes" id="observacoes" placeholder="As informações digitadas aqui serão impressas no orçamento, na fatura e transferida para as observações da nota"><?= $observacoes ?></textarea>
                 </div>
                 <div class="col-md-6">
                     <label for="observacoesInternas" class="form-label mb-0 mt-2">Observações internas</label>
-                    <textarea type="text" class="form-control" rows="3" id="observacoesInternas" name="observacoesInternas" style="color: blue;" placeholder="Esta área é de uso interno, portanto não será impressa" value=""></textarea>
+                    <textarea type="text" class="form-control" rows="3" id="observacoesInternas" name="observacoesInternas" style="color: blue;" placeholder="Esta área é de uso interno, portanto não será impressa"><?= $observacoesInternas ?></textarea>
                 </div>
             </div>
-
+            
+            <?php 
+                $dadosPorta = json_decode($observacoesInternas, true);
+            ?>
             <div class="mt-4"><h4>Dados da instalação</h4></div>
             <div class="row">
                 <div class="col-md-3">
@@ -297,11 +280,11 @@
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="largura">Largura*</label>
-                    <input class="form-control" inputmode="numeric" name="largura" id="largura">
+                    <input class="form-control" inputmode="numeric" name="largura" id="largura" value="<?= isset($dadosPorta['largura'])?$dadosPorta['largura']:"" ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="altura">Altura*</label>
-                    <input class="form-control" inputmode="numeric" name="altura" id="altura">
+                    <input class="form-control" inputmode="numeric" name="altura" id="altura" value="<?= isset($dadosPorta['altura'])?$dadosPorta['altura']:"" ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="rolo">Rolo*</label>

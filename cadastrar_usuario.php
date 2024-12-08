@@ -17,11 +17,11 @@
         <form action="cadastrar_usuario_process.php" method="post">
             <div class="input-group mb-3">
                 <span class="input-group-text col-md-2 col-3">Nome</span>
-                <input type="text" class="form-control" placeholder="Digite o nome" name="formName">
+                <input type="text" class="form-control" placeholder="Digite o nome" name="formName" autofocus>
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text col-md-2 col-3">Email</span>
-                <input type="text" class="form-control" placeholder="Digite o email" name="formEmail">
+                <span class="input-group-text col-md-2 col-3">Login</span>
+                <input type="text" class="form-control" placeholder="Digite o email ou nome de usuário" name="formEmail">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text col-md-2 col-3">Senha</span>

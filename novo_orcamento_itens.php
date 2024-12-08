@@ -39,10 +39,10 @@ $estadoServico = isset($_POST['estadoServico'])?$_POST['estadoServico']:"";
 $cepServico = isset($_POST['cepServico'])?$_POST['cepServico']:"";
 
 // Dados da instalação
-$quantidade = isset($_POST['quantidade'])?floatval(str_replace(",",".",str_replace(".","",$_POST['quantidade']))):"";
-$larguraTotal = isset($_POST['largura'])?floatval(str_replace(",",".",str_replace(".","",$_POST['largura']))):"";
-$alturaTotal = isset($_POST['altura'])?floatval(str_replace(",",".",str_replace(".","",$_POST['altura']))):"";
-$rolo = isset($_POST['rolo'])?floatval(str_replace(",",".",str_replace(".","",$_POST['rolo']))):"";
+$quantidade = isset($_POST['quantidade'])?floatval(str_replace(",",".",$_POST['quantidade'])):"";
+$larguraTotal = isset($_POST['largura'])?floatval(str_replace(",",".",$_POST['largura'])):"";
+$alturaTotal = isset($_POST['altura'])?floatval(str_replace(",",".",$_POST['altura'])):"";
+$rolo = isset($_POST['rolo'])?floatval(str_replace(",",".",$_POST['rolo'])):"";
 
 $m2 = ($alturaTotal + $rolo) * $larguraTotal;
 
@@ -146,7 +146,7 @@ if(isset($cliente)){
     <?php
         if(isset($resultado) && count($resultado) > 0){
             
-            echo "metro²: $m2";
+            echo "Quantidade: $quantidade / m²: $m2";
             $pesoTotalPorta = 0;
 
             // Adicionando itens à array de produtos para enviar à página de processamento do orçamento (envio para o Bling)
@@ -162,19 +162,19 @@ if(isset($cliente)){
                 $pesoItem = null;
                 switch ($tipoConsumo) {
                     case 'm2':
-                        $quantidadeItem = $m2 * $multiplicador;
+                        $quantidadeItem = ($m2 * $multiplicador) * $quantidade;
                         break;
 
                     case 'largura':
-                        $quantidadeItem = $larguraTotal * $multiplicador;
+                        $quantidadeItem = ($larguraTotal * $multiplicador) * $quantidade;
                         break;
                         
                     case 'altura':
-                        $quantidadeItem = $alturaTotal * $multiplicador;
+                        $quantidadeItem = ($alturaTotal * $multiplicador) * $quantidade;
                         break;
 
                     case 'unidade':
-                        $quantidadeItem = 1 * $multiplicador;
+                        $quantidadeItem = (1 * $multiplicador) * $quantidade;
                         break;
                 }
 
@@ -192,6 +192,7 @@ if(isset($cliente)){
 
                 $arrayComProdutos[$codigo] = $produtoParaArray;
             }
+            $pesoTotalPorta = $pesoTotalPorta / $quantidade;
             echo " / Peso total porta: $pesoTotalPorta KG<br><br>";
             
         } else {
@@ -216,19 +217,19 @@ if(isset($cliente)){
             foreach($resultado as $row){
                 switch ($row['tipo_consumo']) {
                     case 'm2':
-                        $quantidadeItem = $m2 * $row['multiplicador'];
+                        $quantidadeItem = ($m2 * $row['multiplicador']) * $quantidade;
                         break;
 
                     case 'largura':
-                        $quantidadeItem = $larguraTotal * $row['multiplicador'];
+                        $quantidadeItem = ($larguraTotal * $row['multiplicador']) * $quantidade;
                         break;
                         
                     case 'altura':
-                        $quantidadeItem = $alturaTotal * $row['multiplicador'];
+                        $quantidadeItem = ($alturaTotal * $row['multiplicador']) * $quantidade;
                         break;
 
                     case 'unidade':
-                        $quantidadeItem = 1 * $row['multiplicador'];
+                        $quantidadeItem = (1 * $row['multiplicador']) * $quantidade;
                         break;
                 }
                 $produtoParaArray['id'] = $row['id'];

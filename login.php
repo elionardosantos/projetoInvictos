@@ -87,12 +87,15 @@
     ?>
     <div class="bg-secondary">
         <div class="container d-flex justify-content-center align-items-center vh-100">
-            <div class="col-md-4 border p-4 rounded bg-dark text-white">
-                <h3 class="text-center mb-4">Login</h3>
+            <div class="col-md-4 border p-4 rounded text-white" style="background: #2a2e31">
+                <div class="text-center mb-4">
+                    <img src="assets/img/logoInvictos2.jpeg" alt="">
+                </div>
+                <!-- <h3 class="text-center mb-4">Login</h3> -->
                 <form action="" method="post">
                     <div class="form-group">
-                        <label for="email">E-mail</label>
-                        <input autofocus required type="text" class="form-control <?= isset($errorFormStyle)?$errorFormStyle:"" ?>" name="email" id="email" placeholder="Digite seu e-mail">
+                        <label for="email">Login</label>
+                        <input autofocus required type="text" class="form-control <?= isset($errorFormStyle)?$errorFormStyle:"" ?>" name="email" id="email" placeholder="Digite seu usuario ou email">
                     </div>
                     <div class="form-group">
                         <label for="senha">Senha</label>

@@ -112,19 +112,46 @@
             </div>
             <div class="row">
                 <div class="col-lg-2 mt-2">
-                    <label for="selecionado" class="form-label mb-0">Selecionado</label>
+                    <label for="selecionado" class="form-label mb-0">Selecionado no orçamento</label>
                     <select name="selecionado" id="selecionado" class="form-select">
-                        <option <?= $produto['selecionado'] == "1"?"selected":"" ?> value="1">Sim</option>
-                        <option <?= $produto['selecionado'] == "0"?"selected":"" ?> value="0">Não</option>
+                        <option <?= $produto['selecionado'] == "1"?"selected":"" ?> value="1">1 - Sim</option>
+                        <option <?= $produto['selecionado'] == "0"?"selected":"" ?> value="0">0 - Não</option>
                     </select>
                 </div>
             </div>
             <div class="mt-4">
                 <input class="btn btn-primary" type="submit" value="Salvar">
-                <a href="produtos.php" class="btn btn-primary ms-2">Voltar</a>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteQuest">
+                    Apagar
+                </button>
+                <a href="produtos.php" class="btn btn-primary">Voltar</a>
             </div>
         </form>
     </div>
+    
+    <div>
+            <!-- Modal -->
+            <div class="modal fade" id="deleteQuest" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Atenção!</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Tem certeza que deseja apagar este produto?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <a href="apagar_produto_process.php?id=<?= $produtoId; ?>">
+                                <button type="button" class="btn btn-danger">Sim</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     <div class="container mt-4">
     </div>
 </body>

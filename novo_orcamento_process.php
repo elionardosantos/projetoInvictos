@@ -4,6 +4,8 @@ require('config/connection.php');
 date_default_timezone_set('America/Sao_Paulo');
 ob_start();
 
+$modoTeste = 0; // Habilita o modo de testes
+
 $contatoId = isset($_SESSION['contatoId'])?$_SESSION['contatoId']:"";
 $cliente = isset($_SESSION['cliente'])?$_SESSION['cliente']:"";
 $documentoForm = isset($_SESSION['documentoForm'])?$_SESSION['documentoForm']:"";
@@ -25,7 +27,7 @@ $cel = isset($_SESSION['cel'])?$_SESSION['cel']:"";
 $email = isset($_SESSION['email'])?$_SESSION['email']:"";
 
 $observacoes = isset($_SESSION['observacoes'])?$_SESSION['observacoes']:"";
-$observacoesInternas = isset($_SESSION['observacoesInternas'])?$_SESSION['observacoesInternas']:"";
+$observacoesInternasForm = isset($_SESSION['observacoesInternas'])?$_SESSION['observacoesInternas']:"";
 
 $nomeServico = isset($_SESSION['nomeServico'])?$_SESSION['nomeServico']:"";
 $enderecoServico = isset($_SESSION['enderecoServico'])?$_SESSION['enderecoServico']:"";
@@ -41,54 +43,19 @@ $alturaTotal = isset($_SESSION['alturaTotal'])?$_SESSION['alturaTotal']:"";
 $rolo = isset($_SESSION['rolo'])?$_SESSION['rolo']:"";
 
 $arrayComProdutos = isset($_SESSION['array_com_produtos'])?$_SESSION['array_com_produtos']:"";
-// echo "<pre>";
-// print_r($arrayComProdutos);
-// echo "</pre>";
-
-// // Dados do contato
-// $contatoId = isset($_POST['contatoId'])?$_POST['contatoId']:"";
-// $cliente = isset($_POST['cliente'])?$_POST['cliente']:"";
-// $documentoForm = isset($_POST['documento'])?$_POST['documento']:"";
-// $documento = preg_replace("/[^0-9]/", "", $documentoForm); //deixando somente números
-// $tipoPessoa = isset($_POST['tipoPessoa'])?$_POST['tipoPessoa']:"";
-// $endereco = isset($_POST['endereco'])?$_POST['endereco']:"";
-// $numero = isset($_POST['numero'])?$_POST['numero']:"";
-// $bairro = isset($_POST['bairro'])?$_POST['bairro']:"";
-// $municipio = isset($_POST['municipio'])?$_POST['municipio']:"";
-// $estado = isset($_POST['estado'])?$_POST['estado']:"";
-// $tabelaPreco = isset($_POST['tabelaPreco'])?$_POST['tabelaPreco']:"";
-// $condicaoPagamento = isset($_POST['condicaoPagamento'])?$_POST['condicaoPagamento']:"";
-// $cep = isset($_POST['cep'])?$_POST['cep']:"";
-// $desconto = isset($_POST['desconto'])?$_POST['desconto']:"";
-// $tipoDesconto = isset($_POST['tipoDesconto'])?$_POST['tipoDesconto']:"";
-
-// // Dados de contato
-// $tel = isset($_POST['tel'])?$_POST['tel']:"";
-// $cel = isset($_POST['cel'])?$_POST['cel']:"";
-// $email = isset($_POST['email'])?$_POST['email']:"";
-
-// // Dados adicionais
-// $observacoes = isset($_POST['observacoes'])?$_POST['observacoes']:"";
-// $observacoesInternas = isset($_POST['observacoesInternas'])?$_POST['observacoesInternas']:"";
-
-// // Local do serviço
-// $nomeServico = isset($_POST['nomeServico'])?$_POST['nomeServico']:"";
-// $enderecoServico = isset($_POST['enderecoServico'])?$_POST['enderecoServico']:"";
-// $numeroServico = isset($_POST['numeroServico'])?$_POST['numeroServico']:"";
-// $bairroServico = isset($_POST['bairroServico'])?$_POST['bairroServico']:"";
-// $municipioServico = isset($_POST['municipioServico'])?$_POST['municipioServico']:"";
-// $estadoServico = isset($_POST['estadoServico'])?$_POST['estadoServico']:"";
-// $cepServico = isset($_POST['cepServico'])?$_POST['cepServico']:"";
-
-// // Dados da instalação
-// $quantidade = isset($_POST['quantidade'])?floatval(str_replace(",",".",str_replace(".","",$_POST['quantidade']))):"";
-// $largura = isset($_POST['largura'])?floatval(str_replace(",",".",str_replace(".","",$_POST['largura']))):"";
-// $altura = isset($_POST['altura'])?floatval(str_replace(",",".",str_replace(".","",$_POST['altura']))):"";
-// $rolo = isset($_POST['rolo'])?floatval(str_replace(",",".",str_replace(".","",$_POST['rolo']))):"";
 
 // Calculando metro quadrado
 $m2 = (($alturaTotal + $rolo) * $larguraTotal) * $quantidade;
-$observacoesInternas .= "\n"."Largura: ".$larguraTotal."m / Altura: ".$alturaTotal."m / m²: ".$m2."\n"."Usuario: ".$_SESSION['loggedUserName'];
+// $observacoesInternas .= "\n"."Largura: ".$larguraTotal."m / Altura: ".$alturaTotal."m"."\n"."Usuario: ".$_SESSION['loggedUserName'];
+$observacoesInternasForm == "" ? null : $observacoesArray['obs'] = $observacoesInternasForm;
+
+$observacoesArray['largura'] = $larguraTotal;
+$observacoesArray['altura'] = $alturaTotal;
+$observacoesArray['quantidade'] = $quantidade;
+$observacoesArray['id_usuario'] = $_SESSION['loggedUserId'];
+
+$observacoesInternas = json_encode($observacoesArray);
+
 
 // Criando array de produtos selecionados na criação do orçamento
 $produtosSelecionados = isset($_POST['produtosSelecionados'])?$_POST['produtosSelecionados']:null;
@@ -484,13 +451,14 @@ function alteraStatus($pedidoId,$novoStatusId){
     </div> -->
     <div class="container mt-3">
         <?php
-            $modoTeste = 0;
-            if($motoTeste == 0){// Chave geral que habilita/desabilita criação de pedidos para testes. 0 para testes
+            if($modoTeste == 0){// Chave geral que habilita/desabilita criação de pedidos para testes. 0 para testes
                 if(consultaContatoId($contatoId)){ // Verifica se o contato existe pelo ID
                     if($pedidoId = novoPedido()){
+                        sleep(1);
                         alteraStatus($pedidoId,447794);
                         echo "Pedido criado com sucesso¹<br>";
                         echo "ID do pedido: ". $pedidoId;
+                        sleep(1);
                         header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
                         ob_end_flush(); // Liberando as impressões na tela após o header para não impedir o redirecionamento
                         exit;
@@ -500,9 +468,11 @@ function alteraStatus($pedidoId,$novoStatusId){
 
                 } elseif ($contatoId = consultaContatoDocumento($documento)) { // Verifica se o contato existe pelo Documento
                     if($pedidoId = novoPedido()){
+                        sleep(1);
                         alteraStatus($pedidoId,447794);
                         echo "Pedido criado com sucesso²<br>";
                         echo "ID do pedido: ". $pedidoId;
+                        sleep(1);
                         header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
                         ob_end_flush(); // Liberando as impressões na tela após o header para não impedir o redirecionamento
                         exit;
@@ -511,9 +481,11 @@ function alteraStatus($pedidoId,$novoStatusId){
                     }
                 } elseif ($contatoId = novoContato()){ // Se o contato não existir, um novo contato é criado
                     if($pedidoId = novoPedido()){
+                        sleep(1);
                         alteraStatus($pedidoId,447794);
                         echo "Pedido criado com sucesso³<br>";
                         echo "ID do pedido: ". $pedidoId;
+                        sleep(1);
                         header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
                         ob_end_flush(); // Liberando as impressões na tela após o header para não impedir o redirecionamento
                         exit;
@@ -529,6 +501,15 @@ function alteraStatus($pedidoId,$novoStatusId){
             } else {
             ?>
                 ############# EM MODO DE TESTE ###############
+                
+        
+                <h3><br>Array obs Interna</h3>
+                <pre>
+                <?php
+                    print_r($observacoesArray);
+                ?>    
+                </pre>
+
 
                 <h3><br>Array itensPedido</h3>
                 <pre>
@@ -536,8 +517,8 @@ function alteraStatus($pedidoId,$novoStatusId){
                     print_r($itensPedido);
                 ?>
                 </pre>
-        
-                
+
+
                 <h3><br>Consulta produtos ID</h3>
                 <pre>
                 <?php
