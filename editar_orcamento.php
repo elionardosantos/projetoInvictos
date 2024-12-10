@@ -22,8 +22,17 @@
         if(isset($_GET['pedidoId'])){
             $dadosPedido = orderDataQuery($pedidoId);
         }
+
+
+        if(isset($dadosPedido['itens']) && $dadosPedido['itens'] !== ""){
+            foreach($dadosPedido['itens'] as $item){
+                $itensDoPedido[$item['codigo']] = "selected";
+            }
+            $_SESSION['itensPedido'] = $itensDoPedido;
+        }
+
+        print_r($_SESSION['itensPedido']);
         
-           
 
         $name = isset($dadosPedido['contato']['nome'])?$dadosPedido['contato']['nome']:"";
         $documento = isset($dadosPedido['contato']['numeroDocumento'])?$dadosPedido['contato']['numeroDocumento']:"";
@@ -119,7 +128,7 @@
     </div>
     
     <div class="container mt-4">
-        <form action="edita_orcamento_process.php" method="POST">
+        <form action="editar_orcamento_itens.php" method="POST">
 
             <div class="mt-4"><h4>Dados cadastrais</h4></div>
             <div class="row">
@@ -148,15 +157,15 @@
             <div class="row">
                 <div class="col-md-2">
                     <label for="cep" class="form-label mb-0 mt-2">CEP</label>
-                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cep" name="cep" placeholder="CEP" value="<?= isset($dadosCliente['cep'])?$dadosCliente['cep']:""; ?>">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cep" name="cep" placeholder="CEP" value="<?= isset($dadosCliente['endereco']['geral']['cep'])?$dadosCliente['endereco']['geral']['cep']:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="bairro" class="form-label mb-0 mt-2">Bairro</label>
-                    <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" value="<?= isset($dadosCliente['bairro'])?$dadosCliente['bairro']:""; ?>">
+                    <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" value="<?= isset($dadosCliente['endereco']['geral']['bairro'])?$dadosCliente['endereco']['geral']['bairro']:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="municipio" class="form-label mb-0 mt-2">Município</label>
-                    <input type="text" class="form-control" name="municipio" id="municipio" placeholder="Município" value="<?= isset($dadosCliente['municipio'])?$dadosCliente['municipio']:""; ?>">
+                    <input type="text" class="form-control" name="municipio" id="municipio" placeholder="Município" value="<?= isset($dadosCliente['endereco']['geral']['municipio'])?$dadosCliente['endereco']['geral']['municipio']:""; ?>">
                 </div>
                 <div class="col-md-2">
                     <label for="estado" class="form-label mb-0 mt-2">Estado</label>
@@ -174,7 +183,7 @@
                                 "SC", "SE", "TO"
                             ];
                             foreach($estados as $uf){
-                                if(isset($$dadosCliente['uf']) && $dadosCliente['uf'] === "$uf"){
+                                if(isset($dadosCliente['endereco']['geral']['uf']) && $dadosCliente['endereco']['geral']    ['uf'] === "$uf"){
                                     $selected = "selected";
                                 } else {
                                     $selected = "";
