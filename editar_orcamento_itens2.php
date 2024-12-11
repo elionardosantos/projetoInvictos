@@ -82,9 +82,6 @@ $_SESSION['larguraTotal'] = $larguraTotal;
 $_SESSION['alturaTotal'] = $alturaTotal;
 $_SESSION['rolo'] = $rolo;
 
-$itensPedido = $_SESSION['itensPedido'];
-
-// print_r($itensPedido);
 ?>
 
 <!DOCTYPE html>
@@ -151,7 +148,7 @@ if(isset($cliente)){
             
             echo "Quantidade: $quantidade / m²: $m2";
             $pesoTotalPorta = 0;
-
+            // print_r($_SESSION['itensPedido']);
 
             // Adicionando itens à array de produtos para enviar à página de processamento do orçamento (envio para o Bling)
             foreach($resultado as $row){
@@ -161,7 +158,16 @@ if(isset($cliente)){
                 $peso = isset($row['peso'])?floatVal(str_replace(",",".",$row['peso'])):null;
                 $tipoConsumo = isset($row['tipo_consumo'])?$row['tipo_consumo']:null;
                 $multiplicador = isset($row['multiplicador'])?$row['multiplicador']:null;
-                $selecionado = isset($itensPedido[$codigo]) && $itensPedido[$codigo] == "selected"?1:0;
+
+                // $selecionado = isset($row['selecionado'])?$row['selecionado']:null;
+
+                if(isset($codigo) && $codigo !== ""){
+                    if(isset($_SESSION['itensPedido'][$codigo]) && $_SESSION['itensPedido'][$codigo] == "selected"){
+                        $selecionado = 1;
+                    } else {
+                        $selecionado = 0;
+                    }
+                }
 
                 $pesoItem = null;
                 switch ($tipoConsumo) {
@@ -236,8 +242,6 @@ if(isset($cliente)){
                         $quantidadeItem = (1 * $row['multiplicador']) * $quantidade;
                         break;
                 }
-                
-                
                 $produtoParaArray['id'] = $row['id'];
                 $produtoParaArray['codigo'] = isset($row['codigo'])?$row['codigo']:"";
                 $produtoParaArray['titulo'] = $row['titulo'];
@@ -246,16 +250,15 @@ if(isset($cliente)){
                 $produtoParaArray['tipo_consumo'] = $row['tipo_consumo'];
                 $produtoParaArray['multiplicador'] = $row['multiplicador'];
                 
-                $produtoParaArray['selecionado'] = isset($itensPedido[$produtoParaArray['codigo']]) && $itensPedido[$produtoParaArray['codigo']] == "selected"?1:0;
+                // $produtoParaArray['selecionado'] = $row['selecionado'];
                 
-                // $produtoParaArray['id'] = $id;
-                // $produtoParaArray['selecionado'] = $selecionado;
-                // $produtoParaArray['codigo'] = $codigo;
-                // $produtoParaArray['titulo'] = $titulo;
-                // $produtoParaArray['quantidade_item'] = $quantidadeItem;
-                // $produtoParaArray['peso_item'] = $pesoItem;
-                // $produtoParaArray['tipo_consumo'] = $tipoConsumo;
-                // $produtoParaArray['multiplicador'] = $multiplicador;
+                if(isset($codigo) && $codigo !== ""){
+                    if(isset($_SESSION['itensPedido'][$codigo]) && $_SESSION['itensPedido'][$codigo] == "selected"){
+                        $produtoParaArray['selecionado'] = 1;
+                    } else {
+                        $produtoParaArray['selecionado'] = 0;
+                    }
+                }
 
                 $arrayComProdutos[$row['codigo']] = $produtoParaArray;
             }
@@ -267,7 +270,7 @@ if(isset($cliente)){
     
 </div>
 <div class="container">
-    <form method="post" action="novo_orcamento_process.php">
+    <form method="post" action="editar_orcamento_process.php">
         <table class="table table-hover table-sm">
             <thead>
                 <tr>

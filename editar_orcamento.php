@@ -31,7 +31,7 @@
             $_SESSION['itensPedido'] = $itensDoPedido;
         }
 
-        print_r($_SESSION['itensPedido']);
+        // print_r($_SESSION['itensPedido']);
         
 
         $name = isset($dadosPedido['contato']['nome'])?$dadosPedido['contato']['nome']:"";
