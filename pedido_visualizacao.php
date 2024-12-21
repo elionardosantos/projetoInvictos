@@ -100,7 +100,7 @@
                     $numero = isset($row['transporte']['etiqueta']['numero'])?$row['transporte']['etiqueta']['numero']:"";
                     $municipio = isset($row['transporte']['etiqueta']['municipio'])?$row['transporte']['etiqueta']['municipio']:"";
                     $uf = isset($row['transporte']['etiqueta']['uf'])?$row['transporte']['etiqueta']['uf']:"";
-                    $dataPedido = isset($row['data'])?date('d/m/Y',strtotime($row['data'])):"";
+                    $dataPedido = isset($row['data'])?$row['data']:"";
                 }
             }
         }
@@ -213,8 +213,8 @@
             </div>
         </div>
         <div class="row text-center">
-            <div class="col">Data do orçamento: <strong><?= isset($dataPedido)?$dataPedido:""; ?></strong></div>
-            <div class="col">Orçamento válido até: <strong><?= date('d/m/Y',strtotime($dataPedido.'+30 days')) ?></strong></div>
+            <div class="col">Data do orçamento: <strong><?= isset($dataPedido)?date('d/m/Y',strtotime($dataPedido)):""; ?></strong></div>
+            <div class="col">Orçamento válido até: <strong><?= isset($dataPedido)?date('d/m/Y',strtotime($dataPedido . '+1 month')):""; ?></strong></div>
         </div>
 
         <!-- Tabela de produtos -->
