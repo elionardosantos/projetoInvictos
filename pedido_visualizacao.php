@@ -71,7 +71,7 @@
                 <?php
                 curl_close($cURL);
             } else {
-                echo "<script>console.log($response)</script>";
+                // echo "<script>console.log($response)</script>";
                 global $numeroPedido;
                 global $totalProdutos;
                 global $totalPedido;

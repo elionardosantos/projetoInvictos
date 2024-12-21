@@ -46,6 +46,7 @@ $rolo = isset($_POST['rolo'])?floatval(str_replace(",",".",$_POST['rolo'])):"";
 
 $m2 = ($alturaTotal + $rolo) * $larguraTotal;
 
+// $_SESSION['pedidoId'] = isset($_GET['pedidoId'])?$_GET['pedidoId']:"";
 $_SESSION['contatoId'] = $contatoId;
 $_SESSION['cliente'] = $cliente;
 $_SESSION['documentoForm'] = $documentoForm;
@@ -267,7 +268,7 @@ if(isset($cliente)){
     
 </div>
 <div class="container">
-    <form method="post" action="novo_orcamento_process.php">
+    <form method="post" action="editar_orcamento_process.php">
         <table class="table table-hover table-sm">
             <thead>
                 <tr>

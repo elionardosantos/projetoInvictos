@@ -4,8 +4,7 @@ require('config/connection.php');
 date_default_timezone_set('America/Sao_Paulo');
 ob_start();
 
-$modoTeste = 0; // Habilita o modo de testes
-
+$pedidoId = $_SESSION['pedidoId'];
 $contatoId = isset($_SESSION['contatoId'])?$_SESSION['contatoId']:"";
 $cliente = isset($_SESSION['cliente'])?$_SESSION['cliente']:"";
 $documentoForm = isset($_SESSION['documentoForm'])?$_SESSION['documentoForm']:"";
@@ -41,6 +40,8 @@ $quantidade = isset($_SESSION['quantidade'])?$_SESSION['quantidade']:"";
 $larguraTotal = isset($_SESSION['larguraTotal'])?$_SESSION['larguraTotal']:"";
 $alturaTotal = isset($_SESSION['alturaTotal'])?$_SESSION['alturaTotal']:"";
 $rolo = isset($_SESSION['rolo'])?$_SESSION['rolo']:"";
+
+$numeroPedido = isset($_SESSION['numeroPedido'])?$_SESSION['numeroPedido']:"";
 
 $arrayComProdutos = isset($_SESSION['array_com_produtos'])?$_SESSION['array_com_produtos']:"";
 
@@ -128,153 +129,16 @@ function listaItensPedido($produtosSelecionados){
     
     return $listaItens;
 }    
-// $listaItens = [
-//     44=>[// PERFIL
-//         "produto"=>[
-//             "id"=>idItem(44),
-//         ],    
-//         "quantidade"=>$m2,
-//         "valor"=>precoItem(44),
-//         "peso"=>8.57,
-//     ]    
-// ];    
 
 $itensPedido = listaItensPedido($produtosSelecionados);
 
 
 // ###################### FUNCTIONS START ########################
 
-// Verifica se o ID de contato existe no Bling
-function consultaContatoId($contatoId){
-    if(isset($contatoId) && $contatoId !== ""){
-        $url = "https://api.bling.com.br/Api/v3/contatos/$contatoId";
-        $jsonFile = file_get_contents('config/token_request_response.json');
-        $jsonData = json_decode($jsonFile, true);
-        $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
-        $header = array(
-            "authorization: bearer " . $token
-        );
-        $cURL = curl_init($url);
-        curl_setopt($cURL, CURLOPT_URL, $url);
-        curl_setopt($cURL, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
-    
-        $response = curl_exec($cURL);
-        $data = json_decode($response, true);
-        
-        echo "<script>console.log('Consulta contato por ID')</script>";
-        echo "<script>console.log($response)</script>";
-        
-        if(isset($data['data']['id']) && $data['data']['id'] == $contatoId){
-            return true;
-        }else{
-            return false;
-        }
-
-    }
-}
-function consultaContatoDocumento($documento){
-    if(isset($documento) && $documento !== ""){
-        $url = "https://api.bling.com.br/Api/v3/contatos?numeroDocumento=$documento";
-        $jsonFile = file_get_contents('config/token_request_response.json');
-        $jsonData = json_decode($jsonFile, true);
-        $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
-        $header = array(
-        "authorization: bearer " . $token
-        );
-        $cURL = curl_init($url);
-        curl_setopt($cURL, CURLOPT_URL, $url);
-        curl_setopt($cURL, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
-        
-        $response = curl_exec($cURL);
-        $data = json_decode($response, true);
-        
-        echo "<script>console.log('Consulta contato por documento:')</script>";
-        echo "<script>console.log($response)</script>";
-        
-        if(isset($data['data']) && count($data['data']) == 1){
-            return $data['data'][0]['id'];
-        }else{
-            return false;
-        }
-    }
-}
-
-// Cria um novo contato
-function novoContato(){
-    global $cliente;
-    global $documento;
-    global $tel;
-    global $cel;
-    global $tipoPessoa;
-    global $email;
-    global $endereco;
-    global $bairro;
-    global $municipio;
-    global $estado;
-    global $numero;
-    global $cep;
-
-    if(isset($cliente) && $cliente !== ""){
-        $url = "https://api.bling.com.br/Api/v3/contatos";
-        $jsonFile = file_get_contents('config/token_request_response.json');
-        $jsonData = json_decode($jsonFile, true);
-        $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
-        $header = array(
-            "authorization: bearer " . $token,
-            "accept: application/json",
-            "Content-Type: application/json"
-        );
-        $data = [
-            "nome"=>$cliente,
-            "numeroDocumento"=>$documento,
-            "telefone"=>$tel,
-            "celular"=>$cel,
-            "tipo"=>$tipoPessoa,
-            "email"=>$email,
-            "situacao"=>"A",
-            "endereco"=>[
-                "geral"=>[
-                    "endereco"=>$endereco,
-                    "cep"=>$cep,
-                    "bairro"=>$bairro,
-                    "municipio"=>$municipio,
-                    "uf"=>$estado,
-                    "numero"=>$numero,
-                    // "complemento"=>$complemento,
-                ],
-            ],
-        ];
-    
-        $cURL = curl_init($url);
-        curl_setopt($cURL, CURLOPT_URL, $url);
-        curl_setopt($cURL, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($cURL, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($cURL);
-        $responseData = json_decode($response, true);
-    
-        echo "<script>console.log('Resultado da criação do contato')</script>";
-        echo "<script>console.log($response)</script>";
-        
-        if(isset($responseData['error']['type']) && $responseData['error']['type'] === "VALIDATION_ERROR"){
-            echo $responseData['error']['message']."<br>";
-            foreach($responseData['error']['fields'] as $field){
-                echo $field['msg']."<br>";
-            }
-        }else if(isset($responseData['data']['id'])){
-            return $responseData['data']['id'];
-        } else {
-            return false;
-        }
-
-    }
-};
-
-
 // CRIA UM NOVO PEDIDO
-function novoPedido(){
+function editaPedido(){
+    global $numeroPedido;
+    global $pedidoId;
     global $contatoId;
     global $itensPedido;
     global $observacoes;
@@ -288,6 +152,7 @@ function novoPedido(){
     global $cepServico;
     global $desconto;
     global $tipoDesconto;
+    global $postData;
 
     $url = "https://api.bling.com.br/Api/v3/pedidos/vendas";
     $jsonFile = file_get_contents('config/token_request_response.json');
@@ -300,6 +165,7 @@ function novoPedido(){
         "authorization: bearer " . $token
     ];
     $postData = [
+        "numero"=>$numeroPedido,
         "contato"=>[
             "id"=>$contatoId
         ],
@@ -327,17 +193,29 @@ function novoPedido(){
 
     $jsonPostData = json_encode($postData);
 
-    $cURL = curl_init($url);
-    curl_setopt($cURL, CURLOPT_URL, $url);
-    curl_setopt($cURL, CURLOPT_HTTPHEADER, $header);
-    curl_setopt($cURL, CURLOPT_POSTFIELDS, $jsonPostData);
-    curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+    $curl = curl_init();
 
-    $response = curl_exec($cURL);
-    echo "<script>console.log('Resultado da criação do pedido')</script>";
-    echo "<script>console.log($response)</script>";
-
+    curl_setopt_array($curl, 
+        array(
+            CURLOPT_URL => "https://api.bling.com.br/Api/v3/pedidos/vendas/$pedidoId",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS =>$jsonPostData,
+            CURLOPT_HTTPHEADER =>$header,
+        ),
+    );
+    
+    $response = curl_exec($curl);
     $responseData = json_decode($response, true);
+    
+    curl_close($curl);
+    // echo "<script>console.log('editaPedido')</script>";
+    // echo "<script>console.log($response)</script>";
 
     if(isset($responseData['error']['type']) && $responseData['error']['type'] === "VALIDATION_ERROR"){
         echo $responseData['error']['message']."<br>";
@@ -347,7 +225,6 @@ function novoPedido(){
 
     } else if (isset($responseData['data']['id']) && $responseData['data']['id'] !== ""){
         return $pedidoId = isset($responseData['data']['id'])?$responseData['data']['id']:"";
-        return true;
     } else {
         return false;
     }
@@ -375,8 +252,8 @@ function consultaProdutoId($listaProdutos){
         $response = curl_exec($cURL);
         $responseData = json_decode($response, true);
         
-        echo "<script>console.log('Consulta produtos')</script>";
-        echo "<script>console.log($response)</script>";
+        // echo "<script>console.log('Consulta produtos')</script>";
+        // echo "<script>console.log($response)</script>";
         
         if(isset($responseData['error']['type']) && $responseData['error']['type'] === "VALIDATION_ERROR"){
             echo "VALIDATION_ERROR";
@@ -425,15 +302,80 @@ function alteraStatus($pedidoId,$novoStatusId){
     curl_close($ch);
 
 }
+function editaContato(){
+    global $contatoId;
+    global $cliente;
+    global $documento;
+    global $tel;
+    global $cel;
+    global $tipoPessoa;
+    global $email;
+    global $endereco;
+    global $bairro;
+    global $municipio;
+    global $estado;
+    global $numero;
+    global $cep;
+
+    $jsonFile = file_get_contents('config/token_request_response.json');
+    $jsonData = json_decode($jsonFile, true);
+    $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+    $header = array(
+        "authorization: bearer " . $token,
+        "accept: application/json",
+        "Content-Type: application/json"
+    );
+    $codigoContato = $_SESSION['codigoContato'];
+    $data = [
+        "codigo"=>$codigoContato,
+        "nome"=>$cliente,
+        "numeroDocumento"=>$documento,
+        "telefone"=>$tel,
+        "celular"=>$cel,
+        "tipo"=>$tipoPessoa,
+        "email"=>$email,
+        "situacao"=>"A",
+        "endereco"=>[
+            "geral"=>[
+                "endereco"=>$endereco,
+                "cep"=>$cep,
+                "bairro"=>$bairro,
+                "municipio"=>$municipio,
+                "uf"=>$estado,
+                "numero"=>$numero
+            ],
+        ],
+    ];
+
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl,
+        array(
+            CURLOPT_URL => "https://api.bling.com.br/Api/v3/contatos/$contatoId",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_HTTPHEADER =>$header,
+            CURLOPT_POSTFIELDS =>json_encode($data),
+        )
+    );
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+    // echo "<script>console.log('editaContato')</script>";
+    // echo "<script>console.log($response)</script>";
+
+}
 
 // ################# FUNCTIONS END #########################
 
 
 ?>
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -444,95 +386,39 @@ function alteraStatus($pedidoId,$novoStatusId){
 <body>
     <?php
         require('partials/navbar.php');
-        die('Não implementado');
     ?>
     <!-- <div class="container mt-3">
         <h2>Orçamento</h2>
     </div> -->
     <div class="container mt-3">
         <?php
-            if($modoTeste == 0){// Chave geral que habilita/desabilita criação de pedidos para testes. 0 para testes
-                if(consultaContatoId($contatoId)){ // Verifica se o contato existe pelo ID
-                    if($pedidoId = novoPedido()){
-                        sleep(1);
-                        alteraStatus($pedidoId,447794);
-                        echo "Pedido criado com sucesso¹<br>";
-                        echo "ID do pedido: ". $pedidoId;
-                        sleep(1);
-                        header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
-                        ob_end_flush(); // Liberando as impressões na tela após o header para não impedir o redirecionamento
-                        exit;
-                    } else {
-                        // echo "Erro ao criar o pedido";
-                    }
+            if(1){// Modo de teste: 1 - produção / 0 - ambiente de teste
 
-                } elseif ($contatoId = consultaContatoDocumento($documento)) { // Verifica se o contato existe pelo Documento
-                    if($pedidoId = novoPedido()){
-                        sleep(1);
-                        alteraStatus($pedidoId,447794);
-                        echo "Pedido criado com sucesso²<br>";
-                        echo "ID do pedido: ". $pedidoId;
-                        sleep(1);
-                        header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
-                        ob_end_flush(); // Liberando as impressões na tela após o header para não impedir o redirecionamento
-                        exit;
-                    } else {
-                        // echo "Erro ao criar o pedido";
-                    }
-                } elseif ($contatoId = novoContato()){ // Se o contato não existir, um novo contato é criado
-                    if($pedidoId = novoPedido()){
-                        sleep(1);
-                        alteraStatus($pedidoId,447794);
-                        echo "Pedido criado com sucesso³<br>";
-                        echo "ID do pedido: ". $pedidoId;
-                        sleep(1);
-                        header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
-                        ob_end_flush(); // Liberando as impressões na tela após o header para não impedir o redirecionamento
-                        exit;
-                    } else {
-                        // echo "Erro ao criar o pedido";
-                    }
-                    
-                } else {
-                    echo "Houve um erro ao criar um novo contato. ";
-                    echo "O orçamento não foi criado.";
-                }
+                editaContato();
+                sleep(1);
+                editaPedido();
+                sleep(1);
+                header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
                 
             } else {
-            ?>
+        ?>
                 ############# EM MODO DE TESTE ###############
-                
-        
-                <h3><br>Array obs Interna</h3>
-                <pre>
-                <?php
-                    print_r($observacoesArray);
-                ?>    
-                </pre>
 
+                <pre><?php print_r($_SESSION); ?></pre>
+                
+                <h3><br>Array obs Interna</h3>
+                <pre><?php print_r($observacoesArray); ?></pre>
 
                 <h3><br>Array itensPedido</h3>
-                <pre>
-                <?php
-                    print_r($itensPedido);
-                ?>
-                </pre>
-
+                <pre><?php print_r($itensPedido); ?></pre>
 
                 <h3><br>Consulta produtos ID</h3>
-                <pre>
-                <?php
-                    print_r($consultaProdutos);
-                ?>    
-                </pre>
-
+                <pre><?php print_r($consultaProdutos); ?></pre>
 
                 <h3><br>arrayComProdutos</h3>
-                <pre>
-                <?php
-                    print_r($arrayComProdutos);
-                ?>    
-                </pre>
+                <pre><?php print_r($arrayComProdutos); ?></pre>
+                
+                
             <?php
             }
         ?>

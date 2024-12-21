@@ -20,6 +20,7 @@
         <?php
         $pedidoId = isset($_GET['pedidoId'])?$_GET['pedidoId']:"";
         if(isset($_GET['pedidoId'])){
+            $_SESSION['pedidoId'] = $_GET['pedidoId'];
             $dadosPedido = orderDataQuery($pedidoId);
         }
 
@@ -33,7 +34,8 @@
 
         // print_r($_SESSION['itensPedido']);
         
-
+        $_SESSION['numeroPedido'] = isset($dadosPedido['numero'])?$dadosPedido['numero']:"";
+        
         $name = isset($dadosPedido['contato']['nome'])?$dadosPedido['contato']['nome']:"";
         $documento = isset($dadosPedido['contato']['numeroDocumento'])?$dadosPedido['contato']['numeroDocumento']:"";
         $tipoPessoa = isset($dadosPedido['contato']['tipoPessoa'])?$dadosPedido['contato']['tipoPessoa']:"";
@@ -124,6 +126,8 @@
 
         
         $dadosCliente = consultaContatoId($contatoId);
+
+        $_SESSION['codigoContato'] = isset($dadosCliente['codigo'])?$dadosCliente['codigo']:"";
         ?>
     </div>
     
@@ -308,6 +312,9 @@
                 </div>
             </div>
             
+            <?php 
+                $dadosJsonObs = json_decode($observacoesInternas, true);
+            ?>
             <div class="mt-4"><h4>Dados adicionais</h4></div>
             <div class="row mb-3">
                 <div class="col-md-6">
@@ -316,13 +323,10 @@
                 </div>
                 <div class="col-md-6">
                     <label for="observacoesInternas" class="form-label mb-0 mt-2">Observações internas</label>
-                    <textarea type="text" class="form-control" rows="3" id="observacoesInternas" name="observacoesInternas" style="color: blue;" placeholder="Esta área é de uso interno, portanto não será impressa"><?= $observacoesInternas ?></textarea>
+                    <textarea type="text" class="form-control" rows="3" id="observacoesInternas" name="observacoesInternas" style="color: blue;" placeholder="Esta área é de uso interno, portanto não será impressa"><?= isset($dadosJsonObs['obs'])?$dadosJsonObs['obs']:"" ?></textarea>
                 </div>
             </div>
             
-            <?php 
-                $dadosPorta = json_decode($observacoesInternas, true);
-            ?>
             <div class="mt-4"><h4>Dados da instalação</h4></div>
             <div class="row">
                 <div class="col-md-3">
@@ -331,11 +335,11 @@
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="largura">Largura*</label>
-                    <input class="form-control" inputmode="numeric" name="largura" id="largura" value="<?= isset($dadosPorta['largura'])?$dadosPorta['largura']:"" ?>">
+                    <input class="form-control" inputmode="numeric" name="largura" id="largura" value="<?= isset($dadosJsonObs['largura'])?$dadosJsonObs['largura']:"" ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="altura">Altura*</label>
-                    <input class="form-control" inputmode="numeric" name="altura" id="altura" value="<?= isset($dadosPorta['altura'])?$dadosPorta['altura']:"" ?>">
+                    <input class="form-control" inputmode="numeric" name="altura" id="altura" value="<?= isset($dadosJsonObs['altura'])?$dadosJsonObs['altura']:"" ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="rolo">Rolo*</label>
@@ -370,10 +374,10 @@
                                 cidadeInput.value = data.localidade || "";
                                 estadoInput.value = data.uf || "";
 
-                                enderecoInput.disabled = true;
-                                bairroInput.disabled = true;
-                                cidadeInput.disabled = true;
-                                estadoInput.disabled = true;
+                                // enderecoInput.disabled = true;
+                                // bairroInput.disabled = true;
+                                // cidadeInput.disabled = true;
+                                // estadoInput.disabled = true;
 
                             } else {
                                 alert("CEP não encontrado.");
@@ -407,10 +411,10 @@
                                 cidadeServico.value = data.localidade || "";
                                 estadoServico.value = data.uf || "";
 
-                                enderecoServico.disabled = true;
-                                bairroServico.disabled = true;
-                                cidadeServico.disabled = true;
-                                estadoServico.disabled = true;
+                                // enderecoServico.disabled = true;
+                                // bairroServico.disabled = true;
+                                // cidadeServico.disabled = true;
+                                // estadoServico.disabled = true;
 
                             } else {
                                 alert("CEP não encontrado.");

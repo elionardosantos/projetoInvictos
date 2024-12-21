@@ -83,6 +83,7 @@
                 $email = isset($data['data']['email'])?$data['data']['email']:"";
                 $celular = isset($data['data']['celular'])?$data['data']['celular']:"";
                 $telefone = isset($data['data']['telefone'])?$data['data']['telefone']:"";
+                $_SESSION['codigoContato'] = isset($data['data']['codigo'])?$data['data']['codigo']:"";
             }
             function cnpjQuery() {
 
@@ -137,6 +138,9 @@
                     }
                 }
             }
+
+            
+            
         ?>
     </div>
     

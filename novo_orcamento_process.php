@@ -6,6 +6,7 @@ ob_start();
 
 $modoTeste = 0; // Habilita o modo de testes
 
+$codigoContato = isset($_SESSION['codigoContato'])?$_SESSION['codigoContato']:"";
 $contatoId = isset($_SESSION['contatoId'])?$_SESSION['contatoId']:"";
 $cliente = isset($_SESSION['cliente'])?$_SESSION['cliente']:"";
 $documentoForm = isset($_SESSION['documentoForm'])?$_SESSION['documentoForm']:"";
@@ -426,6 +427,75 @@ function alteraStatus($pedidoId,$novoStatusId){
 
 }
 
+function editaContato(){
+    global $contatoId;
+    global $cliente;
+    global $documento;
+    global $tel;
+    global $cel;
+    global $tipoPessoa;
+    global $email;
+    global $endereco;
+    global $bairro;
+    global $municipio;
+    global $estado;
+    global $numero;
+    global $cep;
+
+    $jsonFile = file_get_contents('config/token_request_response.json');
+    $jsonData = json_decode($jsonFile, true);
+    $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+    $header = array(
+        "authorization: bearer " . $token,
+        "accept: application/json",
+        "Content-Type: application/json"
+    );
+    $codigoContato = $_SESSION['codigoContato'];
+    $data = [
+        "codigo"=>$codigoContato,
+        "nome"=>$cliente,
+        "numeroDocumento"=>$documento,
+        "telefone"=>$tel,
+        "celular"=>$cel,
+        "tipo"=>$tipoPessoa,
+        "email"=>$email,
+        "situacao"=>"A",
+        "endereco"=>[
+            "geral"=>[
+                "endereco"=>$endereco,
+                "cep"=>$cep,
+                "bairro"=>$bairro,
+                "municipio"=>$municipio,
+                "uf"=>$estado,
+                "numero"=>$numero
+            ],
+        ],
+    ];
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl,
+        array(
+            CURLOPT_URL => "https://api.bling.com.br/Api/v3/contatos/$contatoId",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_HTTPHEADER =>$header,
+            CURLOPT_POSTFIELDS =>json_encode($data),
+        )
+    );
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+    // echo "<script>console.log('editaContato')</script>";
+    // echo "<script>console.log($response)</script>";
+}
+
+
 // ################# FUNCTIONS END #########################
 
 
@@ -453,6 +523,9 @@ function alteraStatus($pedidoId,$novoStatusId){
         <?php
             if($modoTeste == 0){// Chave geral que habilita/desabilita criação de pedidos para testes. 0 para testes
                 if(consultaContatoId($contatoId)){ // Verifica se o contato existe pelo ID
+                    sleep(1);
+                    editaContato();
+                    sleep(1);
                     if($pedidoId = novoPedido()){
                         sleep(1);
                         alteraStatus($pedidoId,447794);
