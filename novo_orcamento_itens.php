@@ -98,7 +98,8 @@ require('partials/navbar.php');
 if($alturaTotal !== "" && $larguraTotal !== ""){
     if($alturaTotal !== 0 && $larguraTotal !== 0){
         $sql = "SELECT * FROM produtos
-                WHERE altura_minima_porta <= $alturaTotal
+                WHERE deleted = 0
+                AND altura_minima_porta <= $alturaTotal
                 AND altura_maxima_porta > $alturaTotal
                 AND largura_minima_porta <= $larguraTotal
                 AND largura_maxima_porta > $larguraTotal
