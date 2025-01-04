@@ -33,8 +33,8 @@
         $pesoMaximo = floatval(str_replace(",",".",$pesoMaximoForm));
 
         //Lógica da página
-        if(consultaProdutoBling($codigoProduto)){
-            if(verificaReferenciaBD($codigoProduto) === "naoExiste"){
+        if(consultaProdutoBling($codigoProduto) == true){
+            if(verificaReferenciaBD($codigoProduto) == "naoExiste"){
                 novoProduto();
             }else{
                 $screenMessage = '<div class="alert alert-danger">Este produto já está cadastrado no sistema</div>';
@@ -46,21 +46,27 @@
         //Funções
         function verificaReferenciaBD($codigoProduto){
             require('config/connection.php');
-            $sql = "SELECT `codigo` FROM `produtos` WHERE `codigo` = :codigo";
+            $sql = "SELECT `codigo` FROM `produtos` WHERE `codigo` = :codigo AND `deleted` = :deleted";
             $stmt = $pdo->prepare($sql);
             $stmt->bindValue(':codigo', $codigoProduto);
+            $stmt->bindValue(':deleted', 0);
             $stmt->execute();
             
             $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // print_r($resultado);
 
-            if(count($resultado)>0){
+            if(isset($resultado[0]['codigo']) && $resultado[0]['codigo'] !== ""){
                 return "existe";
+
             } else {
                 return "naoExiste";
             }
         };
         
         function consultaProdutoBling($codigoProduto){
+            global $nomeProdutoBling;
+
             $url = "https://api.bling.com.br/Api/v3/produtos?codigos%5B%5D=$codigoProduto";
             $jsonFile = file_get_contents('config/token_request_response.json');
             $jsonData = json_decode($jsonFile, true);
@@ -77,21 +83,32 @@
             $responseData = json_decode($response, true);
             
             
-            if(isset($responseData['error']['type']) && $responseData['error']['type'] === "VALIDATION_ERROR"){
-                echo "VALIDATION_ERROR";
-            } else if (isset($responseData['data']) && $responseData['data'] !== ""){
-                if(count($responseData['data']) == 1){
-                    echo "<script>console.log('Consulta do produto')</script>";
-                    echo "<script>console.log($response)</script>";
-                    return true;
-                }
-            } else {
-                return "erro";
+            if(isset($responseData['error']['type']) && $responseData['error']['type'] == "invalid_token"){
+                require('controller/token_refresh.php');
+                // echo "<script>console.log('Token atualizado')</script>";
+                sleep(2);
+                return consultaProdutoBling($codigoProduto);
+
+            }
+            else if(isset($responseData['data']) && count($responseData['data']) == 1 && isset($responseData['data'][0]['codigo'])){
+                echo "<script>console.log('Consulta do produto')</script>";
+                echo "<script>console.log($response)</script>";
+                echo "<script>console.log('Returns true')</script>";
+                $nomeProdutoBling = $responseData['data'][0]['nome'];
+                return true;
+                
+            }
+            else {
+                echo "<script>console.log('Resposta da consulta:')</script>";
+                echo "<script>console.log($response)</script>";
+                // return "erro";
                 return false;
+
             }
         }
         
         function novoProduto(){
+            global $nomeProdutoBling;
             global $codigoProduto;
             global $titulo;
             global $peso;
@@ -105,6 +122,12 @@
             global $pesoMaximo;
             global $selecionado;
 
+            if(isset($titulo) && $titulo !== ""){
+                $nomeProduto = $titulo;
+            } else {
+                $nomeProduto = $nomeProdutoBling;
+            }
+
             $created_by = $_SESSION['loggedUserId'];
             date_default_timezone_set('America/Sao_Paulo');
             $created_at = date('Y-m-d H:i:s');
@@ -117,7 +140,7 @@
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindValue(':id', null);
                 $stmt->bindValue(':codigo', $codigoProduto);
-                $stmt->bindValue(':titulo', $titulo);
+                $stmt->bindValue(':titulo', $nomeProduto);
                 $stmt->bindValue(':peso', $peso);
                 $stmt->bindValue(':tipo_consumo', $consumo);
                 $stmt->bindValue(':multiplicador', $multiplicador);
