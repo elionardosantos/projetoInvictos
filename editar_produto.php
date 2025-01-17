@@ -111,7 +111,14 @@
                 <h4>Outro</h4>
             </div>
             <div class="row">
-                <div class="col-lg-2 mt-2">
+                <div class="col-lg-3 mt-2">
+                    <label for="statusProduto" class="form-label mb-0">Status</label>
+                    <select name="statusProduto" id="statusProduto" class="form-select">
+                        <option <?= isset($produto['statusProduto']) && $produto['statusProduto'] == "1"?"selected":"" ?> value="1">1 - Ativo</option>
+                        <option <?= isset($produto['statusProduto']) && $produto['statusProduto'] == "0"?"selected":"" ?> value="0">0 - Inativo</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 mt-2">
                     <label for="selecionado" class="form-label mb-0">Selecionado no orçamento</label>
                     <select name="selecionado" id="selecionado" class="form-select">
                         <option <?= $produto['selecionado'] == "1"?"selected":"" ?> value="1">1 - Sim</option>

@@ -10,6 +10,7 @@
         require('partials/navbar.php');
         require('config/connection.php');
 
+        // Dados vindos diretamente do formulário e sem tratamento
         $idProduto = isset($_POST['id_produto'])?$_POST['id_produto']:"";
         $pesoForm = isset($_POST['peso_produto'])?$_POST['peso_produto']:"";
         $multiplicadorForm = isset($_POST['multiplicador_produto'])?$_POST['multiplicador_produto']:"";
@@ -20,6 +21,7 @@
         $pesoMinimoForm = isset($_POST['peso_minimo'])?$_POST['peso_minimo']:"";
         $pesoMaximoForm = isset($_POST['peso_maximo'])?$_POST['peso_maximo']:"";
         
+        // Variaveis com o tratamento dos dados realizado
         $codigoProduto = isset($_POST['codigo_produto'])?$_POST['codigo_produto']:"";
         $titulo = isset($_POST['titulo_produto'])?$_POST['titulo_produto']:"";
         $peso = $pesoForm !== ""?floatval(str_replace(",",".",$pesoForm)):null;
@@ -32,6 +34,7 @@
         $pesoMinimo = $pesoMinimoForm !== ""?floatval(str_replace(",",".",$pesoMinimoForm)):null;
         $pesoMaximo = $pesoMaximoForm !== ""?floatval(str_replace(",",".",$pesoMaximoForm)):null;
         $selecionado = isset($_POST['selecionado'])?$_POST['selecionado']:"";
+        echo "Status produto: ".$statusProduto = isset($_POST['statusProduto']) && $_POST['statusProduto'] !== "" ? $_POST['statusProduto'] : null;
 
         //Lógica da página
         if(consultaProdutoBling($codigoProduto)){
@@ -103,6 +106,9 @@
             global $pesoMinimo;
             global $pesoMaximo;
             global $selecionado;
+            global $statusProduto;
+
+            print_r($statusProduto);
 
             $updated_by = $_SESSION['loggedUserId'];
             date_default_timezone_set('America/Sao_Paulo');
@@ -124,6 +130,7 @@
                             `peso_minimo_porta` = :peso_minimo_porta,
                             `peso_maximo_porta` = :peso_maximo_porta,
                             `selecionado` = :selecionado,
+                            `ativo` = :ativo,
                             `deleted` = :deleted,
                             `updated_by` = :updated_by,
                             `updated_at` = :updated_at
@@ -143,6 +150,7 @@
                 $stmt->bindValue(':peso_minimo_porta', $pesoMinimo);
                 $stmt->bindValue(':peso_maximo_porta', $pesoMaximo);
                 $stmt->bindValue(':selecionado', $selecionado);
+                $stmt->bindValue(':ativo', $statusProduto);
                 $stmt->bindValue(':deleted', 0);
                 $stmt->bindValue(':updated_by', $updated_by);
                 $stmt->bindValue(':updated_at', $updated_at);
