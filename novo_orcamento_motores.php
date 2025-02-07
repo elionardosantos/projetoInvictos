@@ -103,7 +103,6 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
                 AND altura_maxima_porta > $alturaTotal
                 AND largura_minima_porta <= $larguraTotal
                 AND largura_maxima_porta > $larguraTotal
-                AND ativo = 1;
                 ";
                 // AND peso_minimo <= $peso
                 // AND peso_maximo > $peso
@@ -262,7 +261,7 @@ if(isset($cliente)){
     
 </div>
 <div class="container">
-    <form method="post" action="novo_orcamento_process.php">
+    <form method="post" action="novo_orcamento_motores.php">
         <table class="table table-hover table-sm">
             <thead>
                 <tr>
@@ -320,6 +319,8 @@ if(isset($cliente)){
                                 <?php
                             }
                         }
+
+                        /*
                         foreach($arrayComProdutos as $produto){
                             if($produto['selecionado'] == 0){
                                 ?>
@@ -363,6 +364,8 @@ if(isset($cliente)){
                                 <?php
                             }
                         }
+                        */
+
                     ?>
                 </tbody>
         </table>

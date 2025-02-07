@@ -53,8 +53,7 @@
             curl_close($cURL);
             $jsonData = json_decode($response, true);
 
-            // echo "<p>$response</p>";
-            // print_r($jsonData['data']['itens']);
+            echo "<script>console.log(".$response.")</script>";
             
             //verify and refresh token
             if(isset($data['error']['type']) && $data['error']['type'] === "invalid_token"){

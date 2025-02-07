@@ -1,9 +1,9 @@
 <?php
 //######## MySql database ########
-$host = 'localhost';
-$dbname = 'invictos';
-$username = 'root';
-$password = '';
+$host = 'sistema.invictosportas.com';
+$dbname = 'u259249748_sistema';
+$username = 'u259249748_invictosportas';
+$password = 'bsnw-WU$2Ny$%xr';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

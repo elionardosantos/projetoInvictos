@@ -152,7 +152,7 @@
                         $stmt->bindValue(':tipo_consumo',$tipoConsumo);
                     };
                     
-
+                    
                     $stmt->execute();
                     $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
@@ -169,7 +169,7 @@
                         $larguraMaxima = isset($row['largura_maxima_porta'])?$row['largura_maxima_porta']:"";
                         $pesoMinimo = isset($row['peso_minimo_porta'])?$row['peso_minimo_porta']:"";
                         $pesoMaximo = isset($row['peso_maximo_porta'])?$row['peso_maximo_porta']:"";
-                        $ativo = isset($row['ativo']) && $row['ativo'] === 1?"Ativo":"Inativo";
+                        $ativo = isset($row['ativo']) && $row['ativo'] == 1?"Ativo":"Inativo";
                         $selecionado = isset($row['selecionado']) && $row['selecionado'] === 1?"Sim":"Não";
 
 

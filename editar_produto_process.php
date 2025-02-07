@@ -34,7 +34,7 @@
         $pesoMinimo = $pesoMinimoForm !== ""?floatval(str_replace(",",".",$pesoMinimoForm)):null;
         $pesoMaximo = $pesoMaximoForm !== ""?floatval(str_replace(",",".",$pesoMaximoForm)):null;
         $selecionado = isset($_POST['selecionado'])?$_POST['selecionado']:"";
-        echo "Status produto: ".$statusProduto = isset($_POST['statusProduto']) && $_POST['statusProduto'] !== "" ? $_POST['statusProduto'] : null;
+        $statusProduto = isset($_POST['statusProduto']) && $_POST['statusProduto'] !== "" ? $_POST['statusProduto'] : null;
 
         //Lógica da página
         if(consultaProdutoBling($codigoProduto)){
@@ -90,6 +90,7 @@
                 return false;
             }
         }
+
         
         function atualizaProduto($idProduto){
             
@@ -108,7 +109,7 @@
             global $selecionado;
             global $statusProduto;
 
-            print_r($statusProduto);
+            // print_r($statusProduto);
 
             $updated_by = $_SESSION['loggedUserId'];
             date_default_timezone_set('America/Sao_Paulo');
@@ -168,6 +169,7 @@
             }
 
         }
+
 
     ?>
     <div class="container">

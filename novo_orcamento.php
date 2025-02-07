@@ -222,13 +222,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                    <label for="tabelaPreco" class="form-label mb-0 mt-2">Tabela</label>
-                    <select class="form-select" id="tabelaPreco" name="tabelaPreco">
-                        <option value="consumidor-final" selected>Consumidor final</option>
-                        <option value="serralheiro" >Serralheiro</option>
-                    </select>
-                </div>
                 <div class="col-md-3">
                     <label for="condicaoPagamento" class="form-label mb-0 mt-2">Condição de Pagto</label>
                     <select class="form-select" id="condicaoPagamento" name="condicaoPagamento">
@@ -251,6 +244,13 @@
                         <option value="PERCENTUAL">%</option>
                     </select>
                 </div>
+                <!-- <div class="col-md-4">
+                    <label for="tabelaPreco" class="form-label mb-0 mt-2">Desconto/Acrescimo</label>
+                    <select class="form-select" id="tabelaPreco" name="tabelaPreco">
+                        <option value="desconto" selected>Desconto</option>
+                        <option value="acrescimo" >Acréscimo</option>
+                    </select>
+                </div> -->
             </div>
             
             <div class="mt-4"><h4>Contato</h4></div>

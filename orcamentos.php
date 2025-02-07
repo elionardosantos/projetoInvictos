@@ -178,7 +178,7 @@
                         <?php
                     }
                 
-                    // echo "<p>".$response."</p>";
+                    echo "<script>console.log(".$response.")</script>";
                 }
             ?>
             
