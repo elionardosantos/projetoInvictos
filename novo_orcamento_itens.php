@@ -201,6 +201,7 @@ if(isset($cliente)){
             // nada aqui...
         }
 
+        /*
         // Consultando produtos por peso no banco de dados
         $sql = "SELECT * FROM produtos
             WHERE peso_minimo_porta <= $pesoTotalPorta
@@ -258,11 +259,13 @@ if(isset($cliente)){
             // nada aqui...
         }
         // print_r($arrayComProdutos);
+        */
     ?>
+
     
 </div>
 <div class="container">
-    <form method="post" action="novo_orcamento_process.php">
+    <form method="post" action="novo_orcamento_motores.php">
         <table class="table table-hover table-sm">
             <thead>
                 <tr>
@@ -320,6 +323,7 @@ if(isset($cliente)){
                                 <?php
                             }
                         }
+                        /*
                         foreach($arrayComProdutos as $produto){
                             if($produto['selecionado'] == 0){
                                 ?>
@@ -363,6 +367,7 @@ if(isset($cliente)){
                                 <?php
                             }
                         }
+                        */
                     ?>
                 </tbody>
         </table>

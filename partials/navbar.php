@@ -16,8 +16,14 @@
           <li class="nav-item">
             <a class="nav-link" href="orcamentos.php">Orçamentos</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="produtos.php">Produtos</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Cadastro
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="produtos.php">Produtos</a></li>
+              <li><a class="dropdown-item" href="motores.php">Motores</a>
+            </ul>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="consulta_cnpj_visualizacao.php">Consultar CNPJ</a>
@@ -30,10 +36,11 @@
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Configurações
               </a>
-            <ul class="dropdown-menu dropdown-menu-dark">
-              <li><a class="dropdown-item" href="listar_usuarios.php">Usuários</a></li>
-              <li><a class="dropdown-item" href="editar_credenciais.php">Credenciais Bling</a></li>
-            </ul>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="listar_usuarios.php">Usuários</a></li>
+                <li><a class="dropdown-item" href="editar_credenciais.php">Credenciais Bling</a>
+              </ul>
+            </li>
           <?php 
             }
           ?>
