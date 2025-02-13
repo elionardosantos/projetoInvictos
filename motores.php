@@ -10,7 +10,7 @@
         require('partials/navbar.php');
     ?>
     <div class="container my-3">
-        <h2>Produtos</h2>
+        <h2>Motores</h2>
     </div>
     <div class="container mb-4">
         <form action="" method="get">
@@ -44,7 +44,7 @@
             <div class="row mt-4">
                 <div class="col">
                     <input type="submit" value="Buscar" class="btn btn-primary">
-                    <a href="novo_produto.php" class="btn btn-primary ms-2" role="button">Novo Produto</a>
+                    <a href="novo_motor.php" class="btn btn-primary ms-2" role="button">Cadastrar Novo</a>
                 </div>
             </div>
         </form>

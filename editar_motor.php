@@ -95,7 +95,7 @@
                 <button type="button" class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteQuest">
                     Apagar
                 </button>
-                <a href="produtos.php" class="btn btn-primary">Voltar</a>
+                <a href="motores.php" class="btn btn-primary">Voltar</a>
             </div>
         </form>
     </div>
@@ -114,7 +114,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <a href="apagar_produto_process.php?id=<?= $produtoId; ?>">
+                            <a href="apagar_motor_process.php?id=<?= $produtoId; ?>">
                                 <button type="button" class="btn btn-danger">Sim</button>
                             </a>
                         </div>
