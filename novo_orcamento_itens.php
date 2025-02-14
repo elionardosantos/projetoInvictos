@@ -4,21 +4,21 @@ require('config/connection.php');
 date_default_timezone_set('America/Sao_Paulo');
 
 // Dados do contato
-$contatoId = isset($_POST['contatoId'])?$_POST['contatoId']:"";
-$cliente = isset($_POST['cliente'])?$_POST['cliente']:"";
-$documentoForm = isset($_POST['documento'])?$_POST['documento']:"";
-$documento = preg_replace("/[^0-9]/", "", $documentoForm); //deixando somente números
-$tipoPessoa = isset($_POST['tipoPessoa'])?$_POST['tipoPessoa']:"";
-$endereco = isset($_POST['endereco'])?$_POST['endereco']:"";
-$numero = isset($_POST['numero'])?$_POST['numero']:"";
-$bairro = isset($_POST['bairro'])?$_POST['bairro']:"";
-$municipio = isset($_POST['municipio'])?$_POST['municipio']:"";
-$estado = isset($_POST['estado'])?$_POST['estado']:"";
-$tabelaPreco = isset($_POST['tabelaPreco'])?$_POST['tabelaPreco']:"";
-$condicaoPagamento = isset($_POST['condicaoPagamento'])?$_POST['condicaoPagamento']:"";
-$cep = isset($_POST['cep'])?$_POST['cep']:"";
-$desconto = isset($_POST['desconto'])?$_POST['desconto']:"";
-$tipoDesconto = isset($_POST['tipoDesconto'])?$_POST['tipoDesconto']:"";
+$contatoId = isset($_POST['contatoId'])?$_POST['contatoId']:(isset($_SESSION['contatoId'])?$_SESSION['contatoId']:null);
+$cliente = isset($_POST['cliente'])?$_POST['cliente']:(isset($_SESSION['cliente'])?$_SESSION['cliente']:null);
+$documentoForm = isset($_POST['documento'])?$_POST['documento']:(isset($_SESSION['documentoForm'])?$_SESSION['documentoForm']:null);
+$documento = preg_replace("/[^0-9]/", "", $documentoForm); //deixisset(a$_SESSION(['documento'])?a$_SESSION['documento']:nullo somente números)
+$tipoPessoa = isset($_POST['tipoPessoa'])?$_POST['tipoPessoa']:(isset($_SESSION['tipoPessoa'])?$_SESSION['tipoPessoa']:null);
+$endereco = isset($_POST['endereco'])?$_POST['endereco']:(isset($_SESSION['endereco'])?$_SESSION['endereco']:null);
+$numero = isset($_POST['numero'])?$_POST['numero']:(isset($_SESSION['numero'])?$_SESSION['numero']:null);
+$bairro = isset($_POST['bairro'])?$_POST['bairro']:(isset($_SESSION['bairro'])?$_SESSION['bairro']:null);
+$municipio = isset($_POST['municipio'])?$_POST['municipio']:(isset($_SESSION['municipio'])?$_SESSION['municipio']:null);
+$estado = isset($_POST['estado'])?$_POST['estado']:(isset($_SESSION['estado'])?$_SESSION['estado']:null);
+$tabelaPreco = isset($_POST['tabelaPreco'])?$_POST['tabelaPreco']:(isset($_SESSION['tabelaPreco'])?$_SESSION['tabelaPreco']:null);
+$condicaoPagamento = isset($_POST['condicaoPagamento'])?$_POST['condicaoPagamento']:(isset($_SESSION['condicaoPagamento'])?$_SESSION['condicaoPagamento']:null);
+$cep = isset($_POST['cep'])?$_POST['cep']:(isset($_SESSION['cep'])?$_SESSION['cep']:null);
+$desconto = isset($_POST['desconto'])?$_POST['desconto']:(isset($_SESSION['desconto'])?$_SESSION['desconto']:null);
+$tipoDesconto = isset($_POST['tipoDesconto'])?$_POST['tipoDesconto']:(isset($_SESSION['tipoDesconto'])?$_SESSION['tipoDesconto']:null);
 
 // Dados de contato
 $tel = isset($_POST['tel'])?$_POST['tel']:"";
@@ -39,28 +39,33 @@ $estadoServico = isset($_POST['estadoServico'])?$_POST['estadoServico']:"";
 $cepServico = isset($_POST['cepServico'])?$_POST['cepServico']:"";
 
 // Dados da instalação
-$quantidade = isset($_POST['quantidade'])?floatval(str_replace(",",".",$_POST['quantidade'])):"";
-$larguraTotal = isset($_POST['largura'])?floatval(str_replace(",",".",$_POST['largura'])):"";
-$alturaTotal = isset($_POST['altura'])?floatval(str_replace(",",".",$_POST['altura'])):"";
-$rolo = isset($_POST['rolo'])?floatval(str_replace(",",".",$_POST['rolo'])):"";
+$quantidade = isset($_POST['quantidade'])?floatval(str_replace(",",".",$_POST['quantidade'])):$_SESSION['quantidade'];
+$larguraTotal = isset($_POST['largura'])?floatval(str_replace(",",".",$_POST['largura'])):$_SESSION['larguraTotal'];
+$alturaTotal = isset($_POST['altura'])?floatval(str_replace(",",".",$_POST['altura'])):$_SESSION['alturaTotal'];
+$rolo = isset($_POST['rolo'])?floatval(str_replace(",",".",$_POST['rolo'])):$_SESSION['rolo'];
 
-$m2 = ($alturaTotal + $rolo) * $larguraTotal;
+if($alturaTotal !== "" && $larguraTotal !== ""){
+    $m2 = ($alturaTotal + $rolo) * $larguraTotal;
+    $_SESSION['m2'] = $m2;
+} else {
+    isset($_SESSION['m2'])?$m2 = $_SESSION['m2']:"";
+}
 
-$_SESSION['contatoId'] = $contatoId;
-$_SESSION['cliente'] = $cliente;
-$_SESSION['documentoForm'] = $documentoForm;
-$_SESSION['documento'] = $documento;
-$_SESSION['tipoPessoa'] = $tipoPessoa;
-$_SESSION['endereco'] = $endereco;
-$_SESSION['numero'] = $numero;
-$_SESSION['bairro'] = $bairro;
-$_SESSION['municipio'] = $municipio;
-$_SESSION['estado'] = $estado;
-$_SESSION['tabelaPreco'] = $tabelaPreco;
-$_SESSION['condicaoPagamento'] = $condicaoPagamento;
-$_SESSION['cep'] = $cep;
-$_SESSION['desconto'] = $desconto;
-$_SESSION['tipoDesconto'] = $tipoDesconto;
+isset($contatoId)?$_SESSION['contatoId'] = $contatoId:null;
+isset($cliente)?$_SESSION['cliente'] = $cliente:null;
+isset($documentoForm)?$_SESSION['documentoForm'] = $documentoForm:null;
+isset($documento)?$_SESSION['documento'] = $documento:null;
+isset($tipoPessoa)?$_SESSION['tipoPessoa'] = $tipoPessoa:null;
+isset($endereco)?$_SESSION['endereco'] = $endereco:null;
+isset($numero)?$_SESSION['numero'] = $numero:null;
+isset($bairro)?$_SESSION['bairro'] = $bairro:null;
+isset($municipio)?$_SESSION['municipio'] = $municipio:null;
+isset($estado)?$_SESSION['estado'] = $estado:null;
+isset($tabelaPreco)?$_SESSION['tabelaPreco'] = $tabelaPreco:null;
+isset($condicaoPagamento)?$_SESSION['condicaoPagamento'] = $condicaoPagamento:null;
+isset($cep)?$_SESSION['cep'] = $cep:null;
+isset($desconto)?$_SESSION['desconto'] = $desconto:null;
+isset($tipoDesconto)?$_SESSION['tipoDesconto'] = $tipoDesconto:null;
 
 $_SESSION['tel'] = $tel;
 $_SESSION['cel'] = $cel;
@@ -119,7 +124,7 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
         echo "Dimensões inválidas";
     }
 } else {
-    echo "Preencha as dimensões";
+    $resultado = $_SESSION['array_com_produtos'];
 }
 
 // Exibir nome do cliente na tela de seleção de itens
@@ -280,48 +285,51 @@ if(isset($cliente)){
                 <tbody>
                     <?php
                         // Duas querys para separar os selecionados dos não selecionados
-                        foreach($arrayComProdutos as $produto){
-                            if($produto['selecionado'] == 1){
-                                ?>
-                                <tr>
-                                    <td>
-                                        <input 
-                                        class="form-check-input" 
-                                        type="checkbox"
-                                        name="produtosSelecionados[]"
-                                        value="<?= $produto['codigo'] ?>" 
-                                        <?= $produto['selecionado'] == 1 ? "checked" : null ?>
-                                        id="<?= "codigo".$produto['codigo'] ?>"
-                                        >
-                                    </td>
-                                    <td>
-                                        <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                            <?= $produto['codigo'] ?>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                            <?= $produto['titulo'] ?>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                            <?= $produto['quantidade_item'] ?>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                            <?= $produto['peso_item'] ?>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                            <?= $produto['tipo_consumo'] ?>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <?php
+                        if(isset($arrayComProdutos)){
+                            foreach($arrayComProdutos as $produto){
+                                if($produto['selecionado'] == 1){
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <input 
+                                            class="form-check-input" 
+                                            type="checkbox"
+                                            name="produtosSelecionados[]"
+                                            value="<?= $produto['codigo'] ?>" 
+                                            <?= $produto['selecionado'] == 1 ? "checked" : null ?>
+                                            id="<?= "codigo".$produto['codigo'] ?>"
+                                            >
+                                        </td>
+                                        <td>
+                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                                <?= $produto['codigo'] ?>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                                <?= $produto['titulo'] ?>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                                <?= $produto['quantidade_item'] ?>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                                <?= $produto['peso_item'] ?>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                                <?= $produto['tipo_consumo'] ?>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
                             }
+
                         }
                         /*
                         foreach($arrayComProdutos as $produto){
@@ -372,7 +380,10 @@ if(isset($cliente)){
                 </tbody>
         </table>
         <?php
+        if(isset($arrayComProdutos)){
             $_SESSION['array_com_produtos'] = $arrayComProdutos;
+
+        }
             // echo "<pre>";
             // print_r($arrayComProdutos);
         ?>

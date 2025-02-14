@@ -12,13 +12,18 @@ require('config/connection.php');
 <body>
 <?php
     require('partials/navbar.php');
+    
+    if(isset($_SESSION['array_com_produtos'])){
 
-echo '<p>###########################################</p>';
-
-echo '<pre>';
-print_r($_SESSION);
-echo '</pre>';
-
+    }
 ?>
+
+<p><a href="novo_orcamento_itens.php">Voltar para itens</a></p>
+---------------------------- Conteúdo do $_SESSION ----------------------------
+<pre>
+<?php print_r($_SESSION); ?>
+</pre>
+
+
 </body>
 </html>

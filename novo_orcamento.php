@@ -345,11 +345,11 @@
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="largura">Largura*</label>
-                    <input class="form-control" inputmode="numeric" name="largura" id="largura">
+                    <input class="form-control" inputmode="numeric" name="largura" id="largura" required>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="altura">Altura*</label>
-                    <input class="form-control" inputmode="numeric" name="altura" id="altura">
+                    <input class="form-control" inputmode="numeric" name="altura" id="altura" required>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-0 mt-2" for="rolo">Rolo*</label>
