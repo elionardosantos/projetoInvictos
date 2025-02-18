@@ -16,15 +16,6 @@
           <li class="nav-item">
             <a class="nav-link" href="orcamentos.php">Orçamentos</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Cadastro
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark">
-              <li><a class="dropdown-item" href="produtos.php">Produtos</a></li>
-              <li><a class="dropdown-item" href="motores.php">Motores</a>
-            </ul>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="consulta_cnpj_visualizacao.php">Consultar CNPJ</a>
           </li>
@@ -32,6 +23,16 @@
           // Esta área será exibida somente para os administradores do sistema
           if($_SESSION['loggedUserLevel'] > 1){
           ?>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Cadastro
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="produtos.php">Produtos</a></li>
+                <li><a class="dropdown-item" href="categorias.php">Categorias</a></li>
+                <li><a class="dropdown-item" href="motores.php">Motores</a>
+              </ul>
+            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Configurações

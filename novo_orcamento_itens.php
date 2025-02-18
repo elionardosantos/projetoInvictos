@@ -99,6 +99,8 @@ $_SESSION['rolo'] = $rolo;
 <?php
 require('partials/navbar.php');
 
+
+
 // Buscando produtos de acordo com os parametros de largura e altura
 if($alturaTotal !== "" && $larguraTotal !== ""){
     if($alturaTotal !== 0 && $larguraTotal !== 0){
@@ -206,6 +208,13 @@ if(isset($cliente)){
             // nada aqui...
         }
 
+        ?>
+        <div class="my-3">
+            <a class="btn btn-primary" href="novo_orcamento_edita_itens.php">Editar itens</a>
+        </div>
+
+        <?php
+
         /*
         // Consultando produtos por peso no banco de dados
         $sql = "SELECT * FROM produtos
@@ -280,6 +289,7 @@ if(isset($cliente)){
                     <th>Quantidade</th>
                     <th>Peso</th>
                     <th>Consumo</th>
+                    <th>Ação</th>
                 </tr>
             </thead>
                 <tbody>
@@ -324,6 +334,9 @@ if(isset($cliente)){
                                             <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
                                                 <?= $produto['tipo_consumo'] ?>
                                             </label>
+                                        </td>
+                                        <td>
+                                            <a href="<?= "novo_orcamento_edita_itens.php?codigo=".$produto['codigo'] ?>" class="btn btn-primary btn-sm">Editar</a>
                                         </td>
                                     </tr>
                                     <?php

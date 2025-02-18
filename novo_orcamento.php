@@ -115,6 +115,8 @@
                         global $state;
                         global $tipoPessoa;
                         global $zip;
+                        global $inscricaoEstadual;
+                        
 
                         $tipoPessoa = "J";
                         $updated = new DateTime($data->updated);

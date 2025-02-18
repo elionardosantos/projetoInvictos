@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Novo Produto</title>
+    <title>Novo Motor</title>
 </head>
 <body>
     <?php
@@ -12,7 +12,7 @@
     ?>
     <div class="container my-3">
         <h2>
-            Novo produto
+            Novo motor
         </h2>
     </div>
     <div class="container">
