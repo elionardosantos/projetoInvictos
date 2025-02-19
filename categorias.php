@@ -7,8 +7,8 @@
 <body>
     <?php
         require('controller/login_checker.php');
-        require('controller/only_level_2.php');
         require('partials/navbar.php');
+        require('controller/only_level_2.php');
     ?>
     <div class="container my-3">
         <h2>Categorias</h2>
@@ -16,11 +16,61 @@
     <div class="container my-3">
         <a href="nova_categoria.php" class="btn btn-primary" role="button">Cadastrar nova categoria</a>
     </div>
+    <div class="container my-3">
+        
+        <?php 
 
+            usersListing();
+            
+            function usersListing() {
+                require('config/connection.php');
 
+                $sql = "SELECT `id`,`name`,`ativo` FROM `categorias_produtos` WHERE `deleted` = :deleted";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':deleted', 0);
+                $stmt->execute();
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        ?>
+                <div>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <?php
+                                    if($result) {
 
-
-    
+                                        foreach($result as $row) {
+                                            $categId = $row['id'];
+                                            $categName = $row['name'];
+                                            $categAtivo = $row['ativo'];
+                                            
+                                            echo "<tr>";
+                                            echo "<td>$categId</td>";
+                                            echo "<td>$categName</td>";
+                                            echo "<td>$categAtivo</td>";
+                                            echo "<td><a href=\"editar_categoria.php?id=$categId\" class=\"btn btn-primary btn-sm\">Editar</a></td>";
+                                            echo "</tr>";
+                                        }
+                                    }
+                                        
+                                ?>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        <?php
+        
+            }
+            
+        ?>
+    </div>
 </body>
 </html>

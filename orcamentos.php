@@ -100,7 +100,7 @@
                     }else if(isset($jsonData['data']) && $jsonData['data'] == null) {
                         echo "<hr><p>Nenhum pedido encontrado baseado nos filtros atuais</p>";
                         // echo $jsonData;
-                    }else if(count($jsonData['data']) > 0){
+                    }else if(isset($jsonData['data']) && count($jsonData['data']) > 0){
                         return $jsonData;
                     } else {
                         echo "<script>console.log('Nenhum status encontrado')</script>";
@@ -148,28 +148,32 @@
                                     <tbody>
                                         <?php
                                             // /situacoes/modulos/
-                                            foreach($data['data'] as $row){
-                                                global $situacoes;
-                                                $pedidoId = $row['id'];
-
-                                                //Abrir o orçamento em uma nova guia ao clincar na linha do pedido
-                                                echo "<tr onclick=\"window.location.href='pedido_visualizacao.php?pedidoId=$pedidoId'; return false;\" style=\"cursor: pointer;\">";
-                                                
-                                                echo "<td>" . $row['numero'] . "</td>";
-                                                echo "<td>" . date('d/m/Y', strtotime($row['data'])) . "</td>";
-                                                echo "<td>" . $row['contato']['nome'] . "</td>";
-                                                echo "<td>R$" . number_format($row['total'], 2, ',', '.') . "</td>";
-                                                $situacaoPedidoId = $row['situacao']['id'];
-                                                if(isset($situacoes['data']) && $situacoes['data'] > 0) {
-                                                    foreach($situacoes['data'] as $situacao){
-                                                        if($situacaoPedidoId == $situacao['id']){
-                                                            ?>
-                                                            <td><?= $situacao['nome'] ?></td>
-                                                            <?php
+                                            if(isset($data['data'])){
+                                                foreach($data['data'] as $row){
+                                                    global $situacoes;
+                                                    $pedidoId = $row['id'];
+    
+                                                    //Abrir o orçamento em uma nova guia ao clincar na linha do pedido
+                                                    echo "<tr onclick=\"window.location.href='pedido_visualizacao.php?pedidoId=$pedidoId'; return false;\" style=\"cursor: pointer;\">";
+                                                    
+                                                    echo "<td>" . $row['numero'] . "</td>";
+                                                    echo "<td>" . date('d/m/Y', strtotime($row['data'])) . "</td>";
+                                                    echo "<td>" . $row['contato']['nome'] . "</td>";
+                                                    echo "<td>R$" . number_format($row['total'], 2, ',', '.') . "</td>";
+                                                    $situacaoPedidoId = $row['situacao']['id'];
+                                                    if(isset($situacoes['data']) && $situacoes['data'] > 0) {
+                                                        foreach($situacoes['data'] as $situacao){
+                                                            if($situacaoPedidoId == $situacao['id']){
+                                                                ?>
+                                                                <td><?= $situacao['nome'] ?></td>
+                                                                <?php
+                                                            }
                                                         }
                                                     }
+                                                    echo "</tr>";
                                                 }
-                                                echo "</tr>";
+                                            } else {
+                                                echo "<p>Nenhum pedido encontrado</p>";
                                             }
                                         ?>
                                     </tbody>
