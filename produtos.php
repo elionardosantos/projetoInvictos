@@ -8,6 +8,7 @@
     <?php
         require('controller/login_checker.php');
         require('partials/navbar.php');
+        require('controller/only_level_2.php');
     ?>
     <div class="container my-3">
         <h2>Produtos</h2>

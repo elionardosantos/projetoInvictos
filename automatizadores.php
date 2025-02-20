@@ -8,6 +8,7 @@
     <?php
         require('controller/login_checker.php');
         require('partials/navbar.php');
+        require('controller/only_level_2.php');
     ?>
     <div class="container my-3">
         <h2>Automatizadores</h2>
@@ -81,7 +82,7 @@
                                 `selecionado`,
                                 `ativo`
 
-                            FROM `motores`
+                            FROM `automatizadores`
                             WHERE `deleted` = :deleted";
                     
 

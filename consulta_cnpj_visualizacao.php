@@ -58,6 +58,15 @@
                 $state = isset($data->address->state)?$data->address->state:"";
                 $zip = $data->address->zip;
                 $name = $data->address->country->name;
+                $registration = $data->registrations;
+
+                foreach($registration as $item){
+                    $item->state == "RJ"?$inscricaoEstadual = $item->number:$inscricaoEstadual = "";
+                }
+
+                if($data->status->id !== 2){
+                    echo "<div class=\"alert alert-danger\">ATENÇÃO!!! Status atual: " . $status . "</div>";
+                }
                 
                 echo "Última atualização: $updated<br>";
                 echo "<br>Status: $status";
@@ -70,6 +79,7 @@
                 echo "<br>Cidade: $city";
                 echo "<br>Estado: $state";
                 echo "<br>Código postal: $zip";
+                echo "<br>Inscrição: $inscricaoEstadual";
                 
             } else if($data->code === 429){
                 echo "<div class='alert alert-danger'>Você excedeu o linite de consultas por minuto. Por favor aguarde um pouco para consultar novamente</div>";

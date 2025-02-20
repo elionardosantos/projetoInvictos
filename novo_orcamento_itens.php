@@ -7,7 +7,8 @@ date_default_timezone_set('America/Sao_Paulo');
 $contatoId = isset($_POST['contatoId'])?$_POST['contatoId']:(isset($_SESSION['dadosCliente']['contatoId'])?$_SESSION['dadosCliente']['contatoId']:null);
 $cliente = isset($_POST['cliente'])?$_POST['cliente']:(isset($_SESSION['dadosCliente']['cliente'])?$_SESSION['dadosCliente']['cliente']:null);
 $documentoForm = isset($_POST['documento'])?$_POST['documento']:(isset($_SESSION['dadosCliente']['documentoForm'])?$_SESSION['dadosCliente']['documentoForm']:null);
-$documento = preg_replace("/[^0-9]/", "", $documentoForm); //deixisset(a$_SESSION['dadosCliente'](['documento'])?a$_SESSION['dadosCliente']['documento']:nullo somente números)
+$documento = preg_replace("/[^0-9]/", "", $documentoForm); //deixo somente números)
+$inscricaoEstadual = isset($_POST['inscricaoEstadual'])?$_POST['inscricaoEstadual']:(isset($_SESSION['dadosCliente']['inscricaoEstadual'])?$_SESSION['dadosCliente']['inscricaoEstadual']:null);
 $tipoPessoa = isset($_POST['tipoPessoa'])?$_POST['tipoPessoa']:(isset($_SESSION['dadosCliente']['tipoPessoa'])?$_SESSION['dadosCliente']['tipoPessoa']:null);
 $endereco = isset($_POST['endereco'])?$_POST['endereco']:(isset($_SESSION['dadosCliente']['endereco'])?$_SESSION['dadosCliente']['endereco']:null);
 $numero = isset($_POST['numero'])?$_POST['numero']:(isset($_SESSION['dadosCliente']['numero'])?$_SESSION['dadosCliente']['numero']:null);
@@ -55,6 +56,7 @@ isset($contatoId)?$_SESSION['dadosCliente']['contatoId'] = $contatoId:null;
 isset($cliente)?$_SESSION['dadosCliente']['cliente'] = $cliente:null;
 isset($documentoForm)?$_SESSION['dadosCliente']['documentoForm'] = $documentoForm:null;
 isset($documento)?$_SESSION['dadosCliente']['documento'] = $documento:null;
+isset($inscricaoEstadual)?$_SESSION['dadosCliente']['inscricaoEstadual'] = $inscricaoEstadual:null;
 isset($tipoPessoa)?$_SESSION['dadosCliente']['tipoPessoa'] = $tipoPessoa:null;
 isset($endereco)?$_SESSION['dadosCliente']['endereco'] = $endereco:null;
 isset($numero)?$_SESSION['dadosCliente']['numero'] = $numero:null;
@@ -289,7 +291,8 @@ if(isset($cliente)){
     
 </div>
 <div class="container">
-    <form method="post" action="novo_orcamento_motores.php">
+    <!-- <form method="post" action="novo_orcamento_motores.php"> -->
+    <form method="post" action="novo_orcamento_process.php">
         <table class="table table-hover table-sm">
             <thead>
                 <tr>

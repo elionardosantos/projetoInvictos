@@ -156,6 +156,10 @@
                         <option <?php if(isset($dadosCliente['tipo']) && $dadosCliente['tipo'] === "J"){echo "selected";} ?> value="J">Pessoa jurídica</option>
                         <option <?php if(isset($dadosCliente['tipo']) && $dadosCliente['tipo'] === "F"){echo "selected";} ?> value="F">Pessoa física</option>
                     </select>
+                </div>                
+                <div class="col-md-4">
+                    <label for="inscricaoEstadual" class="form-label mb-0 mt-2">Inscrição estadual</label>
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="inscricaoEstadual" name="inscricaoEstadual" placeholder="CPF ou CNPJ" value="<?= isset($inscricaoEstadual)?$inscricaoEstadual:""; ?>">
                 </div>
             </div>
             <div class="row">

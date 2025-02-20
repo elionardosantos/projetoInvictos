@@ -119,11 +119,11 @@
                         global $tipoPessoa;
                         global $zip;
                         global $inscricaoEstadual;
-                        
 
                         $tipoPessoa = "J";
                         $updated = new DateTime($data->updated);
                         $updated2 = $updated->format('d/m/Y');
+                        $status = $data->status->text;
                         $documento = $data->taxId;
                         $name = $data->company->name;
                         $street = $data->address->street;
@@ -132,8 +132,18 @@
                         $city = $data->address->city;
                         $state = isset($data->address->state)?$data->address->state:"";
                         $zip = $data->address->zip;
+                        $registration = $data->registrations;
+        
+                        foreach($registration as $item){
+                            $item->state == "RJ"?$inscricaoEstadual = $item->number:$inscricaoEstadual = "";
+                        }
                         
-                        echo "<div class=\"mt-3\">Última atualização dos dados: " . $updated2 . "</div>";
+                        if($data->status->id !== 2){
+                            echo "<div class=\"alert alert-danger my-3\">ATENÇÃO!!! Status atual: " . $status . "</div>";
+                        }
+                        
+                                                
+                        echo "<div class=\"my-3\">Última atualização dos dados: " . $updated2 . "</div>";
                         
                     } else if($data->code === 429){
                         echo "<div class='alert alert-danger'>Você excedeu o limite de consultas por minuto. Por favor aguarde um pouco para consultar novamente</div>";
@@ -160,11 +170,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <label for="cliente" class="form-label mb-0 mt-2">Nome completo / Razão social*</label>
                     <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome completo" value="<?= isset($name)?$name:""; ?>" required>
                 </div>                
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="documento" class="form-label mb-0 mt-2">CPF/CNPJ*</label>
                     <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="documento" name="documento" placeholder="CPF ou CNPJ" value="<?= isset($documento)?$documento:""; ?>">
                 </div>
@@ -174,6 +184,10 @@
                         <option <?php if(isset($tipoPessoa) && $tipoPessoa === "J"){echo "selected";} ?> value="J">Pessoa jurídica</option>
                         <option <?php if(isset($tipoPessoa) && $tipoPessoa === "F"){echo "selected";} ?> value="F">Pessoa física</option>
                     </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="inscricaoEstadual" class="form-label mb-0 mt-2">Inscrição estadual</label>
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="inscricaoEstadual" name="inscricaoEstadual" placeholder="Inscrição estadual" value="<?= isset($inscricaoEstadual)?$inscricaoEstadual:""; ?>">
                 </div>
             </div>
             <div class="row">

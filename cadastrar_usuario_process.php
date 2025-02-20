@@ -39,7 +39,7 @@
             global $formEmail;
             global $formPasswordHash;
             global $formLevel;
-            $created_by = $_SESSION['loggedUserId'];
+            $created_by = $_SESSION['login']['loggedUserId'];
             date_default_timezone_set('America/Sao_Paulo');
             $created_at = date('Y-m-d H:i:s');
 
@@ -71,7 +71,7 @@
     <div class="container">
         <p><h2>Cadastrar usuário</h2></p>
         <?= isset($screenMessage)?$screenMessage:"" ?>
-        <a href="cadastrar_usuario.php">
+        <a href="listar_usuarios.php">
             <button class="btn btn-primary">Voltar</button>
         </a>
     </div>

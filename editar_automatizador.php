@@ -13,8 +13,8 @@
         $produtoId = isset($_GET['produto_id'])?$_GET['produto_id']:"";
         
         if($produtoId !== ""){
-            $sql = "SELECT `id`,`codigo`,`titulo`,`multiplicador`,`peso_minimo_porta`,`peso_maximo_porta`,`selecionado` 
-            FROM `motores` 
+            $sql = "SELECT `id`,`codigo`,`titulo`,`multiplicador`,`peso_minimo_porta`,`peso_maximo_porta`,`selecionado`,`ativo`
+            FROM `automatizadores` 
             WHERE `id` = :id 
             AND `deleted` = :deleted";
 
@@ -25,6 +25,7 @@
             
             $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $produto = $resultado[0];
+            
         }
 
     ?>
@@ -34,7 +35,7 @@
         </h2>
     </div>
     <div class="container">
-        <form action="editar_motor_process.php" method="post">
+        <form action="editar_automatizador_process.php" method="post">
             <div class="mt-5">
                 <h4>Dados do produto</h4>
             </div>
@@ -77,8 +78,8 @@
                 <div class="col-lg-3 mt-2">
                     <label for="statusProduto" class="form-label mb-0">Status</label>
                     <select name="statusProduto" id="statusProduto" class="form-select">
-                        <option <?= isset($produto['statusProduto']) && $produto['statusProduto'] == "1"?"selected":"" ?> value="1">1 - Ativo</option>
-                        <option <?= isset($produto['statusProduto']) && $produto['statusProduto'] == "0"?"selected":"" ?> value="0">0 - Inativo</option>
+                        <option <?= isset($produto['ativo']) && $produto['ativo'] == "1"?"selected":"" ?> value="1">1 - Ativo</option>
+                        <option <?= isset($produto['ativo']) && $produto['ativo'] == "0"?"selected":"" ?> value="0">0 - Inativo</option>
                     </select>
                 </div>
                 <div class="col-lg-3 mt-2">
@@ -95,7 +96,7 @@
                 <button type="button" class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteQuest">
                     Apagar
                 </button>
-                <a href="motores.php" class="btn btn-primary">Voltar</a>
+                <a href="automatizadores.php" class="btn btn-primary">Voltar</a>
             </div>
         </form>
     </div>

@@ -105,13 +105,13 @@
 
             // print_r($statusProduto);
 
-            $updated_by = $_SESSION['loggedUserId'];
+            $updated_by = $_SESSION['login']['loggedUserId'];
             date_default_timezone_set('America/Sao_Paulo');
             $updated_at = date('Y-m-d H:i:s');
 
             try {
                 require('config/connection.php');
-                $sql = "UPDATE `motores` 
+                $sql = "UPDATE `automatizadores` 
                         SET
                             `codigo` = :codigo,
                             `titulo` = :titulo,
@@ -163,7 +163,7 @@
         <p><?= isset($screenMessage)?$screenMessage:""; ?></p>
     </div>
     <div class="container mt-4">
-        <a href="motores.php" class="btn btn-primary">Voltar</a>
+        <a href="automatizadores.php" class="btn btn-primary">Voltar</a>
     </div>
     <div class="container mt-4">
     </div>

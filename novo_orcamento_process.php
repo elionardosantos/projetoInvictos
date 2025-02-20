@@ -6,54 +6,58 @@ ob_start();
 
 $modoTeste = 0; // Habilita o modo de testes
 
-$codigoContato = isset($_SESSION['codigoContato'])?$_SESSION['codigoContato']:"";
-$contatoId = isset($_SESSION['contatoId'])?$_SESSION['contatoId']:"";
-$cliente = isset($_SESSION['cliente'])?$_SESSION['cliente']:"";
-$documentoForm = isset($_SESSION['documentoForm'])?$_SESSION['documentoForm']:"";
-$documento = isset($_SESSION['documento'])?$_SESSION['documento']:"";
-$tipoPessoa = isset($_SESSION['tipoPessoa'])?$_SESSION['tipoPessoa']:"";
-$endereco = isset($_SESSION['endereco'])?$_SESSION['endereco']:"";
-$numero = isset($_SESSION['numero'])?$_SESSION['numero']:"";
-$bairro = isset($_SESSION['bairro'])?$_SESSION['bairro']:"";
-$municipio = isset($_SESSION['municipio'])?$_SESSION['municipio']:"";
-$estado = isset($_SESSION['estado'])?$_SESSION['estado']:"";
-$tabelaPreco = isset($_SESSION['tabelaPreco'])?$_SESSION['tabelaPreco']:"";
-$condicaoPagamento = isset($_SESSION['condicaoPagamento'])?$_SESSION['condicaoPagamento']:"";
-$cep = isset($_SESSION['cep'])?$_SESSION['cep']:"";
-$desconto = isset($_SESSION['desconto'])?$_SESSION['desconto']:"";
-$tipoDesconto = isset($_SESSION['tipoDesconto'])?$_SESSION['tipoDesconto']:"";
+$codigoContato = isset($_SESSION['dadosCliente']['codigoContato'])?$_SESSION['dadosCliente']['codigoContato']:"";
+$contatoId = isset($_SESSION['dadosCliente']['contatoId'])?$_SESSION['dadosCliente']['contatoId']:"";
+$cliente = isset($_SESSION['dadosCliente']['cliente'])?$_SESSION['dadosCliente']['cliente']:"";
+$documentoForm = isset($_SESSION['dadosCliente']['documentoForm'])?$_SESSION['dadosCliente']['documentoForm']:"";
+$documento = isset($_SESSION['dadosCliente']['documento'])?$_SESSION['dadosCliente']['documento']:"";
+$inscricaoEstadual = isset($_SESSION['dadosCliente']['inscricaoEstadual'])?$_SESSION['dadosCliente']['inscricaoEstadual']:"";
+$tipoPessoa = isset($_SESSION['dadosCliente']['tipoPessoa'])?$_SESSION['dadosCliente']['tipoPessoa']:"";
+$endereco = isset($_SESSION['dadosCliente']['endereco'])?$_SESSION['dadosCliente']['endereco']:"";
+$numero = isset($_SESSION['dadosCliente']['numero'])?$_SESSION['dadosCliente']['numero']:"";
+$bairro = isset($_SESSION['dadosCliente']['bairro'])?$_SESSION['dadosCliente']['bairro']:"";
+$municipio = isset($_SESSION['dadosCliente']['municipio'])?$_SESSION['dadosCliente']['municipio']:"";
+$estado = isset($_SESSION['dadosCliente']['estado'])?$_SESSION['dadosCliente']['estado']:"";
+$tabelaPreco = isset($_SESSION['dadosCliente']['tabelaPreco'])?$_SESSION['dadosCliente']['tabelaPreco']:"";
+$condicaoPagamento = isset($_SESSION['dadosCliente']['condicaoPagamento'])?$_SESSION['dadosCliente']['condicaoPagamento']:"";
+$cep = isset($_SESSION['dadosCliente']['cep'])?$_SESSION['dadosCliente']['cep']:"";
+$desconto = isset($_SESSION['dadosCliente']['desconto'])?$_SESSION['dadosCliente']['desconto']:"";
+$tipoDesconto = isset($_SESSION['dadosCliente']['tipoDesconto'])?$_SESSION['dadosCliente']['tipoDesconto']:"";
 
-$tel = isset($_SESSION['tel'])?$_SESSION['tel']:"";
-$cel = isset($_SESSION['cel'])?$_SESSION['cel']:"";
-$email = isset($_SESSION['email'])?$_SESSION['email']:"";
+$tel = isset($_SESSION['dadosCliente']['tel'])?$_SESSION['dadosCliente']['tel']:"";
+$cel = isset($_SESSION['dadosCliente']['cel'])?$_SESSION['dadosCliente']['cel']:"";
+$email = isset($_SESSION['dadosCliente']['email'])?$_SESSION['dadosCliente']['email']:"";
 
-$observacoes = isset($_SESSION['observacoes'])?$_SESSION['observacoes']:"";
-$observacoesInternasForm = isset($_SESSION['observacoesInternas'])?$_SESSION['observacoesInternas']:"";
+$observacoes = isset($_SESSION['dadosCliente']['observacoes'])?$_SESSION['dadosCliente']['observacoes']:"";
+$observacoesInternasForm = isset($_SESSION['dadosCliente']['observacoesInternas'])?$_SESSION['dadosCliente']['observacoesInternas']:"";
 
-$nomeServico = isset($_SESSION['nomeServico'])?$_SESSION['nomeServico']:"";
-$enderecoServico = isset($_SESSION['enderecoServico'])?$_SESSION['enderecoServico']:"";
-$numeroServico = isset($_SESSION['numeroServico'])?$_SESSION['numeroServico']:"";
-$bairroServico = isset($_SESSION['bairroServico'])?$_SESSION['bairroServico']:"";
-$municipioServico = isset($_SESSION['municipioServico'])?$_SESSION['municipioServico']:"";
-$estadoServico = isset($_SESSION['estadoServico'])?$_SESSION['estadoServico']:"";
-$cepServico = isset($_SESSION['cepServico'])?$_SESSION['cepServico']:"";
+$nomeServico = isset($_SESSION['dadosCliente']['nomeServico'])?$_SESSION['dadosCliente']['nomeServico']:"";
+$enderecoServico = isset($_SESSION['dadosCliente']['enderecoServico'])?$_SESSION['dadosCliente']['enderecoServico']:"";
+$numeroServico = isset($_SESSION['dadosCliente']['numeroServico'])?$_SESSION['dadosCliente']['numeroServico']:"";
+$bairroServico = isset($_SESSION['dadosCliente']['bairroServico'])?$_SESSION['dadosCliente']['bairroServico']:"";
+$municipioServico = isset($_SESSION['dadosCliente']['municipioServico'])?$_SESSION['dadosCliente']['municipioServico']:"";
+$estadoServico = isset($_SESSION['dadosCliente']['estadoServico'])?$_SESSION['dadosCliente']['estadoServico']:"";
+$cepServico = isset($_SESSION['dadosCliente']['cepServico'])?$_SESSION['dadosCliente']['cepServico']:"";
 
-$quantidade = isset($_SESSION['quantidade'])?$_SESSION['quantidade']:"";
-$larguraTotal = isset($_SESSION['larguraTotal'])?$_SESSION['larguraTotal']:"";
-$alturaTotal = isset($_SESSION['alturaTotal'])?$_SESSION['alturaTotal']:"";
-$rolo = isset($_SESSION['rolo'])?$_SESSION['rolo']:"";
+$quantidade = isset($_SESSION['dadosCliente']['quantidade'])?$_SESSION['dadosCliente']['quantidade']:"";
+$larguraTotal = isset($_SESSION['dadosCliente']['larguraTotal'])?$_SESSION['dadosCliente']['larguraTotal']:"";
+$alturaTotal = isset($_SESSION['dadosCliente']['alturaTotal'])?$_SESSION['dadosCliente']['alturaTotal']:"";
+$rolo = isset($_SESSION['dadosCliente']['rolo'])?$_SESSION['dadosCliente']['rolo']:"";
 
 $arrayComProdutos = isset($_SESSION['array_com_produtos'])?$_SESSION['array_com_produtos']:"";
 
 // Calculando metro quadrado
-$m2 = (($alturaTotal + $rolo) * $larguraTotal) * $quantidade;
+if(isset($m2)){
+    $m2 = (($alturaTotal + $rolo) * $larguraTotal) * $quantidade;
+}
+
 // $observacoesInternas .= "\n"."Largura: ".$larguraTotal."m / Altura: ".$alturaTotal."m"."\n"."Usuario: ".$_SESSION['loggedUserName'];
 $observacoesInternasForm == "" ? null : $observacoesArray['obs'] = $observacoesInternasForm;
 
 $observacoesArray['largura'] = $larguraTotal;
 $observacoesArray['altura'] = $alturaTotal;
 $observacoesArray['quantidade'] = $quantidade;
-$observacoesArray['id_usuario'] = $_SESSION['loggedUserId'];
+$observacoesArray['id_usuario'] = $_SESSION['login']['loggedUserId'];
 
 $observacoesInternas = json_encode($observacoesArray);
 
@@ -216,6 +220,7 @@ function novoContato(){
     global $estado;
     global $numero;
     global $cep;
+    global $inscricaoEstadual;
 
     if(isset($cliente) && $cliente !== ""){
         $url = "https://api.bling.com.br/Api/v3/contatos";
@@ -227,6 +232,7 @@ function novoContato(){
             "accept: application/json",
             "Content-Type: application/json"
         );
+
         $data = [
             "nome"=>$cliente,
             "numeroDocumento"=>$documento,
@@ -235,6 +241,7 @@ function novoContato(){
             "tipo"=>$tipoPessoa,
             "email"=>$email,
             "situacao"=>"A",
+            "ie"=>$inscricaoEstadual,
             "endereco"=>[
                 "geral"=>[
                     "endereco"=>$endereco,
@@ -247,6 +254,7 @@ function novoContato(){
                 ],
             ],
         ];
+        echo "Dados de novo contato: <script>console.log($data)</script>";
     
         $cURL = curl_init($url);
         curl_setopt($cURL, CURLOPT_URL, $url);

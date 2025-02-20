@@ -10,6 +10,10 @@
         require('partials/navbar.php');
         require('controller/only_level_2.php');
 
+        $updated_by = $_SESSION['login']['loggedUserId'];
+        date_default_timezone_set('America/Sao_Paulo');
+        $updated_at = date('Y-m-d H:i:s');
+
         $userId = isset($_GET['id'])?$_GET['id']:"";
 
         if(isset($_POST['formName']) && isset($_POST['formEmail']) && isset($_POST['formLevel'])){
@@ -19,12 +23,14 @@
             $formEmail = $_POST['formEmail'];
             $formLevel = $_POST['formLevel'];
             
-            $sql = "UPDATE `users` SET `name` = :formName, `email` = :formEmail, `level` = :formLevel WHERE `id` = :userId";
+            $sql = "UPDATE `users` SET `name` = :formName, `email` = :formEmail, `level` = :formLevel, `updated_by` = :updated_by, `updated_at` = :updated_at WHERE `id` = :userId";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':formName', $formName);
             $stmt->bindParam(':formEmail', $formEmail);
             $stmt->bindParam(':formLevel', $formLevel);
             $stmt->bindParam(':userId', $userId);
+            $stmt->bindValue(':updated_by', $updated_by);
+            $stmt->bindValue(':updated_at', $updated_at);
 
             if($stmt->execute() === TRUE) {
                 $screenMessage = "<div class=\"alert alert-success\">Usuário atualizado</div>";                
