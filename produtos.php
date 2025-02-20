@@ -83,8 +83,8 @@
                     <th>Altura Maxima</th>
                     <th>Largura Minima</th>
                     <th>Largura Maxima</th>
-                    <!-- <th>Peso Minimo</th>
-                    <th>Peso Maximo</th> -->
+                    <th>Peso Minimo</th>
+                    <th>Peso Maximo</th>
                     <th>Selecionado</th>
                     <th>Status</th>
                     <th>Ação</th>
@@ -183,8 +183,8 @@
                     echo "    <td>$alturaMaxima</td>";
                     echo "    <td>$larguraMinima</td>";
                     echo "    <td>$larguraMaxima</td>";
-                    // echo "    <td>$pesoMinimo</td>";
-                    // echo "    <td>$pesoMaximo</td>";
+                    echo "    <td>$pesoMinimo</td>";
+                    echo "    <td>$pesoMaximo</td>";
                     echo "    <td>$selecionado</td>";
                     echo "    <td>$ativo</td>";
                     echo "    <td><a class=\"btn btn-primary btn-sm\" href=\"editar_produto.php?produto_id=$id\">Editar</a></td>";

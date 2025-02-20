@@ -21,7 +21,7 @@
           </li>
           <?php 
           // Esta área será exibida somente para os administradores do sistema
-          if($_SESSION['loggedUserLevel'] > 1){
+          if($_SESSION['login']['loggedUserLevel'] > 1){
           ?>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -30,7 +30,7 @@
               <ul class="dropdown-menu dropdown-menu-dark">
                 <li><a class="dropdown-item" href="produtos.php">Produtos</a></li>
                 <li><a class="dropdown-item" href="categorias.php">Categorias</a></li>
-                <li><a class="dropdown-item" href="motores.php">Motores</a>
+                <li><a class="dropdown-item" href="automatizadores.php">Automatizadores</a>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -49,7 +49,7 @@
         <ul class="navbar-nav mb-2 ms-auto mb-lg-0">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <?= isset($_SESSION['loggedUserName'])?$_SESSION['loggedUserName']:"Usuário"; ?>
+              <?= isset($_SESSION['login']['loggedUserName'])?$_SESSION['login']['loggedUserName']:"Usuário"; ?>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
               <li><a class="dropdown-item" href="alterar_senha.php">Trocar Senha</a></li>

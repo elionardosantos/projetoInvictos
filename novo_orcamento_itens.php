@@ -4,21 +4,21 @@ require('config/connection.php');
 date_default_timezone_set('America/Sao_Paulo');
 
 // Dados do contato
-$contatoId = isset($_POST['contatoId'])?$_POST['contatoId']:(isset($_SESSION['contatoId'])?$_SESSION['contatoId']:null);
-$cliente = isset($_POST['cliente'])?$_POST['cliente']:(isset($_SESSION['cliente'])?$_SESSION['cliente']:null);
-$documentoForm = isset($_POST['documento'])?$_POST['documento']:(isset($_SESSION['documentoForm'])?$_SESSION['documentoForm']:null);
-$documento = preg_replace("/[^0-9]/", "", $documentoForm); //deixisset(a$_SESSION(['documento'])?a$_SESSION['documento']:nullo somente números)
-$tipoPessoa = isset($_POST['tipoPessoa'])?$_POST['tipoPessoa']:(isset($_SESSION['tipoPessoa'])?$_SESSION['tipoPessoa']:null);
-$endereco = isset($_POST['endereco'])?$_POST['endereco']:(isset($_SESSION['endereco'])?$_SESSION['endereco']:null);
-$numero = isset($_POST['numero'])?$_POST['numero']:(isset($_SESSION['numero'])?$_SESSION['numero']:null);
-$bairro = isset($_POST['bairro'])?$_POST['bairro']:(isset($_SESSION['bairro'])?$_SESSION['bairro']:null);
-$municipio = isset($_POST['municipio'])?$_POST['municipio']:(isset($_SESSION['municipio'])?$_SESSION['municipio']:null);
-$estado = isset($_POST['estado'])?$_POST['estado']:(isset($_SESSION['estado'])?$_SESSION['estado']:null);
-$tabelaPreco = isset($_POST['tabelaPreco'])?$_POST['tabelaPreco']:(isset($_SESSION['tabelaPreco'])?$_SESSION['tabelaPreco']:null);
-$condicaoPagamento = isset($_POST['condicaoPagamento'])?$_POST['condicaoPagamento']:(isset($_SESSION['condicaoPagamento'])?$_SESSION['condicaoPagamento']:null);
-$cep = isset($_POST['cep'])?$_POST['cep']:(isset($_SESSION['cep'])?$_SESSION['cep']:null);
-$desconto = isset($_POST['desconto'])?$_POST['desconto']:(isset($_SESSION['desconto'])?$_SESSION['desconto']:null);
-$tipoDesconto = isset($_POST['tipoDesconto'])?$_POST['tipoDesconto']:(isset($_SESSION['tipoDesconto'])?$_SESSION['tipoDesconto']:null);
+$contatoId = isset($_POST['contatoId'])?$_POST['contatoId']:(isset($_SESSION['dadosCliente']['contatoId'])?$_SESSION['dadosCliente']['contatoId']:null);
+$cliente = isset($_POST['cliente'])?$_POST['cliente']:(isset($_SESSION['dadosCliente']['cliente'])?$_SESSION['dadosCliente']['cliente']:null);
+$documentoForm = isset($_POST['documento'])?$_POST['documento']:(isset($_SESSION['dadosCliente']['documentoForm'])?$_SESSION['dadosCliente']['documentoForm']:null);
+$documento = preg_replace("/[^0-9]/", "", $documentoForm); //deixisset(a$_SESSION['dadosCliente'](['documento'])?a$_SESSION['dadosCliente']['documento']:nullo somente números)
+$tipoPessoa = isset($_POST['tipoPessoa'])?$_POST['tipoPessoa']:(isset($_SESSION['dadosCliente']['tipoPessoa'])?$_SESSION['dadosCliente']['tipoPessoa']:null);
+$endereco = isset($_POST['endereco'])?$_POST['endereco']:(isset($_SESSION['dadosCliente']['endereco'])?$_SESSION['dadosCliente']['endereco']:null);
+$numero = isset($_POST['numero'])?$_POST['numero']:(isset($_SESSION['dadosCliente']['numero'])?$_SESSION['dadosCliente']['numero']:null);
+$bairro = isset($_POST['bairro'])?$_POST['bairro']:(isset($_SESSION['dadosCliente']['bairro'])?$_SESSION['dadosCliente']['bairro']:null);
+$municipio = isset($_POST['municipio'])?$_POST['municipio']:(isset($_SESSION['dadosCliente']['municipio'])?$_SESSION['dadosCliente']['municipio']:null);
+$estado = isset($_POST['estado'])?$_POST['estado']:(isset($_SESSION['dadosCliente']['estado'])?$_SESSION['dadosCliente']['estado']:null);
+$tabelaPreco = isset($_POST['tabelaPreco'])?$_POST['tabelaPreco']:(isset($_SESSION['dadosCliente']['tabelaPreco'])?$_SESSION['dadosCliente']['tabelaPreco']:null);
+$condicaoPagamento = isset($_POST['condicaoPagamento'])?$_POST['condicaoPagamento']:(isset($_SESSION['dadosCliente']['condicaoPagamento'])?$_SESSION['dadosCliente']['condicaoPagamento']:null);
+$cep = isset($_POST['cep'])?$_POST['cep']:(isset($_SESSION['dadosCliente']['cep'])?$_SESSION['dadosCliente']['cep']:null);
+$desconto = isset($_POST['desconto'])?$_POST['desconto']:(isset($_SESSION['dadosCliente']['desconto'])?$_SESSION['dadosCliente']['desconto']:null);
+$tipoDesconto = isset($_POST['tipoDesconto'])?$_POST['tipoDesconto']:(isset($_SESSION['dadosCliente']['tipoDesconto'])?$_SESSION['dadosCliente']['tipoDesconto']:null);
 
 // Dados de contato
 $tel = isset($_POST['tel'])?$_POST['tel']:"";
@@ -39,53 +39,53 @@ $estadoServico = isset($_POST['estadoServico'])?$_POST['estadoServico']:"";
 $cepServico = isset($_POST['cepServico'])?$_POST['cepServico']:"";
 
 // Dados da instalação
-$quantidade = isset($_POST['quantidade'])?floatval(str_replace(",",".",$_POST['quantidade'])):$_SESSION['quantidade'];
-$larguraTotal = isset($_POST['largura'])?floatval(str_replace(",",".",$_POST['largura'])):$_SESSION['larguraTotal'];
-$alturaTotal = isset($_POST['altura'])?floatval(str_replace(",",".",$_POST['altura'])):$_SESSION['alturaTotal'];
-$rolo = isset($_POST['rolo'])?floatval(str_replace(",",".",$_POST['rolo'])):$_SESSION['rolo'];
+$quantidade = isset($_POST['quantidade'])?floatval(str_replace(",",".",$_POST['quantidade'])):$_SESSION['dadosCliente']['quantidade'];
+$larguraTotal = isset($_POST['largura'])?floatval(str_replace(",",".",$_POST['largura'])):$_SESSION['dadosCliente']['larguraTotal'];
+$alturaTotal = isset($_POST['altura'])?floatval(str_replace(",",".",$_POST['altura'])):$_SESSION['dadosCliente']['alturaTotal'];
+$rolo = isset($_POST['rolo'])?floatval(str_replace(",",".",$_POST['rolo'])):$_SESSION['dadosCliente']['rolo'];
 
 if($alturaTotal !== "" && $larguraTotal !== ""){
     $m2 = ($alturaTotal + $rolo) * $larguraTotal;
-    $_SESSION['m2'] = $m2;
+    $_SESSION['dadosCliente']['m2'] = $m2;
 } else {
-    isset($_SESSION['m2'])?$m2 = $_SESSION['m2']:"";
+    isset($_SESSION['dadosCliente']['m2'])?$m2 = $_SESSION['dadosCliente']['m2']:"";
 }
 
-isset($contatoId)?$_SESSION['contatoId'] = $contatoId:null;
-isset($cliente)?$_SESSION['cliente'] = $cliente:null;
-isset($documentoForm)?$_SESSION['documentoForm'] = $documentoForm:null;
-isset($documento)?$_SESSION['documento'] = $documento:null;
-isset($tipoPessoa)?$_SESSION['tipoPessoa'] = $tipoPessoa:null;
-isset($endereco)?$_SESSION['endereco'] = $endereco:null;
-isset($numero)?$_SESSION['numero'] = $numero:null;
-isset($bairro)?$_SESSION['bairro'] = $bairro:null;
-isset($municipio)?$_SESSION['municipio'] = $municipio:null;
-isset($estado)?$_SESSION['estado'] = $estado:null;
-isset($tabelaPreco)?$_SESSION['tabelaPreco'] = $tabelaPreco:null;
-isset($condicaoPagamento)?$_SESSION['condicaoPagamento'] = $condicaoPagamento:null;
-isset($cep)?$_SESSION['cep'] = $cep:null;
-isset($desconto)?$_SESSION['desconto'] = $desconto:null;
-isset($tipoDesconto)?$_SESSION['tipoDesconto'] = $tipoDesconto:null;
+isset($contatoId)?$_SESSION['dadosCliente']['contatoId'] = $contatoId:null;
+isset($cliente)?$_SESSION['dadosCliente']['cliente'] = $cliente:null;
+isset($documentoForm)?$_SESSION['dadosCliente']['documentoForm'] = $documentoForm:null;
+isset($documento)?$_SESSION['dadosCliente']['documento'] = $documento:null;
+isset($tipoPessoa)?$_SESSION['dadosCliente']['tipoPessoa'] = $tipoPessoa:null;
+isset($endereco)?$_SESSION['dadosCliente']['endereco'] = $endereco:null;
+isset($numero)?$_SESSION['dadosCliente']['numero'] = $numero:null;
+isset($bairro)?$_SESSION['dadosCliente']['bairro'] = $bairro:null;
+isset($municipio)?$_SESSION['dadosCliente']['municipio'] = $municipio:null;
+isset($estado)?$_SESSION['dadosCliente']['estado'] = $estado:null;
+isset($tabelaPreco)?$_SESSION['dadosCliente']['tabelaPreco'] = $tabelaPreco:null;
+isset($condicaoPagamento)?$_SESSION['dadosCliente']['condicaoPagamento'] = $condicaoPagamento:null;
+isset($cep)?$_SESSION['dadosCliente']['cep'] = $cep:null;
+isset($desconto)?$_SESSION['dadosCliente']['desconto'] = $desconto:null;
+isset($tipoDesconto)?$_SESSION['dadosCliente']['tipoDesconto'] = $tipoDesconto:null;
 
-$_SESSION['tel'] = $tel;
-$_SESSION['cel'] = $cel;
-$_SESSION['email'] = $email;
+$_SESSION['dadosCliente']['tel'] = $tel;
+$_SESSION['dadosCliente']['cel'] = $cel;
+$_SESSION['dadosCliente']['email'] = $email;
 
-$_SESSION['observacoes'] = $observacoes;
-$_SESSION['observacoesInternas'] = $observacoesInternas;
+$_SESSION['dadosCliente']['observacoes'] = $observacoes;
+$_SESSION['dadosCliente']['observacoesInternas'] = $observacoesInternas;
 
-$_SESSION['nomeServico'] = $nomeServico;
-$_SESSION['enderecoServico'] = $enderecoServico;
-$_SESSION['numeroServico'] = $numeroServico;
-$_SESSION['bairroServico'] = $bairroServico;
-$_SESSION['municipioServico'] = $municipioServico;
-$_SESSION['estadoServico'] = $estadoServico;
-$_SESSION['cepServico'] = $cepServico;
+$_SESSION['dadosCliente']['nomeServico'] = $nomeServico;
+$_SESSION['dadosCliente']['enderecoServico'] = $enderecoServico;
+$_SESSION['dadosCliente']['numeroServico'] = $numeroServico;
+$_SESSION['dadosCliente']['bairroServico'] = $bairroServico;
+$_SESSION['dadosCliente']['municipioServico'] = $municipioServico;
+$_SESSION['dadosCliente']['estadoServico'] = $estadoServico;
+$_SESSION['dadosCliente']['cepServico'] = $cepServico;
 
-$_SESSION['quantidade'] = $quantidade;
-$_SESSION['larguraTotal'] = $larguraTotal;
-$_SESSION['alturaTotal'] = $alturaTotal;
-$_SESSION['rolo'] = $rolo;
+$_SESSION['dadosCliente']['quantidade'] = $quantidade;
+$_SESSION['dadosCliente']['larguraTotal'] = $larguraTotal;
+$_SESSION['dadosCliente']['alturaTotal'] = $alturaTotal;
+$_SESSION['dadosCliente']['rolo'] = $rolo;
 
 ?>
 
@@ -153,59 +153,65 @@ if(isset($cliente)){
 </div>
 <div class="container mt-4">
     <?php
-        if(isset($resultado) && count($resultado) > 0){
-            
-            echo "Quantidade: $quantidade / m²: $m2";
-            $pesoTotalPorta = 0;
-
-            // Adicionando itens à array de produtos para enviar à página de processamento do orçamento (envio para o Bling)
-            foreach($resultado as $row){
-                $id = isset($row['id'])?$row['id']:"";
-                $codigo = isset($row['codigo'])?$row['codigo']:"erro";
-                $titulo = isset($row['titulo'])?$row['titulo']:"";
-                $peso = isset($row['peso'])?floatVal(str_replace(",",".",$row['peso'])):null;
-                $tipoConsumo = isset($row['tipo_consumo'])?$row['tipo_consumo']:null;
-                $multiplicador = isset($row['multiplicador'])?$row['multiplicador']:null;
-                $selecionado = isset($row['selecionado'])?$row['selecionado']:null;
-
-                $pesoItem = null;
-                switch ($tipoConsumo) {
-                    case 'm2':
-                        $quantidadeItem = ($m2 * $multiplicador) * $quantidade;
-                        break;
-
-                    case 'largura':
-                        $quantidadeItem = ($larguraTotal * $multiplicador) * $quantidade;
-                        break;
-                        
-                    case 'altura':
-                        $quantidadeItem = ($alturaTotal * $multiplicador) * $quantidade;
-                        break;
-
-                    case 'unidade':
-                        $quantidadeItem = (1 * $multiplicador) * $quantidade;
-                        break;
-                }
-
-                $pesoItem = $peso * $quantidadeItem;
-                $pesoTotalPorta += $pesoItem;
-
-                $produtoParaArray['id'] = $id;
-                $produtoParaArray['selecionado'] = $selecionado;
-                $produtoParaArray['codigo'] = $codigo;
-                $produtoParaArray['titulo'] = $titulo;
-                $produtoParaArray['quantidade_item'] = $quantidadeItem;
-                $produtoParaArray['peso_item'] = $pesoItem;
-                $produtoParaArray['tipo_consumo'] = $tipoConsumo;
-                $produtoParaArray['multiplicador'] = $multiplicador;
-
-                $arrayComProdutos[$codigo] = $produtoParaArray;
-            }
-            $pesoTotalPorta = $pesoTotalPorta / $quantidade;
-            echo " / Peso total porta: $pesoTotalPorta KG<br><br>";
-            
+        if(isset($_SESSION['array_com_produtos']) && count($_SESSION['array_com_produtos']) > 0){
+            $arrayComProdutos = $_SESSION['array_com_produtos'];
         } else {
-            // nada aqui...
+            if(isset($resultado) && count($resultado) > 0){
+                
+                echo "Quantidade: $quantidade / m²: $m2";
+                $pesoTotalPorta = 0;
+    
+                // Adicionando itens à array de produtos para enviar à página de processamento do orçamento (envio para o Bling)
+                foreach($resultado as $row){
+                    $id = isset($row['id'])?$row['id']:"";
+                    $codigo = isset($row['codigo'])?$row['codigo']:"erro";
+                    $titulo = isset($row['titulo'])?$row['titulo']:"";
+                    $peso = isset($row['peso'])?floatVal(str_replace(",",".",$row['peso'])):null;
+                    $tipoConsumo = isset($row['tipo_consumo'])?$row['tipo_consumo']:null;
+                    $multiplicador = isset($row['multiplicador'])?$row['multiplicador']:null;
+                    $selecionado = isset($row['selecionado'])?$row['selecionado']:null;
+    
+                    $pesoItem = null;
+                    switch ($tipoConsumo) {
+                        case 'm2':
+                            $quantidadeItem = ($m2 * $multiplicador) * $quantidade;
+                            break;
+    
+                        case 'largura':
+                            $quantidadeItem = ($larguraTotal * $multiplicador) * $quantidade;
+                            break;
+                            
+                        case 'altura':
+                            $quantidadeItem = ($alturaTotal * $multiplicador) * $quantidade;
+                            break;
+    
+                        case 'unidade':
+                            $quantidadeItem = (1 * $multiplicador) * $quantidade;
+                            break;
+                    }
+    
+                    $pesoItem = $peso * $quantidadeItem;
+                    $pesoTotalPorta += $pesoItem;
+    
+                    $produtoParaArray['id'] = $id;
+                    $produtoParaArray['selecionado'] = $selecionado;
+                    $produtoParaArray['codigo'] = $codigo;
+                    $produtoParaArray['titulo'] = $titulo;
+                    $produtoParaArray['quantidade_item'] = $quantidadeItem;
+                    $produtoParaArray['peso_item'] = $pesoItem;
+                    $produtoParaArray['tipo_consumo'] = $tipoConsumo;
+                    $produtoParaArray['multiplicador'] = $multiplicador;
+    
+                    $arrayComProdutos[$codigo] = $produtoParaArray;
+                }
+                $pesoTotalPorta = $pesoTotalPorta / $quantidade;
+                $_SESSION['dadosCliente']['pesoTotalPorta'] = $pesoTotalPorta;
+                echo " / Peso total porta: $pesoTotalPorta KG<br><br>";
+                
+            } else {
+                // nada aqui...
+            }
+
         }
 
         ?>
@@ -215,8 +221,12 @@ if(isset($cliente)){
 
         <?php
 
-        /*
+        
         // Consultando produtos por peso no banco de dados
+
+        
+        $pesoTotalPorta = $_SESSION['dadosCliente']['pesoTotalPorta'];
+
         $sql = "SELECT * FROM produtos
             WHERE peso_minimo_porta <= $pesoTotalPorta
             AND peso_maximo_porta >= $pesoTotalPorta
@@ -273,7 +283,7 @@ if(isset($cliente)){
             // nada aqui...
         }
         // print_r($arrayComProdutos);
-        */
+        
     ?>
 
     
@@ -289,7 +299,7 @@ if(isset($cliente)){
                     <th>Quantidade</th>
                     <th>Peso</th>
                     <th>Consumo</th>
-                    <th>Ação</th>
+                    <!-- <th>Ação</th> -->
                 </tr>
             </thead>
                 <tbody>
@@ -335,9 +345,9 @@ if(isset($cliente)){
                                                 <?= $produto['tipo_consumo'] ?>
                                             </label>
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             <a href="<?= "novo_orcamento_edita_itens.php?codigo=".$produto['codigo'] ?>" class="btn btn-primary btn-sm">Editar</a>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                     <?php
                                 }
@@ -400,7 +410,7 @@ if(isset($cliente)){
             // echo "<pre>";
             // print_r($arrayComProdutos);
         ?>
-        <div class="mt-5">
+        <div class="my-5">
             <input type="submit" class="btn btn-primary" value="Continuar">
         </div>
     </form>

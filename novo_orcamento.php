@@ -8,6 +8,9 @@
     <?php
         require('controller/login_checker.php');
         require('partials/navbar.php');
+        $_SESSION['dadosCliente'] = [];
+        $_SESSION['array_com_produtos'] = [];
+        $_SESSION['array_com_produtos_atualizados'] = [];
     ?>
     <div class="container my-3">
         <h2>Novo Pedido/Orçamento</h2>
@@ -83,7 +86,7 @@
                 $email = isset($data['data']['email'])?$data['data']['email']:"";
                 $celular = isset($data['data']['celular'])?$data['data']['celular']:"";
                 $telefone = isset($data['data']['telefone'])?$data['data']['telefone']:"";
-                $_SESSION['codigoContato'] = isset($data['data']['codigo'])?$data['data']['codigo']:"";
+                $_SESSION['dadosCliente']['codigoContato'] = isset($data['data']['codigo'])?$data['data']['codigo']:"";
             }
             function cnpjQuery() {
 

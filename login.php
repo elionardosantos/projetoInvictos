@@ -8,7 +8,7 @@
     <?php
         session_start();
 
-        if(isset($_SESSION['loginStatus']) && $_SESSION['loginStatus'] == 'logged'){
+        if(isset($_SESSION['login']['loginStatus']) && $_SESSION['login']['loginStatus'] == 'logged'){
             header('location: index.php');
             // echo "Logado pela SESSION | <a href=\"controller/logout.php\">Sair</a>";
 
@@ -31,17 +31,17 @@
                 // echo "$dbId, $dbName, $dbEmail, $dbPassword, $dbLevel - ";
 
                 if($formPasswordHash === $dbPassword){
-                    $_SESSION['loginStatus'] = 'logged';
-                    $_SESSION['loggedUserId'] = $dbId;
-                    $_SESSION['loggedUserName'] = $dbName;
-                    $_SESSION['loggedUserEmail'] = $dbEmail;
-                    $_SESSION['loggedUserLevel'] = $dbLevel;
+                    $_SESSION['login']['loginStatus'] = 'logged';
+                    $_SESSION['login']['loggedUserId'] = $dbId;
+                    $_SESSION['login']['loggedUserName'] = $dbName;
+                    $_SESSION['login']['loggedUserEmail'] = $dbEmail;
+                    $_SESSION['login']['loggedUserLevel'] = $dbLevel;
 
                     header('location: index.php');
                 } else {
                     $screenMessage = "<div class=\"alert alert-danger\">Email ou senha incorretos</div>";
                     $errorFormStyle = "is-invalid";
-                    $_SESSION['loginStatus'] = 'unlogged';
+                    $_SESSION['login']['loginStatus'] = 'unlogged';
                 }
             }
 

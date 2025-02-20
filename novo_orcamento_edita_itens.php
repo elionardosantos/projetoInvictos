@@ -20,7 +20,7 @@ require('partials/navbar.php');
 ?>
 
 
-<div class="container">
+<div class="container mt-5">
     <form method="post" action="novo_orcamento_edita_itens_process.php">
         <table class="table table-hover table-sm">
             <thead>
@@ -144,6 +144,6 @@ require('partials/navbar.php');
     </form>
 </div>
 
-<pre>
+<!-- <pre>
 <?php print_r($_SESSION); ?>
-</pre>
+</pre> -->

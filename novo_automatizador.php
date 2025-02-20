@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Novo Motor</title>
+    <title>Novo Automatizador</title>
 </head>
 <body>
     <?php
@@ -12,11 +12,11 @@
     ?>
     <div class="container my-3">
         <h2>
-            Novo motor
+            Novo automatizador
         </h2>
     </div>
     <div class="container">
-        <form action="novo_motor_process.php" method="post">
+        <form action="novo_automatizador_process.php" method="post">
             <div class="mt-5">
                 <h4>Dados do produto</h4>
             </div>
@@ -97,7 +97,7 @@
             </div>
             <div class="mt-4">
                 <input class="btn btn-primary" type="submit" value="Salvar">
-                <a href="motores.php" class="btn btn-primary ms-2">Voltar</a>
+                <a href="automatizadores.php" class="btn btn-primary ms-2">Voltar</a>
             </div>
         </form>
     </div>

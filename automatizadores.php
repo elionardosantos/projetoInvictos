@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Motores</title>
+    <title>Automatizadores</title>
 </head>
 <body>
     <?php
@@ -10,7 +10,7 @@
         require('partials/navbar.php');
     ?>
     <div class="container my-3">
-        <h2>Motores</h2>
+        <h2>Automatizadores</h2>
     </div>
     <div class="container mb-4">
         <form action="" method="get">
@@ -44,7 +44,7 @@
             <div class="row mt-4">
                 <div class="col">
                     <input type="submit" value="Buscar" class="btn btn-primary">
-                    <a href="novo_motor.php" class="btn btn-primary ms-2" role="button">Cadastrar Novo</a>
+                    <a href="novo_automatizador.php" class="btn btn-primary ms-2" role="button">Cadastrar Novo</a>
                 </div>
             </div>
         </form>
@@ -142,7 +142,7 @@
                     echo "    <td>$pesoMaximo</td>";
                     echo "    <td>$selecionado</td>";
                     echo "    <td>$ativo</td>";
-                    echo "    <td><a class=\"btn btn-primary btn-sm\" href=\"editar_motor.php?produto_id=$id\">Editar</a></td>";
+                    echo "    <td><a class=\"btn btn-primary btn-sm\" href=\"editar_automatizador.php?produto_id=$id\">Editar</a></td>";
                     echo "</tr>";
                 
                     }

@@ -178,7 +178,7 @@
         <p><?= isset($screenMessage)?$screenMessage:""; ?></p>
     </div>
     <div class="container mt-4">
-        <a href="motores.php" class="btn btn-primary">Voltar</a>
+        <a href="automatizadores.php" class="btn btn-primary">Voltar</a>
     </div>
     <div class="container mt-4">
     </div>
