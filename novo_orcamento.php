@@ -11,6 +11,10 @@
         $_SESSION['dadosCliente'] = [];
         $_SESSION['array_com_produtos'] = [];
         $_SESSION['array_com_produtos_atualizados'] = [];
+        $_SESSION['pedidoId'] = [];
+        $_SESSION['itensPedido'] = [];
+        $_SESSION['numeroPedido'] = [];
+        $_SESSION['codigoContato'] = [];
     ?>
     <div class="container my-3">
         <h2>Novo Pedido/Orçamento</h2>

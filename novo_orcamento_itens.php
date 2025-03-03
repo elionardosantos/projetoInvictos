@@ -292,7 +292,7 @@ if(isset($cliente)){
 </div>
 <div class="container">
     <!-- <form method="post" action="novo_orcamento_motores.php"> -->
-    <form method="post" action="novo_orcamento_process.php">
+    <form method="post" action="novo_orcamento_automatizadores.php">
         <table class="table table-hover table-sm">
             <thead>
                 <tr>

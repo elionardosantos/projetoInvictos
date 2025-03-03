@@ -28,8 +28,8 @@
                 Cadastro
               </a>
               <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="produtos.php">Produtos</a></li>
                 <li><a class="dropdown-item" href="categorias.php">Categorias</a></li>
+                <li><a class="dropdown-item" href="produtos.php">Produtos</a></li>
                 <li><a class="dropdown-item" href="automatizadores.php">Automatizadores</a>
               </ul>
             </li>
