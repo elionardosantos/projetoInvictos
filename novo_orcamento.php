@@ -73,6 +73,7 @@
                 global $celular;
                 global $telefone;
                 global $zip;
+                global $inscricaoEstadual;
 
                 $tipoPessoa = $data['data']['tipo'];
                 $documento = $data['data']['numeroDocumento'];
@@ -83,6 +84,7 @@
                 $city = $data['data']['endereco']['geral']['municipio'];
                 $zip = $data['data']['endereco']['geral']['cep'];
                 $state = $data['data']['endereco']['geral']['uf'];
+                $inscricaoEstadual = $data['data']['ie'];
                 $email = isset($data['data']['email'])?$data['data']['email']:"";
                 $celular = isset($data['data']['celular'])?$data['data']['celular']:"";
                 $telefone = isset($data['data']['telefone'])?$data['data']['telefone']:"";
