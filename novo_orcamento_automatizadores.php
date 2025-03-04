@@ -44,7 +44,8 @@ require('config/connection.php');
 
 </div>
 <?php
-    $sql = "SELECT codigo, titulo FROM automatizadores
+    $sql = "SELECT codigo, titulo, peso_minimo_porta, peso_maximo_porta
+            FROM automatizadores
             WHERE deleted = 0
             AND ativo = 1
             ";
@@ -54,19 +55,26 @@ require('config/connection.php');
 
     $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // echo "<h3>Consulta 1</h3>";
     // echo "<pre>".print_r($resultado)."</pre>";
 
     ?>
     <div class="container mt-4">
-        <form method="POST" action="print_post.php">
+        <form method="POST" action="novo_orcamento_automatizadores_process.php">
 
             <?php
             if(isset($resultado) && count($resultado) > 0){
                 foreach($resultado as $item){
+                    $checked = "";
+                    $PTotPorta = $_SESSION['dadosCliente']['pesoTotalPorta'];
+                    $PMinPorta = $item['peso_minimo_porta'];
+                    $PMaxPorta = $item['peso_maximo_porta'];
+                    if($PTotPorta > $PMinPorta && $PTotPorta < $PMaxPorta){
+                        $checked = "checked";
+                    }
+
                     ?>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="<?= $item['codigo'] ?>" id="<?= $item['codigo'] ?>">
+                            <input <?= $checked; ?> class="form-check-input" type="radio" name="automatizadorSelecionado" id="<?= $item['codigo'] ?>" value="<?= $item['codigo'] ?>">
                             <label class="form-check-label" for="<?= $item['codigo'] ?>">
                                 <?= $item['titulo'] ?>
                             </label>
@@ -84,8 +92,7 @@ require('config/connection.php');
     </div>
 
 
-<!-- ---------------------------- Conteúdo do $_SESSION ----------------------------
-<pre>
+<!-- <pre>
 <?php print_r($_SESSION); ?>
 </pre> -->
 
