@@ -15,6 +15,9 @@
         $_SESSION['itensPedido'] = [];
         $_SESSION['numeroPedido'] = [];
         $_SESSION['codigoContato'] = [];
+        $_SESSION['produtosSelecionados'] = [];
+        $_SESSION['automatizadorSelecionado'] = [];
+        
     ?>
     <div class="container my-3">
         <h2>Novo Pedido/Orçamento</h2>

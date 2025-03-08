@@ -13,6 +13,10 @@ require('config/connection.php');
 <?php
     require('partials/navbar.php');
 
+    // Transferindo os dados do POST para o SESSION
+    isset($_POST['produtosSelecionados'])?$_SESSION['produtosSelecionados'] = $_POST['produtosSelecionados']:null;
+
+
     // Exibir nome do cliente na tela de seleção de itens
     if(isset($_SESSION['dadosCliente']['cliente']) && $_SESSION['dadosCliente']['cliente'] !== ""){
 ?>
@@ -95,6 +99,12 @@ require('config/connection.php');
 <!-- <pre>
 <?php print_r($_SESSION); ?>
 </pre> -->
+
+<!-- <?php
+    echo "<pre>";
+    print_r($_POST);
+    print_r($_SESSION);
+?> -->
 
 
 </body>

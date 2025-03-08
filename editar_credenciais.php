@@ -17,9 +17,11 @@
         $client_secret = isset($jsonData['client_secret'])?$jsonData['client_secret']:"";
 
         // echo $client_id . " " . $client_secret;
+
+        $linkDeConviteBling = "";
     ?>
     <div class="container my-3">
-        <h2>Editar credenciais do Bling</h2>
+        <h2>Credenciais do Bling</h2>
     </div>
     <div class="container">
         <form action="editar_credenciais_process.php" method="GET">

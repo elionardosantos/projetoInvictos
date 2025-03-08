@@ -62,12 +62,23 @@ $observacoesArray['id_usuario'] = $_SESSION['login']['loggedUserId'];
 $observacoesInternas = json_encode($observacoesArray);
 
 
-// Criando array de produtos selecionados na criação do orçamento
-$produtosSelecionados = isset($_POST['produtosSelecionados'])?$_POST['produtosSelecionados']:null;
-// print_r($produtosSelecionados);
+// Criando array de produtos selecionados para a função de criação do orçamento
+$produtosSelecionados = isset($_SESSION['produtosSelecionados'])?$_SESSION['produtosSelecionados']:null;
+$automatizadorSelecionado = isset($_SESSION['automatizadorSelecionado'])?$_SESSION['automatizadorSelecionado']:null;
+
+// Juntando produtos e automatizadores para fazer consulta única no Bling
+$itensParaConsulta = array_merge($produtosSelecionados,$automatizadorSelecionado);
+
+// echo "<pre>"; 
+// print_r($produtosSelecionados); 
+// print_r($automatizadorSelecionado); 
+// print_r($itensParaConsulta);
+// echo "</pre>";
+
+
 
 // Retorna ID de cada produto
-$consultaProdutos = consultaProdutoId($produtosSelecionados);
+$consultaProdutos = consultaProdutoId($itensParaConsulta);
 // print_r($consultaProdutos);
 
 // Consulta o preço de cada item dentro da variavel $consultaProdutos
@@ -101,37 +112,42 @@ function idItem($codigo){
 };
 
 function listaItensPedido($produtosSelecionados){
-    global $arrayComProdutos;
-    global $pdo;
-    $virgula = "";
-    $pesoItens = "";
-    $placeholders = "";
-    $index = 0;
-    foreach($produtosSelecionados as $item){
-        $pesoItens .= $virgula.$item;
-        $placeholders .= $virgula.":".$index;
-        $virgula = ",";
-        $index ++;
+    if(isset($produtosSelecionados)){
+        global $arrayComProdutos;
+        global $pdo;
+        $virgula = "";
+        $pesoItens = "";
+        $placeholders = "";
+        $index = 0;
+        foreach($produtosSelecionados as $item){
+            $pesoItens .= $virgula.$item;
+            $placeholders .= $virgula.":".$index;
+            $virgula = ",";
+            $index ++;
+        }
+        $sql = "SELECT `id`,`codigo`,`peso` FROM `produtos` WHERE `codigo` IN ($placeholders)";
+        $stmt = $pdo->prepare($sql);
+        $index = 0;
+        foreach($produtosSelecionados as $item){
+            $stmt->bindValue(":$index", $item, PDO::PARAM_INT);
+            $index ++;
+        }
+        $stmt->execute();
+        
+        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach($resultado as $item){
+            $listaItens[$item['codigo']]['produto']['id'] = idItem($item['codigo']);
+            $listaItens[$item['codigo']]['quantidade'] = $arrayComProdutos[$item['codigo']]['quantidade_item'];
+            $listaItens[$item['codigo']]['valor'] = precoItem($item['codigo']);
+            $listaItens[$item['codigo']]['peso'] = $item['peso'];
+        }
+        
+        return $listaItens;
+
+    } else {
+        echo "A lista de itens para o pedido está vazia";
     }
-    $sql = "SELECT `id`,`codigo`,`peso` FROM `produtos` WHERE `codigo` IN ($placeholders)";
-    $stmt = $pdo->prepare($sql);
-    $index = 0;
-    foreach($produtosSelecionados as $item){
-        $stmt->bindValue(":$index", $item, PDO::PARAM_INT);
-        $index ++;
-    }
-    $stmt->execute();
-    
-    $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    foreach($resultado as $item){
-        $listaItens[$item['codigo']]['produto']['id'] = idItem($item['codigo']);
-        $listaItens[$item['codigo']]['quantidade'] = $arrayComProdutos[$item['codigo']]['quantidade_item'];
-        $listaItens[$item['codigo']]['valor'] = precoItem($item['codigo']);
-        $listaItens[$item['codigo']]['peso'] = $item['peso'];
-    }
-    
-    return $listaItens;
 }    
 // $listaItens = [
 //     44=>[// PERFIL
@@ -364,8 +380,9 @@ function novoPedido(){
 
 // RETORNA O ID DOS PRODUTOS
 function consultaProdutoId($listaProdutos){
+    // echo "listaProdutos: "; print_r($listaProdutos);
     $link = "";
-    if(count($listaProdutos) > 0){
+    if(isset($listaProdutos) && count($listaProdutos) > 0){
         foreach($listaProdutos as $produto){
             $link .= "&codigos%5B%5D=$produto";
         }
@@ -395,6 +412,8 @@ function consultaProdutoId($listaProdutos){
             return "erro";
             return false;
         }
+    } else {
+        echo "Consulta de produtos por ID não realizada";
     }
 }
 function alteraStatus($pedidoId,$novoStatusId){

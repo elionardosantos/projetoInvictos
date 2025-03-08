@@ -13,8 +13,16 @@ require('config/connection.php');
 <?php
     require('partials/navbar.php');
 
+    $_SESSION['automatizadorSelecionado'][] = $_POST['automatizadorSelecionado'];
 
-    print_r($_POST);
+    header("location: novo_orcamento_process.php");
+
+    // echo "<p><a href=\"novo_orcamento_process.php\">Continuar</a></p>";
+    // echo "<pre>";
+    // echo "POST:";
+    // print_r($_POST);
+    // echo "SESSION:";
+    // print_r($_SESSION);
 ?>
 
 
