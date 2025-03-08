@@ -30,8 +30,8 @@
               <ul class="dropdown-menu dropdown-menu-dark">
                 <li><a class="dropdown-item" href="produtos.php">Produtos</a></li>
                 <li><a class="dropdown-item" href="automatizadores.php">Automatizadores</a>
-                <div class="dropdown-divider"></div>
-                <li><a class="dropdown-item" href="categorias.php">Categorias</a></li>
+                <!-- <div class="dropdown-divider"></div>
+                <li><a class="dropdown-item" href="categorias.php">Categorias</a></li> -->
               </ul>
             </li>
             <li class="nav-item dropdown">
