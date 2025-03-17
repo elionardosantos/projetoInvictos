@@ -289,7 +289,7 @@ if(isset($cliente)){
                             }
 
                         }
-                        /*
+                        
                         foreach($arrayComProdutos as $produto){
                             if($produto['selecionado'] == 0){
                                 ?>
@@ -333,7 +333,7 @@ if(isset($cliente)){
                                 <?php
                             }
                         }
-                        */
+                        
                     ?>
                 </tbody>
         </table>
