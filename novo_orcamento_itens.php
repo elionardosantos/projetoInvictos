@@ -208,7 +208,7 @@ if(isset($cliente)){
                 }
                 $pesoTotalPorta = $pesoTotalPorta / $quantidade;
                 $_SESSION['dadosCliente']['pesoTotalPorta'] = $pesoTotalPorta;
-                echo " / Peso total porta: $pesoTotalPorta KG<br><br>";
+                // echo " / Peso total porta: $pesoTotalPorta KG<br><br>";
                 
             } else {
                 // nada aqui...

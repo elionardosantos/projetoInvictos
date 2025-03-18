@@ -477,7 +477,7 @@ function editaContato(){
         "accept: application/json",
         "Content-Type: application/json"
     );
-    $codigoContato = $_SESSION['codigoContato'];
+    $codigoContato = $_SESSION['dadosCliente']['codigoContato'];
     $data = [
         "codigo"=>$codigoContato,
         "nome"=>$cliente,
