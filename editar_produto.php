@@ -69,6 +69,38 @@
                     <label for="multiplicador_produto" class="form-label mb-0">Multiplicador</label>
                     <input value="<?= $produto['multiplicador'] ?>" class="form-control" name="multiplicador_produto" type="text" inputmode="decimal" placeholder="Fator de multiplicação" id="multiplicador_produto">
                 </div>
+                <div class="col-lg-4 mt-2">
+                    <label for="consumo_produto" class="form-label mb-0">Categoria</label>
+
+                    <?php
+                        require('config/connection.php');
+        
+                        $sql = "SELECT `id`,`name`,`indice`,`ativo` FROM `categorias_produtos` WHERE `deleted` = :deleted";
+                        $stmt = $pdo->prepare($sql);
+                        $stmt->bindValue(':deleted', 0);
+                        $stmt->execute();
+                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+                        usort($result, function($a, $b) {
+                            return $a['indice'] <=> $b['indice']; // Ordenação crescente pelo ID
+                        });
+                    ?>
+
+                    <select class="form-select" name="consumo_produto" id="consumo_produto">
+                        <option></option>
+                        <?php
+                            foreach ($result as $item => $value) {
+                                $categId = $value['id'];
+                                $categName = $value['name'];
+                                $categIndice = $value['indice'];
+                                $categAtivo  = $value['ativo'];
+
+                                echo "<option value=\"$categId\">$categName</option>";
+                            }
+                        ?>
+                        
+                    </select>
+                </div>
             </div>
             
             <div class="mt-5">
