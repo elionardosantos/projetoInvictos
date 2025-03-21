@@ -36,18 +36,19 @@
         
         function userInsert() {
             global $formName;
-            $created_by = $_SESSION['loggedUserId'];
+            $created_by = $_SESSION['login']['loggedUserId'];
             date_default_timezone_set('America/Sao_Paulo');
             $created_at = date('Y-m-d H:i:s');
 
             try {
                 require('config/connection.php');
-                $sql = "INSERT INTO `categorias_produtos`(`name`, `ativo`, `deleted`, `created_by`, `created_at`) 
-                    VALUES (:formName, :ativo, :deleted, :created_by, :created_at)";
+                $sql = "INSERT INTO `categorias_produtos`(`name`, `ativo`, `indice`, `deleted`, `created_by`, `created_at`) 
+                    VALUES (:formName, :ativo, :indice, :deleted, :created_by, :created_at)";
                     
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindValue(':formName', $formName);
                 $stmt->bindValue(':ativo', 1);
+                $stmt->bindValue(':indice', 0);
                 $stmt->bindValue(':created_by', $created_by);
                 $stmt->bindValue(':created_at', $created_at);
                 $stmt->bindValue(':deleted', 0);

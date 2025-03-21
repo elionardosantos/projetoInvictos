@@ -13,7 +13,7 @@
         $produtoId = isset($_GET['produto_id'])?$_GET['produto_id']:"";
         
         if($produtoId !== ""){
-            $sql = "SELECT `id`,`codigo`,`titulo`,`peso`,`tipo_consumo`,`multiplicador`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`selecionado` 
+            $sql = "SELECT `id`,`codigo`,`titulo`,`categoria`,`peso`,`tipo_consumo`,`multiplicador`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`selecionado` 
             FROM `produtos` 
             WHERE `id` = :id 
             AND `deleted` = :deleted";
@@ -25,6 +25,8 @@
             
             $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $produto = $resultado[0];
+
+            // print_r($produto['categoria']);
         }
 
     ?>
@@ -86,8 +88,8 @@
                         });
                     ?>
 
-                    <select class="form-select" name="consumo_produto" id="consumo_produto">
-                        <option></option>
+                    <select class="form-select" name="categoria" id="categoria">
+                        <option value=""></option>
                         <?php
                             foreach ($result as $item => $value) {
                                 $categId = $value['id'];
@@ -95,7 +97,9 @@
                                 $categIndice = $value['indice'];
                                 $categAtivo  = $value['ativo'];
 
-                                echo "<option value=\"$categId\">$categName</option>";
+                                $produto['categoria'] == $categId?$selected = "selected" : $selected = "";
+
+                                echo "<option $selected value=\"$categId\">$categName</option>";
                             }
                         ?>
                         

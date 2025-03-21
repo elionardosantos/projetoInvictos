@@ -74,8 +74,8 @@
                 <span class="input-group-text col-sm-2 col-3">Status</span>
                 <div class="">
                     <select class="form-select form-control" name="formAtivo">
-                        <option <?= $categStatus == 0?"selected":"" ?> value="0">0 - Inativo</option>
-                        <option <?= $categStatus == 1?"selected":"" ?> value="1">1 - Ativo</option>
+                        <option <?= $categStatus == 0?"selected":"" ?> value="0">Inativo</option>
+                        <option <?= $categStatus == 1?"selected":"" ?> value="1">Ativo</option>
                     </select>
                 </div>
             </div>

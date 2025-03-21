@@ -24,6 +24,7 @@
         // Variaveis com o tratamento dos dados realizado
         $codigoProduto = isset($_POST['codigo_produto'])?$_POST['codigo_produto']:"";
         $titulo = isset($_POST['titulo_produto'])?$_POST['titulo_produto']:"";
+        $categoria = isset($_POST['categoria'])?$_POST['categoria']:null;
         $peso = $pesoForm !== ""?floatval(str_replace(",",".",$pesoForm)):null;
         $multiplicador = $multiplicadorForm !== ""?floatval(str_replace(",",".",$multiplicadorForm)):null;
         $consumoProduto = isset($_POST['consumo_produto'])?$_POST['consumo_produto']:"";
@@ -97,6 +98,7 @@
             global $idProduto;
             global $codigoProduto;
             global $titulo;
+            global $categoria;
             global $peso;
             global $consumoProduto;
             global $multiplicador;
@@ -111,7 +113,7 @@
 
             // print_r($statusProduto);
 
-            $updated_by = $_SESSION['loggedUserId'];
+            $updated_by = $_SESSION['login']['loggedUserId'];
             date_default_timezone_set('America/Sao_Paulo');
             $updated_at = date('Y-m-d H:i:s');
 
@@ -121,6 +123,7 @@
                         SET
                             `codigo` = :codigo,
                             `titulo` = :titulo,
+                            `categoria` = :categoria,
                             `peso` = :peso,
                             `tipo_consumo` = :tipo_consumo,
                             `multiplicador` = :multiplicador,
@@ -141,6 +144,7 @@
                 $stmt->bindValue(':id', $idProduto);
                 $stmt->bindValue(':codigo', $codigoProduto);
                 $stmt->bindValue(':titulo', $titulo);
+                $stmt->bindValue(':categoria', $categoria);
                 $stmt->bindValue(':peso', $peso);
                 $stmt->bindValue(':tipo_consumo', $consumoProduto);
                 $stmt->bindValue(':multiplicador', $multiplicador);

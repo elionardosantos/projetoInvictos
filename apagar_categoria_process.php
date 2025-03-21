@@ -21,7 +21,7 @@
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':categId', $categId);
         $stmt->bindValue(':deleted', 1);
-        $stmt->bindValue(':deleted_by', $_SESSION['loggedUserId']);
+        $stmt->bindValue(':deleted_by', $_SESSION['login']['loggedUserId']);
         $stmt->bindValue(':deleted_at', $dateTime);
         $stmt->execute();
         $result = $stmt->rowCount();

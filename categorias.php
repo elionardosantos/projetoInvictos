@@ -57,12 +57,14 @@
                                             $indice = $row['indice'];
                                             $categName = $row['name'];
                                             $categAtivo = $row['ativo'];
+
+                                            $status = $categAtivo == 1 ? "Ativo" : "Inativo";
                                             
                                             echo "<tr>";
                                             // echo "<td>$categId</td>";
                                             echo "<td>$indice</td>";
                                             echo "<td>$categName</td>";
-                                            echo "<td>$categAtivo</td>";
+                                            echo "<td>$status</td>";
                                             echo "<td><a href=\"editar_categoria.php?id=$categId\" class=\"btn btn-primary btn-sm\">Editar</a></td>";
                                             echo "</tr>";
                                         }

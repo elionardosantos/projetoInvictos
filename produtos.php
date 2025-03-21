@@ -104,6 +104,7 @@
                                 `id`,
                                 `codigo`,
                                 `titulo`,
+                                `categoria`,
                                 `peso`,
                                 `tipo_consumo`,
                                 `multiplicador`,
@@ -157,11 +158,29 @@
                     
                     $stmt->execute();
                     $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                    $sql = "SELECT `id`,`name`,`indice`,`ativo` FROM `categorias_produtos` WHERE `deleted` = :deleted";
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->bindValue(':deleted', 0);
+                    $stmt->execute();
+                    $arrayCategs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+
+                    // Ordenar array ###########
+                    // usort($arrayCategs, function($a, $b) {
+                    //     return $a['indice'] <=> $b['indice']; // Ordenação crescente pelo ID
+                    // });
+
+                    
+                    // echo "<pre>";
+                    // print_r($arrayCategs);
+                    // echo "</pre>";
         
                     foreach($resultado as $row){
                         $id = isset($row['id'])?$row['id']:"";
                         $codigo = isset($row['codigo'])?$row['codigo']:"";
                         $titulo = isset($row['titulo'])?$row['titulo']:"";
+                        $categoria = isset($row['categoria'])?$row['categoria']:"";
                         $peso = isset($row['peso'])?$row['peso']:"";
                         $consumo = isset($row['tipo_consumo'])?$row['tipo_consumo']:"";
                         $multiplicador = isset($row['multiplicador'])?$row['multiplicador']:"";
@@ -174,11 +193,24 @@
                         $ativo = isset($row['ativo']) && $row['ativo'] == 1?"Ativo":"Inativo";
                         $selecionado = isset($row['selecionado']) && $row['selecionado'] === 1?"Sim":"Não";
 
+                        if(isset($categoria)){
+                            foreach($arrayCategs as $item => $value){
+                                if($value['id'] == $categoria){
+                                    $categTitulo = $value['name'];
+                                    break;
+                                } else {
+                                    $categTitulo = "-";
+                                }
+                            }
+                        } else {
+                            $categTitulo = "-";
+                        }
+
 
                     echo "<tr>";
                     echo "    <td>$codigo</td>";
                     echo "    <td>$titulo</td>";
-                    echo "    <td>-</td>";
+                    echo "    <td>$categTitulo</td>";
                     echo "    <td>$peso</td>";
                     echo "    <td>$consumo</td>";
                     echo "    <td>$multiplicador</td>";
