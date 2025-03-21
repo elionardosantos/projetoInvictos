@@ -105,6 +105,9 @@ require('partials/navbar.php');
 
 // Buscando produtos de acordo com os parametros de largura e altura
 if($alturaTotal !== "" && $larguraTotal !== ""){
+    if($alturaTotal == 0 && $larguraTotal == 0){
+        echo "Mostrar itens de manutenção";
+    }
     if($alturaTotal !== 0 && $larguraTotal !== 0){
         $sql = "SELECT * FROM produtos
                 WHERE deleted = 0

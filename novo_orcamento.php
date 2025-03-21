@@ -253,8 +253,9 @@
                 <div class="col-md-3">
                     <label for="condicaoPagamento" class="form-label mb-0 mt-2">Condição de Pagto</label>
                     <select class="form-select" id="condicaoPagamento" name="condicaoPagamento">
-                        <option selected>À vista</option>
+                        <option value="avista" selected>À vista</option>
                         <?php
+                            // Gera as opções de pagamento até 12x
                             for($i=1; $i<=12; $i++){
                                echo "<option value=\"cartao".$i."x\">Cartão $i"."x</option>";
                             }
@@ -268,8 +269,8 @@
                 <div class="col-md-2">
                     <label for="tipoDesconto" class="form-label mb-0 mt-2">Tipo</label>
                     <select class="form-select" name="tipoDesconto">
-                        <option value="REAL" selected>R$</option>
                         <option value="PERCENTUAL">%</option>
+                        <option value="REAL" selected>R$</option>
                     </select>
                 </div>
                 <!-- <div class="col-md-4">

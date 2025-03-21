@@ -277,7 +277,7 @@
                             <?php
                                 if(isset($tipoDesconto) && $tipoDesconto == "REAL"){
                             ?>
-                            <div class="col py-1">R$<?= number_format($totalProdutos, 2, ",", ".") ?></div>
+                            <div class="col py-1">R$<?= number_format($valorDesconto, 2, ",", ".") ?></div>
                             <?php
                                 }else if(isset($tipoDesconto) && $tipoDesconto == "PERCENTUAL"){
                             ?>
