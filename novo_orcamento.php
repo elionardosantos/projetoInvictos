@@ -162,9 +162,34 @@
                     }
                 }
             }
+            function consultaFormasPagamento(){
+                $jsonFile = file_get_contents('config/token_request_response.json');
+                $jsonData = json_decode($jsonFile, true);
+                $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
 
-            
-            
+
+                $curl = curl_init();
+
+                curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://api.bling.com.br/Api/v3/formas-pagamentos?situacao=1',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => array(
+                    'Accept: application/json',
+                    'Authorization: Bearer '.$token,
+                ),
+                ));
+
+                $response = curl_exec($curl);
+                return json_decode($response, true);
+                
+                curl_close($curl);
+            }
         ?>
     </div>
     
@@ -253,12 +278,25 @@
                 <div class="col-md-3">
                     <label for="condicaoPagamento" class="form-label mb-0 mt-2">Condição de Pagto</label>
                     <select class="form-select" id="condicaoPagamento" name="condicaoPagamento">
-                        <option value="avista" selected>À vista</option>
+                        <!-- <option value="avista" selected>À vista</option> -->
                         <?php
-                            // Gera as opções de pagamento até 12x
-                            for($i=1; $i<=12; $i++){
-                               echo "<option value=\"cartao".$i."x\">Cartão $i"."x</option>";
+                            $formasPagamentoArray = consultaFormasPagamento();
+
+                            // usort($formasPagamentoArray['data'], function($a, $b) {
+                            //     return $a['descricao'] <=> $b['descricao']; // Ordenação crescente pelo Código
+                            // });
+                            
+                            // print_r($formasPagamentoArray);
+                            
+                            foreach($formasPagamentoArray['data'] as $item){
+                                echo "<option value=\"" . $item['id'] . "\">" . $item['descricao'] . "</option>";
+                                echo "\n";
                             }
+
+                            // Gera as opções de pagamento até 12x
+                            // for($i=1; $i<=12; $i++){
+                            //    echo "<option value=\"cartao".$i."x\">Cartão $i"."x</option>";
+                            // }
                         ?>
                     </select>
                 </div>
@@ -267,10 +305,10 @@
                     <input type="number" inputmode="numeric" id="desconto" name="desconto" class="form-control" placeholder="Somente números">
                 </div>
                 <div class="col-md-2">
-                    <label for="tipoDesconto" class="form-label mb-0 mt-2">Tipo</label>
+                    <label for="tipoDesconto" class="form-label mb-0 mt-2">Tipo de desconto</label>
                     <select class="form-select" name="tipoDesconto">
-                        <option value="PERCENTUAL">%</option>
-                        <option value="REAL" selected>R$</option>
+                        <option value="PERCENTUAL">% - Percentual</option>
+                        <option value="REAL">R$ - Real</option>
                     </select>
                 </div>
                 <!-- <div class="col-md-4">

@@ -160,7 +160,21 @@ function listaItensPedido($produtosSelecionados){
 //     ]    
 // ];    
 
+
+
 $itensPedido = listaItensPedido($produtosSelecionados);
+
+$valorTotalItensPedido = 0; 
+foreach($itensPedido as $item=>$valor){
+    // echo " + ".$valor['valor'] * $valor['quantidade'];
+    $valorTotalItensPedido += ($valor['valor'] * $valor['quantidade']);
+}
+if($tipoDesconto == "PERCENTUAL"){
+    $valorTotalPedido = $valorTotalItensPedido - (($valorTotalItensPedido * $desconto) / 100);
+} else if($tipoDesconto == "REAL"){
+    $valorTotalPedido = ($valorTotalItensPedido - $desconto);
+}
+// echo " = ".$valorTotalItensPedido;
 
 
 // ###################### FUNCTIONS START ########################
@@ -313,6 +327,8 @@ function novoPedido(){
     global $cepServico;
     global $desconto;
     global $tipoDesconto;
+    global $valorTotalPedido;
+    global $condicaoPagamento;
 
     $url = "https://api.bling.com.br/Api/v3/pedidos/vendas";
     $jsonFile = file_get_contents('config/token_request_response.json');
@@ -343,6 +359,17 @@ function novoPedido(){
                 "bairro"=>$bairroServico,
                 "complemento"=>""
             ],
+        ],
+        "parcelas"=>[
+          [
+            // "id"=>"",
+            "dataVencimento"=>date('Y-m-d', strtotime('+30 days')),
+            "valor"=>$valorTotalPedido,
+            // "observacoes"=>"Observação da parcela",
+            "formaPagamento"=>[
+              "id"=>$condicaoPagamento
+            ]
+          ]
         ],
         "desconto"=>[
             "valor"=>$desconto,
