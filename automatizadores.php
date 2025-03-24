@@ -35,10 +35,12 @@
                 <div class="col-sm-4">
                     <label for="classificar" class="form-label mb-0">Classificar por</label>
                     <select class="form-select" name="classificar" id="classificar">
-                        <option value="codigo ASC">Código (A-Z)</option>
-                        <option value="codigo DESC">Código (Z-A)</option>
-                        <option value="titulo ASC">Titulo (A-Z)</option>
-                        <option value="titulo DESC">Titulo (Z-A)</option>
+                    <option value=""></option>
+                    <option value="codigo ASC">Código (A-Z)</option>
+                    <option value="codigo DESC">Código (Z-A)</option>
+                    <option value="titulo ASC">Titulo (A-Z)</option>
+                    <option value="titulo DESC">Titulo (Z-A)</option>
+                    <option value="peso_minimo_porta ASC">Peso Minimo da Porta (A-Z)</option>
                     </select>
                 </div>
             </div>
@@ -101,7 +103,7 @@
                     if(isset($ordem) && $ordem !== ""){
                         $sql .= " ORDER BY $ordem";
                     } else {
-                        $sql .= " ORDER BY codigo";
+                        $sql .= " ORDER BY peso_minimo_porta ASC";
                     };
 
                     $stmt = $pdo->prepare($sql);
@@ -123,6 +125,8 @@
                     
                     $stmt->execute();
                     $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                    
         
                     foreach($resultado as $row){
                         $id = isset($row['id'])?$row['id']:"";

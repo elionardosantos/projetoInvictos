@@ -17,16 +17,18 @@
             
             $formName = $_POST['formName'];
             $formAtivo = $_POST['formAtivo'];
-            $created_by = $_SESSION['loggedUserId'];
+            $formIndice = $_POST['formIndice'];
+            $created_by = $_SESSION['login']['loggedUserId'];
             date_default_timezone_set('America/Sao_Paulo');
             $dateTime = date('Y-m-d H:i:s');
             
-            $sql = "UPDATE `categorias_produtos` SET `name` = :formName, `ativo` = :formAtivo, `updated_by` = :updated_by, `updated_at` = :updated_at WHERE `id` = :categId";
+            $sql = "UPDATE `categorias_produtos` SET `name` = :formName, `ativo` = :formAtivo, `indice` = :formIndice, `updated_by` = :updated_by, `updated_at` = :updated_at WHERE `id` = :categId";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':formName', $formName);
             $stmt->bindParam(':formAtivo', $formAtivo);
+            $stmt->bindParam(':formIndice', $formIndice);
             $stmt->bindParam(':categId', $categId);
-            $stmt->bindValue(':updated_by', $_SESSION['loggedUserId']);
+            $stmt->bindValue(':updated_by', $_SESSION['login']['loggedUserId']);
             $stmt->bindValue(':updated_at', $dateTime);
 
             if($stmt->execute() === TRUE) {
@@ -43,7 +45,7 @@
         if($categId !== ""){
             require('config/connection.php');
 
-            $sql = "SELECT `name`,`ativo` FROM `categorias_produtos` WHERE `id` = :categId";
+            $sql = "SELECT `name`,`ativo`,`indice` FROM `categorias_produtos` WHERE `id` = :categId";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':categId', $categId);
             $stmt->execute();
@@ -53,6 +55,7 @@
             foreach($result as $row){
                 $categName = isset($row['name'])?$row['name']:"";
                 $categStatus = isset($row['ativo'])?$row['ativo']:"";
+                $categIndice = isset($row['indice'])?$row['indice']:"";
             }
 
         }
@@ -71,10 +74,14 @@
                 <span class="input-group-text col-sm-2 col-3">Status</span>
                 <div class="">
                     <select class="form-select form-control" name="formAtivo">
-                        <option <?= $categStatus == 0?"selected":"" ?> value="0">0 - Inativo</option>
-                        <option <?= $categStatus == 1?"selected":"" ?> value="1">1 - Ativo</option>
+                        <option <?= $categStatus == 0?"selected":"" ?> value="0">Inativo</option>
+                        <option <?= $categStatus == 1?"selected":"" ?> value="1">Ativo</option>
                     </select>
                 </div>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text col-sm-2 col-3">Índice</span>
+                <input type="number" class="form-control" placeholder="(Posição do item no orçamento) Digite um número" value="<?= $categIndice; ?>" name="formIndice" autofocus>
             </div>
             <div>
                 <p>

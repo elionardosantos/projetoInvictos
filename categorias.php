@@ -20,23 +20,28 @@
         
         <?php 
 
-            usersListing();
+            categsListing();
             
-            function usersListing() {
+            function categsListing() {
                 require('config/connection.php');
 
-                $sql = "SELECT `id`,`name`,`ativo` FROM `categorias_produtos` WHERE `deleted` = :deleted";
+                $sql = "SELECT `id`,`name`,`indice`,`ativo` FROM `categorias_produtos` WHERE `deleted` = :deleted";
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindValue(':deleted', 0);
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                usort($result, function($a, $b) {
+                    return $a['indice'] <=> $b['indice']; // Ordenação crescente pelo ID
+                });
 
         ?>
                 <div>
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th scope="col">ID</th>
+                                <!-- <th scope="col">ID</th> -->
+                                <th scope="col">Índice</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Ação</th>
@@ -49,13 +54,17 @@
 
                                         foreach($result as $row) {
                                             $categId = $row['id'];
+                                            $indice = $row['indice'];
                                             $categName = $row['name'];
                                             $categAtivo = $row['ativo'];
+
+                                            $status = $categAtivo == 1 ? "Ativo" : "Inativo";
                                             
                                             echo "<tr>";
-                                            echo "<td>$categId</td>";
+                                            // echo "<td>$categId</td>";
+                                            echo "<td>$indice</td>";
                                             echo "<td>$categName</td>";
-                                            echo "<td>$categAtivo</td>";
+                                            echo "<td>$status</td>";
                                             echo "<td><a href=\"editar_categoria.php?id=$categId\" class=\"btn btn-primary btn-sm\">Editar</a></td>";
                                             echo "</tr>";
                                         }

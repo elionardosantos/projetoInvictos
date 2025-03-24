@@ -29,8 +29,9 @@
               </a>
               <ul class="dropdown-menu dropdown-menu-dark">
                 <li><a class="dropdown-item" href="produtos.php">Produtos</a></li>
-                <li><a class="dropdown-item" href="categorias.php">Categorias</a></li>
                 <li><a class="dropdown-item" href="automatizadores.php">Automatizadores</a>
+                <div class="dropdown-divider"></div>
+                <li><a class="dropdown-item" href="categorias.php">Categorias</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -39,7 +40,7 @@
               </a>
               <ul class="dropdown-menu dropdown-menu-dark">
                 <li><a class="dropdown-item" href="listar_usuarios.php">Usuários</a></li>
-                <li><a class="dropdown-item" href="editar_credenciais.php">Credenciais Bling</a>
+                <li><a class="dropdown-item" href="editar_credenciais.php">Integração Bling</a>
               </ul>
             </li>
           <?php 

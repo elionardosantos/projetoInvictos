@@ -105,6 +105,9 @@ require('partials/navbar.php');
 
 // Buscando produtos de acordo com os parametros de largura e altura
 if($alturaTotal !== "" && $larguraTotal !== ""){
+    if($alturaTotal == 0 && $larguraTotal == 0){
+        echo "Mostrar itens de manutenção";
+    }
     if($alturaTotal !== 0 && $larguraTotal !== 0){
         $sql = "SELECT * FROM produtos
                 WHERE deleted = 0
@@ -208,7 +211,7 @@ if(isset($cliente)){
                 }
                 $pesoTotalPorta = $pesoTotalPorta / $quantidade;
                 $_SESSION['dadosCliente']['pesoTotalPorta'] = $pesoTotalPorta;
-                echo " / Peso total porta: $pesoTotalPorta KG<br><br>";
+                // echo " / Peso total porta: $pesoTotalPorta KG<br><br>";
                 
             } else {
                 // nada aqui...
@@ -220,79 +223,11 @@ if(isset($cliente)){
         <div class="my-3">
             <a class="btn btn-primary" href="novo_orcamento_edita_itens.php">Editar itens</a>
         </div>
-
-        <?php
-
-        
-        // Consultando produtos por peso no banco de dados
-
-        
-        $pesoTotalPorta = $_SESSION['dadosCliente']['pesoTotalPorta'];
-
-        $sql = "SELECT * FROM produtos
-            WHERE peso_minimo_porta <= $pesoTotalPorta
-            AND peso_maximo_porta >= $pesoTotalPorta
-            ";
-            // ORDER BY coluna1 [ASC|DESC], coluna2 [ASC|DESC],
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-
-        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        // echo "<h3>Consulta 2</h3>";
-        // echo "<pre>".print_r($resultado)."</pre>";
-        
-        if(count($resultado) > 0){
-            foreach($resultado as $row){
-                switch ($row['tipo_consumo']) {
-                    case 'm2':
-                        $quantidadeItem = ($m2 * $row['multiplicador']) * $quantidade;
-                        break;
-
-                    case 'largura':
-                        $quantidadeItem = ($larguraTotal * $row['multiplicador']) * $quantidade;
-                        break;
-                        
-                    case 'altura':
-                        $quantidadeItem = ($alturaTotal * $row['multiplicador']) * $quantidade;
-                        break;
-
-                    case 'unidade':
-                        $quantidadeItem = (1 * $row['multiplicador']) * $quantidade;
-                        break;
-                }
-                $produtoParaArray['id'] = $row['id'];
-                $produtoParaArray['selecionado'] = $row['selecionado'];
-                $produtoParaArray['codigo'] = isset($row['codigo'])?$row['codigo']:"";
-                $produtoParaArray['titulo'] = $row['titulo'];
-                $produtoParaArray['quantidade_item'] = $quantidadeItem;
-                $produtoParaArray['peso_item'] = ($row['peso'] * $row['multiplicador']);
-                $produtoParaArray['tipo_consumo'] = $row['tipo_consumo'];
-                $produtoParaArray['multiplicador'] = $row['multiplicador'];
-
-                // $produtoParaArray['id'] = $id;
-                // $produtoParaArray['selecionado'] = $selecionado;
-                // $produtoParaArray['codigo'] = $codigo;
-                // $produtoParaArray['titulo'] = $titulo;
-                // $produtoParaArray['quantidade_item'] = $quantidadeItem;
-                // $produtoParaArray['peso_item'] = $pesoItem;
-                // $produtoParaArray['tipo_consumo'] = $tipoConsumo;
-                // $produtoParaArray['multiplicador'] = $multiplicador;
-
-                $arrayComProdutos[$row['codigo']] = $produtoParaArray;
-            }
-        } else {
-            // nada aqui...
-        }
-        // print_r($arrayComProdutos);
-        
-    ?>
-
     
 </div>
 <div class="container">
     <!-- <form method="post" action="novo_orcamento_motores.php"> -->
-    <form method="post" action="novo_orcamento_process.php">
+    <form method="post" action="novo_orcamento_automatizadores.php">
         <table class="table table-hover table-sm">
             <thead>
                 <tr>
@@ -357,7 +292,7 @@ if(isset($cliente)){
                             }
 
                         }
-                        /*
+                        
                         foreach($arrayComProdutos as $produto){
                             if($produto['selecionado'] == 0){
                                 ?>
@@ -401,7 +336,7 @@ if(isset($cliente)){
                                 <?php
                             }
                         }
-                        */
+                        
                     ?>
                 </tbody>
         </table>

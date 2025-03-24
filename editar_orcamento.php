@@ -238,8 +238,8 @@
                 <div class="col-md-2">
                     <label for="tipoDesconto" class="form-label mb-0 mt-2">Tipo</label>
                     <select class="form-select" name="tipoDesconto">
-                        <option <?= isset($tipoDesconto) && $tipoDesconto == "REAL"?"selected":"" ?> value="REAL" >R$</option>
                         <option <?= isset($tipoDesconto) && $tipoDesconto == "PERCENTUAL"?"selected":"" ?> value="PERCENTUAL">%</option>
+                        <option <?= isset($tipoDesconto) && $tipoDesconto == "REAL"?"selected":"" ?> value="REAL" >R$</option>
                     </select>
                 </div>
             </div>

@@ -13,7 +13,7 @@
         $produtoId = isset($_GET['produto_id'])?$_GET['produto_id']:"";
         
         if($produtoId !== ""){
-            $sql = "SELECT `id`,`codigo`,`titulo`,`peso`,`tipo_consumo`,`multiplicador`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`selecionado` 
+            $sql = "SELECT `id`,`codigo`,`titulo`,`categoria`,`peso`,`tipo_consumo`,`multiplicador`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`selecionado` 
             FROM `produtos` 
             WHERE `id` = :id 
             AND `deleted` = :deleted";
@@ -25,6 +25,8 @@
             
             $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $produto = $resultado[0];
+
+            // print_r($produto['categoria']);
         }
 
     ?>
@@ -68,6 +70,40 @@
                 <div class="col-lg-2 mt-2">
                     <label for="multiplicador_produto" class="form-label mb-0">Multiplicador</label>
                     <input value="<?= $produto['multiplicador'] ?>" class="form-control" name="multiplicador_produto" type="text" inputmode="decimal" placeholder="Fator de multiplicação" id="multiplicador_produto">
+                </div>
+                <div class="col-lg-4 mt-2">
+                    <label for="consumo_produto" class="form-label mb-0">Categoria</label>
+
+                    <?php
+                        require('config/connection.php');
+        
+                        $sql = "SELECT `id`,`name`,`indice`,`ativo` FROM `categorias_produtos` WHERE `deleted` = :deleted";
+                        $stmt = $pdo->prepare($sql);
+                        $stmt->bindValue(':deleted', 0);
+                        $stmt->execute();
+                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+                        usort($result, function($a, $b) {
+                            return $a['indice'] <=> $b['indice']; // Ordenação crescente pelo ID
+                        });
+                    ?>
+
+                    <select class="form-select" name="categoria" id="categoria">
+                        <option value=""></option>
+                        <?php
+                            foreach ($result as $item => $value) {
+                                $categId = $value['id'];
+                                $categName = $value['name'];
+                                $categIndice = $value['indice'];
+                                $categAtivo  = $value['ativo'];
+
+                                $produto['categoria'] == $categId?$selected = "selected" : $selected = "";
+
+                                echo "<option $selected value=\"$categId\">$categName</option>";
+                            }
+                        ?>
+                        
+                    </select>
                 </div>
             </div>
             

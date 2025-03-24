@@ -13,7 +13,7 @@
         date_default_timezone_set('America/Sao_Paulo');
         $timeNow = date('Y-m-d H:i:s');
         $produtoId = $_GET['id'];
-        $loggedUserId = $_SESSION['loggedUserId'];
+        $loggedUserId = $_SESSION['login']['loggedUserId'];
 
         require('config/connection.php');
 
