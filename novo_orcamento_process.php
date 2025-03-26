@@ -579,7 +579,7 @@ function editaContato(){
     </div> -->
     <div class="container mt-3">
         <?php
-            if($modoTeste == 1){// Chave geral que habilita/desabilita criação de pedidos para testes. 0 para testes
+            if($modoTeste == 0){// Chave geral que habilita/desabilita criação de pedidos para testes. 0 para testes
                 if(consultaContatoId($contatoId)){ // Verifica se o contato existe pelo ID
                     sleep(1);
                     editaContato();
