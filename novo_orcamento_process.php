@@ -21,7 +21,7 @@ $estado = isset($_SESSION['dadosCliente']['estado'])?$_SESSION['dadosCliente']['
 $tabelaPreco = isset($_SESSION['dadosCliente']['tabelaPreco'])?$_SESSION['dadosCliente']['tabelaPreco']:"";
 $condicaoPagamento = isset($_SESSION['dadosCliente']['condicaoPagamento'])?$_SESSION['dadosCliente']['condicaoPagamento']:"";
 $cep = isset($_SESSION['dadosCliente']['cep'])?$_SESSION['dadosCliente']['cep']:"";
-$desconto = isset($_SESSION['dadosCliente']['desconto'])?$_SESSION['dadosCliente']['desconto']:"";
+$desconto = isset($_SESSION['dadosCliente']['desconto']) && $_SESSION['dadosCliente']['desconto'] !== ""?$_SESSION['dadosCliente']['desconto']:0;
 $tipoDesconto = isset($_SESSION['dadosCliente']['tipoDesconto'])?$_SESSION['dadosCliente']['tipoDesconto']:"";
 
 $tel = isset($_SESSION['dadosCliente']['tel'])?$_SESSION['dadosCliente']['tel']:"";
@@ -169,11 +169,15 @@ foreach($itensPedido as $item=>$valor){
     // echo " + ".$valor['valor'] * $valor['quantidade'];
     $valorTotalItensPedido += ($valor['valor'] * $valor['quantidade']);
 }
+
+print_r($desconto);
+
 if($tipoDesconto == "PERCENTUAL"){
-    $valorTotalPedido = $valorTotalItensPedido - (($valorTotalItensPedido * $desconto) / 100);
+    $valorTotalPedido = $valorTotalItensPedido - ((($valorTotalItensPedido * 1) * ($desconto * 1)) / 100);
 } else if($tipoDesconto == "REAL"){
     $valorTotalPedido = ($valorTotalItensPedido - $desconto);
 }
+
 // echo " = ".$valorTotalItensPedido;
 
 
@@ -575,7 +579,7 @@ function editaContato(){
     </div> -->
     <div class="container mt-3">
         <?php
-            if($modoTeste == 0){// Chave geral que habilita/desabilita criação de pedidos para testes. 0 para testes
+            if($modoTeste == 1){// Chave geral que habilita/desabilita criação de pedidos para testes. 0 para testes
                 if(consultaContatoId($contatoId)){ // Verifica se o contato existe pelo ID
                     sleep(1);
                     editaContato();

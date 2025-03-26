@@ -104,6 +104,42 @@
             }
         }
 
+            
+        function categsListing() {
+            require('config/connection.php');
+
+            $sql = "SELECT `id`,`name`,`indice`,`ativo` FROM `categorias_produtos` WHERE `deleted` = :deleted";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(':deleted', 0);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            usort($result, function($a, $b) {
+                return $a['indice'] <=> $b['indice']; // Ordenação crescente pelo ID
+            });
+
+            // echo "<pre>";
+            // echo print_r($result);
+            // echo "</pre>";
+        };
+        function produtosCategs(){
+            require('config/connection.php');
+
+            $sql = "SELECT `id`,`codigo`,`categoria` FROM `produtos` WHERE `deleted` = :deleted";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(':deleted', 0);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // echo "<pre>";
+            // echo print_r($result);
+            // echo "</pre>";
+        } 
+        // ADICIONAR O ÍNDICE NO ARRAY DE PRODUTOS PARA ORDENAR NO ORÇAMENTO
+        
+        
+        $categs = categsListing();
+        $produtosCategs = produtosCategs();
     ?>
     <script>
         document.title = 'Orçamento n. <?= $numeroPedido ?> - <?= $clienteNome ?>';
