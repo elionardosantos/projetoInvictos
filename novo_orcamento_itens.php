@@ -175,6 +175,7 @@ if(isset($cliente)){
                     $tipoConsumo = isset($row['tipo_consumo'])?$row['tipo_consumo']:null;
                     $multiplicador = isset($row['multiplicador'])?$row['multiplicador']:null;
                     $selecionado = isset($row['selecionado'])?$row['selecionado']:null;
+                    $categId = isset($row['categoria'])?$row['categoria']:null;
     
                     $pesoItem = null;
                     switch ($tipoConsumo) {
@@ -206,7 +207,8 @@ if(isset($cliente)){
                     $produtoParaArray['peso_item'] = $pesoItem;
                     $produtoParaArray['tipo_consumo'] = $tipoConsumo;
                     $produtoParaArray['multiplicador'] = $multiplicador;
-    
+                    $produtoParaArray['categId'] = $categId;
+                    
                     $arrayComProdutos[$codigo] = $produtoParaArray;
                 }
                 $pesoTotalPorta = $pesoTotalPorta / $quantidade;

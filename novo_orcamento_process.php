@@ -125,7 +125,7 @@ function listaItensPedido($produtosSelecionados){
             $virgula = ",";
             $index ++;
         }
-        $sql = "SELECT `id`,`codigo`,`peso` FROM `produtos` WHERE `codigo` IN ($placeholders)";
+        $sql = "SELECT `id`,`codigo`,`peso`,`categoria` FROM `produtos` WHERE `codigo` IN ($placeholders)";
         $stmt = $pdo->prepare($sql);
         $index = 0;
         foreach($produtosSelecionados as $item){
@@ -141,6 +141,9 @@ function listaItensPedido($produtosSelecionados){
             $listaItens[$item['codigo']]['quantidade'] = $arrayComProdutos[$item['codigo']]['quantidade_item'];
             $listaItens[$item['codigo']]['valor'] = precoItem($item['codigo']);
             $listaItens[$item['codigo']]['peso'] = $item['peso'];
+            $listaItens[$item['codigo']]['categId'] = $item['categoria'];
+            $listaItens[$item['codigo']]['indice'] = "";
+
         }
         
         return $listaItens;
@@ -164,13 +167,52 @@ function listaItensPedido($produtosSelecionados){
 
 $itensPedido = listaItensPedido($produtosSelecionados);
 
+    function categsListing() {
+        require('config/connection.php');
+
+        $sql = "SELECT `id`,`name`,`indice`,`ativo` FROM `categorias_produtos` WHERE `deleted` = :deleted AND `ativo` = 1";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':deleted', 0);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    };
+    $dadosCategorias = categsListing();
+            
+    foreach($itensPedido as $itemPedido=>$atributo){
+
+        
+        if(isset($atributo['categId'])){
+            // echo $itemPedido." - ";
+            foreach($dadosCategorias as $categoria){
+                if($atributo['categId'] == $categoria['id']){
+                    $itensPedido[$itemPedido]['indice'] = $categoria['indice'];
+                    // echo "Cat: ".$atributo['categId']. "/ Ind: ".$categoria['indice']."<br>";
+                    // echo $itemAtual;       
+                    break;     
+                } else {
+                    $itensPedido[$itemPedido]['indice'] = 9999;
+                }
+            }
+        } else {
+            $itensPedido[$itemPedido]['indice'] = 9999;
+        }
+    }
+
+    usort($itensPedido, function($a, $b) {
+        return $a['indice'] <=> $b['indice']; // Ordenação crescente pelo ID
+    });
+
+
+
+
+
 $valorTotalItensPedido = 0; 
 foreach($itensPedido as $item=>$valor){
     // echo " + ".$valor['valor'] * $valor['quantidade'];
     $valorTotalItensPedido += ($valor['valor'] * $valor['quantidade']);
 }
-
-print_r($desconto);
 
 if($tipoDesconto == "PERCENTUAL"){
     $valorTotalPedido = $valorTotalItensPedido - ((($valorTotalItensPedido * 1) * ($desconto * 1)) / 100);
