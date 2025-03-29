@@ -105,9 +105,6 @@ require('partials/navbar.php');
 
 // Buscando produtos de acordo com os parametros de largura e altura
 if($alturaTotal !== "" && $larguraTotal !== ""){
-    if($alturaTotal == 0 && $larguraTotal == 0){
-        echo "Mostrar itens de manutenção";
-    }
     if($alturaTotal !== 0 && $larguraTotal !== 0){
         $sql = "SELECT * FROM produtos
                 WHERE deleted = 0
@@ -127,6 +124,8 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
 
         // echo "<h3>Consulta 1</h3>";
         // echo "<pre>".print_r($resultado)."</pre>";
+    }else if($alturaTotal == 0 && $larguraTotal == 0){
+        echo "------------------ Manutenção";
     } else {
         echo "Dimensões inválidas";
     }
@@ -296,7 +295,7 @@ if(isset($cliente)){
                         }
                         
                         foreach($arrayComProdutos as $produto){
-                            if($produto['selecionado'] == 0){
+                            if($produto['selecionado'] == 2){ //Não existe o status 2. Nenhum item irá aparecer
                                 ?>
                                     <tr>
                                         <td>

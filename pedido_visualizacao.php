@@ -32,9 +32,7 @@
         $numeroPedido = isset($_GET['numero'])?$_GET['numero']:"";
         $urlData = "&numero=".$numeroPedido;
 
-        //Pega as informações do pedido via API para preencher o orçamento
-        orderDataQuery();
-        function orderDataQuery(){
+        function orderDataQuery(){ //Pega as informações do pedido via API para preencher o orçamento
             global $jsonData;
 
             $pedidoId = isset($_GET['pedidoId'])?$_GET['pedidoId']:"";
@@ -76,12 +74,14 @@
                 global $totalPedido;
                 global $valorDesconto;
                 global $tipoDesconto;
+                global $itensPedido;
 
                 $numeroPedido = $jsonData['data']['numero'];
                 $totalProdutos = $jsonData['data']['totalProdutos'];
                 $totalPedido = $jsonData['data']['total'];
                 $valorDesconto = $jsonData['data']['desconto']['valor'];
                 $tipoDesconto = $jsonData['data']['desconto']['unidade'];
+                $itensPedido = $jsonData['data']['itens'];
 
                 foreach($jsonData as $row){
                     global $clienteNome;
@@ -103,6 +103,75 @@
                 }
             }
         }
+        
+        function categsListing() {
+            require('config/connection.php');
+            $sql = "SELECT `id`,`name`,`indice`,`ativo` FROM `categorias_produtos` WHERE `deleted` = :deleted AND `ativo` = 1";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(':deleted', 0);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $result;
+        };
+        function itensListing(){
+            require('config/connection.php');
+            $sql = "SELECT
+                        `id`,
+                        `codigo`,
+                        `titulo`,
+                        `categoria`
+                    FROM `produtos`
+                    WHERE `deleted` = :deleted";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(':deleted', 0);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        }
+        function setaCategoria($itensPedido,$dadosCategorias,$dadosItens){
+            
+            foreach($itensPedido as &$itemPedido){
+
+                foreach($dadosItens as $itemBd){
+
+                    $itemPedido['categoria'] = "";
+
+                    if($itemPedido['codigo'] == $itemBd['codigo']){
+                        $itemPedido['categoria'] = $itemBd['categoria'];
+                        break;
+                    }
+                }
+                foreach($dadosCategorias as $categ){
+                    
+                    $itemPedido['indice'] = "";
+                    
+                    if($categ['id'] == $itemPedido['categoria']){
+                        $itemPedido['indice'] = $categ['indice'];
+                        break;
+                    }
+                }
+            }
+            foreach($itensPedido as &$itemPedido){ //Jogando os sem categoria para o final
+                if($itemPedido['indice'] == ""){
+                    $itemPedido['indice'] = 9999;
+                }
+            }
+
+            usort($itensPedido, function($a, $b) {
+                return $a['indice'] <=> $b['indice']; // Ordenação crescente pelo indice
+            });
+
+            return $itensPedido;
+        }
+
+
+        $dadosCategorias = categsListing();
+        $dadosItens = itensListing();
+
+        orderDataQuery(); //Pega as informações do pedido via API para preencher o orçamento
+        $itensPedido = setaCategoria($itensPedido,$dadosCategorias,$dadosItens);
+
             
     ?>
     <script>
@@ -233,7 +302,7 @@
                     $subTotal = 0;
                     if(isset($jsonData['data']['itens'])){
 
-                        foreach($jsonData['data']['itens'] as $item){
+                        foreach($itensPedido as $item){
 
                             $codigo = isset($item['codigo'])?$item['codigo']:"";
                             $material = isset($item['descricao'])?$item['descricao']:"";
@@ -319,6 +388,19 @@
         </div>
         <!-- <div class="page-break"></div> -->
     </div>
+
+    <!-- <div class="container">
+        <?php
+        
+        echo "<pre>";
+        print_r($itensPedido);
+        print_r($dadosCategorias);
+        print_r($dadosItens);
+        echo "</pre>";
+        
+        
+        ?>
+    </div> -->
     
 </body>
 </html>
