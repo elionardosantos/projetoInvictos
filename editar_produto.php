@@ -129,7 +129,7 @@
                 </div>
             </div>
             
-            <div class="mt-5">
+            <!-- <div class="mt-5">
                 <h4>Faixa de Peso</h4>
             </div>
             <div class="row">
@@ -141,7 +141,7 @@
                     <label for="peso_maximo" class="form-label mb-0">Peso máximo</label>
                     <input value="<?= $produto['peso_maximo_porta'] ?>" class="form-control" name="peso_maximo" type="text" inputmode="decimal" placeholder="Peso máximo" id="peso_maximo">
                 </div>
-            </div>
+            </div> -->
             
             <div class="mt-5">
                 <h4>Outro</h4>

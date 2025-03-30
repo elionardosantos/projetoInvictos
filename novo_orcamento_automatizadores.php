@@ -64,6 +64,12 @@ require('config/connection.php');
     ?>
     <div class="container mt-4">
         <form method="POST" action="novo_orcamento_automatizadores_process.php">
+            <div class="form-check">
+                <input checked class="form-check-input" type="radio" name="automatizadorSelecionado" id="semAutomatizador" value="">
+                <label class="form-check-label" for="semAutomatizador">
+                    SEM AUTOMATIZADOR
+                </label>
+            </div>
 
             <?php
             if(isset($resultado) && count($resultado) > 0){

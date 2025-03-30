@@ -109,9 +109,9 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
         $sql = "SELECT * FROM produtos
                 WHERE deleted = 0
                 AND altura_minima_porta <= $alturaTotal
-                AND altura_maxima_porta > $alturaTotal
+                AND altura_maxima_porta >= $alturaTotal
                 AND largura_minima_porta <= $larguraTotal
-                AND largura_maxima_porta > $larguraTotal
+                AND largura_maxima_porta >= $larguraTotal
                 AND ativo = 1;
                 ";
                 // AND peso_minimo <= $peso
@@ -293,50 +293,54 @@ if(isset($cliente)){
                             }
 
                         }
-                        
-                        foreach($arrayComProdutos as $produto){
-                            if($produto['selecionado'] == 2){ //Não existe o status 2. Nenhum item irá aparecer
-                                ?>
-                                    <tr>
-                                        <td>
-                                            <input 
-                                            class="form-check-input" 
-                                            type="checkbox"
-                                            name="produtosSelecionados[]"
-                                            value="<?= $produto['codigo'] ?>" 
-                                            <?= $produto['selecionado'] == 1 ? "checked" : null ?>
-                                            id="<?= "codigo".$produto['codigo'] ?>"
-                                            >
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                <?= $produto['codigo'] ?>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                <?= $produto['titulo'] ?>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                <?= $produto['quantidade_item'] ?>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                <?= $produto['peso_item'] ?>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                <?= $produto['tipo_consumo'] ?>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                <?php
+                        if(isset($arrayComProdutos)){
+                            foreach($arrayComProdutos as $produto){
+                                if($produto['selecionado'] == 2){ //Não existe o status 2. Nenhum item irá aparecer
+                                    ?>
+                                        <tr>
+                                            <td>
+                                                <input 
+                                                class="form-check-input" 
+                                                type="checkbox"
+                                                name="produtosSelecionados[]"
+                                                value="<?= $produto['codigo'] ?>" 
+                                                <?= $produto['selecionado'] == 1 ? "checked" : null ?>
+                                                id="<?= "codigo".$produto['codigo'] ?>"
+                                                >
+                                            </td>
+                                            <td>
+                                                <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                                    <?= $produto['codigo'] ?>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                                    <?= $produto['titulo'] ?>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                                    <?= $produto['quantidade_item'] ?>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                                    <?= $produto['peso_item'] ?>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
+                                                    <?= $produto['tipo_consumo'] ?>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                }
                             }
+                        } else {
+                            echo "<tr><td>Nenhum item encontrado</td></tr>";
                         }
+
                         
                     ?>
                 </tbody>
