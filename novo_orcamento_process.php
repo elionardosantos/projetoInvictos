@@ -214,10 +214,19 @@ foreach($itensPedido as $item=>$valor){
     $valorTotalItensPedido += ($valor['valor'] * $valor['quantidade']);
 }
 
+$acrescimo = 0;
 if($tipoDesconto == "PERCENTUAL"){
     $valorTotalPedido = $valorTotalItensPedido - ((($valorTotalItensPedido * 1) * ($desconto * 1)) / 100);
-} else if($tipoDesconto == "REAL"){
+}else if($tipoDesconto == "REAL"){
     $valorTotalPedido = ($valorTotalItensPedido - $desconto);
+}elseif($tipoDesconto == "ACRESC-REAL"){
+    $acrescimo = $desconto;
+    $valorTotalPedido = ($valorTotalItensPedido + $acrescimo);
+    $desconto = 0;
+}elseif($tipoDesconto == "ACRESC-PERCENTUAL"){
+    $acrescimo = ((($valorTotalItensPedido * 1) * ($desconto * 1)) / 100);
+    $valorTotalPedido = $valorTotalItensPedido + ((($valorTotalItensPedido * 1) * ($desconto * 1)) / 100);
+    $desconto = 0;
 }
 
 // echo " = ".$valorTotalItensPedido;
@@ -375,6 +384,7 @@ function novoPedido(){
     global $tipoDesconto;
     global $valorTotalPedido;
     global $condicaoPagamento;
+    global $acrescimo;
 
     $url = "https://api.bling.com.br/Api/v3/pedidos/vendas";
     $jsonFile = file_get_contents('config/token_request_response.json');
@@ -406,6 +416,7 @@ function novoPedido(){
                 "complemento"=>""
             ],
         ],
+        "outrasDespesas"=>$acrescimo,
         "parcelas"=>[
           [
             // "id"=>"",

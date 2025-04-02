@@ -81,6 +81,7 @@
                 $totalPedido = $jsonData['data']['total'];
                 $valorDesconto = $jsonData['data']['desconto']['valor'];
                 $tipoDesconto = $jsonData['data']['desconto']['unidade'];
+                $outrasDespesas = $jsonData['data']['outrasDespesas'];
                 $itensPedido = $jsonData['data']['itens'];
 
                 foreach($jsonData as $row){
@@ -329,7 +330,7 @@
             </tbody>
         </table>
         <?php
-            if($totalProdutos !== $totalPedido){
+            if($totalProdutos > $totalPedido){
                 ?>
                     <div class="row mx-0 mt-1 me-0">
                         <div class="col-7"></div>
@@ -362,6 +363,17 @@
                             ?>
                         </div>
                     </div>
+                <?php
+            }elseif(isset($outrasDespesas) && $outrasDespesas > 0){
+                ?>
+                    <div class="row mx-0 mt-1 me-0">
+                    <div class="col-7"></div>
+                    <div class="border col row mx-0">
+                        <div class="col py-1">Outras despesas:</div>
+                            <div class="col py-1">R$<?= number_format($outrasDespesas, 2, ",", ".") ?></div>
+                        </div>
+                    </div>
+
                 <?php
             }
         ?>

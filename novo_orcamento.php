@@ -274,6 +274,9 @@
                     <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" value="<?= isset($number)?$number:""; ?>">
                 </div>
             </div>
+
+            
+            <div class="mt-4"><h4>Pagamento</h4></div>
             <div class="row">
                 <div class="col-md-3">
                     <label for="condicaoPagamento" class="form-label mb-0 mt-2">Condição de Pagto</label>
@@ -301,15 +304,17 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label for="desconto" class="form-label mb-0 mt-2">Valor do Desconto</label>
-                    <input type="number" inputmode="numeric" id="desconto" name="desconto" class="form-control" placeholder="Somente números">
-                </div>
-                <div class="col-md-2">
-                    <label for="tipoDesconto" class="form-label mb-0 mt-2">Tipo de desconto</label>
+                    <label for="tipoDesconto" class="form-label mb-0 mt-2">Tipo Desconto/acréscimo</label>
                     <select class="form-select" name="tipoDesconto">
-                        <option value="PERCENTUAL">% - Percentual</option>
-                        <option value="REAL">R$ - Real</option>
+                        <option value="PERCENTUAL">% - Desconto Percentual</option>
+                        <option value="ACRESC-PERCENTUAL">% - Acréscimo Percentual</option>
+                        <option value="REAL">R$ - Desconto Real</option>
+                        <option value="ACRESC-REAL">R$ - Acréscimo Real</option>
                     </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="desconto" class="form-label mb-0 mt-2">Valor Desconto/acréscimo</label>
+                    <input type="number" inputmode="numeric" id="desconto" name="desconto" class="form-control" placeholder="Somente números">
                 </div>
                 <!-- <div class="col-md-4">
                     <label for="tabelaPreco" class="form-label mb-0 mt-2">Desconto/Acrescimo</label>
