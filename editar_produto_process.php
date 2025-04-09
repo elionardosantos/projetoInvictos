@@ -20,6 +20,7 @@
         $larguraMaximaForm = isset($_POST['largura_maxima'])?$_POST['largura_maxima']:"";
         $pesoMinimoForm = isset($_POST['peso_minimo'])?$_POST['peso_minimo']:"";
         $pesoMaximoForm = isset($_POST['peso_maximo'])?$_POST['peso_maximo']:"";
+        $itemBasico = isset($_POST['itemBasico'])?$_POST['itemBasico']:"";
         
         // Variaveis com o tratamento dos dados realizado
         $codigoProduto = isset($_POST['codigo_produto'])?$_POST['codigo_produto']:"";
@@ -109,6 +110,7 @@
             global $pesoMinimo;
             global $pesoMaximo;
             global $selecionado;
+            global $itemBasico;
             global $statusProduto;
 
             // print_r($statusProduto);
@@ -133,6 +135,7 @@
                             `largura_maxima_porta` = :largura_maxima_porta,
                             `peso_minimo_porta` = :peso_minimo_porta,
                             `peso_maximo_porta` = :peso_maximo_porta,
+                            `basico` = :itemBasico,
                             `selecionado` = :selecionado,
                             `ativo` = :ativo,
                             `deleted` = :deleted,
@@ -155,6 +158,7 @@
                 $stmt->bindValue(':peso_minimo_porta', $pesoMinimo);
                 $stmt->bindValue(':peso_maximo_porta', $pesoMaximo);
                 $stmt->bindValue(':selecionado', $selecionado);
+                $stmt->bindValue(':itemBasico', $itemBasico);
                 $stmt->bindValue(':ativo', $statusProduto);
                 $stmt->bindValue(':deleted', 0);
                 $stmt->bindValue(':updated_by', $updated_by);

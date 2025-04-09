@@ -48,10 +48,11 @@ require('config/connection.php');
 
 </div>
 <?php
-    $sql = "SELECT codigo, titulo, peso_minimo_porta, peso_maximo_porta
-            FROM automatizadores
+    $sql = "SELECT codigo, titulo, peso_minimo_porta, peso_maximo_porta, multiplicador
+            FROM produtos
             WHERE deleted = 0
             AND ativo = 1
+            AND categoria = 8
             ";
 
     $stmt = $pdo->prepare($sql);

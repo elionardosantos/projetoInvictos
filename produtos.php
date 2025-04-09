@@ -71,7 +71,7 @@
             </div>
         </form>
     </div>
-    <div class="mx-lg-5 mt-4" style="font-size: 14px;">
+    <div class="mt-4" style="font-size: 14px;">
         <table class="table table-hover table-sm">
             <thead>
                 <tr>
@@ -85,8 +85,8 @@
                     <th>Altura Max</th>
                     <th>Largura Min</th>
                     <th>Largura Max</th>
-                    <!-- <th>Peso Minimo</th> -->
-                    <!-- <th>Peso Maximo</th> -->
+                    <th>Peso Minimo</th>
+                    <th>Peso Maximo</th>
                     <th>Selecionado</th>
                     <th>Status</th>
                     <th>Ação</th>
@@ -218,8 +218,8 @@
                     echo "    <td>$alturaMaxima</td>";
                     echo "    <td>$larguraMinima</td>";
                     echo "    <td>$larguraMaxima</td>";
-                    // echo "    <td>$pesoMinimo</td>";
-                    // echo "    <td>$pesoMaximo</td>";
+                    echo "    <td>$pesoMinimo</td>";
+                    echo "    <td>$pesoMaximo</td>";
                     echo "    <td>$selecionado</td>";
                     echo "    <td>$ativo</td>";
                     echo "    <td><a class=\"btn btn-primary btn-sm\" href=\"editar_produto.php?produto_id=$id\">Editar</a></td>";

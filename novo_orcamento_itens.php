@@ -175,6 +175,7 @@ if(isset($cliente)){
                     $multiplicador = isset($row['multiplicador'])?$row['multiplicador']:null;
                     $selecionado = isset($row['selecionado'])?$row['selecionado']:null;
                     $categId = isset($row['categoria'])?$row['categoria']:null;
+                    $basico = isset($row['basico'])?$row['basico']:null;
     
                     $pesoItem = null;
                     switch ($tipoConsumo) {
@@ -207,6 +208,7 @@ if(isset($cliente)){
                     $produtoParaArray['tipo_consumo'] = $tipoConsumo;
                     $produtoParaArray['multiplicador'] = $multiplicador;
                     $produtoParaArray['categId'] = $categId;
+                    $produtoParaArray['basico'] = $basico;
                     
                     $arrayComProdutos[$codigo] = $produtoParaArray;
                 }
@@ -221,9 +223,9 @@ if(isset($cliente)){
         }
 
         ?>
-        <div class="my-3">
+        <!-- <div class="my-3">
             <a class="btn btn-primary" href="novo_orcamento_edita_itens.php">Editar itens</a>
-        </div>
+        </div> -->
     
 </div>
 <div class="container">
@@ -246,7 +248,7 @@ if(isset($cliente)){
                         // Duas querys para separar os selecionados dos não selecionados
                         if(isset($arrayComProdutos)){
                             foreach($arrayComProdutos as $produto){
-                                if($produto['selecionado'] == 1){
+                                if($produto['basico'] == 1 && $produto['selecionado'] == 1){ //
                                     ?>
                                     <tr>
                                         <td>
@@ -255,7 +257,7 @@ if(isset($cliente)){
                                             type="checkbox"
                                             name="produtosSelecionados[]"
                                             value="<?= $produto['codigo'] ?>" 
-                                            <?= $produto['selecionado'] == 1 ? "checked" : null ?>
+                                            checked
                                             id="<?= "codigo".$produto['codigo'] ?>"
                                             >
                                         </td>
@@ -295,7 +297,7 @@ if(isset($cliente)){
                         }
                         if(isset($arrayComProdutos)){
                             foreach($arrayComProdutos as $produto){
-                                if($produto['selecionado'] == 2){ //Não existe o status 2. Nenhum item irá aparecer
+                                if($produto['categId'] == 9){ // Categoria 9 = Acessório
                                     ?>
                                         <tr>
                                             <td>
@@ -304,7 +306,6 @@ if(isset($cliente)){
                                                 type="checkbox"
                                                 name="produtosSelecionados[]"
                                                 value="<?= $produto['codigo'] ?>" 
-                                                <?= $produto['selecionado'] == 1 ? "checked" : null ?>
                                                 id="<?= "codigo".$produto['codigo'] ?>"
                                                 >
                                             </td>

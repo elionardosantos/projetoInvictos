@@ -13,7 +13,7 @@
         $produtoId = isset($_GET['produto_id'])?$_GET['produto_id']:"";
         
         if($produtoId !== ""){
-            $sql = "SELECT `id`,`codigo`,`titulo`,`categoria`,`peso`,`tipo_consumo`,`multiplicador`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`selecionado` 
+            $sql = "SELECT `id`,`codigo`,`titulo`,`categoria`,`peso`,`tipo_consumo`,`multiplicador`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`basico`,`selecionado` 
             FROM `produtos` 
             WHERE `id` = :id 
             AND `deleted` = :deleted";
@@ -60,11 +60,11 @@
                 <div class="col-lg-2 mt-2">
                     <label for="consumo_produto" class="form-label mb-0">Consumo tipo</label>
                     <select class="form-select" name="consumo_produto" id="consumo_produto">
+                        <option <?= $produto['tipo_consumo'] == "unidade"?"selected":"" ?> value="unidade">Unidade</option>
                         <option <?= $produto['tipo_consumo'] == "m2"?"selected":"" ?> value="m2">Metro quadrado</option>
                         <option <?= $produto['tipo_consumo'] == "altura"?"selected":"" ?> value="altura">Altura</option>
                         <option <?= $produto['tipo_consumo'] == "largura"?"selected":"" ?> value="largura">Largura</option>
                         <option <?= $produto['tipo_consumo'] == "peso"?"selected":"" ?> value="peso">Peso</option>
-                        <option <?= $produto['tipo_consumo'] == "unidade"?"selected":"" ?> value="unidade">Unidade</option>
                     </select>
                 </div>
                 <div class="col-lg-2 mt-2">
@@ -129,7 +129,7 @@
                 </div>
             </div>
             
-            <!-- <div class="mt-5">
+            <div class="mt-5">
                 <h4>Faixa de Peso</h4>
             </div>
             <div class="row">
@@ -141,7 +141,7 @@
                     <label for="peso_maximo" class="form-label mb-0">Peso máximo</label>
                     <input value="<?= $produto['peso_maximo_porta'] ?>" class="form-control" name="peso_maximo" type="text" inputmode="decimal" placeholder="Peso máximo" id="peso_maximo">
                 </div>
-            </div> -->
+            </div>
             
             <div class="mt-5">
                 <h4>Outro</h4>
@@ -152,6 +152,13 @@
                     <select name="statusProduto" id="statusProduto" class="form-select">
                         <option <?= isset($produto['statusProduto']) && $produto['statusProduto'] == "1"?"selected":"" ?> value="1">1 - Ativo</option>
                         <option <?= isset($produto['statusProduto']) && $produto['statusProduto'] == "0"?"selected":"" ?> value="0">0 - Inativo</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 mt-2">
+                    <label for="selecionado" class="form-label mb-0">Item basico</label>
+                    <select name="itemBasico" id="itemBasico" class="form-select">
+                        <option <?= $produto['basico'] == "0"?"selected":"" ?> value="0">0 - Não</option>
+                        <option <?= $produto['basico'] == "1"?"selected":"" ?> value="1">1 - Sim</option>
                     </select>
                 </div>
                 <div class="col-lg-3 mt-2">

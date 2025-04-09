@@ -68,6 +68,7 @@ $automatizadorSelecionado = isset($_SESSION['automatizadorSelecionado'])?$_SESSI
 
 // Juntando produtos e automatizadores para fazer consulta única no Bling
 $itensParaConsulta = array_merge($produtosSelecionados,$automatizadorSelecionado);
+$produtosSelecionados = $itensParaConsulta;
 
 // echo "<pre>"; 
 // print_r($produtosSelecionados); 
@@ -116,11 +117,11 @@ function listaItensPedido($produtosSelecionados){
         global $arrayComProdutos;
         global $pdo;
         $virgula = "";
-        $pesoItens = "";
+        $codigoItens = "";
         $placeholders = "";
         $index = 0;
         foreach($produtosSelecionados as $item){
-            $pesoItens .= $virgula.$item;
+            $codigoItens .= $virgula.$item;
             $placeholders .= $virgula.":".$index;
             $virgula = ",";
             $index ++;
@@ -138,7 +139,7 @@ function listaItensPedido($produtosSelecionados){
         
         foreach($resultado as $item){
             $listaItens[$item['codigo']]['produto']['id'] = idItem($item['codigo']);
-            $listaItens[$item['codigo']]['quantidade'] = $arrayComProdutos[$item['codigo']]['quantidade_item'];
+            $listaItens[$item['codigo']]['quantidade'] = isset($arrayComProdutos[$item['codigo']]['quantidade_item'])?$arrayComProdutos[$item['codigo']]['quantidade_item']:1;
             $listaItens[$item['codigo']]['valor'] = precoItem($item['codigo']);
             $listaItens[$item['codigo']]['peso'] = $item['peso'];
             $listaItens[$item['codigo']]['categId'] = $item['categoria'];

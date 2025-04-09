@@ -8,7 +8,7 @@
     <?php
         require('controller/login_checker.php');
         require('partials/navbar.php');
-
+        header('location: orcamentos.php');
     ?>
     <div class="container my-3">
         <h2>Início</h2>
