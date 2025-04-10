@@ -223,9 +223,9 @@ if(isset($cliente)){
         }
 
         ?>
-        <!-- <div class="my-3">
+        <div class="my-3">
             <a class="btn btn-primary" href="novo_orcamento_edita_itens.php">Editar itens</a>
-        </div> -->
+        </div>
     
 </div>
 <div class="container">

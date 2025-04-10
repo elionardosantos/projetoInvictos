@@ -10,9 +10,9 @@
       </div>
       <div class="offcanvas-body">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="index.php">Início</a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" href="orcamentos.php">Orçamentos</a>
           </li>

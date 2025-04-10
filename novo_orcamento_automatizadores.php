@@ -48,11 +48,11 @@ require('config/connection.php');
 
 </div>
 <?php
-    $sql = "SELECT codigo, titulo, peso_minimo_porta, peso_maximo_porta, multiplicador
+    $sql = "SELECT codigo, titulo, peso_minimo_porta, peso_maximo_porta, multiplicador, categoria, selecionado
             FROM produtos
             WHERE deleted = 0
             AND ativo = 1
-            AND categoria = 8
+            -- AND categoria = 8
             ";
 
     $stmt = $pdo->prepare($sql);
@@ -64,36 +64,60 @@ require('config/connection.php');
 
     ?>
     <div class="container mt-4">
+
         <form method="POST" action="novo_orcamento_automatizadores_process.php">
-            <div class="form-check">
-                <input checked class="form-check-input" type="radio" name="automatizadorSelecionado" id="semAutomatizador" value="">
-                <label class="form-check-label" for="semAutomatizador">
-                    SEM AUTOMATIZADOR
-                </label>
-            </div>
+            
+        <div class="my-4">
+            <label for="automatizadorSelecionado">Automatizador:</label>
+            <select name="automatizadorSelecionado" class="form-select" aria-label="automatizador">
+                <option>Sem automatizador</option>
 
-            <?php
-            if(isset($resultado) && count($resultado) > 0){
-                foreach($resultado as $item){
-                    $checked = "";
-                    $PTotPorta = $_SESSION['dadosCliente']['pesoTotalPorta'];
-                    $PMinPorta = $item['peso_minimo_porta'];
-                    $PMaxPorta = $item['peso_maximo_porta'];
-                    if($PTotPorta > $PMinPorta && $PTotPorta < $PMaxPorta){
-                        $checked = "checked";
+                <?php
+                if(isset($resultado) && count($resultado) > 0){
+                    foreach($resultado as $item){
+                        if(isset($item['categoria']) && $item['categoria'] == 8){
+                            $selected = "";
+                            $PTotPorta = $_SESSION['dadosCliente']['pesoTotalPorta'];
+                            $PMinPorta = $item['peso_minimo_porta'];
+                            $PMaxPorta = $item['peso_maximo_porta'];
+                            if($PTotPorta > $PMinPorta && $PTotPorta < $PMaxPorta){
+                                if(isset($item['selecionado']) && $item['selecionado'] == 1){
+                                    $selected = "selected";
+                                }
+                            }
+                            echo "<option $selected value=\"" . $item['codigo'] . "\">" . $item['titulo'] . "</option>";
+                        }
                     }
-
-                    ?>
-                        <div class="form-check">
-                            <input <?= $checked; ?> class="form-check-input" type="radio" name="automatizadorSelecionado" id="<?= $item['codigo'] ?>" value="<?= $item['codigo'] ?>">
-                            <label class="form-check-label" for="<?= $item['codigo'] ?>">
-                                <?= $item['titulo'] ?>
-                            </label>
-                        </div>
-                    <?php    
                 }
-            }
-            ?>
+                ?>
+            </select>
+        </div>
+        <div class="my-4">
+            <label for="suporteSelecionado">Suporte:</label>
+            <select name="suporteSelecionado" class="form-select" aria-label="suporte">
+                <option>Sem suporte</option>
+
+                <?php
+                if(isset($resultado) && count($resultado) > 0){
+                    foreach($resultado as $item){
+                        if(isset($item['categoria']) && $item['categoria'] == 10){
+                            $selected = "";
+                            $PTotPorta = $_SESSION['dadosCliente']['pesoTotalPorta'];
+                            $PMinPorta = $item['peso_minimo_porta'];
+                            $PMaxPorta = $item['peso_maximo_porta'];
+                            if($PTotPorta > $PMinPorta && $PTotPorta < $PMaxPorta){
+                                if(isset($item['selecionado']) && $item['selecionado'] == 1){
+                                    $selected = "selected";
+                                }
+                            }
+                            echo "<option $selected value=\"" . $item['codigo'] . "\">" . $item['titulo'] . "</option>";
+                        }
+                    }
+                }
+                ?>
+            </select>
+
+        </div>
             <div class="mt-4">
                 <input class="btn btn-primary" type="submit" value="Continuar">
 
@@ -103,15 +127,12 @@ require('config/connection.php');
     </div>
 
 
-<!-- <pre>
-<?php print_r($_SESSION); ?>
-</pre> -->
-
-<!-- <?php
+<?php
     echo "<pre>";
-    print_r($_POST);
-    print_r($_SESSION);
-?> -->
+    // print_r($resultado);
+    // print_r($_POST);
+    // print_r($_SESSION);
+?>
 
 
 </body>
