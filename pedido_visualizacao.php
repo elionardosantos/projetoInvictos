@@ -388,22 +388,29 @@
 
             </div>
         </div>
-        <table class="table table-bordered table-sm text-center mt-3 mb-1">
-            <thead class="table-dark">
-                <tr>
-                    <th>
-                        Observações
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <?= $observacoes ?>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+
+        <?php
+        if(isset($observacoes) && $observacoes !== ""){
+        ?>
+            <table class="table table-bordered table-sm text-center mt-3 mb-1">
+                <thead class="table-dark">
+                    <tr>
+                        <th>
+                            Observações
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <?= $observacoes ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        <?php
+        }
+        ?>
         <div class="mt-4">
             <p class="fs-7">
                 Este orçamento poderá ter variação para mais ou para menos em seu valor final, pois após aprovação, um dos profissionais da Invictos Portas irá até o seu estabelecimento fazer a conferência das medidas, para que sua porta de enrolar seja fabricada na medida exata.
