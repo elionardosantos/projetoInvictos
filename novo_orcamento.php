@@ -16,7 +16,7 @@
         $_SESSION['numeroPedido'] = [];
         $_SESSION['codigoContato'] = [];
         $_SESSION['produtosSelecionados'] = [];
-        $_SESSION['automatizadorSelecionado'] = [];
+        $_SESSION['produtosPorPeso'] = [];
         
     ?>
     <div class="container my-3">

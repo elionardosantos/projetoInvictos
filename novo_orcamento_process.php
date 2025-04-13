@@ -3,6 +3,18 @@ require('controller/login_checker.php');
 require('config/connection.php');
 date_default_timezone_set('America/Sao_Paulo');
 ob_start();
+?>
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <?php require('partials/head.php'); ?>
+    <title>Orçamento</title>
+</head>
+<body>
+<?php
+    require('partials/navbar.php');
 
 $modoTeste = 0; // Habilita o modo de testes
 
@@ -44,7 +56,14 @@ $larguraTotal = isset($_SESSION['dadosCliente']['larguraTotal'])?$_SESSION['dado
 $alturaTotal = isset($_SESSION['dadosCliente']['alturaTotal'])?$_SESSION['dadosCliente']['alturaTotal']:"";
 $rolo = isset($_SESSION['dadosCliente']['rolo'])?$_SESSION['dadosCliente']['rolo']:"";
 
-$arrayComProdutos = isset($_SESSION['array_com_produtos'])?$_SESSION['array_com_produtos']:"";
+$arrayComProdutos1 = isset($_SESSION['array_com_produtos'])?$_SESSION['array_com_produtos']:null;
+$arrayComProdutos2 = isset($_SESSION['array_com_produtos_por_peso'])?$_SESSION['array_com_produtos_por_peso']:null;
+
+if(isset($arrayComProdutos2) && $arrayComProdutos2 !== "" && count($arrayComProdutos2) > 0){
+    $arrayComProdutos = array_merge($arrayComProdutos1, $arrayComProdutos2);
+} else {
+    $arrayComProdutos = $arrayComProdutos1;
+}
 
 // Calculando metro quadrado
 if(isset($m2)){
@@ -61,26 +80,29 @@ $observacoesArray['id_usuario'] = $_SESSION['login']['loggedUserId'];
 
 $observacoesInternas = json_encode($observacoesArray);
 
+$produtosSelecionados2 = [];
+foreach($_POST as $produto => $value){
+    // echo " - $value. <br>";
+    $produtosSelecionados2[] = $value;
+}
 
 // Criando array de produtos selecionados para a função de criação do orçamento
-$produtosSelecionados = isset($_SESSION['produtosSelecionados'])?$_SESSION['produtosSelecionados']:null;
-$automatizadorSelecionado = isset($_SESSION['automatizadorSelecionado'])?$_SESSION['automatizadorSelecionado']:null;
+$produtosSelecionados1 = isset($_SESSION['produtosSelecionados'])?$_SESSION['produtosSelecionados']:null;
 
-// Juntando produtos e automatizadores para fazer consulta única no Bling
-$itensParaConsulta = array_merge($produtosSelecionados,$automatizadorSelecionado);
-$produtosSelecionados = $itensParaConsulta;
+$produtosSelecionados = array_merge($produtosSelecionados1, $produtosSelecionados2);
 
-// echo "<pre>"; 
-// print_r($produtosSelecionados); 
-// print_r($automatizadorSelecionado); 
-// print_r($itensParaConsulta);
-// echo "</pre>";
+if(isset($produtosSelecionados) && count($produtosSelecionados) > 0){
+
+} else {
+    echo "<div class=\"container\">Nenhuma ação foi executada<div>";
+    exit;
+}
 
 
+$itensParaConsulta = $produtosSelecionados;
 
 // Retorna ID de cada produto
 $consultaProdutos = consultaProdutoId($itensParaConsulta);
-// print_r($consultaProdutos);
 
 // Consulta o preço de cada item dentro da variavel $consultaProdutos
 function precoItem($codigo){
@@ -138,10 +160,20 @@ function listaItensPedido($produtosSelecionados){
         $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         foreach($resultado as $item){
+            foreach($arrayComProdutos as $prods){
+                if($item['codigo'] == $prods['codigo']){
+                    $prodQuant = $prods['quantidade_item'];
+                    $prodPeso = $prods['peso_item'];
+                    break;
+                }
+            }
+
+            
+            $listaItens[$item['codigo']]['codigo'] = $item['codigo'];
+            $listaItens[$item['codigo']]['quantidade'] = $prodQuant;
+            $listaItens[$item['codigo']]['peso'] = $prodPeso;
             $listaItens[$item['codigo']]['produto']['id'] = idItem($item['codigo']);
-            $listaItens[$item['codigo']]['quantidade'] = isset($arrayComProdutos[$item['codigo']]['quantidade_item'])?$arrayComProdutos[$item['codigo']]['quantidade_item']:1;
             $listaItens[$item['codigo']]['valor'] = precoItem($item['codigo']);
-            $listaItens[$item['codigo']]['peso'] = $item['peso'];
             $listaItens[$item['codigo']]['categId'] = $item['categoria'];
             $listaItens[$item['codigo']]['indice'] = "";
 
@@ -606,6 +638,13 @@ function editaContato(){
     // echo "<script>console.log('editaContato')</script>";
     // echo "<script>console.log($response)</script>";
 }
+function limpaSession(){
+    $_SESSION['dadosCliente'] = "";
+    $_SESSION['array_com_produtos'] = "";
+    $_SESSION['produtosSelecionados'] = "";
+    $_SESSION['array_com_produtos_por_peso'] = "";
+    $_SESSION['dadosCliente'] = "";
+}
 
 
 // ################# FUNCTIONS END #########################
@@ -617,17 +656,7 @@ function editaContato(){
 
 
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <?php require('partials/head.php'); ?>
-    <title>Orçamento</title>
-</head>
-<body>
-    <?php
-        require('partials/navbar.php');
 
-    ?>
     <!-- <div class="container mt-3">
         <h2>Orçamento</h2>
     </div> -->
@@ -644,6 +673,7 @@ function editaContato(){
                         echo "Pedido criado com sucesso¹<br>";
                         echo "ID do pedido: ". $pedidoId;
                         sleep(1);
+                        limpaSession();
                         header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
                         ob_end_flush(); // Liberando as impressões na tela após o header para não impedir o redirecionamento
                         exit;
@@ -658,6 +688,7 @@ function editaContato(){
                         echo "Pedido criado com sucesso²<br>";
                         echo "ID do pedido: ". $pedidoId;
                         sleep(1);
+                        limpaSession();
                         header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
                         ob_end_flush(); // Liberando as impressões na tela após o header para não impedir o redirecionamento
                         exit;
@@ -671,6 +702,7 @@ function editaContato(){
                         echo "Pedido criado com sucesso³<br>";
                         echo "ID do pedido: ". $pedidoId;
                         sleep(1);
+                        limpaSession();
                         header("location: pedido_visualizacao.php?pedidoId=".$pedidoId);
                         ob_end_flush(); // Liberando as impressões na tela após o header para não impedir o redirecionamento
                         exit;
@@ -688,6 +720,13 @@ function editaContato(){
                 ############# EM MODO DE TESTE ###############
                 
         
+                <h3><br>produtosSelecionados</h3>
+                <pre>
+                <?php
+                    print_r($produtosSelecionados);
+                ?>    
+                </pre>
+
                 <h3><br>Array obs Interna</h3>
                 <pre>
                 <?php
@@ -716,6 +755,14 @@ function editaContato(){
                 <pre>
                 <?php
                     print_r($arrayComProdutos);
+                ?>    
+                </pre>
+
+
+                <h3><br>$_POST</h3>
+                <pre>
+                <?php
+                    print_r($_POST);
                 ?>    
                 </pre>
             <?php

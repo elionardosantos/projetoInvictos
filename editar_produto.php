@@ -13,7 +13,7 @@
         $produtoId = isset($_GET['produto_id'])?$_GET['produto_id']:"";
         
         if($produtoId !== ""){
-            $sql = "SELECT `id`,`codigo`,`titulo`,`categoria`,`peso`,`tipo_consumo`,`multiplicador`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`basico`,`selecionado` 
+            $sql = "SELECT `id`,`codigo`,`titulo`,`categoria`,`peso`,`tipo_consumo`,`multiplicador`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`tipo_produto`,`basico`,`selecionado` 
             FROM `produtos` 
             WHERE `id` = :id 
             AND `deleted` = :deleted";
@@ -155,17 +155,27 @@
                     </select>
                 </div>
                 <div class="col-lg-3 mt-2">
+                    <label for="tipoProduto" class="form-label mb-0">Tipo de Produto</label>
+                    <select name="tipoProduto" id="tipoProduto" class="form-select">
+                        <option value=""></option>
+                        <option <?= isset($produto['tipo_produto']) && $produto['tipo_produto'] == "0"?"selected":"" ?> value="0">0 - Basico</option>
+                        <option <?= isset($produto['tipo_produto']) && $produto['tipo_produto'] == "1"?"selected":"" ?> value="1">1 - Opcional</option>
+                        <option <?= isset($produto['tipo_produto']) && $produto['tipo_produto'] == "2"?"selected":"" ?> value="2">2 - Por peso</option>
+                    </select>
+                </div>
+                <!-- <div class="col-lg-3 mt-2">
                     <label for="selecionado" class="form-label mb-0">Item basico</label>
                     <select name="itemBasico" id="itemBasico" class="form-select">
                         <option <?= $produto['basico'] == "0"?"selected":"" ?> value="0">0 - Não</option>
                         <option <?= $produto['basico'] == "1"?"selected":"" ?> value="1">1 - Sim</option>
                     </select>
-                </div>
+                </div> -->
                 <div class="col-lg-3 mt-2">
                     <label for="selecionado" class="form-label mb-0">Selecionado no orçamento</label>
                     <select name="selecionado" id="selecionado" class="form-select">
-                        <option <?= $produto['selecionado'] == "1"?"selected":"" ?> value="1">1 - Sim</option>
+                        <option value=""></option>
                         <option <?= $produto['selecionado'] == "0"?"selected":"" ?> value="0">0 - Não</option>
+                        <option <?= $produto['selecionado'] == "1"?"selected":"" ?> value="1">1 - Sim</option>
                     </select>
                 </div>
             </div>

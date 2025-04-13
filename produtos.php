@@ -71,24 +71,24 @@
             </div>
         </form>
     </div>
-    <div class="mt-4" style="font-size: 14px;">
+    <div class="container mt-4">
         <table class="table table-hover table-sm">
             <thead>
                 <tr>
                     <th>Código</th>
+                    <th>Status</th>
                     <th>Titulo</th>
                     <th>Categoria</th>
-                    <th>Peso</th>
-                    <th>Consumo</th>
-                    <th>Multiplicador</th>
+                    <!-- <th>Peso</th> -->
+                    <!-- <th>Consumo</th> -->
+                    <!-- <th>Multiplicador</th> -->
                     <th>Altura Min</th>
                     <th>Altura Max</th>
                     <th>Largura Min</th>
                     <th>Largura Max</th>
                     <th>Peso Minimo</th>
                     <th>Peso Maximo</th>
-                    <th>Selecionado</th>
-                    <th>Status</th>
+                    <!-- <th>Selecionado</th> -->
                     <th>Ação</th>
                 </tr>
             </thead>
@@ -209,19 +209,19 @@
 
                     echo "<tr>";
                     echo "    <td>$codigo</td>";
+                    echo "    <td>$ativo</td>";
                     echo "    <td>$titulo</td>";
                     echo "    <td>$categTitulo</td>";
-                    echo "    <td>$peso</td>";
-                    echo "    <td>$consumo</td>";
-                    echo "    <td>$multiplicador</td>";
+                    // echo "    <td>$peso</td>";
+                    // echo "    <td>$consumo</td>";
+                    // echo "    <td>$multiplicador</td>";
                     echo "    <td>$alturaMinima</td>";
                     echo "    <td>$alturaMaxima</td>";
                     echo "    <td>$larguraMinima</td>";
                     echo "    <td>$larguraMaxima</td>";
                     echo "    <td>$pesoMinimo</td>";
                     echo "    <td>$pesoMaximo</td>";
-                    echo "    <td>$selecionado</td>";
-                    echo "    <td>$ativo</td>";
+                    // echo "    <td>$selecionado</td>";
                     echo "    <td><a class=\"btn btn-primary btn-sm\" href=\"editar_produto.php?produto_id=$id\">Editar</a></td>";
                     echo "</tr>";
                 

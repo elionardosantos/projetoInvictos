@@ -36,11 +36,11 @@
                 <div class="col-lg-2 mt-2">
                     <label for="consumo_produto" class="form-label mb-0">Consumo tipo*</label>
                     <select class="form-select" name="consumo_produto" id="consumo_produto">
+                        <option value="unidade">Unidade</option>
                         <option value="m2">Metro quadrado</option>
                         <option value="altura">Altura</option>
                         <option value="largura">Largura</option>
                         <option value="peso">Peso</option>
-                        <option value="unidade">Unidade</option>
                     </select>
                 </div>
                 <div class="col-lg-2 mt-2">
@@ -90,8 +90,18 @@
                 <div class="col-lg-2 mt-2">
                     <label for="selecionado" class="form-label mb-0">Selecionado</label>
                     <select name="selecionado" id="selecionado" class="form-select">
-                        <option value="1">Sim</option>
                         <option value="0">Não</option>
+                        <option value="1">Sim</option>
+                    </select>
+                </div>
+                
+                <div class="col-lg-2 mt-2">
+                    <label for="tipoProduto" class="form-label mb-0">Tipo de Produto</label>
+                    <select name="tipoProduto" id="tipoProduto" class="form-select">
+                        <option value=""></option>
+                        <option value="0">0 - Basico</option>
+                        <option value="1">1 - Opcional</option>
+                        <option value="2">2 - Por peso</option>
                     </select>
                 </div>
             </div>
@@ -101,7 +111,6 @@
             </div>
         </form>
     </div>
-    <div class="container mt-4">
-    </div>
+    <div style="margin-top: 120px"></div>
 </body>
 </html>

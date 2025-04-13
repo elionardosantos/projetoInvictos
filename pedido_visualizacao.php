@@ -93,6 +93,7 @@
                     global $uf;
                     global $dataPedido;
                     global $totalProdutos;
+                    global $observacoes;
 
                     $clienteNome = isset($row['contato']['nome'])?$row['contato']['nome']:"";
                     $endereco = isset($row['transporte']['etiqueta']['endereco'])?$row['transporte']['etiqueta']['endereco']:"";
@@ -101,6 +102,7 @@
                     $municipio = isset($row['transporte']['etiqueta']['municipio'])?$row['transporte']['etiqueta']['municipio']:"";
                     $uf = isset($row['transporte']['etiqueta']['uf'])?$row['transporte']['etiqueta']['uf']:"";
                     $dataPedido = isset($row['data'])?$row['data']:"";
+                    $observacoes = isset($row['observacoes'])?$row['observacoes']:"";
                 }
             }
         }
@@ -182,7 +184,7 @@
     <div class="py-2 mb-4 d-print-none shadow fixed-top bg-white">
         <div class="buttons">
             <a href="orcamentos.php" class="btn btn-primary ms-2">Voltar</a>
-            <a href="editar_orcamento.php?pedidoId=<?= $_GET['pedidoId'] ?>" class="btn btn-primary">Editar</a>
+            <!-- <a href="editar_orcamento.php?pedidoId=<?= $_GET['pedidoId'] ?>" class="btn btn-primary">Editar</a> -->
             <a href="" class="btn btn-primary" onclick="window.print(); return false;">Imprimir orçamento</a>
 
         </div>
@@ -386,6 +388,22 @@
 
             </div>
         </div>
+        <table class="table table-bordered table-sm text-center mt-3 mb-1">
+            <thead class="table-dark">
+                <tr>
+                    <th>
+                        Observações
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <?= $observacoes ?>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
         <div class="mt-4">
             <p class="fs-7">
                 Este orçamento poderá ter variação para mais ou para menos em seu valor final, pois após aprovação, um dos profissionais da Invictos Portas irá até o seu estabelecimento fazer a conferência das medidas, para que sua porta de enrolar seja fabricada na medida exata.

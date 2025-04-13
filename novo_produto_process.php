@@ -19,6 +19,7 @@
         $larguraMaximaForm = isset($_POST['largura_maxima'])?$_POST['largura_maxima']:"";
         $pesoMinimoForm = isset($_POST['peso_minimo'])?$_POST['peso_minimo']:"";
         $pesoMaximoForm = isset($_POST['peso_maximo'])?$_POST['peso_maximo']:"";
+        $tipoProduto = isset($_POST['tipoProduto'])?$_POST['tipoProduto']:"";
         
         $codigoProduto = isset($_POST['codigo_produto'])?$_POST['codigo_produto']:"";
         $titulo = isset($_POST['titulo_produto'])?$_POST['titulo_produto']:"";
@@ -121,6 +122,7 @@
             global $pesoMinimo;
             global $pesoMaximo;
             global $selecionado;
+            global $tipoProduto;
 
             if(isset($titulo) && $titulo !== ""){
                 $nomeProduto = $titulo;
@@ -128,14 +130,14 @@
                 $nomeProduto = $nomeProdutoBling;
             }
 
-            $created_by = $_SESSION['loggedUserId'];
+            $created_by = $_SESSION['login']['loggedUserId'];
             date_default_timezone_set('America/Sao_Paulo');
             $created_at = date('Y-m-d H:i:s');
 
             try {
                 require('config/connection.php');
-                $sql = "INSERT INTO `produtos`(`id`,`codigo`,`titulo`,`peso`,`tipo_consumo`,`multiplicador`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`selecionado`,`deleted`,`created_by`,`created_at`)
-                    VALUES (:id, :codigo, :titulo, :peso, :tipo_consumo, :multiplicador, :altura_minima_porta, :altura_maxima_porta, :largura_minima_porta, :largura_maxima_porta, :peso_minimo_porta, :peso_maximo_porta, :selecionado, :deleted, :created_by, :created_at)";
+                $sql = "INSERT INTO `produtos`(`id`,`codigo`,`titulo`,`peso`,`tipo_consumo`,`multiplicador`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`tipo_produto`,`selecionado`,`deleted`,`created_by`,`created_at`)
+                    VALUES (:id, :codigo, :titulo, :peso, :tipo_consumo, :multiplicador, :altura_minima_porta, :altura_maxima_porta, :largura_minima_porta, :largura_maxima_porta, :peso_minimo_porta, :peso_maximo_porta, :tipo_produto, :selecionado, :deleted, :created_by, :created_at)";
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindValue(':id', null);
@@ -150,6 +152,7 @@
                 $stmt->bindValue(':largura_maxima_porta', $larguraMaxima);
                 $stmt->bindValue(':peso_minimo_porta', $pesoMinimo);
                 $stmt->bindValue(':peso_maximo_porta', $pesoMaximo);
+                $stmt->bindValue(':tipo_produto', $tipoProduto);
                 $stmt->bindValue(':selecionado', $selecionado);
                 $stmt->bindValue(':deleted', 0);
                 $stmt->bindValue(':created_by', $created_by);

@@ -1,6 +1,5 @@
 <?php
 require('controller/login_checker.php');
-require('config/connection.php');   
 date_default_timezone_set('America/Sao_Paulo');
 
 // Dados do contato
@@ -95,7 +94,7 @@ $_SESSION['dadosCliente']['rolo'] = $rolo;
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Selecionar itens</title>
+    <title>Itens Basicos</title>
 </head>
 <body>
 <?php
@@ -106,14 +105,16 @@ require('partials/navbar.php');
 // Buscando produtos de acordo com os parametros de largura e altura
 if($alturaTotal !== "" && $larguraTotal !== ""){
     if($alturaTotal !== 0 && $larguraTotal !== 0){
-        $sql = "SELECT * FROM produtos
+        require('config/connection.php');
+        $sql = "SELECT `id`,`codigo`,`titulo`,`peso`,`tipo_consumo`,`multiplicador`,`selecionado`,`categoria`,`tipo_produto`,`basico` FROM produtos
                 WHERE deleted = 0
+                AND ativo = 1
+                AND tipo_produto IS NOT NULL 
                 AND altura_minima_porta <= $alturaTotal
                 AND altura_maxima_porta >= $alturaTotal
                 AND largura_minima_porta <= $larguraTotal
                 AND largura_maxima_porta >= $larguraTotal
-                AND ativo = 1;
-                ";
+                ;";
                 // AND peso_minimo <= $peso
                 // AND peso_maximo > $peso
         
@@ -129,6 +130,7 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
     } else {
         echo "Dimensões inválidas";
     }
+    
 } else {
     $resultado = $_SESSION['array_com_produtos'];
 }
@@ -151,10 +153,18 @@ if(isset($cliente)){
 
 <div class="container mt-4">
     <?php
-        echo $alturaTotal !== ""?"Largura: " . $larguraTotal:"";
-        echo $alturaTotal !== ""?" / Altura: " . $alturaTotal:"";
+        echo "Medida: ";
+        echo $alturaTotal !== ""? $larguraTotal :"";
+        echo "x";
+        echo $alturaTotal !== ""? $alturaTotal:"";
+        echo "m";
     ?>
 </div>
+
+<div class="container my-3">
+    <h4>ITENS BÁSICOS</h4>
+</div>
+
 <div class="container mt-4">
     <?php
         if(isset($_SESSION['array_com_produtos']) && count($_SESSION['array_com_produtos']) > 0){
@@ -162,7 +172,6 @@ if(isset($cliente)){
         } else {
             if(isset($resultado) && count($resultado) > 0){
                 
-                echo "Quantidade: $quantidade / m²: $m2";
                 $pesoTotalPorta = 0;
     
                 // Adicionando itens à array de produtos para enviar à página de processamento do orçamento (envio para o Bling)
@@ -175,6 +184,7 @@ if(isset($cliente)){
                     $multiplicador = isset($row['multiplicador'])?$row['multiplicador']:null;
                     $selecionado = isset($row['selecionado'])?$row['selecionado']:null;
                     $categId = isset($row['categoria'])?$row['categoria']:null;
+                    $tipoProduto = isset($row['tipo_produto'])?$row['tipo_produto']:null;
                     $basico = isset($row['basico'])?$row['basico']:null;
     
                     $pesoItem = null;
@@ -196,7 +206,7 @@ if(isset($cliente)){
                             break;
                     }
     
-                    $pesoItem = $peso * $quantidadeItem;
+                    $pesoItem = ($peso * $quantidadeItem) / $quantidade;
                     $pesoTotalPorta += $pesoItem;
     
                     $produtoParaArray['id'] = $id;
@@ -208,6 +218,7 @@ if(isset($cliente)){
                     $produtoParaArray['tipo_consumo'] = $tipoConsumo;
                     $produtoParaArray['multiplicador'] = $multiplicador;
                     $produtoParaArray['categId'] = $categId;
+                    $produtoParaArray['tipo_produto'] = $tipoProduto;
                     $produtoParaArray['basico'] = $basico;
                     
                     $arrayComProdutos[$codigo] = $produtoParaArray;
@@ -222,140 +233,102 @@ if(isset($cliente)){
 
         }
 
-        ?>
-        <div class="my-3">
-            <a class="btn btn-primary" href="novo_orcamento_edita_itens.php">Editar itens</a>
-        </div>
-    
+    ?>    
 </div>
+
 <div class="container">
-    <!-- <form method="post" action="novo_orcamento_motores.php"> -->
-    <form method="post" action="novo_orcamento_automatizadores.php">
-        <table class="table table-hover table-sm">
-            <thead>
-                <tr>
-                    <th>Adicionar</th>
-                    <th>Código</th>
-                    <th>Titulo</th>
-                    <th>Quantidade</th>
-                    <th>Peso</th>
-                    <th>Consumo</th>
-                    <!-- <th>Ação</th> -->
-                </tr>
-            </thead>
-                <tbody>
-                    <?php
-                        // Duas querys para separar os selecionados dos não selecionados
-                        if(isset($arrayComProdutos)){
-                            foreach($arrayComProdutos as $produto){
-                                if($produto['basico'] == 1 && $produto['selecionado'] == 1){ //
-                                    ?>
-                                    <tr>
-                                        <td>
-                                            <input 
-                                            class="form-check-input" 
-                                            type="checkbox"
-                                            name="produtosSelecionados[]"
-                                            value="<?= $produto['codigo'] ?>" 
-                                            checked
-                                            id="<?= "codigo".$produto['codigo'] ?>"
-                                            >
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                <?= $produto['codigo'] ?>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                <?= $produto['titulo'] ?>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                <?= $produto['quantidade_item'] ?>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                <?= $produto['peso_item'] ?>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                <?= $produto['tipo_consumo'] ?>
-                                            </label>
-                                        </td>
-                                        <!-- <td>
-                                            <a href="<?= "novo_orcamento_edita_itens.php?codigo=".$produto['codigo'] ?>" class="btn btn-primary btn-sm">Editar</a>
-                                        </td> -->
-                                    </tr>
-                                    <?php
-                                }
-                            }
-
-                        }
-                        if(isset($arrayComProdutos)){
-                            foreach($arrayComProdutos as $produto){
-                                if($produto['categId'] == 9){ // Categoria 9 = Acessório
-                                    ?>
-                                        <tr>
-                                            <td>
-                                                <input 
-                                                class="form-check-input" 
-                                                type="checkbox"
-                                                name="produtosSelecionados[]"
-                                                value="<?= $produto['codigo'] ?>" 
-                                                id="<?= "codigo".$produto['codigo'] ?>"
-                                                >
-                                            </td>
-                                            <td>
-                                                <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                    <?= $produto['codigo'] ?>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                    <?= $produto['titulo'] ?>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                    <?= $produto['quantidade_item'] ?>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                    <?= $produto['peso_item'] ?>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                    <?= $produto['tipo_consumo'] ?>
-                                                </label>
-                                            </td>
-                                        </tr>
-                                    <?php
-                                }
-                            }
-                        } else {
-                            echo "<tr><td>Nenhum item encontrado</td></tr>";
-                        }
-
-                        
-                    ?>
-                </tbody>
-        </table>
-        <?php
-        if(isset($arrayComProdutos)){
-            $_SESSION['array_com_produtos'] = $arrayComProdutos;
-
+    <?php
+    $categorias = [];
+    if(isset($arrayComProdutos) && count($arrayComProdutos) > 0){
+        foreach($arrayComProdutos as $produto){
+            $codigo = isset($produto['codigo']) ? $produto['codigo'] : "";
+            $categoria = isset($produto['categId']) ? $produto['categId'] : "";
+            $tipoProd = isset($produto['tipo_produto']) ? $produto['tipo_produto'] : "";
+            
+            if(isset($categoria) && $categoria !== ''){
+                $categorias[] = $categoria;
+            }
+            
+            $categorias = array_unique($categorias);
         }
-            // echo "<pre>";
-            // print_r($arrayComProdutos);
-        ?>
-        <div class="my-5">
+
+    } else {
+        echo "Nenhum produto encontrado";
+    }
+
+    function consultaCategorias(){ // Consultando categorias no BD para reorganizar as categorias
+        require('config/connection.php');
+        $sql = "SELECT `id`,`name`,`indice` FROM categorias_produtos
+            WHERE deleted = 0
+            AND ativo = 1;
+        ";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+
+        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $resultado;
+    }
+
+    $categsBD = consultaCategorias();
+
+    $categsArrayProdutos = [];
+    $i = 0;
+
+    foreach($categorias as $categ){
+        foreach($categsBD as $categBD){
+            if($categ == $categBD['id']){
+                $categsArrayProdutos[$i]['id'] = $categ;
+                $categsArrayProdutos[$i]['indice'] = $categBD['indice'];
+                $categsArrayProdutos[$i]['name'] = $categBD['name'];
+            }
+        }
+        $i++;
+    }
+
+    usort($categsArrayProdutos, function($a, $b) {
+        return $a['indice'] <=> $b['indice']; // Ordenação crescente pelo Código
+    });
+    ?>
+    <form method="POST" action="novo_orcamento_opcionais.php">
+        <?php
+            foreach($categsArrayProdutos as $ctg){
+                ?>
+                <div class="mt-3">
+                    <b> - <?= $ctg['name'] ?>: </b>
+                </div>
+                <div class="">
+                    <select class="form-select" name="<?= $ctg['name']?>">
+                        <option value=""></option>
+
+                        <?php //Buscar somente itens da $ctg['id']
+                            foreach($arrayComProdutos as $prod){
+                                if(isset($prod['categId']) && $prod['categId'] == $ctg['id']){
+                                    $id = $prod['categId'];
+                                    $codigo = $prod['codigo'];
+                                    $titulo = $prod['titulo'];
+                                    $peso = $prod['peso_item'];
+                                    $quant = $prod['quantidade_item'];
+                                    $selecionado = isset($prod['selecionado']) && $prod['selecionado'] == 1 ? "selected" : "";
+
+                                    echo "<option $selecionado value=\"$codigo\">$codigo - $titulo - $peso"."kg - Qt: $quant</option>\n";
+                                }
+                            }
+                        ?>
+                    </select>                    
+                </div>
+             <?php
+            }
+            if(isset($arrayComProdutos)){
+                $_SESSION['array_com_produtos'] = $arrayComProdutos;
+            }
+            ?>
+            <div class="my-5">
             <input type="submit" class="btn btn-primary" value="Continuar">
-        </div>
+            </div>
     </form>
+    <div class="mt-5"></div>
 </div>
+</body>
+</html>
