@@ -46,9 +46,12 @@ require('config/connection.php');
     }
 
     $pesoTotalPorta = 0;    
-    if(isset($_SESSION['array_com_produtos'])){
-        foreach ($_SESSION['array_com_produtos'] as $key => $item) {
-            $pesoTotalPorta += $item['peso_item'];
+    if(isset($_SESSION['produtosSelecionados'])){
+        foreach ($_SESSION['produtosSelecionados'] as $key => $value) {
+            if(isset($value) && $value !== ""){
+                $pesoItem = $_SESSION['array_com_produtos'][$value]['peso_item'];
+                $pesoTotalPorta += $pesoItem;
+            }
         }
     }
 ?>
