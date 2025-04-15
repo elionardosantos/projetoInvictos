@@ -289,17 +289,13 @@
                             //     return $a['descricao'] <=> $b['descricao']; // Ordenação crescente pelo Código
                             // });
                             
-                            // print_r($formasPagamentoArray);
-                            
                             foreach($formasPagamentoArray['data'] as $item){
-                                echo "<option value=\"" . $item['id'] . "\">" . $item['descricao'] . "</option>";
+                                $selected = isset($item['padrao']) && $item['padrao'] == 1 ? "selected" : "";
+
+                                echo "<option $selected value=\"" . $item['id'] . "\">" . $item['descricao'] . "</option>";
                                 echo "\n";
                             }
 
-                            // Gera as opções de pagamento até 12x
-                            // for($i=1; $i<=12; $i++){
-                            //    echo "<option value=\"cartao".$i."x\">Cartão $i"."x</option>";
-                            // }
                         ?>
                     </select>
                 </div>
