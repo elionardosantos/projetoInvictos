@@ -197,14 +197,14 @@
         <!-- Área do cabeçalho -->
         <div class="row">
             <!-- Logo -->
-            <div class="col-3 text-end">
+            <div class="col">
                 <a href="https://www.invictosportas.com.br" style="text-decoration: none; color: black">
                     <img class="logo img-fluid" src="assets/img/logo.png" alt="Logo">
                 </a>
             </div>
             
             <!-- Dados da empresa -->
-            <div class="col-4">
+            <div class="col">
                 <div class="row">
                     <div class="col"><strong>INVICTOS PORTAS AUTOMATICAS</strong></div>
                 </div>
@@ -235,45 +235,6 @@
                 </div>
             </div>
 
-            <!-- Dados do cliente -->
-            <div class="col-5">
-                <?php if(isset($clienteNome) && $clienteNome !== ""){ ?>
-                    <div class="row">
-                        <div class="col">Cliente: <strong><?= isset($clienteNome)?$clienteNome:""; ?></strong></div>
-                    </div>
-                <?php } ?>
-                <?php if(isset($endereco) && $endereco !== ""){ ?>
-                    <div class="row">
-                        <div class="col">Endereço: <strong><?= isset($endereco)?$endereco:""; ?></strong></div>
-                    </div>
-                <?php } ?>
-                <?php if(isset($numero) && $numero !== ""){ ?>
-                    <div class="row">
-                        <div class="col">Número: <strong><?= isset($numero)?$numero:""; ?></strong></div>
-                    </div>
-                <?php } ?>
-                <?php if(isset($bairro) && $bairro !== ""){ ?>
-                    <div class="row">
-                        <div class="col">Bairro: <strong><?= isset($bairro)?$bairro:""; ?></strong></div>
-                    </div>
-                <?php } ?>
-                <?php if(isset($municipio) && $municipio !== ""){ ?>
-                    <div class="row">
-                        <div class="col">Município: <strong><?= isset($municipio)?$municipio:""; ?></strong></div>
-                    </div>
-                <?php } ?>
-                <?php if(isset($uf) && $uf !== ""){ ?>
-                    <div class="row">
-                        <div class="col">Estado: <strong><?= isset($uf)?$uf:""; ?></strong></div>
-                    </div>
-                <?php } ?>
-                <!-- <?php if(isset($dataPedido) && $dataPedido !== ""){ ?>
-                    <div class="row">
-                        <div class="col">Data: <strong><?= isset($dataPedido)?$dataPedido:""; ?></strong></div>
-                    </div>
-                <?php } ?> -->
-            </div>
-
 
         </div>
 
@@ -283,10 +244,45 @@
                 Número do orçamento: <strong><?= $numeroPedido ?></strong>
             </div>
         </div>
-        <div class="row text-center">
-            <div class="col">Data do orçamento: <strong><?= isset($dataPedido)?date('d/m/Y',strtotime($dataPedido)):""; ?></strong></div>
-            <div class="col">Orçamento válido até: <strong><?= isset($dataPedido)?date('d/m/Y',strtotime($dataPedido . '+1 month')):""; ?></strong></div>
-        </div>
+
+            <!-- Dados do cliente -->
+            <div class="col mt-2">
+                <?php if(isset($clienteNome) && $clienteNome !== ""){ ?>
+                    <div class="row">
+                        <div class="col">Cliente: <strong><?= isset($clienteNome)?$clienteNome:""; ?></strong></div>
+                    </div>
+                <?php } ?>
+                <div class="row">
+                    <?php if(isset($endereco) && $endereco !== ""){ ?>
+                        <div class="col-7">Endereço: <strong><?= isset($endereco)?$endereco:""; ?></strong></div>
+                    <?php } ?>
+                    <?php if(isset($numero) && $numero !== ""){ ?>
+                        <div class="col">Número: <strong><?= isset($numero)?$numero:""; ?></strong></div>
+                    <?php } ?>
+                    <?php if(isset($uf) && $uf !== ""){ ?>
+                        <div class="col">Estado: <strong><?= isset($uf)?$uf:""; ?></strong></div>
+                    <?php } ?>
+                </div>
+                <div class="row">
+                    <?php if(isset($municipio) && $municipio !== ""){ ?>
+                        <div class="col-7">Município: <strong><?= isset($municipio)?$municipio:""; ?></strong></div>
+                    <?php } ?>
+                    <?php if(isset($bairro) && $bairro !== ""){ ?>
+                        <div class="col">Bairro: <strong><?= isset($bairro)?$bairro:""; ?></strong></div>
+                    <?php } ?>
+                </div>
+                <!-- <?php if(isset($dataPedido) && $dataPedido !== ""){ ?>
+                    <div class="row">
+                        <div class="col">Data: <strong><?= isset($dataPedido)?$dataPedido:""; ?></strong></div>
+                    </div>
+                <?php } ?> -->
+            </div>
+
+
+
+
+
+        
 
         <!-- Tabela de produtos -->
         <table class="table table-bordered table-sm text-center mt-3 mb-1" id="tabelaProdutos">
@@ -411,6 +407,12 @@
         <?php
         }
         ?>
+
+        <div class="row text-center mt-3">
+            <div class="col">Data do orçamento: <strong><?= isset($dataPedido)?date('d/m/Y',strtotime($dataPedido)):""; ?></strong></div>
+            <div class="col">Orçamento válido até: <strong><?= isset($dataPedido)?date('d/m/Y',strtotime($dataPedido . '+15 days')):""; ?></strong></div>
+        </div>
+        
         <div class="mt-4">
             <p class="fs-7">
                 Este orçamento poderá ter variação para mais ou para menos em seu valor final, pois após aprovação, um dos profissionais da Invictos Portas irá até o seu estabelecimento fazer a conferência das medidas, para que sua porta de enrolar seja fabricada na medida exata.

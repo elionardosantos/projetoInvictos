@@ -92,11 +92,11 @@ if(isset($pesoTotalPorta) && $pesoTotalPorta !== ""){
         $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     } else {
-        echo "<div class=\"container\">Nenhum motor encontrado para o peso atual<div>";
+        echo "<div class=\"container\">Nenhum item encontrado para o peso atual<div>";
     }
     
 } else {
-    echo "<div class=\"container\">Nenhum motor encontrado para o peso atual<div>";
+    echo "<div class=\"container\">Nenhum item encontrado para o peso atual<div>";
 }
 ?>
 

@@ -302,15 +302,15 @@
                 <div class="col-md-3">
                     <label for="tipoDesconto" class="form-label mb-0 mt-2">Tipo Desconto/acréscimo</label>
                     <select class="form-select" name="tipoDesconto">
-                        <option value="PERCENTUAL">% - Desconto Percentual</option>
                         <option value="ACRESC-PERCENTUAL">% - Acréscimo Percentual</option>
-                        <option value="REAL">R$ - Desconto Real</option>
+                        <option value="PERCENTUAL">% - Desconto Percentual</option>
                         <option value="ACRESC-REAL">R$ - Acréscimo Real</option>
+                        <option value="REAL">R$ - Desconto Real</option>
                     </select>
                 </div>
                 <div class="col-md-3">
                     <label for="desconto" class="form-label mb-0 mt-2">Valor Desconto/acréscimo</label>
-                    <input type="number" inputmode="numeric" id="desconto" name="desconto" class="form-control" placeholder="Somente números">
+                    <input value="15" type="number" inputmode="numeric" id="desconto" name="desconto" class="form-control" placeholder="Somente números">
                 </div>
                 <!-- <div class="col-md-4">
                     <label for="tabelaPreco" class="form-label mb-0 mt-2">Desconto/Acrescimo</label>
