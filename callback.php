@@ -26,6 +26,9 @@
         }
         ?>
 
+        
+        <a href="index.php" class="btn btn-primary mt-2" role="button">Início</a>
+
     </div>
 </body>
 </html>
