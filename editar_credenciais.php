@@ -36,9 +36,6 @@
             <button type="submit" class="btn btn-primary btn-block mt-4">Enviar</button>
         </form>
 
-        <div class="mt-5">
-            <a class="btn btn-success" href="https://www.bling.com.br/Api/v3/oauth/authorize?response_type=code&client_id=f243f57a4d02fb4926f8c661da4a7d4da88c56c5&state=1234">Conectar ao Bling</a>
-        </div>
     </div>
 </body>
 </html>

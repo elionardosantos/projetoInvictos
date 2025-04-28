@@ -36,7 +36,12 @@ $result = file_put_contents($jsonFile,$new_json_data);
                 echo "<div class='alert alert-danger'>Credenciais não atualizadas. Favor consulte um administrador do sistema.</div>";
             }
         ?>
+        
         <a href="index.php" class="btn btn-primary mt-2" role="button">Início</a>
+
+        <div class="mt-5">
+            <a class="btn btn-success" href="https://www.bling.com.br/Api/v3/oauth/authorize?response_type=code&client_id=f243f57a4d02fb4926f8c661da4a7d4da88c56c5&state=1234">Conectar ao Bling</a>
+        </div>
         </p>
 
     </div>
