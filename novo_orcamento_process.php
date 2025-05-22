@@ -429,6 +429,38 @@ function novoPedido(){
         "Accept: application/json",
         "authorization: bearer " . $token
     ];
+
+    // GERANDO AS PARCELAS DO PEDIDO
+    $valorTotal = $valorTotalPedido;
+    $nParcelas = $_SESSION['dadosCliente']['nParcelas'];
+
+
+    if(isset($nParcelas) && $nParcelas > 0){
+        $valorParcelas = ($valorTotal / $nParcelas);
+        $parcela = 1;
+        while($parcela <= $nParcelas){
+
+            $data = date('Y-m-d', strtotime("+$parcela month"));
+            $parcelas[$parcela]['dataVencimento'] = $data;
+            $parcelas[$parcela]['formaPagamento']['id'] = $condicaoPagamento;
+            
+            if($parcela < $nParcelas){
+                $parcelas[$parcela]['valor'] = ceil($valorParcelas);
+            } elseif ($parcela == $nParcelas){
+                $parcelaFinal = ($valorTotal - (ceil($valorParcelas) * ($nParcelas - 1)));
+                $parcelas[$parcela]['valor'] = $parcelaFinal;
+
+            }
+
+            $parcela++;
+        }
+    }elseif(isset($nParcelas) && $nParcelas == 0){
+        $data = date('Y-m-d');
+        $parcelas[0]['dataVencimento'] = $data;
+        $parcelas[0]['valor'] = $valorTotal;
+        $parcelas[0]['formaPagamento']['id'] = $condicaoPagamento;
+    }
+
     $postData = [
         "contato"=>[
             "id"=>$contatoId
@@ -450,17 +482,7 @@ function novoPedido(){
             ],
         ],
         "outrasDespesas"=>$acrescimo,
-        "parcelas"=>[
-          [
-            // "id"=>"",
-            "dataVencimento"=>date('Y-m-d', strtotime('+30 days')),
-            "valor"=>$valorTotalPedido,
-            // "observacoes"=>"Observação da parcela",
-            "formaPagamento"=>[
-              "id"=>$condicaoPagamento
-            ]
-          ]
-        ],
+        "parcelas"=>$parcelas,
         "desconto"=>[
             "valor"=>$desconto,
             "unidade"=>$tipoDesconto,
