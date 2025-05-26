@@ -299,26 +299,28 @@
                         ?>
                     </select>
                 </div>
-                <div class="col-md-3">
-                    <label for="tipoDesconto" class="form-label mb-0 mt-2">Tipo Desconto/acréscimo</label>
+                <div class="col-md-2">
+                    <label for="tipoAcrescimo" class="form-label mb-0 mt-2">Tipo de acréscimo</label>
+                    <select class="form-select" name="tipoAcrescimo">
+                        <option value="PERCENTUAL">% - Percentual</option>
+                        <option value="REAL">R$ - Real</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="valorAcrescimo" class="form-label mb-0 mt-2">Valor do Acréscimo</label>
+                    <input value="15" type="number" inputmode="numeric" id="valorAcrescimo" name="valorAcrescimo" class="form-control" placeholder="Somente números">
+                </div>
+                <div class="col-md-2">
+                    <label for="tipoDesconto" class="form-label mb-0 mt-2">Tipo Desconto</label>
                     <select class="form-select" name="tipoDesconto">
-                        <option value="ACRESC-PERCENTUAL">% - Acréscimo Percentual</option>
-                        <option value="PERCENTUAL">% - Desconto Percentual</option>
-                        <option value="ACRESC-REAL">R$ - Acréscimo Real</option>
-                        <option value="REAL">R$ - Desconto Real</option>
+                        <option value="PERCENTUAL">% - Percentual</option>
+                        <option value="REAL">R$ - Real</option>
                     </select>
                 </div>
-                <div class="col-md-3">
-                    <label for="desconto" class="form-label mb-0 mt-2">Valor Desconto/acréscimo</label>
-                    <input value="15" type="number" inputmode="numeric" id="desconto" name="desconto" class="form-control" placeholder="Somente números">
+                <div class="col-md-2">
+                    <label for="valorDesconto" class="form-label mb-0 mt-2">Valor do Desconto</label>
+                    <input type="number" inputmode="numeric" id="valorDesconto" name="valorDesconto" class="form-control" placeholder="Somente números">
                 </div>
-                <!-- <div class="col-md-4">
-                    <label for="tabelaPreco" class="form-label mb-0 mt-2">Desconto/Acrescimo</label>
-                    <select class="form-select" id="tabelaPreco" name="tabelaPreco">
-                        <option value="desconto" selected>Desconto</option>
-                        <option value="acrescimo" >Acréscimo</option>
-                    </select>
-                </div> -->
             </div>
             
             <div class="mt-4"><h4>Contato</h4></div>

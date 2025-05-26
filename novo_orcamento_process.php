@@ -33,8 +33,10 @@ $estado = isset($_SESSION['dadosCliente']['estado'])?$_SESSION['dadosCliente']['
 $tabelaPreco = isset($_SESSION['dadosCliente']['tabelaPreco'])?$_SESSION['dadosCliente']['tabelaPreco']:"";
 $condicaoPagamento = isset($_SESSION['dadosCliente']['condicaoPagamento'])?$_SESSION['dadosCliente']['condicaoPagamento']:"";
 $cep = isset($_SESSION['dadosCliente']['cep'])?$_SESSION['dadosCliente']['cep']:"";
-$desconto = isset($_SESSION['dadosCliente']['desconto']) && $_SESSION['dadosCliente']['desconto'] !== ""?$_SESSION['dadosCliente']['desconto']:0;
+$tipoAcrescimo = isset($_SESSION['dadosCliente']['tipoAcrescimo'])?$_SESSION['dadosCliente']['tipoAcrescimo']:"";
+$valorAcrescimo = isset($_SESSION['dadosCliente']['valorAcrescimo']) && $_SESSION['dadosCliente']['valorAcrescimo'] !== ""?$_SESSION['dadosCliente']['valorAcrescimo']:0;
 $tipoDesconto = isset($_SESSION['dadosCliente']['tipoDesconto'])?$_SESSION['dadosCliente']['tipoDesconto']:"";
+$valorDesconto = isset($_SESSION['dadosCliente']['valorDesconto']) && $_SESSION['dadosCliente']['valorDesconto'] !== ""?$_SESSION['dadosCliente']['valorDesconto']:0;
 
 $tel = isset($_SESSION['dadosCliente']['tel'])?$_SESSION['dadosCliente']['tel']:"";
 $cel = isset($_SESSION['dadosCliente']['cel'])?$_SESSION['dadosCliente']['cel']:"";
@@ -238,29 +240,37 @@ $itensPedido = listaItensPedido($produtosSelecionados);
     });
 
 
-
-
-
 $valorTotalItensPedido = 0; 
 foreach($itensPedido as $item=>$valor){
     // echo " + ".$valor['valor'] * $valor['quantidade'];
     $valorTotalItensPedido += ($valor['valor'] * $valor['quantidade']);
 }
 
-$acrescimo = 0;
-if($tipoDesconto == "PERCENTUAL"){
-    $valorTotalPedido = $valorTotalItensPedido - ((($valorTotalItensPedido * 1) * ($desconto * 1)) / 100);
-}else if($tipoDesconto == "REAL"){
-    $valorTotalPedido = ($valorTotalItensPedido - $desconto);
-}elseif($tipoDesconto == "ACRESC-REAL"){
-    $acrescimo = $desconto;
-    $valorTotalPedido = ($valorTotalItensPedido + $acrescimo);
-    $desconto = 0;
-}elseif($tipoDesconto == "ACRESC-PERCENTUAL"){
-    $acrescimo = ((($valorTotalItensPedido * 1) * ($desconto * 1)) / 100);
-    $valorTotalPedido = $valorTotalItensPedido + ((($valorTotalItensPedido * 1) * ($desconto * 1)) / 100);
+echo "<p> $valorTotalItensPedido <p>";
+
+if($tipoAcrescimo == "REAL"){
+    $acrescimo = $valorAcrescimo;
+    // $valorTotalPedido = round($valorTotalItensPedido + $acrescimo, 2);
+}elseif($tipoAcrescimo == "PERCENTUAL"){
+    $acrescimo = ($valorTotalItensPedido * $valorAcrescimo) / 100;
+    // $valorTotalPedido = round($valorTotalItensPedido + $acrescimo, 2);
+}else{
+    $acrescimo = 0;
+}
+
+if($tipoDesconto == "REAL"){
+    $desconto = $valorDesconto;
+    // $valorTotalPedido = round($valorTotalItensPedido - $desconto + $acrescimo, 2);
+}elseif($tipoDesconto == "PERCENTUAL"){
+    $desconto = $valorTotalItensPedido * ($valorDesconto / 100);
+    // $valorTotalPedido = round((($valorTotalItensPedido - $desconto) + $acrescimo), 2);
+}else{
     $desconto = 0;
 }
+
+$valorTotalPedido = $valorTotalItensPedido + $acrescimo - $desconto;
+
+
 
 // echo " = ".$valorTotalItensPedido;
 
@@ -413,7 +423,7 @@ function novoPedido(){
     global $municipioServico;
     global $estadoServico;
     global $cepServico;
-    global $desconto;
+    global $valorDesconto;
     global $tipoDesconto;
     global $valorTotalPedido;
     global $condicaoPagamento;
@@ -457,9 +467,10 @@ function novoPedido(){
     }elseif(isset($nParcelas) && $nParcelas == 0){
         $data = date('Y-m-d');
         $parcelas[0]['dataVencimento'] = $data;
-        $parcelas[0]['valor'] = $valorTotal;
+        $parcelas[0]['valor'] = $valorTotalPedido;
         $parcelas[0]['formaPagamento']['id'] = $condicaoPagamento;
     }
+
 
     $postData = [
         "contato"=>[
@@ -484,10 +495,14 @@ function novoPedido(){
         "outrasDespesas"=>$acrescimo,
         "parcelas"=>$parcelas,
         "desconto"=>[
-            "valor"=>$desconto,
+            "valor"=>$valorDesconto,
             "unidade"=>$tipoDesconto,
         ]
     ];
+
+    echo "<pre>";
+    print_r($postData);
+    echo "</pre>";
 
     $jsonPostData = json_encode($postData);
 

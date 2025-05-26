@@ -16,9 +16,9 @@
           <li class="nav-item">
             <a class="nav-link" href="orcamentos.php">Orçamentos</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="consulta_cnpj_visualizacao.php">Consultar CNPJ</a>
-          </li>
+          </li> -->
           <?php 
           // Esta área será exibida somente para os administradores do sistema
           if($_SESSION['login']['loggedUserLevel'] > 1){

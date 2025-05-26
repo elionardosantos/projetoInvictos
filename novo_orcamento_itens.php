@@ -17,8 +17,10 @@ $estado = isset($_POST['estado'])?$_POST['estado']:(isset($_SESSION['dadosClient
 $tabelaPreco = isset($_POST['tabelaPreco'])?$_POST['tabelaPreco']:(isset($_SESSION['dadosCliente']['tabelaPreco'])?$_SESSION['dadosCliente']['tabelaPreco']:null);
 $condicaoPagamento = isset($_POST['condicaoPagamento'])?$_POST['condicaoPagamento']:(isset($_SESSION['dadosCliente']['condicaoPagamento'])?$_SESSION['dadosCliente']['condicaoPagamento']:null);
 $cep = isset($_POST['cep'])?$_POST['cep']:(isset($_SESSION['dadosCliente']['cep'])?$_SESSION['dadosCliente']['cep']:null);
-$desconto = isset($_POST['desconto'])?$_POST['desconto']:(isset($_SESSION['dadosCliente']['desconto'])?$_SESSION['dadosCliente']['desconto']:null);
+$tipoAcrescimo = isset($_POST['tipoAcrescimo'])?$_POST['tipoAcrescimo']:(isset($_SESSION['dadosCliente']['tipoAcrescimo'])?$_SESSION['dadosCliente']['tipoAcrescimo']:null);
+$valorAcrescimo = isset($_POST['valorAcrescimo'])?$_POST['valorAcrescimo']:(isset($_SESSION['dadosCliente']['valorAcrescimo'])?$_SESSION['dadosCliente']['valorAcrescimo']:null);
 $tipoDesconto = isset($_POST['tipoDesconto'])?$_POST['tipoDesconto']:(isset($_SESSION['dadosCliente']['tipoDesconto'])?$_SESSION['dadosCliente']['tipoDesconto']:null);
+$valorDesconto = isset($_POST['valorDesconto'])?$_POST['valorDesconto']:(isset($_SESSION['dadosCliente']['valorDesconto'])?$_SESSION['dadosCliente']['valorDesconto']:null);
 
 // Dados de contato
 $tel = isset($_POST['tel'])?$_POST['tel']:"";
@@ -65,8 +67,10 @@ isset($estado)?$_SESSION['dadosCliente']['estado'] = $estado:null;
 isset($tabelaPreco)?$_SESSION['dadosCliente']['tabelaPreco'] = $tabelaPreco:null;
 isset($condicaoPagamento)?$_SESSION['dadosCliente']['condicaoPagamento'] = $condicaoPagamento:null;
 isset($cep)?$_SESSION['dadosCliente']['cep'] = $cep:null;
-isset($desconto)?$_SESSION['dadosCliente']['desconto'] = $desconto:null;
+isset($tipoAcrescimo)?$_SESSION['dadosCliente']['tipoAcrescimo'] = $tipoAcrescimo:null;
+isset($valorAcrescimo)?$_SESSION['dadosCliente']['valorAcrescimo'] = $valorAcrescimo:null;
 isset($tipoDesconto)?$_SESSION['dadosCliente']['tipoDesconto'] = $tipoDesconto:null;
+isset($valorDesconto)?$_SESSION['dadosCliente']['valorDesconto'] = $valorDesconto:null;
 
 $_SESSION['dadosCliente']['tel'] = $tel;
 $_SESSION['dadosCliente']['cel'] = $cel;

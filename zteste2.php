@@ -1,9 +1,17 @@
 <?php
 
     // GERANDO AS PARCELAS DO PEDIDO
-    $valorTotal = 100;
-    $nParcelas = 5;
+    $valorProdutos = 4560.4;
 
+    $nParcelas = 1;
+    $valorAcrescimo = 15; //percentual
+    $valorDesconto = 20; //percentual
+
+    echo "\n" . $valorProdutos;
+    echo "\n" . $acrescimo = $valorProdutos * ($valorAcrescimo / 100);
+    echo "\n" . $desconto = $valorProdutos * ($valorDesconto / 100);
+
+    echo "\n" . $valorTotal = $valorProdutos - $desconto + $acrescimo;
 
     if(isset($nParcelas) && $nParcelas > 0){
         $valorParcelas = ($valorTotal / $nParcelas);
@@ -31,4 +39,5 @@
         $parcelas[0]['formaPagamento']['id'] = $condicaoPagamento;
     }
 
+    echo "\n\n";
     print_r($parcelas);
