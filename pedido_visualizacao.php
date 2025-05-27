@@ -478,10 +478,12 @@
                                         if(isset($situacoes) && count($situacoes)>0){
                                             $idSituacaoAtual = $jsonData['data']['situacao']['id'];
                                             foreach($situacoes['data'] as $situacao){
-                                                $selected = $situacao['id'] == $idSituacaoAtual?"selected":"";
-                                                ?>
-                                                    <option <?= $selected ?> value="<?= $situacao['id'] ?>"><?= $situacao['nome'] ?></option>;
-                                                <?php
+                                                if($situacao['id'] !== $idSituacaoAtual){
+                                                    $selected = $situacao['id'] == $idSituacaoAtual?"selected":"";
+                                                    ?>
+                                                        <option <?= $selected ?> value="<?= $situacao['id'] ?>"><?= $situacao['nome'] ?></option>;
+                                                    <?php
+                                                }
                                             }
                                         }
                                     ?>

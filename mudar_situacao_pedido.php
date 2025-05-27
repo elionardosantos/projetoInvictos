@@ -20,11 +20,12 @@
 
                 if(isset($response['error'])){
                     if($response['error']['type'] == "VALIDATION_ERROR"){
-                        echo "<div class=\"alert alert-danger\">".$response['error']['message']."</div>";
+                        echo "<div class=\"alert alert-danger\">".$response['error']['message'];
                         foreach($response['error']['fields'] as $msg){
                             $mensagem = $msg['msg'];
-                            echo "<div class=\"alert alert-danger\">$mensagem</div>";
+                            echo "<br>".$mensagem;
                         }
+                        echo "</div>";
                     }
                 }else{
                     echo "<div class=\"alert alert-success\">Situação alterada com sucesso</div>";

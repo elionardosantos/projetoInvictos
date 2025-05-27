@@ -16,15 +16,54 @@
     <div class="container mb-4">
         <form action="" method="get">
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-3 col-lg-2">
                     <label for="codigo_produto">Código</label>
                     <input value="<?= isset($_GET['codigo_produto'])?$_GET['codigo_produto']:null; ?>" type="text" class="form-control" name="codigo_produto" id="codigo_produto">
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-5 col-lg-4">
                     <label for="titulo_produto">Título</label>
                     <input value="<?= isset($_GET['titulo_produto'])?$_GET['titulo_produto']:null; ?>" type="text" class="form-control" name="titulo_produto" id="titulo_produto">
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3 col-lg-2">
+                    <label for="categoria" class="form-label mb-0">Categoria</label>
+                    <?php
+                        require('config/connection.php');
+        
+                        $sql = "SELECT `id`,`name`,`indice`,`ativo` FROM `categorias_produtos` WHERE `deleted` = :deleted";
+                        $stmt = $pdo->prepare($sql);
+                        $stmt->bindValue(':deleted', 0);
+                        $stmt->execute();
+                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+                        usort($result, function($a, $b) {
+                            return $a['indice'] <=> $b['indice']; // Ordenação crescente pelo ID
+                        });
+                    ?>
+                    <select class="form-select" name="categoria" id="categoria">
+                        <option value="">Todos</option>
+                        <?php
+                            foreach ($result as $item => $value) {
+                                $selected = isset($_GET['categoria']) && $_GET['categoria'] == $value['id'] ? "selected" : "";
+                                $categId = $value['id'];
+                                $categName = $value['name'];
+                                $categIndice = $value['indice'];
+                                $categAtivo  = $value['ativo'];
+
+                                echo "\n<option $selected value=\"$categId\">$categName</option>";
+                            }
+                        ?>
+                        
+                    </select>
+                </div>
+                <div class="col-sm-3 col-lg-2">
+                    <label for="situacao">Status</label>
+                    <select class="form-select" id="situacao" name="situacao">
+                        <option value="">Todos</option>
+                        <option <?= isset($_GET['situacao']) && $_GET['situacao'] == "1"?"selected":""; ?> value="1" >Ativo</option>
+                        <option <?= isset($_GET['situacao']) && $_GET['situacao'] == "0"?"selected":""; ?> value="0">Inativo</option>
+                    </select>
+                </div>
+                <div class="col-sm-3 col-lg-2">
                     <label for="tipo_consumo" class="form-label mb-0">Consumo</label>
                     <select class="form-select" name="tipo_consumo" id="tipo_consumo">
                         <option value="">Todos</option>
@@ -45,15 +84,7 @@
                         ?>
                     </select>
                 </div>
-                <div class="col-sm-4">
-                    <label for="situacao">Status</label>
-                    <select class="form-select" id="situacao" name="situacao">
-                        <option value="">Todos</option>
-                        <option <?= isset($_GET['situacao']) && $_GET['situacao'] == "1"?"selected":""; ?> value="1" >Ativo</option>
-                        <option <?= isset($_GET['situacao']) && $_GET['situacao'] == "0"?"selected":""; ?> value="0">Inativo</option>
-                    </select>
-                </div>
-                <div class="col-sm-4">
+                <div class="col-sm-4 col-md-3 col-lg-2">
                     <label for="classificar" class="form-label mb-0">Classificar por</label>
                     <select class="form-select" name="classificar" id="classificar">
                         <option value="codigo ASC">Código (A-Z)</option>
@@ -97,6 +128,7 @@
                     require('config/connection.php');
                     $codigoProduto = isset($_GET['codigo_produto'])?$_GET['codigo_produto']:"";
                     $tituloProduto = isset($_GET['titulo_produto'])?$_GET['titulo_produto']:"";
+                    $categoriaId = isset($_GET['categoria'])?$_GET['categoria']:"";
                     $tipoConsumo = isset($_GET['tipo_consumo'])?$_GET['tipo_consumo']:"";
                     $situacaoProduto = isset($_GET['situacao']) && $_GET['situacao'] !== ""?$_GET['situacao']:"";
                     $ordem = isset($_GET['classificar'])?$_GET['classificar']:"";
@@ -127,6 +159,9 @@
                     if(isset($tituloProduto) && $tituloProduto !== "") {
                         $sql .= " AND `titulo` LIKE :titulo";
                     };
+                    if(isset($categoriaId) && $categoriaId !== "") {
+                        $sql .= " AND `categoria` = :categoria";
+                    };
                     if(isset($tipoConsumo) && $tipoConsumo !== "") {
                         $sql .= " AND `tipo_consumo` = :tipo_consumo";
                     };
@@ -150,6 +185,9 @@
                     };
                     if(isset($situacaoProduto) && $situacaoProduto !== "") {
                         $stmt->bindValue(':ativo',$situacaoProduto);
+                    };
+                    if(isset($categoriaId) && $categoriaId !== "") {
+                        $stmt->bindValue(':categoria',$categoriaId);
                     };
                     if(isset($tipoConsumo) && $tipoConsumo !== "") {
                         $stmt->bindValue(':tipo_consumo',$tipoConsumo);

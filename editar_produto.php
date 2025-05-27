@@ -72,7 +72,7 @@
                     <input value="<?= $produto['multiplicador'] ?>" class="form-control" name="multiplicador_produto" type="text" inputmode="decimal" placeholder="Fator de multiplicação" id="multiplicador_produto">
                 </div>
                 <div class="col-lg-4 mt-2">
-                    <label for="consumo_produto" class="form-label mb-0">Categoria</label>
+                    <label for="categoria" class="form-label mb-0">Categoria</label>
 
                     <?php
                         require('config/connection.php');
