@@ -53,6 +53,24 @@
                                             $userName = $row['name'];
                                             $userEmail = $row['email'];
                                             $userStatus = $row['level'];
+
+                                            switch ($userStatus) {
+                                                case 0:
+                                                    $userStatus = "0 - Inativo";
+                                                    break;
+                                                
+                                                case 1:
+                                                    $userStatus = "1 - Usuário";
+                                                    break;
+                                                
+                                                case 2:
+                                                    $userStatus = "2 - Adm";
+                                                    break;
+                                                
+                                                default:
+                                                    # code...
+                                                    break;
+                                            }
                                             
                                             echo "<tr>";
                                             echo "<td>$userId</td>";
