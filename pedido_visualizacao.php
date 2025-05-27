@@ -67,6 +67,14 @@
                     </div>
                 <?php
                 curl_close($cURL);
+            }else if($_GET['pedidoId'] == "") {
+                ?>
+                    <div class="container mt-5" style="max-width: 820px;">
+                        <hr>    
+                        <div class="alert alert-danger">Pedido não encontrado</div>
+                    </div>
+                <?php
+                curl_close($cURL);
             } else {
                 // echo "<script>console.log($response)</script>";
                 global $numeroPedido;
@@ -173,7 +181,10 @@
         $dadosItens = itensListing();
 
         orderDataQuery(); //Pega as informações do pedido via API para preencher o orçamento
-        $itensPedido = setaCategoria($itensPedido,$dadosCategorias,$dadosItens);
+        if(isset($itensPedido) && $itensPedido !== ""){
+            $itensPedido = setaCategoria($itensPedido,$dadosCategorias,$dadosItens);
+
+        }
 
             
     ?>
@@ -186,7 +197,11 @@
             <a href="orcamentos.php" class="btn btn-primary ms-2">Voltar</a>
             <!-- <a href="editar_orcamento.php?pedidoId=<?= $_GET['pedidoId'] ?>" class="btn btn-primary">Editar</a> -->
             <a href="" class="btn btn-primary" onclick="window.print(); return false;">Imprimir orçamento</a>
-
+            
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalSituacao">
+                Situação
+            </button>
         </div>
     </div>
 
@@ -328,17 +343,20 @@
             </tbody>
         </table>
         <?php
-            if($totalProdutos > $totalPedido){
-                ?>
-                    <div class="row mx-0 mt-1 me-0">
-                        <div class="col-7"></div>
-                        <div class="border col row mx-0">
-                            <div class="col py-1">Subtotal:</div>
-                            <div class="col py-1">R$<?= isset($totalProdutos)?number_format($totalProdutos, 2, ",", "."):"" ?></div>
-            
+            if(isset($totalPedido) && isset($totalProduto)){
+                if($totalProdutos > $totalPedido){
+                    ?>
+                        <div class="row mx-0 mt-1 me-0">
+                            <div class="col-7"></div>
+                            <div class="border col row mx-0">
+                                <div class="col py-1">Subtotal:</div>
+                                <div class="col py-1">R$<?= isset($totalProdutos)?number_format($totalProdutos, 2, ",", "."):"" ?></div>
+                
+                            </div>
                         </div>
-                    </div>
-                <?php
+                    <?php
+                }
+
             }
         ?>
         <?php
@@ -428,18 +446,99 @@
         <!-- <div class="page-break"></div> -->
     </div>
 
-    <!-- <div class="container">
-        <?php
+
+
+
+    <!-- MODAL (Janela) PARA MUDANÇA DE STATUS DO ORÇAMENTO -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalSituacao" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="selecaoSituacaoTitulo">Situação</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div>
+                <?php 
+                    $pedidoId = isset($_GET['pedidoId'])?$_GET['pedidoId']:null;
+                ?>
+                <form action="mudar_situacao_pedido.php?pedidoId=<?=$pedidoId?>" method="get">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="d-none">
+                                    <input type="text" name="pedidoId" id="" value="<?=$pedidoId?>">
+                                </div>
+                                <label for="situacao">Selecione uma nova situação para o pedido:</label>
+                                <select class="form-select" id="situacaoId" name="situacaoId">
+                                    <option value=""></option>
+                                    <?php
+                                        $situacoes = consultaSituacoes(98310);
+                                        if(isset($situacoes) && count($situacoes)>0){
+                                            $idSituacaoAtual = $jsonData['data']['situacao']['id'];
+                                            foreach($situacoes['data'] as $situacao){
+                                                $selected = $situacao['id'] == $idSituacaoAtual?"selected":"";
+                                                ?>
+                                                    <option <?= $selected ?> value="<?= $situacao['id'] ?>"><?= $situacao['nome'] ?></option>;
+                                                <?php
+                                            }
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
         
-        echo "<pre>";
-        print_r($itensPedido);
-        print_r($dadosCategorias);
-        print_r($dadosItens);
-        echo "</pre>";
-        
-        
-        ?>
-    </div> -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Mudar situação</button>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <?php
+                
+        function consultaSituacoes($idModulo){
+            $jsonFile = file_get_contents('config/token_request_response.json');
+            $jsonData = json_decode($jsonFile, true);
+            $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+            $endPoint = "https://api.bling.com.br/Api/v3/situacoes/modulos/$idModulo";
+            
+            $cURL = curl_init($endPoint);
+            $headers = array(
+                'Authorization: Bearer '.$token
+            );
+            
+            curl_setopt($cURL, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+            $response2 = curl_exec($cURL);
+            curl_close($cURL);
+            $jsonData = json_decode($response2, true);
+            
+            echo "<script>console.log('funcao ConsultaSituacoes')</script>";
+            echo "<script>console.log($response2)</script>";
+
+            
+            //verify and refresh token
+            if(isset($jsonData['error']['type']) && $jsonData['error']['type'] === "invalid_token"){
+                require('controller/token_refresh.php');
+                echo "<script>console.log('Token atualizado')</script></p>";
+                return consultaSituacoes($idModulo);
+            }else if(isset($jsonData['data']) && $jsonData['data'] == null) {
+                echo "<hr><p>Nenhum pedido encontrado baseado nos filtros atuais</p>";
+                // echo $jsonData;
+            }else if(isset($jsonData['data']) && count($jsonData['data']) > 0){
+                return $jsonData;
+            } else {
+                echo "<script>console.log('Nenhum status encontrado')</script>";
+            };
+        };
+
+    ?>
     
 </body>
 </html>
