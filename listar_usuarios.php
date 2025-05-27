@@ -40,7 +40,6 @@
                                 <th scope="col">Nome</th>
                                 <th scope="col">Login</th>
                                 <th scope="col">Nível</th>
-                                <!-- <th scope="col">Senha</th> -->
                                 <th scope="col">Ação</th>
                             </tr>
                         </thead>
@@ -60,7 +59,6 @@
                                             echo "<td>$userName</td>";
                                             echo "<td>$userEmail</td>";
                                             echo "<td>$userStatus</td>";
-                                            // echo "<td>$userPass</td>";
                                             echo "<td><a href=\"editar_usuario.php?id=$userId\" class=\"btn btn-primary btn-sm\">Editar</a></td>";
                                             echo "</tr>";
                                         }

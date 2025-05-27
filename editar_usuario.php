@@ -21,19 +21,30 @@
             
             $formName = $_POST['formName'];
             $formEmail = $_POST['formEmail'];
+            $formPassword = $_POST['formPassword'];
             $formLevel = $_POST['formLevel'];
+            $formPasswordHash = hash('sha256',$formPassword);
             
-            $sql = "UPDATE `users` SET `name` = :formName, `email` = :formEmail, `level` = :formLevel, `updated_by` = :updated_by, `updated_at` = :updated_at WHERE `id` = :userId";
+            
+            if(isset($formPassword) && $formPassword !== ""){
+                $sql = "UPDATE `users` SET `name` = :formName, `email` = :formEmail, `password` = :formPassword, `level` = :formLevel, `updated_by` = :updated_by, `updated_at` = :updated_at WHERE `id` = :userId";
+            }else{
+                $sql = "UPDATE `users` SET `name` = :formName, `email` = :formEmail, `level` = :formLevel, `updated_by` = :updated_by, `updated_at` = :updated_at WHERE `id` = :userId";
+            }
+            
             $stmt = $pdo->prepare($sql);
+
             $stmt->bindParam(':formName', $formName);
             $stmt->bindParam(':formEmail', $formEmail);
             $stmt->bindParam(':formLevel', $formLevel);
             $stmt->bindParam(':userId', $userId);
             $stmt->bindValue(':updated_by', $updated_by);
             $stmt->bindValue(':updated_at', $updated_at);
+            isset($formPassword) && $formPassword !== "" ? $stmt->bindParam(':formPassword', $formPasswordHash) : null;
+            
 
             if($stmt->execute() === TRUE) {
-                $screenMessage = "<div class=\"alert alert-success\">Usuário atualizado</div>";                
+                $screenMessage = "<div class=\"alert alert-success\">Usuário atualizado</div>";
             } else {
                 $screenMessage = "<div class=\"alert alert-danger\">Erro na atualização</div>";
             }
@@ -46,7 +57,7 @@
         if($userId !== ""){
             require('config/connection.php');
 
-            $sql = "SELECT `name`,`email`,`level` FROM `users` WHERE `id` = :userId";
+            $sql = "SELECT `name`,`email`,`level`,`password` FROM `users` WHERE `id` = :userId";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':userId', $userId);
             $stmt->execute();
@@ -74,6 +85,10 @@
             <div class="input-group mb-3">
                 <span class="input-group-text col-sm-2 col-3">Login</span>
                 <input type="text" class="form-control" placeholder="Digite o nome de usuario ou email" value="<?= $dbUserEmail; ?>" name="formEmail">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text col-sm-2  col-3">Senha</span>
+                <input type="password" class="form-control" placeholder="Alterar senha" name="formPassword">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text col-sm-2 col-3">Nível</span>
