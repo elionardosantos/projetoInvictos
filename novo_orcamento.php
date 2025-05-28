@@ -152,7 +152,7 @@
                         }
                         
                                                 
-                        echo "<div class=\"my-3\">Última atualização dos dados: " . $updated2 . "</div>";
+                        // echo "<div class=\"my-3\">Última atualização dos dados: " . $updated2 . "</div>";
                         
                     } else if($data->code === 429){
                         echo "<div class='alert alert-danger'>Você excedeu o limite de consultas por minuto. Por favor aguarde um pouco para consultar novamente</div>";

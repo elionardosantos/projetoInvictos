@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('partials/head.php'); ?>
-    <title>Situação alterada</title>
+    <title>Situação do orçamento</title>
 </head>
 <body>
     <?php
@@ -33,8 +33,7 @@
             ?>
         </div>
         <div class="buttons">
-            <a href="pedido_visualizacao.php?pedidoId=<?= $pedidoId ?>" class="btn btn-primary">Voltar</a>
-            <a href="orcamentos.php" class="btn btn-primary ms-1">Orçamentos</a>
+            <a href="orcamentos.php" class="btn btn-primary">Voltar</a>
         </div>
     </div>
 

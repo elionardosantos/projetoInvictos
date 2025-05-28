@@ -194,9 +194,9 @@
     
     <div class="py-2 mb-4 d-print-none shadow fixed-top bg-white">
         <div class="buttons">
-            <a href="orcamentos.php" class="btn btn-primary ms-2">Voltar</a>
-            <!-- <a href="editar_orcamento.php?pedidoId=<?= $_GET['pedidoId'] ?>" class="btn btn-primary">Editar</a> -->
+            <a href="orcamentos.php" class="btn btn-primary me-2">Voltar</a>
             <a href="" class="btn btn-primary" onclick="window.print(); return false;">Imprimir orçamento</a>
+            <a href="editar_orcamento.php?pedidoId=<?= $_GET['pedidoId'] ?>" class="btn btn-primary">Editar</a>
             
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalSituacao">

@@ -12,6 +12,7 @@
 
         $pesoForm = isset($_POST['peso_produto'])?$_POST['peso_produto']:"";
         $multiplicadorForm = isset($_POST['multiplicador_produto'])?$_POST['multiplicador_produto']:"";
+        $categoriaForm = isset($_POST['categoria_produto'])?$_POST['categoria_produto']:"";
         $consumo = isset($_POST['consumo_produto'])?$_POST['consumo_produto']:"";
         $alturaMinimaForm = isset($_POST['altura_minima'])?$_POST['altura_minima']:"";
         $alturaMaximaForm = isset($_POST['altura_maxima'])?$_POST['altura_maxima']:"";
@@ -26,6 +27,7 @@
         $selecionado = isset($_POST['selecionado'])?$_POST['selecionado']:"";
         $peso = floatval(str_replace(",",".",$pesoForm));
         $multiplicador = floatval(str_replace(",",".",$multiplicadorForm));
+        $categoria = floatval(str_replace(",",".",$categoriaForm));
         $alturaMinima = floatval(str_replace(",",".",$alturaMinimaForm));
         $alturaMaxima = floatval(str_replace(",",".",$alturaMaximaForm));
         $larguraMinima = floatval(str_replace(",",".",$larguraMinimaForm));
@@ -123,6 +125,7 @@
             global $pesoMaximo;
             global $selecionado;
             global $tipoProduto;
+            global $categoria;
 
             if(isset($titulo) && $titulo !== ""){
                 $nomeProduto = $titulo;
@@ -136,8 +139,8 @@
 
             try {
                 require('config/connection.php');
-                $sql = "INSERT INTO `produtos`(`id`,`codigo`,`titulo`,`peso`,`tipo_consumo`,`multiplicador`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`tipo_produto`,`selecionado`,`deleted`,`created_by`,`created_at`)
-                    VALUES (:id, :codigo, :titulo, :peso, :tipo_consumo, :multiplicador, :altura_minima_porta, :altura_maxima_porta, :largura_minima_porta, :largura_maxima_porta, :peso_minimo_porta, :peso_maximo_porta, :tipo_produto, :selecionado, :deleted, :created_by, :created_at)";
+                $sql = "INSERT INTO `produtos`(`id`,`codigo`,`titulo`,`peso`,`tipo_consumo`,`multiplicador`,`categoria`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`tipo_produto`,`selecionado`,`deleted`,`created_by`,`created_at`)
+                    VALUES (:id, :codigo, :titulo, :peso, :tipo_consumo, :multiplicador, :categoria, :altura_minima_porta, :altura_maxima_porta, :largura_minima_porta, :largura_maxima_porta, :peso_minimo_porta, :peso_maximo_porta, :tipo_produto, :selecionado, :deleted, :created_by, :created_at)";
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindValue(':id', null);
@@ -146,6 +149,7 @@
                 $stmt->bindValue(':peso', $peso);
                 $stmt->bindValue(':tipo_consumo', $consumo);
                 $stmt->bindValue(':multiplicador', $multiplicador);
+                $stmt->bindValue(':categoria', $categoria);
                 $stmt->bindValue(':altura_minima_porta', $alturaMinima);
                 $stmt->bindValue(':altura_maxima_porta', $alturaMaxima);
                 $stmt->bindValue(':largura_minima_porta', $larguraMinima);
