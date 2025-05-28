@@ -139,10 +139,10 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Número</th>
-                                            <th scope="col">Data</th>
+                                            <th class="d-none d-md-table-cell" scope="col">Data</th>
                                             <th scope="col">Cliente</th>
                                             <th scope="col">Total</th>
-                                            <th scope="col">Situação</th>
+                                            <th class="d-none d-lg-table-cell" scope="col">Situação</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -152,24 +152,25 @@
                                                 foreach($data['data'] as $row){
                                                     global $situacoes;
                                                     $pedidoId = $row['id'];
+                                                    $situacaoPedidoId = $row['situacao']['id'];
     
                                                     //Abrir o orçamento em uma nova guia ao clincar na linha do pedido
                                                     echo "<tr onclick=\"window.location.href='pedido_visualizacao.php?pedidoId=$pedidoId'; return false;\" style=\"cursor: pointer;\">";
-                                                    
-                                                    echo "<td>" . $row['numero'] . "</td>";
-                                                    echo "<td>" . date('d/m/Y', strtotime($row['data'])) . "</td>";
+                                                        
+                                                    echo "<td class=\"d-none d-sm-table-cell\">" . $row['numero'] . "</td>";
+                                                    echo "<td class=\"d-none d-md-table-cell\">" . date('d/m/Y', strtotime($row['data'])) . "</td>";
                                                     echo "<td>" . $row['contato']['nome'] . "</td>";
                                                     echo "<td>R$" . number_format($row['total'], 2, ',', '.') . "</td>";
-                                                    $situacaoPedidoId = $row['situacao']['id'];
                                                     if(isset($situacoes['data']) && $situacoes['data'] > 0) {
                                                         foreach($situacoes['data'] as $situacao){
                                                             if($situacaoPedidoId == $situacao['id']){
                                                                 ?>
-                                                                <td><?= $situacao['nome'] ?></td>
+                                                                <td class="d-none d-lg-table-cell"><?= $situacao['nome'] ?></td>
                                                                 <?php
                                                             }
                                                         }
                                                     }
+                                                    
                                                     echo "</tr>";
                                                 }
                                             } else {

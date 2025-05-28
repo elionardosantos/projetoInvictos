@@ -107,18 +107,18 @@
             <thead>
                 <tr>
                     <th>Código</th>
-                    <th>Status</th>
+                    <th class="d-none d-lg-table-cell">Status</th>
                     <th>Titulo</th>
-                    <th>Categoria</th>
+                    <th class="d-none d-md-table-cell">Categoria</th>
                     <!-- <th>Peso</th> -->
                     <!-- <th>Consumo</th> -->
                     <!-- <th>Multiplicador</th> -->
-                    <th>Altura Min</th>
-                    <th>Altura Max</th>
-                    <th>Largura Min</th>
-                    <th>Largura Max</th>
-                    <th>Peso Minimo</th>
-                    <th>Peso Maximo</th>
+                    <th class="d-none d-xxl-table-cell">Altura Min</th>
+                    <th class="d-none d-xxl-table-cell">Altura Max</th>
+                    <th class="d-none d-xxl-table-cell">Largura Min</th>
+                    <th class="d-none d-xxl-table-cell">Largura Max</th>
+                    <th class="d-none d-xxl-table-cell">Peso Minimo</th>
+                    <th class="d-none d-xxl-table-cell">Peso Maximo</th>
                     <!-- <th>Selecionado</th> -->
                     <th>Ação</th>
                 </tr>
@@ -247,18 +247,18 @@
 
                     echo "<tr>";
                     echo "    <td>$codigo</td>";
-                    echo "    <td>$ativo</td>";
+                    echo "    <td class=\"d-none d-lg-table-cell\">$ativo</td>";
                     echo "    <td>$titulo</td>";
-                    echo "    <td>$categTitulo</td>";
+                    echo "    <td class=\"d-none d-md-table-cell\">$categTitulo</td>";
                     // echo "    <td>$peso</td>";
                     // echo "    <td>$consumo</td>";
                     // echo "    <td>$multiplicador</td>";
-                    echo "    <td>$alturaMinima</td>";
-                    echo "    <td>$alturaMaxima</td>";
-                    echo "    <td>$larguraMinima</td>";
-                    echo "    <td>$larguraMaxima</td>";
-                    echo "    <td>$pesoMinimo</td>";
-                    echo "    <td>$pesoMaximo</td>";
+                    echo "    <td class=\"d-none d-xxl-table-cell\">$alturaMinima</td>";
+                    echo "    <td class=\"d-none d-xxl-table-cell\">$alturaMaxima</td>";
+                    echo "    <td class=\"d-none d-xxl-table-cell\">$larguraMinima</td>";
+                    echo "    <td class=\"d-none d-xxl-table-cell\">$larguraMaxima</td>";
+                    echo "    <td class=\"d-none d-xxl-table-cell\">$pesoMinimo</td>";
+                    echo "    <td class=\"d-none d-xxl-table-cell\">$pesoMaximo</td>";
                     // echo "    <td>$selecionado</td>";
                     echo "    <td><a class=\"btn btn-primary btn-sm\" href=\"editar_produto.php?produto_id=$id\">Editar</a></td>";
                     echo "</tr>";
