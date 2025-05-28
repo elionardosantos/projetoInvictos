@@ -138,7 +138,7 @@
                                 <table class="table table-sm table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Número</th>
+                                            <th class="d-none d-sm-table-cell" scope="col">Número</th>
                                             <th class="d-none d-md-table-cell" scope="col">Data</th>
                                             <th scope="col">Cliente</th>
                                             <th scope="col">Total</th>
