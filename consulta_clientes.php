@@ -74,11 +74,11 @@
                         <table class="table table-sm  table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">Código</th>
+                                    <th class="d-none d-md-table-cell" scope="col">Código</th>
                                     <th scope="col">Nome</th>
-                                    <th scope="col">CPF/CNPJ</th>
-                                    <th scope="col">Celular</th>
-                                    <th scope="col">Telefone</th>
+                                    <th class="d-none d-md-table-cell" scope="col">CPF/CNPJ</th>
+                                    <th class="d-none d-md-table-cell" scope="col">Celular</th>
+                                    <th class="d-none d-lg-table-cell" scope="col">Telefone</th>
                                 </tr>
                             </thead>
                         <tbody>
@@ -95,11 +95,11 @@
                                     
                                 ?>
                                 <tr onclick="window.location.href='novo_orcamento.php?contatoId=<?= $id ?>';" style="cursor: pointer;">
-                                    <td><?= $codigo ?></td>
+                                    <td class="d-none d-md-table-cell"><?= $codigo ?></td>
                                     <td><?= $nome ?></td>
-                                    <td><?= $numeroDocumento ?></td>
-                                    <td><?= $celular ?></td>
-                                    <td><?= $telefone ?></td>
+                                    <td class="d-none d-md-table-cell"><?= $numeroDocumento ?></td>
+                                    <td class="d-none d-md-table-cell"><?= $celular ?></td>
+                                    <td class="d-none d-lg-table-cell"><?= $telefone ?></td>
                                 </tr>
                                 <?php
                             }

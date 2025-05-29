@@ -36,10 +36,10 @@
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th scope="col">ID</th>
+                                <th class="d-none d-md-table-cell" scope="col">ID</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">Login</th>
-                                <th scope="col">Nível</th>
+                                <th class="d-none d-sm-table-cell" scope="col">Nível</th>
                                 <th scope="col">Ação</th>
                             </tr>
                         </thead>
@@ -73,10 +73,10 @@
                                             }
                                             
                                             echo "<tr>";
-                                            echo "<td>$userId</td>";
+                                            echo "<td class=\"d-none d-md-table-cell\">$userId</td>";
                                             echo "<td>$userName</td>";
                                             echo "<td>$userEmail</td>";
-                                            echo "<td>$userStatus</td>";
+                                            echo "<td class=\"d-none d-sm-table-cell\">$userStatus</td>";
                                             echo "<td><a href=\"editar_usuario.php?id=$userId\" class=\"btn btn-primary btn-sm\">Editar</a></td>";
                                             echo "</tr>";
                                         }

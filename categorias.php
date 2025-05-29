@@ -41,9 +41,9 @@
                         <thead>
                             <tr>
                                 <!-- <th scope="col">ID</th> -->
-                                <th scope="col">Índice</th>
+                                <th class="d-none d-sm-table-cell" scope="col">Índice</th>
                                 <th scope="col">Nome</th>
-                                <th scope="col">Status</th>
+                                <th class="d-none d-sm-table-cell" scope="col">Status</th>
                                 <th scope="col">Ação</th>
                             </tr>
                         </thead>
@@ -62,9 +62,9 @@
                                             
                                             echo "<tr>";
                                             // echo "<td>$categId</td>";
-                                            echo "<td>$indice</td>";
+                                            echo "<td class=\"d-none d-sm-table-cell\">$indice</td>";
                                             echo "<td>$categName</td>";
-                                            echo "<td>$status</td>";
+                                            echo "<td class=\"d-none d-sm-table-cell\">$status</td>";
                                             echo "<td><a href=\"editar_categoria.php?id=$categId\" class=\"btn btn-primary btn-sm\">Editar</a></td>";
                                             echo "</tr>";
                                         }
