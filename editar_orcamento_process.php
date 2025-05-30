@@ -442,6 +442,7 @@ function novoPedido(){
 }
 
 function editaPedido(){
+    global $codigoContato;
     global $contatoId;
     global $itensPedido;
     global $observacoes;

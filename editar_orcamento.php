@@ -140,7 +140,7 @@
         $contatoId = isset($dadosPedido['contato']['id'])?$dadosPedido['contato']['id']:"";
         $dadosCliente = consultaContatoId($contatoId);
 
-        $_SESSION['codigoContato'] = isset($dadosCliente['codigo'])?$dadosCliente['codigo']:"";
+        $_SESSION['dadosCliente']['codigoContato'] = isset($dadosCliente['codigo'])?$dadosCliente['codigo']:"";
         
         ?>
     </div>
@@ -196,7 +196,7 @@
                          <?php
                             // Lista de estados que irá aparecer no formulário
                             $estados = [
-                                "RJ", "SP", "MG", "ES", 
+                                "","RJ", "SP", "MG", "ES", 
                                 "AC", "AL", "AP", "AM", 
                                 "BA", "CE", "DF", "GO", 
                                 "MA", "MT", "MS", "PA", 
@@ -312,7 +312,7 @@
                         <?php
                             // Lista de estados que irá aparecer no formulário
                             $estados = [
-                                "RJ", "SP", "MG", "ES", 
+                                "","RJ", "SP", "MG", "ES", 
                                 "AC", "AL", "AP", "AM", 
                                 "BA", "CE", "DF", "GO", 
                                 "MA", "MT", "MS", "PA", 
