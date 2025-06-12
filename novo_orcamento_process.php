@@ -37,6 +37,7 @@ $tipoAcrescimo = isset($_SESSION['dadosCliente']['tipoAcrescimo'])?$_SESSION['da
 $valorAcrescimo = isset($_SESSION['dadosCliente']['valorAcrescimo']) && $_SESSION['dadosCliente']['valorAcrescimo'] !== ""?$_SESSION['dadosCliente']['valorAcrescimo']:0;
 $tipoDesconto = isset($_SESSION['dadosCliente']['tipoDesconto'])?$_SESSION['dadosCliente']['tipoDesconto']:"";
 $valorDesconto = isset($_SESSION['dadosCliente']['valorDesconto']) && $_SESSION['dadosCliente']['valorDesconto'] !== ""?$_SESSION['dadosCliente']['valorDesconto']:0;
+$indicadorIe = isset($_SESSION['dadosCliente']['indicadorIe']) ? $_SESSION['dadosCliente']['indicadorIe']:"";
 
 $tel = isset($_SESSION['dadosCliente']['tel'])?$_SESSION['dadosCliente']['tel']:"";
 $cel = isset($_SESSION['dadosCliente']['cel'])?$_SESSION['dadosCliente']['cel']:"";
@@ -349,6 +350,7 @@ function novoContato(){
     global $numero;
     global $cep;
     global $inscricaoEstadual;
+    global $indicadorIe;
 
     if(isset($cliente) && $cliente !== ""){
         $url = "https://api.bling.com.br/Api/v3/contatos";
@@ -370,6 +372,7 @@ function novoContato(){
             "email"=>$email,
             "situacao"=>"A",
             "ie"=>$inscricaoEstadual,
+            "indicadorIe"=>$indicadorIe,
             "endereco"=>[
                 "geral"=>[
                     "endereco"=>$endereco,
@@ -622,6 +625,8 @@ function editaContato(){
     global $estado;
     global $numero;
     global $cep;
+    global $inscricaoEstadual;
+    global $indicadorIe;
 
     $jsonFile = file_get_contents('config/token_request_response.json');
     $jsonData = json_decode($jsonFile, true);
@@ -640,6 +645,8 @@ function editaContato(){
         "celular"=>$cel,
         "tipo"=>$tipoPessoa,
         "email"=>$email,
+        "ie"=>$inscricaoEstadual,
+        "indicadorIe"=>$indicadorIe,
         "situacao"=>"A",
         "endereco"=>[
             "geral"=>[

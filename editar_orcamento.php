@@ -141,6 +141,7 @@
         $dadosCliente = consultaContatoId($contatoId);
 
         $_SESSION['dadosCliente']['codigoContato'] = isset($dadosCliente['codigo'])?$dadosCliente['codigo']:"";
+        $_SESSION['dadosCliente']['inscricaoEstadual'] = isset($dadosCliente['ie'])?$dadosCliente['ie']:"";
         
         ?>
     </div>
@@ -173,7 +174,7 @@
                 </div>
                 <div class="col-md-2">
                     <label for="inscricaoEstadual" class="form-label mb-0 mt-2">Inscrição estadual</label>
-                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="inscricaoEstadual" name="inscricaoEstadual" placeholder="Inscrição estadual" value="<?= isset($inscricaoEstadual)?$inscricaoEstadual:""; ?>">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="inscricaoEstadual" name="inscricaoEstadual" placeholder="Inscrição estadual" value="<?= isset($dadosCliente['ie'])?$dadosCliente['ie']:""; ?>">
                 </div>
             </div>
             <div class="row">

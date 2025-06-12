@@ -22,6 +22,9 @@ $valorAcrescimo = isset($_POST['valorAcrescimo'])?$_POST['valorAcrescimo']:(isse
 $tipoDesconto = isset($_POST['tipoDesconto'])?$_POST['tipoDesconto']:(isset($_SESSION['dadosCliente']['tipoDesconto'])?$_SESSION['dadosCliente']['tipoDesconto']:null);
 $valorDesconto = isset($_POST['valorDesconto'])?$_POST['valorDesconto']:(isset($_SESSION['dadosCliente']['valorDesconto'])?$_SESSION['dadosCliente']['valorDesconto']:null);
 
+// Auto preencher o campo contribuinte no Bling
+$indicadorIe = isset($inscricaoEstadual) && $inscricaoEstadual !== "" ? 1 : 0;
+
 // Dados de contato
 $tel = isset($_POST['tel'])?$_POST['tel']:"";
 $cel = isset($_POST['cel'])?$_POST['cel']:"";
@@ -71,6 +74,7 @@ isset($tipoAcrescimo)?$_SESSION['dadosCliente']['tipoAcrescimo'] = $tipoAcrescim
 isset($valorAcrescimo)?$_SESSION['dadosCliente']['valorAcrescimo'] = $valorAcrescimo:null;
 isset($tipoDesconto)?$_SESSION['dadosCliente']['tipoDesconto'] = $tipoDesconto:null;
 isset($valorDesconto)?$_SESSION['dadosCliente']['valorDesconto'] = $valorDesconto:null;
+isset($indicadorIe)?$_SESSION['dadosCliente']['indicadorIe'] = $indicadorIe:null;
 
 $_SESSION['dadosCliente']['tel'] = $tel;
 $_SESSION['dadosCliente']['cel'] = $cel;
