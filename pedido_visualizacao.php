@@ -396,8 +396,12 @@
         <div class="row mx-0 mt-1 me-0">
             <div class="col-5"></div>
             <div class="col-7 row mx-0 bg-dark text-white mt-2">
-                <!-- <div class="col py-1"><strong><?= isset($valorDesconto) && $valorDesconto > 0 ?"Valor Total:":"Total no cartão em até 12x:"; ?></strong></div> -->
-                <div class="col py-1"><strong><?= isset($valorDesconto) && $valorDesconto > 0 ?"Valor total com desconto:":"Valor total:"; ?></strong></div>
+                <div class="col py-1">
+                    <strong>
+                        <?= isset($valorDesconto) && $valorDesconto > 0 ?"Valor Total:":"Total no cartão em até 12x:"; ?>
+                    </strong>
+                </div>
+                <!-- <div class="col py-1"><strong><?= isset($valorDesconto) && $valorDesconto > 0 ?"Valor total com desconto:":"Valor total:"; ?></strong></div> -->
                 <div class="col-4 py-1"><strong>R$<?= isset($totalPedido)?number_format($totalPedido, 2, ",", "."):""; ?></strong></div>
 
             </div>
