@@ -83,6 +83,8 @@
                 global $valorDesconto;
                 global $tipoDesconto;
                 global $itensPedido;
+                global $numeroDocumento;
+                global $tipoPessoa;
 
                 $numeroPedido = $jsonData['data']['numero'];
                 $totalProdutos = $jsonData['data']['totalProdutos'];
@@ -91,6 +93,8 @@
                 $tipoDesconto = $jsonData['data']['desconto']['unidade'];
                 $outrasDespesas = $jsonData['data']['outrasDespesas'];
                 $itensPedido = $jsonData['data']['itens'];
+                $numeroDocumento = $jsonData['data']['contato']['numeroDocumento'];
+                $tipoPessoa = $jsonData['data']['contato']['tipoPessoa'];
 
                 foreach($jsonData as $row){
                     global $clienteNome;
@@ -435,19 +439,110 @@
             <div class="col">Orçamento válido até: <strong><?= isset($dataPedido)?date('d/m/Y',strtotime($dataPedido . '+15 days')):""; ?></strong></div>
         </div>
         
-        <div class="mt-4">
+        <div class="mt-4 mb-5">
             <p class="fs-7">
                 Este orçamento poderá ter variação para mais ou para menos em seu valor final, pois após aprovação, um dos profissionais da Invictos Portas irá até o seu estabelecimento fazer a conferência das medidas, para que sua porta de enrolar seja fabricada na medida exata.
                 Orçamento válido por 30 dias após a data de emissão.
             </p>
-            <p class="text-center">
+            <!-- <p class="text-center">
                 C S Silva Portas Automáticas LTDA / Rua Ceará, 310, Fazenda Sobradinho, Magé/RJ, CEP: 25.932-145
-            </p>
+            </p> -->
             <!-- <p class="text-center">
                 (21) 97200-1200 / (21) 99827-2006 <br>@invictosportasautomaticas / admin@invictosportas.com.br
             </p> -->
         </div>
-        <!-- <div class="page-break"></div> -->
+        
+
+
+        <!-- GARANTIA -->
+
+        <div class="page-break"></div>
+        <div>
+            <div class="row mt-3 mx-0 bg-dark text-white">
+                <div class="col text-center fs-5">
+                    Condições da garantia
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="fw-bold">
+                    PERÍODO DA GARANTIA:
+                </div>
+                <div  class="mt-2">
+                    - 1 ano
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="fw-bold">
+                    PRAZOS DE GARANTIA:
+                </div>
+                <div  class="mt-2">
+                    - 2 anos ano diretamente com o fabricante/importador conforme indicado na etiqueta do produto, sendo necessária a remoção do automatizador e avaliação e reparo - “garantia balcão”;<br>
+                    - O prazo de garantia se inicia a partir da data de emissão da Nota Fiscal.
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="fw-bold">
+                    PERDA DA GARANTIA:
+                </div>
+                <div  class="mt-2">
+                    - Remoção do lacre de garantia;<br>
+                    - Constatação de intervenção ou conserto realizado por terceiros não autorizados;<br>
+                    - Instalação de acessórios não fornecidos ou incompatíveis com o equipamento;<br>
+                    - Montagem ou utilização fora da especificação do fabricante;<br>
+                    - Detecção de uso excessivo no número de acionamentos diários (4 acionamentos diários, exceto para automatizadores de tipo “alto fluxo”);<br>
+                    - Constatação de inexistência de disjuntor exclusivo ou cabeamento inadequado;<br>
+                    - Funcionamento fora das especificações do MANUAL DE INSTRUÇÕES;<br>
+                    - Danos causados por intempéries (ações climáticas): descarga elétrica, maresia, infiltração de água no sistema elétrico, mecânico ou afins;<br>
+                    - Danos físicos: sinais de queda/riscos, choque com veículo, incêndio, danos causados por terceiros, corrosão por produtos de químicos, ácido, detergentes e afins;
+
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5 mb-5">
+            <div class="fw-bold">
+                Magé - <?= date('d/m/Y') ?>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <img  style="height: 50px;" src="/assets/img/assinatura-sem-fundo.png" alt="">
+                </div>
+            </div>
+            <div class="row" style="margin-top: -20px">
+                <div class="col">
+                    <div>_____________________________________________________</div>
+                    <div class="fw-bold">INVICTOS PORTAS AUTOMÁTICAS</div>
+                    <div>Cristiano Salomé da Silva</div>
+                </div>
+                <?php
+                    switch ($tipoPessoa) {
+                        case 'F':
+                            $tipoDocumento = "CPF";
+                            break;
+
+                        case 'J':
+                            $tipoDocumento = "CNPJ";
+                            break;
+
+                        default:
+                            $tipoDocumento = "";
+                            break;
+                    }
+                ?>
+                <div class="col">
+                    <div>_____________________________________________________</div>
+                    <div class="fw-bold text-uppercase"><?= $clienteNome ?></div>
+                    <div>
+                        <?php
+                            if(isset($numeroDocumento) && $numeroDocumento !== ""){
+                                echo $tipoDocumento." ";
+                            }
+                            echo $numeroDocumento;
+                        ?>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
 
