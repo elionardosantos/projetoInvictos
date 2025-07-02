@@ -1,6 +1,6 @@
 <?php
 //######## MySql database ########
-$host = 'sistema.invictosportas.com';
+$host = 'sistema.invictosportas.com.br';
 $dbname = 'u259249748_sistema';
 $username = 'u259249748_invictosportas';
 $password = 'bsnw-WU$2Ny$%xr';

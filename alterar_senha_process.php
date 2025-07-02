@@ -19,7 +19,7 @@
             $formCurrentPasswordHash = hash('sha256', $formCurrentPassword);
             $formNewPassword = isset($_POST['formNewPassword'])?$_POST['formNewPassword']:"";
             $formNewPassword2 = isset($_POST['formNewPassword2'])?$_POST['formNewPassword2']:"";
-            $loggedUserId = $_SESSION['loggedUserId'];
+            $loggedUserId = $_SESSION['login']['loggedUserId'];
             $screenMessage = "";
 
             if(isset($formCurrentPassword) && $formCurrentPassword !== ""){
