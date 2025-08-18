@@ -454,10 +454,10 @@
                                 cidadeInput.value = data.localidade || "";
                                 estadoInput.value = data.uf || "";
 
-                                enderecoInput.disabled = true;
-                                bairroInput.disabled = true;
-                                cidadeInput.disabled = true;
-                                estadoInput.disabled = true;
+                                // enderecoInput.disabled = true;
+                                // bairroInput.disabled = true;
+                                // cidadeInput.disabled = true;
+                                // estadoInput.disabled = true;
 
                             } else {
                                 alert("CEP não encontrado.");
@@ -491,10 +491,10 @@
                                 cidadeServico.value = data.localidade || "";
                                 estadoServico.value = data.uf || "";
 
-                                enderecoServico.disabled = true;
-                                bairroServico.disabled = true;
-                                cidadeServico.disabled = true;
-                                estadoServico.disabled = true;
+                                // enderecoServico.disabled = true;
+                                // bairroServico.disabled = true;
+                                // cidadeServico.disabled = true;
+                                // estadoServico.disabled = true;
 
                             } else {
                                 alert("CEP não encontrado.");

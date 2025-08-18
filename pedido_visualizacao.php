@@ -620,7 +620,7 @@
             curl_close($cURL);
             $jsonData = json_decode($response2, true);
             
-            echo "<script>console.log('funcao ConsultaSituacoes')</script>";
+            echo "<script>console.log('funcao ConsultaSituacoes para mudança de status: ')</script>";
             echo "<script>console.log($response2)</script>";
 
             
