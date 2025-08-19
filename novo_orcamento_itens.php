@@ -193,6 +193,8 @@ if($alturaTotal !== "" && $larguraTotal !== ""){
                 WHERE deleted = 0
                 AND ativo = 1
                 AND tipo_produto IS NOT NULL 
+                -- Remove motores (tipo_produto 2) da consulta
+                AND tipo_produto != 2 
                 AND altura_minima_porta <= $alturaTotal
                 AND altura_maxima_porta >= $alturaTotal
                 AND largura_minima_porta <= $larguraTotal
