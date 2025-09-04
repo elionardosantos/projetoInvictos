@@ -13,13 +13,13 @@
         $dataFinal = isset($_GET['dataFinal'])?$_GET['dataFinal']:date('Y-m-d');
         $numeroPedido = isset($_GET['numeroPedido'])?$_GET['numeroPedido']:"";
         $nomePedido = isset($_GET['nomePedido'])?$_GET['nomePedido']:"";
-        $situacaoPedido = isset($_GET['situacao'])?$_GET['situacao']:447794;
+        $situacaoPedido = isset($_GET['situacao'])?$_GET['situacao']:447794; //id da situação orçamentos
 
         $situacaoPedidoUrl = isset($_GET['situacao'])&&$situacaoPedido!==""?"&idsSituacoes[]=".$situacaoPedido:"&idsSituacoes[]=447794";
-        // &idsSituacoes[]=447794
+        // &idsSituacoes[]=447794 - orçamentos
         $urlData = "dataInicial=".$dataInicial."&dataFinal=".$dataFinal."&numero=".$numeroPedido."&nome=".$nomePedido.$situacaoPedidoUrl;
         
-        $situacoes = consultaSituacoes(98310);
+        $situacoes = consultaSituacoes();
     ?>
     <div class="container my-3">
         <h2>Pedidos/Orçamentos</h2>
@@ -42,7 +42,7 @@
                 <div class="col-sm-3">
                     <label for="situacao">Situação:</label>
                     <select class="form-select" id="situacao" name="situacao">
-                        <option value=""></option>
+                        <!-- <option value=""></option> -->
                         <?php
                             if(isset($situacoes) && count($situacoes)>0){
                                 foreach($situacoes['data'] as $situacao){
@@ -71,40 +71,17 @@
                 //Quering Bling orders by API
                 ordersQuery();
                 
-                function consultaSituacoes($idModulo){
-                    $jsonFile = file_get_contents('config/token_request_response.json');
-                    $jsonData = json_decode($jsonFile, true);
-                    $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
-                    $endPoint = "https://api.bling.com.br/Api/v3/situacoes/modulos/$idModulo";
-                    
-                    $cURL = curl_init($endPoint);
-                    $headers = array(
-                        'Authorization: Bearer '.$token
-                    );
-                    
-                    curl_setopt($cURL, CURLOPT_HTTPHEADER, $headers);
-                    curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
-                    $response2 = curl_exec($cURL);
-                    curl_close($cURL);
-                    $jsonData = json_decode($response2, true);
-                    
-                    echo "<script>console.log('funcao ConsultaSituacoes')</script>";
-                    echo "<script>console.log($response2)</script>";
+                function consultaSituacoes(){
 
-                    
-                    //verify and refresh token
-                    if(isset($jsonData['error']['type']) && $jsonData['error']['type'] === "invalid_token"){
-                        require('controller/token_refresh.php');
-                        echo "<script>console.log('Token atualizado')</script></p>";
-                        return consultaSituacoes($idModulo);
-                    }else if(isset($jsonData['data']) && $jsonData['data'] == null) {
-                        echo "<hr><p>Nenhum pedido encontrado baseado nos filtros atuais</p>";
-                        // echo $jsonData;
-                    }else if(isset($jsonData['data']) && count($jsonData['data']) > 0){
-                        return $jsonData;
-                    } else {
-                        echo "<script>console.log('Nenhum status encontrado')</script>";
-                    };
+                    // Endpoint para consultar IDs das situações no Bling
+                    // https://api.bling.com.br/Api/v3/situacoes/modulos/98310
+                    // O ID das transições estão salvas no arquivo 'config/data.json'
+
+                    $jsonFile = file_get_contents('config/data.json');
+                    $jsonData = json_decode($jsonFile, true);
+
+                    // print_r($jsonData['status']);
+                    return $jsonData['status'];
                 };
                 function ordersQuery(){
                     global $urlData;

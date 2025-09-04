@@ -1,18 +1,16 @@
 <?php
 
-$idFormaPagamento = 4872848;
-
-consultaFormasPagamento($idFormaPagamento);
-
-function consultaFormasPagamento($idFormaPagamento){
+function consultaTeste(){
     $jsonFile = file_get_contents('config/token_request_response.json');
     $jsonData = json_decode($jsonFile, true);
     $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
 
     $curl = curl_init();
+
+    // Módulo de venda: 98310
     
     curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://api.bling.com.br/Api/v3/formas-pagamentos/$idFormaPagamento",
+        CURLOPT_URL => "https://api.bling.com.br/Api/v3/situacoes/modulos/98310",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -29,8 +27,7 @@ function consultaFormasPagamento($idFormaPagamento){
     $jsonData = curl_exec($curl);
 
     $response = json_decode($jsonData, true);
-
-    // print_r($response);
+    return $response;
     
     curl_close($curl);
 
@@ -44,56 +41,19 @@ function consultaFormasPagamento($idFormaPagamento){
         if($tentativa > 1){
             exit;
         } else {
-            consultaFormasPagamento();
+            consultaTeste();
         }
         exit;
     } elseif(isset($response['data']['descricao'])) {
         global $descricao;
         $descricao = $response['data']['descricao'];
+        return $response;
     }
-    
-    $descricao = $response['data']['descricao'];
-}
-
 
     
-
-isset($descricao) ? $string = $descricao : null;
-
-if(isset($descricao)){
-    $numeroString = preg_replace('/\D/', '', $descricao);
-} else {
-    $numeroString = 1;
+    
 }
 
-if($numeroString > 0 && $numeroString <= 24){
-    $parcelaStr = $numeroString;
-} else {
-    $parcelaStr = 1;
-}
+$resultado = consultaTeste();
 
-$valorTotal = 3387;
-$nParcelas = $parcelaStr;
-
-$valorParcelas = ($valorTotal / $nParcelas);
-
-if(isset($nParcelas) && $nParcelas > 0){
-    $parcela = 1;
-    while($parcela <= $nParcelas){
-
-        $data = date('Y-m-d', strtotime("+$parcela month"));
-        $parcelas[$parcela]['data'] = $data;
-        
-        if($parcela < $nParcelas){
-            $parcelas[$parcela]['valor'] = ceil($valorParcelas);
-        } elseif ($parcela == $nParcelas){
-            $parcelaFinal = ($valorTotal - (ceil($valorParcelas) * ($nParcelas - 1)));
-            $parcelas[$parcela]['valor'] = $parcelaFinal;
-
-        }
-
-        $parcela++;
-    }
-}
-
-print_r($parcelas);
+print_r($resultado);
