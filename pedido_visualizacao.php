@@ -268,7 +268,7 @@
             <div class="col mt-2">
                 <?php if(isset($clienteNome) && $clienteNome !== ""){ ?>
                     <div class="row">
-                        <div class="col">Cliente: <strong><?= isset($clienteNome)?$clienteNome:""; ?></strong></div>
+                        <div class="col">Nome / Razão Social: <strong><?= isset($clienteNome)?$clienteNome:""; ?></strong></div>
                     </div>
                 <?php } ?>
                 <div class="row">
@@ -290,13 +290,8 @@
                         <div class="col">Bairro: <strong><?= isset($bairro)?$bairro:""; ?></strong></div>
                     <?php } ?>
                 </div>
-                <!-- <?php if(isset($dataPedido) && $dataPedido !== ""){ ?>
-                    <div class="row">
-                        <div class="col">Data: <strong><?= isset($dataPedido)?$dataPedido:""; ?></strong></div>
-                    </div>
-                <?php } ?> -->
             </div>
-
+                        
 
 
 

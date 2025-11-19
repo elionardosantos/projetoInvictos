@@ -82,9 +82,10 @@ if(isset($pesoTotalPorta) && $pesoTotalPorta !== ""){
                 WHERE deleted = 0
                 AND ativo = 1
                 AND tipo_produto IS NOT NULL 
-                AND peso_minimo_porta <= $pesoTotalPorta
-                AND peso_maximo_porta >= $pesoTotalPorta
+                AND tipo_produto = 2
                 ;";
+                // AND peso_minimo_porta <= $pesoTotalPorta
+                // AND peso_maximo_porta >= $pesoTotalPorta
         
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
@@ -236,9 +237,20 @@ if(isset($pesoTotalPorta) && $pesoTotalPorta !== ""){
                                     $titulo = $prod['titulo'];
                                     $peso = $prod['peso_item'];
                                     $quant = $prod['quantidade_item'];
-                                    $selecionado = isset($prod['selecionado']) && $prod['selecionado'] == 1 ? "selected" : "";
+                                    
+                                    // $selecionado = isset($prod['selecionado']) && $prod['selecionado'] == 1 ? "selected" : "";
+                                    foreach($_SESSION['itensPedido'] as $blingItem){
+                                        if($blingItem['codigo'] == $codigo){
+                                            $selecionado = "selected";
+                                            $indicator = "*";
+                                            break;
+                                        } else {
+                                            $selecionado = "";
+                                            $indicator = "";
+                                        }
+                                    }
 
-                                    echo "<option $selecionado value=\"$codigo\">$codigo - $titulo - Qt: $quant</option>\n";
+                                    echo "<option $selecionado value=\"$codigo\">$codigo - $titulo - Qt: $quant $indicator</option>\n";
                                 }
                             }
                         ?>

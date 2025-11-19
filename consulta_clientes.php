@@ -60,7 +60,7 @@
                     if(isset($data['error']['type']) && $data['error']['type'] === "invalid_token"){
                         require('controller/token_refresh.php');
                         consultaContato($nome);
-                    }elseif($data['data'] == null){
+                    }elseif(isset($data['data']) && $data['data'] == null){
                         if($passHere == "yes"){
                             $passHere = "no";
                             // Este IF pesquisa o contato utilizando % antes e depois da string se o primeiro if não retornar nenhum resultado.
@@ -83,26 +83,31 @@
                             </thead>
                         <tbody>
                         <?php
-                        foreach($data['data'] as $contato){
-                            if($contato['situacao'] === "A"){
-                                $id = isset($contato['id'])?$contato['id']:"";
-                                $situacao = isset($contato['situacao'])?$contato['situacao']:"";
-                                $codigo = isset($contato['codigo'])?$contato['codigo']:"";
-                                $nome = isset($contato['nome'])?$contato['nome']:"";
-                                $numeroDocumento = isset($contato['numeroDocumento'])?$contato['numeroDocumento']:"";
-                                $celular = isset($contato['celular'])?$contato['celular']:"";
-                                $telefone = isset($contato['telefone'])?$contato['telefone']:"";
-                                    
-                                ?>
-                                <tr onclick="window.location.href='novo_orcamento.php?contatoId=<?= $id ?>';" style="cursor: pointer;">
-                                    <td class="d-none d-md-table-cell"><?= $codigo ?></td>
-                                    <td><?= $nome ?></td>
-                                    <td class="d-none d-md-table-cell"><?= $numeroDocumento ?></td>
-                                    <td class="d-none d-md-table-cell"><?= $celular ?></td>
-                                    <td class="d-none d-lg-table-cell"><?= $telefone ?></td>
-                                </tr>
-                                <?php
+                        if(isset($data['data'])){
+                            foreach($data['data'] as $contato){
+                                if($contato['situacao'] === "A"){
+                                    $id = isset($contato['id'])?$contato['id']:"";
+                                    $situacao = isset($contato['situacao'])?$contato['situacao']:"";
+                                    $codigo = isset($contato['codigo'])?$contato['codigo']:"";
+                                    $nome = isset($contato['nome'])?$contato['nome']:"";
+                                    $numeroDocumento = isset($contato['numeroDocumento'])?$contato['numeroDocumento']:"";
+                                    $celular = isset($contato['celular'])?$contato['celular']:"";
+                                    $telefone = isset($contato['telefone'])?$contato['telefone']:"";
+                                        
+                                    ?>
+                                    <tr onclick="window.location.href='novo_orcamento.php?contatoId=<?= $id ?>';" style="cursor: pointer;">
+                                        <td class="d-none d-md-table-cell"><?= $codigo ?></td>
+                                        <td><?= $nome ?></td>
+                                        <td class="d-none d-md-table-cell"><?= $numeroDocumento ?></td>
+                                        <td class="d-none d-md-table-cell"><?= $celular ?></td>
+                                        <td class="d-none d-lg-table-cell"><?= $telefone ?></td>
+                                    </tr>
+                                    <?php
+                                }
                             }
+
+                        } else {
+                            echo "Nenhum cliente encontrado";
                         }
                     }
                 }

@@ -75,8 +75,17 @@ if(isset($cliente)){
                         if(isset($_SESSION['array_com_produtos'])){
                             foreach($_SESSION['array_com_produtos'] as $produto){
                                 if($produto['tipo_produto'] == 1){ // && $produto['selecionado'] == 1
-                                    $checked = isset($produto['selecionado']) && $produto['selecionado'] == 1 ? "checked" : "";
-
+                                    
+                                    foreach($_SESSION['itensPedido'] as $blingItem){
+                                        if($blingItem['codigo'] == $produto['codigo']){
+                                            $checked = "checked";
+                                            $indicator = "*";
+                                            break;
+                                        } else {
+                                            $checked = "";
+                                            $indicator = "";
+                                        }
+                                    }
                                     ?>
                                     <tr>
                                         <td>
@@ -91,7 +100,13 @@ if(isset($cliente)){
                                         </td>
                                         <td>
                                             <label class="form-check-label" for="<?= "codigo".$produto['codigo'] ?>">
-                                                <?= $produto['codigo'] . " - " . $produto['titulo'] . " - " . $produto['peso_item'] . "kg - Qt: " . $produto['quantidade_item']?>
+                                                <?= 
+                                                    $produto['codigo'] . " - " . 
+                                                    $produto['titulo'] . " - " . 
+                                                    $produto['peso_item'] . "kg - Qt: " . 
+                                                    $produto['quantidade_item'] . " " .
+                                                    $indicator
+                                                ?>
                                             </label>
                                         </td>
                                     </tr>

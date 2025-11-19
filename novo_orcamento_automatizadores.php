@@ -54,21 +54,8 @@ require('config/connection.php');
             }
         }
     }
+    $_SESSION['dadosCliente']['pesoTotalPorta'] = $pesoTotalPorta;
 ?>
-
-<div class="container mt-4">
-    Peso: <?= $pesoTotalPorta ?>Kg
-</div>
-<div class="container my-3">
-    <h4>ITENS POR PESO</h4>
-</div>
-
-
-
-
-
-
-
 
 
 <?php // INICIO DA LOGICA DE ITENS
@@ -78,13 +65,26 @@ $quantidade = isset($_SESSION['dadosCliente']['quantidade'])?$_SESSION['dadosCli
 if(isset($pesoTotalPorta) && $pesoTotalPorta !== ""){
     if($pesoTotalPorta > 0){
         require('config/connection.php');
-        $sql = "SELECT `id`,`codigo`,`titulo`,`peso`,`tipo_consumo`,`multiplicador`,`selecionado`,`categoria`,`tipo_produto` FROM produtos
+        $sql = "SELECT 
+                    `id`,
+                    `codigo`,
+                    `titulo`,
+                    `peso`,
+                    `tipo_consumo`,
+                    `multiplicador`,
+                    `selecionado`,
+                    `categoria`,
+                    `tipo_produto`,
+                    `peso_minimo_porta`,
+                    `peso_maximo_porta`
+                FROM produtos
                 WHERE deleted = 0
                 AND ativo = 1
                 AND tipo_produto IS NOT NULL 
-                AND peso_minimo_porta <= $pesoTotalPorta
-                AND peso_maximo_porta >= $pesoTotalPorta
+                AND tipo_produto = 2
                 ;";
+                // AND peso_minimo_porta <= $pesoTotalPorta
+                // AND peso_maximo_porta >= $pesoTotalPorta
         
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
@@ -100,11 +100,13 @@ if(isset($pesoTotalPorta) && $pesoTotalPorta !== ""){
 }
 ?>
 
+
+
 <div class="container mt-4">
     <?php
         if(isset($resultado) && count($resultado) > 0){
             
-            $pesoTotalPorta = 0;
+            // $pesoTotalPorta = 0;
 
             // Adicionando itens à array de produtos para enviar à página de processamento do orçamento (envio para o Bling)
             foreach($resultado as $row){
@@ -118,6 +120,8 @@ if(isset($pesoTotalPorta) && $pesoTotalPorta !== ""){
                 $categId = isset($row['categoria'])?$row['categoria']:null;
                 $tipoProduto = isset($row['tipo_produto'])?$row['tipo_produto']:null;
                 $basico = isset($row['basico'])?$row['basico']:null;
+                $pesoMinimoPorta = isset($row['peso_minimo_porta'])?$row['peso_minimo_porta']:null;
+                $pesoMaximoPorta = isset($row['peso_maximo_porta'])?$row['peso_maximo_porta']:null;
 
                 $pesoItem = null;
                 switch ($tipoConsumo) {
@@ -139,7 +143,7 @@ if(isset($pesoTotalPorta) && $pesoTotalPorta !== ""){
                 }
 
                 $pesoItem = $peso * $quantidadeItem;
-                $pesoTotalPorta += $pesoItem;
+                // $pesoTotalPorta += $pesoItem;
 
                 $produtoParaArray['id'] = $id;
                 $produtoParaArray['selecionado'] = $selecionado;
@@ -152,17 +156,26 @@ if(isset($pesoTotalPorta) && $pesoTotalPorta !== ""){
                 $produtoParaArray['categId'] = $categId;
                 $produtoParaArray['tipo_produto'] = $tipoProduto;
                 $produtoParaArray['basico'] = $basico;
+                $produtoParaArray['peso_minimo_porta'] = $pesoMinimoPorta;
+                $produtoParaArray['peso_maximo_porta'] = $pesoMaximoPorta;
                 
                 $arrayComProdutos[$codigo] = $produtoParaArray;
             }
-            $pesoTotalPorta = $pesoTotalPorta / $quantidade;
-            $_SESSION['dadosCliente']['pesoTotalPorta'] = $pesoTotalPorta;
+            // $pesoTotalPorta = $pesoTotalPorta / $quantidade;
+            // $_SESSION['dadosCliente']['pesoTotalPorta'] = $pesoTotalPorta;
             // echo " / Peso total porta: $pesoTotalPorta KG<br><br>";
             
         } else {
             // nada aqui...
         }
     ?>    
+</div>
+
+<div class="container mt-4">
+    Peso: <?= $pesoTotalPorta ?>Kg
+</div>
+<div class="container my-3">
+    <h4>ITENS POR PESO</h4>
 </div>
 
 <div class="container">
@@ -236,9 +249,23 @@ if(isset($pesoTotalPorta) && $pesoTotalPorta !== ""){
                                     $titulo = $prod['titulo'];
                                     $peso = $prod['peso_item'];
                                     $quant = $prod['quantidade_item'];
-                                    $selecionado = isset($prod['selecionado']) && $prod['selecionado'] == 1 ? "selected" : "";
+                                    $select = $prod['selecionado'];
+                                    $pesoMinPorta = $prod['peso_minimo_porta'];
+                                    $pesoMaxPorta = $prod['peso_maximo_porta'];
 
-                                    echo "<option $selecionado value=\"$codigo\">$codigo - $titulo - Qt: $quant</option>\n";
+                                    if (
+                                        $pesoTotalPorta >= $pesoMinPorta &&
+                                        $pesoTotalPorta <= $pesoMaxPorta &&
+                                        $select = 1
+                                    ) {
+                                        $selectedOption = "selected";
+                                        $indicator = "*"; // Indicador de opções com a flag selected para fins de teste
+                                    } else {
+                                        $selectedOption = "";
+                                        $indicator = "";
+                                    }
+
+                                    echo "<option $selectedOption value=\"$codigo\">$codigo - $titulo - Qt: $quant $indicator</option>\n" . "";
                                 }
                             }
                         ?>
@@ -271,6 +298,8 @@ if(isset($pesoTotalPorta) && $pesoTotalPorta !== ""){
 
 
 <?php
+
+            // ÁREA DE TESTES
 
     // echo "<div class=\"container\">";
     // echo "<pre>";

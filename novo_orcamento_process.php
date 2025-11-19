@@ -247,7 +247,7 @@ foreach($itensPedido as $item=>$valor){
     $valorTotalItensPedido += ($valor['valor'] * $valor['quantidade']);
 }
 
-echo "<p> $valorTotalItensPedido <p>";
+// echo "<p> $valorTotalItensPedido <p>";
 
 if($tipoAcrescimo == "REAL"){
     $acrescimo = $valorAcrescimo;
@@ -502,10 +502,6 @@ function novoPedido(){
             "unidade"=>$tipoDesconto,
         ]
     ];
-
-    echo "<pre>";
-    print_r($postData);
-    echo "</pre>";
 
     $jsonPostData = json_encode($postData);
 

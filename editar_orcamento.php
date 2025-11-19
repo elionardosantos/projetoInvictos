@@ -13,6 +13,7 @@
 
         $_SESSION['dadosCliente'] = [];
         $_SESSION['array_com_produtos'] = [];
+        $_SESSION['array_com_produtos_por_peso'] = [];
         $_SESSION['array_com_produtos_atualizados'] = [];
         $_SESSION['pedidoId'] = [];
         $_SESSION['itensPedido'] = [];
@@ -135,6 +136,7 @@
         if(isset($_GET['pedidoId'])){
             $_SESSION['pedidoId'] = $_GET['pedidoId'];
             $dadosPedido = orderDataQuery($pedidoId);
+            $_SESSION['itensPedido'] = $dadosPedido['itens'];
         }
         
         $contatoId = isset($dadosPedido['contato']['id'])?$dadosPedido['contato']['id']:"";

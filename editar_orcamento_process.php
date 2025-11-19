@@ -16,8 +16,6 @@ ob_start();
 <?php
     require('partials/navbar.php');
 
-$modoTeste = 0; // Habilita o modo de testes
-
 $codigoContato = isset($_SESSION['dadosCliente']['codigoContato'])?$_SESSION['dadosCliente']['codigoContato']:"";
 $contatoId = isset($_SESSION['dadosCliente']['contatoId'])?$_SESSION['dadosCliente']['contatoId']:"";
 $cliente = isset($_SESSION['dadosCliente']['cliente'])?$_SESSION['dadosCliente']['cliente']:"";
@@ -746,7 +744,7 @@ function limpaSession(){
     <div class="container mt-3">
         <?php
             
-            if($modoTeste == 0){// Chave geral que habilita/desabilita criação de pedidos para testes. 0 para testes
+            if(1){// Chave para o modo de testes. 0 para testes 1 para produção
 
                 editaContato();
                 if($pedidoId = editaPedido()){

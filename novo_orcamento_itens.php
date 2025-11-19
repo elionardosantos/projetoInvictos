@@ -189,11 +189,21 @@ require('partials/navbar.php');
 if($alturaTotal !== "" && $larguraTotal !== ""){
     if($alturaTotal !== 0 && $larguraTotal !== 0){
         require('config/connection.php');
-        $sql = "SELECT `id`,`codigo`,`titulo`,`peso`,`tipo_consumo`,`multiplicador`,`selecionado`,`categoria`,`tipo_produto`,`basico` FROM produtos
+        $sql = "SELECT 
+                    `id`,
+                    `codigo`,
+                    `titulo`,
+                    `peso`,
+                    `tipo_consumo`,
+                    `multiplicador`,
+                    `selecionado`,
+                    `categoria`,
+                    `tipo_produto`,
+                    `basico` 
+                FROM produtos
                 WHERE deleted = 0
                 AND ativo = 1
                 AND tipo_produto IS NOT NULL 
-                -- Remove motores (tipo_produto 2) da consulta
                 AND tipo_produto != 2 
                 AND altura_minima_porta <= $alturaTotal
                 AND altura_maxima_porta >= $alturaTotal
@@ -309,6 +319,10 @@ if(isset($cliente)){
                     $arrayComProdutos[$codigo] = $produtoParaArray;
                 }
                 $pesoTotalPorta = $pesoTotalPorta / $quantidade;
+                
+                $pesoTotalPorta = 0;
+                // O peso total da porta não tem nenhuma função nesta página. Revisar e remover códigos desnecessários
+                
                 $_SESSION['dadosCliente']['pesoTotalPorta'] = $pesoTotalPorta;
                 // echo " / Peso total porta: $pesoTotalPorta KG<br><br>";
                 

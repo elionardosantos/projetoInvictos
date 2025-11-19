@@ -139,8 +139,46 @@
 
             try {
                 require('config/connection.php');
-                $sql = "INSERT INTO `produtos`(`id`,`codigo`,`titulo`,`peso`,`tipo_consumo`,`multiplicador`,`categoria`,`altura_minima_porta`,`altura_maxima_porta`,`largura_minima_porta`,`largura_maxima_porta`,`peso_minimo_porta`,`peso_maximo_porta`,`tipo_produto`,`selecionado`,`deleted`,`created_by`,`created_at`)
-                    VALUES (:id, :codigo, :titulo, :peso, :tipo_consumo, :multiplicador, :categoria, :altura_minima_porta, :altura_maxima_porta, :largura_minima_porta, :largura_maxima_porta, :peso_minimo_porta, :peso_maximo_porta, :tipo_produto, :selecionado, :deleted, :created_by, :created_at)";
+                $sql = "INSERT INTO `produtos`(
+                                        `id`,
+                                        `codigo`,
+                                        `titulo`,
+                                        `peso`,
+                                        `tipo_consumo`,
+                                        `multiplicador`,
+                                        `categoria`,
+                                        `altura_minima_porta`,
+                                        `altura_maxima_porta`,
+                                        `largura_minima_porta`,
+                                        `largura_maxima_porta`,
+                                        `peso_minimo_porta`,
+                                        `peso_maximo_porta`,
+                                        `tipo_produto`,
+                                        `selecionado`,
+                                        `deleted`,
+                                        `created_by`,
+                                        `created_at`
+                                    )
+                    VALUES (
+                                :id, 
+                                :codigo, 
+                                :titulo, 
+                                :peso, 
+                                :tipo_consumo, 
+                                :multiplicador, 
+                                :categoria, 
+                                :altura_minima_porta, 
+                                :altura_maxima_porta, 
+                                :largura_minima_porta, 
+                                :largura_maxima_porta, 
+                                :peso_minimo_porta, 
+                                :peso_maximo_porta, 
+                                :tipo_produto, 
+                                :selecionado, 
+                                :deleted, 
+                                :created_by, 
+                                :created_at
+                            )";
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindValue(':id', null);

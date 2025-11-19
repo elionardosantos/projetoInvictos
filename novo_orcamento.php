@@ -210,7 +210,7 @@
                 </div>                
                 <div class="col-md-3">
                     <label for="documento" class="form-label mb-0 mt-2">CPF/CNPJ*</label>
-                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="documento" name="documento" placeholder="CPF ou CNPJ" value="<?= isset($documento)?$documento:""; ?>">
+                    <input type="text" inputmode="numeric" class="form-control" id="documento" name="documento" placeholder="CPF ou CNPJ" value="<?= isset($documento)?$documento:""; ?>">
                 </div>
                 <div class="col-md-3">
                     <label for="tipoPessoa" class="form-label mb-0 mt-2">Tipo de pessoa</label>
@@ -221,13 +221,13 @@
                 </div>
                 <div class="col-md-2">
                     <label for="inscricaoEstadual" class="form-label mb-0 mt-2">Inscrição estadual</label>
-                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="inscricaoEstadual" name="inscricaoEstadual" placeholder="Inscrição estadual" value="<?= isset($inscricaoEstadual)?$inscricaoEstadual:""; ?>">
+                    <input type="text" inputmode="numeric" class="form-control" id="inscricaoEstadual" name="inscricaoEstadual" placeholder="Inscrição estadual" value="<?= isset($inscricaoEstadual)?$inscricaoEstadual:""; ?>">
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-2">
                     <label for="cep" class="form-label mb-0 mt-2">CEP</label>
-                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cep" name="cep" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
+                    <input type="text" inputmode="numeric" class="form-control" id="cep" name="cep" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="bairro" class="form-label mb-0 mt-2">Bairro</label>
@@ -343,7 +343,7 @@
             <div class="row">
                 <div class="col-md-2">
                     <label for="cepServico" class="form-label mb-0 mt-2">CEP</label>
-                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cepServico" name="cepServico" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
+                    <input type="text" inputmode="numeric" class="form-control" id="cepServico" name="cepServico" placeholder="CEP" value="<?= isset($zip)?$zip:""; ?>">
                 </div>
                 <div class="col-md-4">
                     <label for="bairroServico" class="form-label mb-0 mt-2">Bairro</label>

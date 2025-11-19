@@ -189,10 +189,22 @@ require('partials/navbar.php');
 if($alturaTotal !== "" && $larguraTotal !== ""){
     if($alturaTotal !== 0 && $larguraTotal !== 0){
         require('config/connection.php');
-        $sql = "SELECT `id`,`codigo`,`titulo`,`peso`,`tipo_consumo`,`multiplicador`,`selecionado`,`categoria`,`tipo_produto`,`basico` FROM produtos
+        $sql = "SELECT 
+                    `id`,
+                    `codigo`,
+                    `titulo`,
+                    `peso`,
+                    `tipo_consumo`,
+                    `multiplicador`,
+                    `selecionado`,
+                    `categoria`,
+                    `tipo_produto`,
+                    `basico` 
+                FROM produtos
                 WHERE deleted = 0
                 AND ativo = 1
                 AND tipo_produto IS NOT NULL 
+                AND tipo_produto != 2 
                 AND altura_minima_porta <= $alturaTotal
                 AND altura_maxima_porta >= $alturaTotal
                 AND largura_minima_porta <= $larguraTotal
@@ -307,8 +319,11 @@ if(isset($cliente)){
                     $arrayComProdutos[$codigo] = $produtoParaArray;
                 }
                 $pesoTotalPorta = $pesoTotalPorta / $quantidade;
+
+                $pesoTotalPorta = 0;
+                // O peso total da porta não tem nenhuma função nesta página. Revisar e remover códigos desnecessários
+                
                 $_SESSION['dadosCliente']['pesoTotalPorta'] = $pesoTotalPorta;
-                // echo " / Peso total porta: $pesoTotalPorta KG<br><br>";
                 
             } else {
                 // nada aqui...
@@ -376,8 +391,8 @@ if(isset($cliente)){
     ?>
     <form method="POST" action="editar_orcamento_opcionais.php">
         <?php
-            foreach($categsArrayProdutos as $ctg){
-                ?>
+            foreach($categsArrayProdutos as $ctg){  ?>
+
                 <div class="mt-3">
                     <b> - <?= $ctg['name'] ?>: </b>
                 </div>
@@ -393,15 +408,27 @@ if(isset($cliente)){
                                     $titulo = $prod['titulo'];
                                     $peso = $prod['peso_item'];
                                     $quant = $prod['quantidade_item'];
-                                    $selecionado = isset($prod['selecionado']) && $prod['selecionado'] == 1 ? "selected" : "";
+                                    
 
-                                    echo "<option $selecionado value=\"$codigo\">$codigo - $titulo - $peso"."kg - Qt: $quant</option>\n";
+                                    foreach($_SESSION['itensPedido'] as $blingItem){
+                                        if($blingItem['codigo'] == $codigo){
+                                            $selecionado = "selected";
+                                            $indicator = "*";
+                                            break;
+                                        } else {
+                                            $selecionado = "";
+                                            $indicator = "";
+                                        }
+                                    }
+
+                                    echo "<option $selecionado value=\"$codigo\">$codigo - $titulo - $peso"."kg - Qt: $quant $indicator</option>\n";
                                 }
                             }
                         ?>
                     </select>                    
                 </div>
-             <?php
+
+            <?php
             }
             if(isset($arrayComProdutos)){
                 $_SESSION['array_com_produtos'] = $arrayComProdutos;
