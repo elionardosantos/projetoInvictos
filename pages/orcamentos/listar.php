@@ -104,7 +104,7 @@
                     //verify and refresh token
                     if(isset($data['error']['type']) && $data['error']['type'] === "invalid_token"){
                         require('../../controller/token_refresh.php');
-                        echo "<p>Token atualizado</p>";
+                        // echo "<p>Token atualizado</p>";
                         ordersQuery();
                     } else if(isset($data['data']) && $data['data'] == null) {
                         echo "<hr><p>Nenhum pedido/orçamento encontrado baseado nos filtros atuais</p>";

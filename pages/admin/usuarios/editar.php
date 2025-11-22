@@ -90,16 +90,24 @@
                 <span class="input-group-text col-sm-2  col-3">Senha</span>
                 <input type="password" class="form-control" placeholder="Alterar senha" name="formPassword">
             </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text col-sm-2 col-3">Nível</span>
-                <div class="">
-                    <select class="form-select form-control" name="formLevel">
-                        <option <?= $dbUserLevel == 0?"selected":"" ?> value="0">0 - Inativo</option>
-                        <option <?= $dbUserLevel == 1?"selected":"" ?> value="1">1 - Usuário</option>
-                        <option <?= $dbUserLevel >= 2?"selected":"" ?> value="2">2 - Administrador</option>
-                    </select>
-                </div>
-            </div>
+            <?php                
+                if(number_format($_SESSION['login']['loggedUserId']) !== number_format($userId)){
+                    ?>
+                
+                    <div class="input-group mb-3">
+                        <span class="input-group-text col-sm-2 col-3">Nível</span>
+                        <div class="">
+                            <select class="form-select form-control" name="formLevel">
+                                <option <?= $dbUserLevel == 0?"selected":"" ?> value="0">0 - Inativo</option>
+                                <option <?= $dbUserLevel == 1?"selected":"" ?> value="1">1 - Usuário</option>
+                                <option <?= $dbUserLevel >= 2?"selected":"" ?> value="2">2 - Administrador</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <?php
+                }
+            ?>
             <div>
                 <p>
                     <button type="submit" class="btn btn-primary">Atualizar usuario</button>
