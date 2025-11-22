@@ -1,11 +1,11 @@
 <?php
 // POST request to the /token endpoint with authorization_code,
 // If authorization_code were valid, the token code are going to be returned
-
-$jsonFileCredentials = file_get_contents('config/credentials.json');
+// echo $jsonFileCredentialsPath = __DIR__ . "/../config/";
+$jsonFileCredentials = file_get_contents(__DIR__ . "/../config/credentials.json");
 $jsonDataCredentials = json_decode($jsonFileCredentials, true);
 
-$jsonFileToken = file_get_contents('config/token_request_response.json');
+$jsonFileToken = file_get_contents(__DIR__ . "/../config/token_request_response.json");
 $jsonDataToken = json_decode($jsonFileToken, true);
 
 $client_id = isset($jsonDataCredentials['client_id'])?$jsonDataCredentials['client_id']:""; 
@@ -47,13 +47,13 @@ if(curl_errno($cURL)) {
 } else {
     
     // Verifying the result
-
+    
     $responseDecoded = json_decode($response, true);
     
     if(isset($responseDecoded['access_token'])) {
         $access_token = $responseDecoded['access_token'];
         // Save the token on json
-        $jsonFile = 'config/token_request_response.json';
+        $jsonFile = __DIR__ . "/../config/token_request_response.json";
         file_put_contents($jsonFile, $response);
         //echo "<p> $response </p>";
         // echo "<center>Acesso autorizado</center>";
@@ -61,10 +61,9 @@ if(curl_errno($cURL)) {
         echo "<p>Erro na conexão com o Bling: $response</p>";
         die();
     }
-
+    
 }
 
 // Fechando a sessão
-curl_close($cURL);
 
 ?>

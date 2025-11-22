@@ -7,17 +7,8 @@
 <body>
     <?php
         require('controller/login_checker.php');
-        require('partials/navbar.php');
-        header('location: orcamentos.php');
+        // require('partials/navbar.php');
+        header('location: /pages/home.php');
     ?>
-    <div class="container my-3">
-        <h2>Início</h2>
-    </div>
-    <div class="container my-3">
-        <a href="novo_orcamento.php" class="btn btn-primary p-3 mt-2 me-1" role="button">Novo Orçamento</a>
-        <a href="orcamentos.php" class="btn btn-primary p-3 mt-2 me-1" role="button">Orçamentos</a>
-        <a href="consulta_cnpj_visualizacao.php" class="btn btn-primary p-3 mt-2 me-1" role="button">Consultar CNPJ</a>
-    </div>
-
 </body>
 </html>

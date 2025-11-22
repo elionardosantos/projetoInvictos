@@ -10,11 +10,11 @@
       </div>
       <div class="offcanvas-body">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="index.php">Início</a>
-          </li> -->
           <li class="nav-item">
-            <a class="nav-link" href="orcamentos.php">Orçamentos</a>
+            <a class="nav-link" href="/pages/home.php">Início</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/pages/orcamentos/listar.php">Orçamentos</a>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="consulta_cnpj_visualizacao.php">Consultar CNPJ</a>
@@ -28,10 +28,10 @@
                 Cadastro
               </a>
               <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="produtos.php">Produtos</a></li>
+                <li><a class="dropdown-item" href="/pages/produtos/listar.php">Produtos</a></li>
                 <!-- <li><a class="dropdown-item" href="automatizadores.php">Automatizadores</a> -->
                 <div class="dropdown-divider"></div>
-                <li><a class="dropdown-item" href="categorias.php">Categorias</a></li>
+                <li><a class="dropdown-item" href="/pages/produtos/categorias/listar.php">Categorias</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -39,8 +39,9 @@
                 Configurações
               </a>
               <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="listar_usuarios.php">Usuários</a></li>
-                <li><a class="dropdown-item" href="editar_credenciais.php">Integração Bling</a>
+                <li><a class="dropdown-item" href="/pages/admin/usuarios/listar.php">Usuários</a></li>
+                <li><a class="dropdown-item" href="/pages/admin/database/conexao.php">Conexão com BD</a></li>
+                <li><a class="dropdown-item" href="/pages/admin/integracao_bling/editar_credenciais.php">Conexão com Bling</a>
               </ul>
             </li>
           <?php 
@@ -53,11 +54,11 @@
               <?= isset($_SESSION['login']['loggedUserName'])?$_SESSION['login']['loggedUserName']:"Usuário"; ?>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-              <li><a class="dropdown-item" href="alterar_senha.php">Trocar Senha</a></li>
+              <li><a class="dropdown-item" href="/pages/configuracoes/usuario/alterar_senha.php">Trocar Senha</a></li>
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="controller/logout.php">Sair</a>
+            <a class="nav-link" href="/controller/logout.php">Sair</a>
           </li>
         </ul>
 

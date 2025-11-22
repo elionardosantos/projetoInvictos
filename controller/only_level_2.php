@@ -1,7 +1,6 @@
 <?php
     if($_SESSION['login']['loggedUserLevel'] < 2){
-        echo "<center><p>Você não tem permissão para acessar esta página</p></center>";
-        die();
+        die("<center><p>Você não tem permissão para acessar esta página</p></center>");
     }
 ?>
 <script>

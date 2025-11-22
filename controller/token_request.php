@@ -2,7 +2,7 @@
 // POST request to the /token endpoint with authorization_code,
 // If authorization_code were valid, the token code are going to be returned
 
-$jsonFile = file_get_contents('config/credentials.json');
+$jsonFile = file_get_contents(__DIR__ . "/../config/credentials.json");
 $jsonData = json_decode($jsonFile, true);
 
 
@@ -51,7 +51,7 @@ if(curl_errno($cURL)) {
     if(isset($responseDecoded['access_token'])) {
         $access_token = $responseDecoded['access_token'];
         // Save the token on json
-        $jsonFile = 'config/token_request_response.json';
+        $jsonFile = __DIR__.'/../config/token_request_response.json';
         file_put_contents($jsonFile, $response);
         //echo "<p> $response </p>";
         // echo "<center>Acesso autorizado</center>";
@@ -63,7 +63,5 @@ if(curl_errno($cURL)) {
 
 }
 
-// Fechando a sessão
-curl_close($cURL);
 
 ?>
