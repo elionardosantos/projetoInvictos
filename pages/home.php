@@ -43,13 +43,6 @@
             Olá <?= $_SESSION['login']['loggedUserName'] ?>! Hoje é <?= $weekDay ?>, <?= $day ?> de <?= $month ?> de <?= $year ?>.
         </h5>
     </div>
-    <div class="container mt-3">
-        <div id="ww_664f84fbe6e12" v='1.3' loc='id' a='{"t":"responsive","lang":"pt","sl_lpl":1,"ids":["wl4958"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","cl_odd":"#0000000a"}'>Mais previsões: <a href="https://tempolongo.com/rio_de_janeiro_tempo_25_dias/" id="ww_664f84fbe6e12_u" target="_blank">30 day weather forecast Rio de Janeiro</a></div><script async src="https://app3.weatherwidget.org/js/?id=ww_664f84fbe6e12"></script>    
-    </div>
-
-    
-    
-        
 
 </body>
 </html>
