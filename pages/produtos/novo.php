@@ -8,7 +8,7 @@
     <?php
         require(__DIR__ . "/../../controller/login_checker.php");
         require(__DIR__ . "/../../partials/navbar.php");
-        require(__DIR__ . '/../../../controller/only_level_2.php');
+        require(__DIR__ . '/../../controller/only_level_2.php');
 
     ?>
     <div class="container my-3">

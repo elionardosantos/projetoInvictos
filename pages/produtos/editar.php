@@ -8,7 +8,7 @@
     <?php
         require(__DIR__ . "/../../controller/login_checker.php");
         require(__DIR__ . "/../../partials/navbar.php");
-        require(__DIR__ . '/../../../controller/only_level_2.php');
+        require(__DIR__ . '/../../controller/only_level_2.php');
         require(__DIR__ . "/../../config/connection.php");
 
         $produtoId = isset($_GET['produto_id'])?$_GET['produto_id']:"";
