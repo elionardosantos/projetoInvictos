@@ -30,7 +30,7 @@
         <h2>Editar Orçamento</h2>
     </div>
     <div class="container">
-        <a href="orcamentos.php" class="btn btn-primary mt-1">Voltar</a>
+        <a href="listar.php" class="btn btn-primary mt-1">Voltar</a>
     </div>
     <div>
         <?php 
@@ -395,7 +395,7 @@
 
             <div class="my-5">
                 <button type="submit" class="btn btn-primary">Continuar</button>
-                <a href="orcamentos.php" class="btn btn-primary mx-2">Voltar</a>
+                <a href="listar.php" class="btn btn-primary mx-2">Voltar</a>
             </div>
         </form>
     </div>

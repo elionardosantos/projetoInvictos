@@ -23,7 +23,7 @@
         <h2>Novo Pedido/Orçamento</h2>
     </div>
     <div class="container">
-        <a href="" class="btn btn-primary mt-1" onclick="window.history.back(); return false;">Voltar</a>
+        <a href="listar.php" class="btn btn-primary mt-1">Voltar</a>
         <a href="consulta_clientes.php" class="btn btn-primary mt-1" role="button">Consultar Clientes (Bling)</a>
         <a href="consulta_cnpj.php" class="btn btn-primary mt-1" role="button">Consultar CNPJ</a>
     </div>

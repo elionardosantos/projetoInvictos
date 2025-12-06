@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <?php require('../../partials/head.php'); ?>
-    <title>Situação do orçamento</title>
+    <title>Excluindo orçamento</title>
 </head>
 <body>
     <?php
@@ -10,12 +10,11 @@
         require('../../partials/navbar.php');
 
         $pedidoId = isset($_GET['pedidoId'])?$_GET['pedidoId']:null;
-        $situacaoId = isset($_GET['situacaoId'])?$_GET['situacaoId']:null;
     ?>
     <div class="container">
         <div class="mt-3">
             <?php
-                $response = json_decode(alteraStatus($pedidoId, $situacaoId), true);
+                $response = json_decode(alteraStatus($pedidoId), true);
 
                 if(isset($response['error'])){
                     if($response['error']['type'] == "VALIDATION_ERROR"){
@@ -27,7 +26,7 @@
                         echo "</div>";
                     }
                 }else{
-                    echo "<div class=\"alert alert-success\">Situação alterada com sucesso</div>";
+                    echo "<div class=\"alert alert-success\">Orçamento excluído</div>";
                 }
             ?>
         </div>
@@ -37,9 +36,9 @@
     </div>
 
     <?php
-        function alteraStatus($pedidoId,$novoStatusId){
-
-            $url = "https://api.bling.com.br/Api/v3/pedidos/vendas/$pedidoId/situacoes/$novoStatusId";
+        function alteraStatus($pedidoId){
+            // $url = "https://api.bling.com.br/Api/v3/pedidos/vendas?idsPedidosVendas[]=$pedidoId";
+            $url = "https://api.bling.com.br/Api/v3/pedidos/vendas?idsPedidosVendas[]=".$pedidoId;
             
             $jsonFile = file_get_contents('../../config/token_request_response.json');
             $jsonData = json_decode($jsonFile, true);
@@ -58,6 +57,7 @@
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
 
             // Executa a requisição
             $response = curl_exec($ch);
@@ -69,9 +69,6 @@
                 // Exibe a resposta
                 return $response;
             }
-
-            // Fecha a conexão cURL
-            curl_close($ch);
         }
     ?>
 </body>

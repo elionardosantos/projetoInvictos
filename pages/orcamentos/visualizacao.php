@@ -50,7 +50,6 @@
             $response = curl_exec($cURL);
             curl_close($cURL);
             $jsonData = json_decode($response, true);
-
             echo "<script>console.log(".$response.")</script>";
             
             //verify and refresh token
@@ -85,38 +84,102 @@
                 global $itensPedido;
                 global $numeroDocumento;
                 global $tipoPessoa;
+                global $contatoId;
 
+                $contatoId = $jsonData['data']['contato']['id'];
                 $numeroPedido = $jsonData['data']['numero'];
                 $totalProdutos = $jsonData['data']['totalProdutos'];
                 $totalPedido = $jsonData['data']['total'];
                 $valorDesconto = $jsonData['data']['desconto']['valor'];
                 $tipoDesconto = $jsonData['data']['desconto']['unidade'];
-                $outrasDespesas = $jsonData['data']['outrasDespesas'];
+                // $outrasDespesas = $jsonData['data']['outrasDespesas'];
                 $itensPedido = $jsonData['data']['itens'];
                 $numeroDocumento = $jsonData['data']['contato']['numeroDocumento'];
                 $tipoPessoa = $jsonData['data']['contato']['tipoPessoa'];
 
                 foreach($jsonData as $row){
                     global $clienteNome;
-                    global $endereco;
-                    global $bairro;
-                    global $numero;
-                    global $municipio;
-                    global $uf;
+                    global $responsavelLocalServico;
+                    global $enderecoServico;
+                    global $bairroServico;
+                    global $numeroServico;
+                    global $municipioServico;
+                    global $ufServico;
                     global $dataPedido;
                     global $totalProdutos;
                     global $observacoes;
+                    global $observacoesInternas;
+                    
 
                     $clienteNome = isset($row['contato']['nome'])?$row['contato']['nome']:"";
-                    $endereco = isset($row['transporte']['etiqueta']['endereco'])?$row['transporte']['etiqueta']['endereco']:"";
-                    $bairro = isset($row['transporte']['etiqueta']['bairro'])?$row['transporte']['etiqueta']['bairro']:"";
-                    $numero = isset($row['transporte']['etiqueta']['numero'])?$row['transporte']['etiqueta']['numero']:"";
-                    $municipio = isset($row['transporte']['etiqueta']['municipio'])?$row['transporte']['etiqueta']['municipio']:"";
-                    $uf = isset($row['transporte']['etiqueta']['uf'])?$row['transporte']['etiqueta']['uf']:"";
+                    
+                    $responsavelLocalServico = isset($row['transporte']['etiqueta']['nome'])?$row['transporte']['etiqueta']['nome']:"";
+                    $enderecoServico = isset($row['transporte']['etiqueta']['endereco'])?$row['transporte']['etiqueta']['endereco']:"";
+                    $bairroServico = isset($row['transporte']['etiqueta']['bairro'])?$row['transporte']['etiqueta']['bairro']:"";
+                    $numeroServico = isset($row['transporte']['etiqueta']['numero'])?$row['transporte']['etiqueta']['numero']:"";
+                    $municipioServico = isset($row['transporte']['etiqueta']['municipio'])?$row['transporte']['etiqueta']['municipio']:"";
+                    $ufServico = isset($row['transporte']['etiqueta']['uf'])?$row['transporte']['etiqueta']['uf']:"";
+                    
                     $dataPedido = isset($row['data'])?$row['data']:"";
                     $observacoes = isset($row['observacoes'])?$row['observacoes']:"";
+                    $observacoesInternas = isset($row['observacoesInternas'])?$row['observacoesInternas']:"";
                 }
             }
+        }
+
+        function contatoQuery($contatoId){ //Pega as informações do contato via API para preencher o orçamento
+
+            // $contatoId = $_GET['contatoId'];
+            $jsonFile = file_get_contents('../../config/token_request_response.json');
+            $jsonData = json_decode($jsonFile, true);
+            $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+            $url = "https://api.bling.com.br/Api/v3/contatos/$contatoId";
+
+            $headers = array(
+                "authorization: Bearer " . $token
+            );
+            $ch = curl_init($url);
+
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($ch);
+            
+            echo "<script>console.log($response)</script>";
+            $data = json_decode($response, true);
+
+            // Atualizando token
+            if(isset($data['error']['type']) && $data['error']['type'] === 'invalid_token'){
+                require('../../controller/token_refresh.php');
+            }
+
+            global $contatoDocumento;
+            global $contatoName;
+            global $contatoStreet;
+            global $contatoNumber;
+            global $contatoDistrict;
+            global $contatoCity;
+            global $contatoState;
+            global $contatoTipoPessoa;
+            global $contatoEmail;
+            global $contatoCelular;
+            global $contatoTelefone;
+            global $contatoZip;
+            global $contatoInscricaoEstadual;
+
+            $contatoTipoPessoa = $data['data']['tipo'];
+            $contatoDocumento = $data['data']['numeroDocumento'];
+            $contatoName = $data['data']['nome'];
+            $contatoStreet = $data['data']['endereco']['geral']['endereco'];
+            $contatoNumber = $data['data']['endereco']['geral']['numero'];
+            $contatoDistrict = $data['data']['endereco']['geral']['bairro'];
+            $contatoCity = $data['data']['endereco']['geral']['municipio'];
+            $contatoZip = $data['data']['endereco']['geral']['cep'];
+            $contatoState = $data['data']['endereco']['geral']['uf'];
+            $contatoInscricaoEstadual = $data['data']['ie'];
+            $contatoEmail = isset($data['data']['email'])?$data['data']['email']:"";
+            $contatoCelular = isset($data['data']['celular'])?$data['data']['celular']:"";
+            $contatoTelefone = isset($data['data']['telefone'])?$data['data']['telefone']:"";
         }
         
         function categsListing() {
@@ -185,6 +248,8 @@
         $dadosItens = itensListing();
 
         orderDataQuery(); //Pega as informações do pedido via API para preencher o orçamento
+
+        isset($contatoId)?contatoQuery($contatoId):null; //Pega as informações do contato via API para preencher o orçamento
         if(isset($itensPedido) && $itensPedido !== ""){
             $itensPedido = setaCategoria($itensPedido,$dadosCategorias,$dadosItens);
 
@@ -198,14 +263,25 @@
     
     <div class="py-2 mb-4 d-print-none shadow fixed-top bg-white">
         <div class="buttons">
-            <a href="listar.php" class="btn btn-primary me-2">Voltar</a>
-            <a href="#" class="btn btn-primary" onclick="window.print(); return false;">Imprimir orçamento</a>
+            <a href="listar.php" class="btn btn-primary">Voltar</a>
+            <a href="#" class="btn btn-primary" onclick="window.print(); return false;">Imprimir</a>
             <a href="editar.php?pedidoId=<?= $_GET['pedidoId'] ?>" class="btn btn-primary" disabled>Editar</a>
+            <a href="novo.php?contatoId=<?= $contatoId ?>" class="btn btn-primary">Novo (Mesmo cliente)</a>
             
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalSituacao">
-                Situação
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalExclusao">
+                Excluir
             </button>
+
+            <?php
+                if(isset($_SESSION['login']['loggedUserLevel']) && $_SESSION['login']['loggedUserLevel'] >= 2){
+                    ?>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSituacao">
+                            Situação no Bling
+                        </button>
+
+                    <?php
+                }
+            ?>
         </div>
     </div>
 
@@ -253,8 +329,6 @@
                     </a>
                 </div>
             </div>
-
-
         </div>
 
         <!-- Número do orçamento -->
@@ -264,39 +338,61 @@
             </div>
         </div>
 
-            <!-- Dados do cliente -->
-            <div class="col mt-2">
-                <?php if(isset($clienteNome) && $clienteNome !== ""){ ?>
-                    <div class="row">
-                        <div class="col">Nome / Razão Social: <strong><?= isset($clienteNome)?$clienteNome:""; ?></strong></div>
+        <!-- Dados do cliente -->
+        <div>
+            <div class="row mt-2 mx-0">
+                <div class="col mx-0">
+                    <div class="text-center border-bottom fs-5">
+                        Dados do cliente
                     </div>
-                <?php } ?>
-                <div class="row">
-                    <?php if(isset($endereco) && $endereco !== ""){ ?>
-                        <div class="col-7">Endereço: <strong><?= isset($endereco)?$endereco:""; ?></strong></div>
-                    <?php } ?>
-                    <?php if(isset($numero) && $numero !== ""){ ?>
-                        <div class="col">Número: <strong><?= isset($numero)?$numero:""; ?></strong></div>
-                    <?php } ?>
-                    <?php if(isset($uf) && $uf !== ""){ ?>
-                        <div class="col">Estado: <strong><?= isset($uf)?$uf:""; ?></strong></div>
-                    <?php } ?>
+                    <div class="mx-0 mt-2">
+                        <div>Nome: <b><?= isset($clienteNome)?$clienteNome:"" ?></b></div>
+                        <div>Endereço: <b><?= isset($contatoStreet)?$contatoStreet:"" ?></b></div>
+                        <div>Bairro: <b><?= isset($contatoDistrict)?$contatoDistrict:"" ?></b></div>
+                        <div>Município: <b><?= isset($contatoCity)?$contatoCity:"" ?></b></div>
+                        <div>Número: <b><?= isset($contatoNumber)?$contatoNumber:"" ?></b></div>
+                        <div>Estado: <b><?= isset($contatoState)?$contatoState:"" ?></b></div>
+                    </div>
                 </div>
-                <div class="row">
-                    <?php if(isset($municipio) && $municipio !== ""){ ?>
-                        <div class="col-7">Município: <strong><?= isset($municipio)?$municipio:""; ?></strong></div>
-                    <?php } ?>
-                    <?php if(isset($bairro) && $bairro !== ""){ ?>
-                        <div class="col">Bairro: <strong><?= isset($bairro)?$bairro:""; ?></strong></div>
-                    <?php } ?>
+                <div class="col mx-0">
+                    <div class="text-center border-bottom fs-5">
+                        Local do serviço
+                    </div>
+                    <div class="mx-0 mt-2">
+                        <div>Nome: <b><?= isset($responsavelLocalServico)?$responsavelLocalServico:"" ?></b></div>
+                        <div>Endereço: <b><?= isset($enderecoServico)?$enderecoServico:"" ?></b></div>
+                        <div>Bairro: <b><?= isset($bairroServico)?$bairroServico:"" ?></b></div>
+                        <div>Município: <b><?= isset($municipioServico)?$municipioServico:"" ?></b></div>
+                        <div>Número: <b><?= isset($numeroServico)?$numeroServico:"" ?></b></div>
+                        <div>Estado: <b><?= isset($ufServico)?$ufServico:"" ?></b></div>
+                    </div>
                 </div>
             </div>
-                        
-
-
-
-
+        </div>
         
+        <?php
+            if(isset($observacoesInternas) && $observacoesInternas !== ""){
+                $dadosPorta = json_decode($observacoesInternas);
+
+                $quantidadePorta = isset($dadosPorta->quantidade)?$dadosPorta->quantidade:null;
+                $larguraPorta = isset($dadosPorta->largura)?$dadosPorta->largura:null;
+                $alturaPorta = isset($dadosPorta->altura)?$dadosPorta->altura:null;
+                $pesoPorta = isset($dadosPorta->peso)?$dadosPorta->peso:null;
+            }
+        ?>
+        <div class="row mt-3 mx-0">
+            <div class="col border">Quantidade: <b><?= isset($quantidadePorta)?$quantidadePorta:"" ?></b></div>
+            <div class="col border">Largura:  <b><?= isset($larguraPorta)?$larguraPorta:"" ?></b></div>
+            <div class="col border">Altura:  <b><?= isset($alturaPorta)?$alturaPorta:"" ?></b></div>
+            <?php
+                if(isset($pesoPorta) && $pesoPorta !== ""){
+                    
+                    ?>
+                        <div class="col border">Peso:  <b><?= isset($pesoPorta)?number_format($pesoPorta, 2, ",", "."):"" ?> Kg</b></div>
+                    <?php
+                }
+            ?>
+        </div>
 
         <!-- Tabela de produtos -->
         <table class="table table-bordered table-sm text-center mt-3 mb-1" id="tabelaProdutos">
@@ -335,7 +431,7 @@
                 <?php
                         }
                     }else{
-                        echo "Nenhum item encontrado";
+                        // echo "Nenhum item encontrado";
                     }
                 ?>
                 
@@ -509,29 +605,31 @@
                     <div>Cristiano Salomé da Silva</div>
                 </div>
                 <?php
-                    switch ($tipoPessoa) {
-                        case 'F':
-                            $tipoDocumento = "CPF";
-                            break;
-
-                        case 'J':
-                            $tipoDocumento = "CNPJ";
-                            break;
-
-                        default:
-                            $tipoDocumento = "";
-                            break;
+                    if(isset($tipoPessoa)){
+                        switch ($tipoPessoa) {
+                            case 'F':
+                                $tipoDocumento = "CPF";
+                                break;
+    
+                            case 'J':
+                                $tipoDocumento = "CNPJ";
+                                break;
+    
+                            default:
+                                $tipoDocumento = "";
+                                break;
+                        }
                     }
                 ?>
                 <div class="col">
                     <div>_____________________________________________________</div>
-                    <div class="fw-bold text-uppercase"><?= $clienteNome ?></div>
+                    <div class="fw-bold text-uppercase"><?= isset($clienteNome)?$clienteNome:"" ?></div>
                     <div>
                         <?php
                             if(isset($numeroDocumento) && $numeroDocumento !== ""){
                                 echo $tipoDocumento." ";
                             }
-                            echo $numeroDocumento;
+                            echo isset($numeroDocumento)?$numeroDocumento:"";
                         ?>
                     </div>
                 </div>
@@ -543,10 +641,8 @@
 
 
 
-    <!-- MODAL (Janela) PARA MUDANÇA DE STATUS DO ORÇAMENTO -->
-
-    <!-- Modal -->
-    <div class="modal fade" id="modalSituacao" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- MODAL PARA MUDANÇA DE STATUS DO ORÇAMENTO -->
+    <div class="modal fade" id="modalSituacao" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
@@ -596,6 +692,28 @@
         </div>
     </div>
 
+
+    <!-- MODAL CONFIRMAÇÃO DE EXCLUSÃO DO ORÇAMENTO -->
+    <div class="modal fade" id="modalExclusao" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Atenção</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <?php 
+                        $pedidoId = isset($_GET['pedidoId'])?$_GET['pedidoId']:null;
+                    ?>
+                    <p>Tem certeza que deseja excluir este orçamento? Esta ação é irreversível.</p>
+
+                    <a href="#" class="btn btn-primary" data-bs-dismiss="modal">Voltar</a>
+                    <a class="btn btn-danger" href="excluir.php?pedidoId=<?= $pedidoId ?>">Sim</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <?php
                 
         function consultaSituacoes($idModulo){
@@ -615,8 +733,7 @@
             curl_close($cURL);
             $jsonData = json_decode($response2, true);
             
-            echo "<script>console.log('funcao ConsultaSituacoes para mudança de status: ')</script>";
-            echo "<script>console.log($response2)</script>";
+            // echo "<script>console.log($response2)</script>";
 
             
             //verify and refresh token

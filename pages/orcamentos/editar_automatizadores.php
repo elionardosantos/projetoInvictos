@@ -54,6 +54,8 @@ require('../../config/connection.php');
             }
         }
     }
+    $_SESSION['dadosCliente']['pesoTotalPorta'] = $pesoTotalPorta;
+
 ?>
 
 <div class="container mt-4">
@@ -157,7 +159,6 @@ if(isset($pesoTotalPorta) && $pesoTotalPorta !== ""){
                 $arrayComProdutos[$codigo] = $produtoParaArray;
             }
             $pesoTotalPorta = $pesoTotalPorta / $quantidade;
-            $_SESSION['dadosCliente']['pesoTotalPorta'] = $pesoTotalPorta;
             // echo " / Peso total porta: $pesoTotalPorta KG<br><br>";
             
         } else {

@@ -33,7 +33,10 @@
         Copie o link abaixo e cole em link de redirecionamento no app do bling
         <br>
         <?php $link = $_SERVER['HTTP_HOST'] . "/pages/admin/integracao_bling/callback.php" ?>    
-        <input class="form-control" type="text" name="" id="" value="<?= "http://" . $link ?>">
+        <!-- <input class="form-control" type="text" name="" id="" value="<?= "http://" . $link ?>"> -->
+        <div class="mt-2">
+            <?= "http://" . $link ?>
+        </div>
     </div>
     <div class="container my-5">
         Passo 3 - 

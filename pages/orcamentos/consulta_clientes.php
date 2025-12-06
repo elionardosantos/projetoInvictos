@@ -20,7 +20,7 @@
                 <input type="text" name="nome" class="form-control" placeholder="Digite aqui" autofocus>
             </div>
             <input type="submit" class="btn btn-primary" value="Consultar">
-            <a href="novo_orcamento.php" class="btn btn-primary">Voltar</a>
+            <a href="novo.php" class="btn btn-primary">Voltar</a>
         </form>
     </div>
     <div class="container mt-5">

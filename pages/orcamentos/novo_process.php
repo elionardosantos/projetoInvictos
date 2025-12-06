@@ -57,6 +57,7 @@ $cepServico = isset($_SESSION['dadosCliente']['cepServico'])?$_SESSION['dadosCli
 $quantidade = isset($_SESSION['dadosCliente']['quantidade'])?$_SESSION['dadosCliente']['quantidade']:"";
 $larguraTotal = isset($_SESSION['dadosCliente']['larguraTotal'])?$_SESSION['dadosCliente']['larguraTotal']:"";
 $alturaTotal = isset($_SESSION['dadosCliente']['alturaTotal'])?$_SESSION['dadosCliente']['alturaTotal']:"";
+$pesoTotalPorta = isset($_SESSION['dadosCliente']['pesoTotalPorta'])?$_SESSION['dadosCliente']['pesoTotalPorta']:"";
 $rolo = isset($_SESSION['dadosCliente']['rolo'])?$_SESSION['dadosCliente']['rolo']:"";
 
 $arrayComProdutos1 = isset($_SESSION['array_com_produtos'])?$_SESSION['array_com_produtos']:null;
@@ -76,9 +77,10 @@ if(isset($m2)){
 // $observacoesInternas .= "\n"."Largura: ".$larguraTotal."m / Altura: ".$alturaTotal."m"."\n"."Usuario: ".$_SESSION['loggedUserName'];
 $observacoesInternasForm == "" ? null : $observacoesArray['obs'] = $observacoesInternasForm;
 
+$observacoesArray['quantidade'] = $quantidade;
 $observacoesArray['largura'] = $larguraTotal;
 $observacoesArray['altura'] = $alturaTotal;
-$observacoesArray['quantidade'] = $quantidade;
+$observacoesArray['peso'] = $pesoTotalPorta;
 $observacoesArray['id_usuario'] = $_SESSION['login']['loggedUserId'];
 
 $observacoesInternas = json_encode($observacoesArray);

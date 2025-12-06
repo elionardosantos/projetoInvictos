@@ -17,15 +17,15 @@
         <form action="novo_process.php" method="post">
             <div class="input-group mb-3">
                 <span class="input-group-text col-md-2 col-3">Nome</span>
-                <input type="text" class="form-control" placeholder="Digite o nome" name="formName" autofocus>
+                <input required type="text" class="form-control" placeholder="Digite o nome" name="formName" autofocus>
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text col-md-2 col-3">Login</span>
-                <input type="text" class="form-control" placeholder="Digite o email ou nome de usuário" name="formEmail">
+                <input required type="text" class="form-control" placeholder="Digite o email ou nome de usuário" name="formEmail">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text col-md-2 col-3">Senha</span>
-                <input type="password" class="form-control" placeholder="Digite a senha" name="formPassword">
+                <input required type="password" class="form-control" placeholder="Digite a senha" name="formPassword">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">Nível de Usuário</span>
