@@ -49,12 +49,16 @@
 
         
         function alteraStatus($pedidoId){
-            // $url = "https://api.bling.com.br/Api/v3/pedidos/vendas?idsPedidosVendas[]=$pedidoId";
-            $url = "https://api.bling.com.br/Api/v3/pedidos/vendas?idsPedidosVendas[]=".$pedidoId;
+            $url = "https://api.bling.com.br/Api/v3/pedidos/vendas?idsPedidosVendas[]=$pedidoId";
+            // $url = "https://api.bling.com.br/Api/v3/pedidos/vendas?idsPedidosVendas[]=".$pedidoId;
             
             $jsonFile = file_get_contents('../../config/token_request_response.json');
             $jsonData = json_decode($jsonFile, true);
-            $token = isset($jsonData['access_token'])?$jsonData['access_token']:"";
+            if(isset($jsonData['access_token']) && $jsonData['access_token'] !== ""){
+                $token = $jsonData['access_token'];
+            } else {
+                echo "<div class=\"alert alert-danger\">Erro: access_token não definido. Favor entrar em contato com um administrador do sistema</div>";
+            }
 
             $headers = [
                 "Accept: application/json",
