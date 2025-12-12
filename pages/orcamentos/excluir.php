@@ -9,33 +9,45 @@
         require('../../controller/login_checker.php');
         require('../../partials/navbar.php');
 
-        $pedidoId = isset($_GET['pedidoId'])?$_GET['pedidoId']:null;
+        $pedidoId = isset($_GET['pedidoId'])?$_GET['pedidoId']:"";
+    
+        if(isset($pedidoId) && $pedidoId !== ""){
     ?>
-    <div class="container">
-        <div class="mt-3">
-            <?php
-                $response = json_decode(alteraStatus($pedidoId), true);
 
-                if(isset($response['error'])){
-                    if($response['error']['type'] == "VALIDATION_ERROR"){
-                        echo "<div class=\"alert alert-danger\">".$response['error']['message'];
-                        foreach($response['error']['fields'] as $msg){
-                            $mensagem = $msg['msg'];
-                            echo "<br>".$mensagem;
+            <div class="container">
+                <div class="mt-3">
+                    <?php
+                        $response = json_decode(alteraStatus($pedidoId), true);
+
+                        if(isset($response['error'])){
+                            if($response['error']['type'] == "VALIDATION_ERROR"){
+                                echo "<div class=\"alert alert-danger\">".$response['error']['message'];
+                                foreach($response['error']['fields'] as $msg){
+                                    $mensagem = $msg['msg'];
+                                    echo "<br>".$mensagem;
+                                }
+                                echo "</div>";
+                            }
+                        }else{
+                            echo "<div class=\"alert alert-success\">Orçamento excluído</div>";
                         }
-                        echo "</div>";
-                    }
-                }else{
-                    echo "<div class=\"alert alert-success\">Orçamento excluído</div>";
-                }
-            ?>
-        </div>
-        <div class="buttons">
-            <a href="listar.php" class="btn btn-primary">Voltar</a>
-        </div>
-    </div>
+                    ?>
+                </div>
+                <div class="buttons">
+                    <a href="listar.php" class="btn btn-primary">Voltar</a>
+                </div>
+            </div>
 
     <?php
+        } else {
+            echo "<div class=\"container\">";
+            echo "<div class=\"alert alert-danger mt-2\">Pedido não encontrado</div>";
+            echo "</div>";
+        }
+
+
+
+        
         function alteraStatus($pedidoId){
             // $url = "https://api.bling.com.br/Api/v3/pedidos/vendas?idsPedidosVendas[]=$pedidoId";
             $url = "https://api.bling.com.br/Api/v3/pedidos/vendas?idsPedidosVendas[]=".$pedidoId;
@@ -54,10 +66,9 @@
 
             // Configurações da requisição PATCH
             curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
             // Executa a requisição
             $response = curl_exec($ch);

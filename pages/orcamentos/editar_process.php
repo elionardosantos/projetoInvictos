@@ -52,7 +52,7 @@ $municipioServico = isset($_SESSION['dadosCliente']['municipioServico'])?$_SESSI
 $estadoServico = isset($_SESSION['dadosCliente']['estadoServico'])?$_SESSION['dadosCliente']['estadoServico']:"";
 $cepServico = isset($_SESSION['dadosCliente']['cepServico'])?$_SESSION['dadosCliente']['cepServico']:"";
 
-$quantidade = isset($_SESSION['dadosCliente']['quantidade'])?$_SESSION['dadosCliente']['quantidade']:"";
+$quantidade = isset($_SESSION['dadosCliente']['quantidade'])?$_SESSION['dadosCliente']['quantidade']:1;
 $larguraTotal = isset($_SESSION['dadosCliente']['larguraTotal'])?$_SESSION['dadosCliente']['larguraTotal']:"";
 $alturaTotal = isset($_SESSION['dadosCliente']['alturaTotal'])?$_SESSION['dadosCliente']['alturaTotal']:"";
 $pesoTotalPorta = isset($_SESSION['dadosCliente']['pesoTotalPorta'])?$_SESSION['dadosCliente']['pesoTotalPorta']:"";
@@ -238,7 +238,7 @@ if($tipoAcrescimo == "REAL"){
     $acrescimo = $valorAcrescimo;
     // $valorTotalPedido = round($valorTotalItensPedido + $acrescimo, 2);
 }elseif($tipoAcrescimo == "PERCENTUAL"){
-    $acrescimo = ($valorTotalItensPedido * $valorAcrescimo) / 100;
+    $acrescimo = (($valorTotalItensPedido * $valorAcrescimo) * $quantidade) / 100;
     // $valorTotalPedido = round($valorTotalItensPedido + $acrescimo, 2);
 }else{
     $acrescimo = 0;

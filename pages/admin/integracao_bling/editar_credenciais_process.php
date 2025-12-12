@@ -31,21 +31,18 @@ $result = file_put_contents($jsonFile,$new_json_data);
     ?>
     <div class="container my-3">
         <h2>Credenciais Bling</h2>
-        <p>
-        <?php
-            if($result !== false){
-                echo "<div class='alert alert-success'>Credenciais atualizadas</div>";
-            } else {
-                echo "<div class='alert alert-danger'>Credenciais não atualizadas. Favor consulte um administrador do sistema.</div>";
-            }
-        ?>
-        
-        <a href="index.php" class="btn btn-primary mt-2" role="button">Início</a>
-
-        <div class="mt-5">
-            <a class="btn btn-success" href="<?= $reconnect_url ?>">Conectar ao Bling</a>
+        <div class="container">
+            <?php
+                if($result !== false){
+                    echo "<div class='alert alert-success'>Credenciais atualizadas</div>";
+                } else {
+                    echo "<div class='alert alert-danger'>Credenciais não atualizadas. Favor consulte um administrador do sistema.</div>";
+                }
+            ?>
+            
+            <a href="<?= $reconnect_url ?>"  class="btn btn-success">Conectar ao Bling</a>
+            <a href="<?= "/../../../index.php" ?>" class="btn btn-primary" role="button">Início</a>
         </div>
-        </p>
 
     </div>
 </body>

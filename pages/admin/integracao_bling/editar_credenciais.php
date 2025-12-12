@@ -24,11 +24,11 @@
     <div class="container my-5">
         <h2>Credenciais do Bling</h2>
     </div>
-    <div class="container my-5">
+    <div class="container mt-5">
         Passo 1 - 
         <a target="_blank" href="https://www.bling.com.br/cadastro.aplicativos.php">Clique aqui</a> e selecione o app do Bling correspondente a este sistema. Se não houver, crie um.
     </div>
-    <div class="container my-5">
+    <div class="container mt-5">
         Passo 2 - 
         Copie o link abaixo e cole em link de redirecionamento no app do bling
         <br>
@@ -38,11 +38,11 @@
             <?= "http://" . $link ?>
         </div>
     </div>
-    <div class="container my-5">
+    <div class="container mt-5">
         Passo 3 - 
         Na aba "Informações do app", copie os dados e cole no formulário abaixo.
     </div>
-    <div class="container mt-5">
+    <div class="container mt-1">
         <form action="editar_credenciais_process.php" method="POST">
             <div class="form-group mt-4">
                 <label for="client_id">Client ID</label>
