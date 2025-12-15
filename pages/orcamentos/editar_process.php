@@ -235,10 +235,10 @@ foreach($itensPedido as $item=>$valor){
 }
 
 if($tipoAcrescimo == "REAL"){
-    $acrescimo = $valorAcrescimo;
+    $acrescimo = $valorAcrescimo * $quantidade;
     // $valorTotalPedido = round($valorTotalItensPedido + $acrescimo, 2);
 }elseif($tipoAcrescimo == "PERCENTUAL"){
-    $acrescimo = (($valorTotalItensPedido * $valorAcrescimo) * $quantidade) / 100;
+    $acrescimo = ($valorTotalItensPedido * $valorAcrescimo) / 100;
     // $valorTotalPedido = round($valorTotalItensPedido + $acrescimo, 2);
 }else{
     $acrescimo = 0;

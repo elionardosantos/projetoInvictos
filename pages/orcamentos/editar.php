@@ -62,7 +62,6 @@
             $response = curl_exec($curl);
             return json_decode($response, true);
             
-            curl_close($curl);
         }
         function orderDataQuery($pedidoId){
             global $jsonData;
@@ -80,7 +79,6 @@
             curl_setopt($cURL, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
             $response = curl_exec($cURL);
-            curl_close($cURL);
             $jsonData = json_decode($response, true);
 
             echo "<script>console.log(".$response.")</script>";
@@ -90,10 +88,8 @@
                 require('../../controller/token_refresh.php');
                 echo "<p>Token atualizado</p>";
                 ordersQuery();
-                curl_close($cURL);
             } else if(isset($jsonData['data']) && $jsonData['data'] == null) {
                 echo "<hr>Houve um erro ao recuperar os dados do pedido";
-                curl_close($cURL);
             } else {
                 return $jsonData['data'];
             }
@@ -144,6 +140,16 @@
 
         $_SESSION['dadosCliente']['codigoContato'] = isset($dadosCliente['codigo'])?$dadosCliente['codigo']:"";
         $_SESSION['dadosCliente']['inscricaoEstadual'] = isset($dadosCliente['ie'])?$dadosCliente['ie']:"";
+
+        $obsInternas = json_decode($dadosPedido['observacoesInternas'], true);
+        if(isset($obsInternas['obs']) || isset($obsInternas['largura']) || isset($obsInternas['altura']) || isset($obsInternas['quantidade']) || isset($obsInternas['id_usuario'])){
+            $obsInt = isset($obsInternas['obs'])?$obsInternas['obs']:"";
+            $largura = isset($obsInternas['largura'])?$obsInternas['largura']:"";
+            $altura = isset($obsInternas['altura'])?$obsInternas['altura']:"";
+            $quantidade = isset($obsInternas['quantidade'])?$obsInternas['quantidade']:"";
+            $id_usuario = isset($obsInternas['id_usuario'])?$obsInternas['id_usuario']:"";
+        }
+        $valorAcrescimoUnitario = $dadosPedido['outrasDespesas'] / $quantidade;
         
         ?>
     </div>
@@ -262,7 +268,7 @@
                 </div>
                 <div class="col-md-2">
                     <label for="valorAcrescimo" class="form-label mb-0 mt-2">Valor do Acréscimo</label>
-                    <input value="<?= isset($dadosPedido['outrasDespesas'])?$dadosPedido['outrasDespesas']:""; ?>" type="text" inputmode="numeric" id="valorAcrescimo" name="valorAcrescimo" class="form-control" placeholder="Somente números">
+                    <input value="<?= isset($valorAcrescimoUnitario)?$valorAcrescimoUnitario:0; ?>" type="text" inputmode="numeric" id="valorAcrescimo" name="valorAcrescimo" class="form-control" placeholder="Somente números">
                 </div>
                 <div class="col-md-2">
                     <label for="tipoDesconto" class="form-label mb-0 mt-2">Tipo Desconto</label>
@@ -346,20 +352,10 @@
                 </div>
                 <div class="col-md-4">
                     <label for="nomeServico" class="form-label mb-0 mt-2">Nome do responsável</label>
-                    <input type="text" class="form-control" name="nomeServico" id="nomeServico" placeholder="Responsável no local" value="<?= isset($dadosPedido['transporte']['contato']['nome'])?$dadosPedido['transporte']['contato']['nome']:""; ?>">
+                    <input type="text" class="form-control" name="nomeServico" id="nomeServico" placeholder="Responsável no local" value="<?= isset($dadosPedido['transporte']['etiqueta']['nome'])?$dadosPedido['transporte']['etiqueta']['nome']:""; ?>">
                 </div>
             </div>
             
-            <?php
-                $obsInternas = json_decode($dadosPedido['observacoesInternas'], true);
-                if(isset($obsInternas['obs']) || isset($obsInternas['largura']) || isset($obsInternas['altura']) || isset($obsInternas['quantidade']) || isset($obsInternas['id_usuario'])){
-                    $obsInt = isset($obsInternas['obs'])?$obsInternas['obs']:"";
-                    $largura = isset($obsInternas['largura'])?$obsInternas['largura']:"";
-                    $altura = isset($obsInternas['altura'])?$obsInternas['altura']:"";
-                    $quantidade = isset($obsInternas['quantidade'])?$obsInternas['quantidade']:"";
-                    $id_usuario = isset($obsInternas['id_usuario'])?$obsInternas['id_usuario']:"";
-                }
-            ?>
             
             <div class="mt-4"><h4>Dados adicionais</h4></div>
             <div class="row mb-3">

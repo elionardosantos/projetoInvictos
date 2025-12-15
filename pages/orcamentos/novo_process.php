@@ -255,7 +255,7 @@ if($tipoAcrescimo == "REAL"){
     $acrescimo = $valorAcrescimo;
     // $valorTotalPedido = round($valorTotalItensPedido + $acrescimo, 2);
 }elseif($tipoAcrescimo == "PERCENTUAL"){
-    $acrescimo = (($valorTotalItensPedido * $valorAcrescimo) * $quantidade) / 100;
+    $acrescimo = (($valorTotalItensPedido * $valorAcrescimo) / 100);
     // $valorTotalPedido = round($valorTotalItensPedido + $acrescimo, 2);
 }else{
     $acrescimo = 0;
@@ -604,9 +604,6 @@ function alteraStatus($pedidoId,$novoStatusId){
         echo "Resposta: " . $response;
     }
 
-    // Fecha a conexão cURL
-    curl_close($ch);
-
 }
 
 function editaContato(){
@@ -676,7 +673,6 @@ function editaContato(){
     );
 
     $response = curl_exec($curl);
-    curl_close($curl);
     // echo "<script>console.log('editaContato')</script>";
     // echo "<script>console.log($response)</script>";
 }
