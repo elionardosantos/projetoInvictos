@@ -38,10 +38,6 @@
                     <input type="date" class="form-control" name="dataFinal" id="dataFinal" value="<?= $dataFinal ?>">
                 </div>
                 <div class="col-sm-3">
-                    <label for="numeroPedido">Número do pedido</label>
-                    <input type="number" class="form-control" name="numeroPedido" id="numeroPedido" value="<?= $numeroPedido ?>">
-                </div>
-                <div class="col-sm-3">
                     <label for="situacao">Situação:</label>
                     <select class="form-select" id="situacao" name="situacao">
                         <!-- <option value=""></option> -->
@@ -55,6 +51,16 @@
                             }
                         ?>
                     </select>
+                </div>
+                <div class="col-sm-3">
+                    <label for="numeroPedido">Número do pedido</label>
+                    <input type="number" class="form-control" name="numeroPedido" id="numeroPedido" value="<?= $numeroPedido ?>">
+                </div>
+                <div>
+                    <div class="col-sm-6 mt-3">
+                        <label for="nomePedido">Nome do cliente</label>
+                        <input type="text" class="form-control" name="nomePedido" id="nomePedido" value="<?= $nomePedido ?>" onkeyup="filtrarPorNome()">
+                    </div>
                 </div>
             </div>
             <div class="row mt-4">
@@ -106,6 +112,11 @@
                         require('../../controller/token_refresh.php');
                         // echo "<p>Token atualizado</p>";
                         ordersQuery();
+                    } else if(isset($data['error']['type']) && $data['error']['type'] === "BAD_REQUEST"){
+                        echo "<hr><div class='alert alert-warning' role='alert'>";
+                        echo $data['error']['description'] . "<br>" . $data['error']['message'];
+                        echo "Por favor, reduza o intervalo entre as datas e tente novamente.";
+                        echo "</div>";
                     } else if(isset($data['data']) && $data['data'] == null) {
                         echo "<hr><p>Nenhum pedido/orçamento encontrado baseado nos filtros atuais</p>";
                         // echo $jsonData;
@@ -167,5 +178,25 @@
             
         </div>
     </div>
+    <script>
+        function filtrarPorNome() {
+            const input = document.getElementById('nomePedido').value.toLowerCase();
+            const tabela = document.querySelector('table tbody');
+            
+            if (!tabela) return;
+            
+            const linhas = tabela.querySelectorAll('tr');
+            
+            linhas.forEach(linha => {
+                const nomeCliente = linha.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                
+                if (nomeCliente.includes(input)) {
+                    linha.style.display = '';
+                } else {
+                    linha.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
